@@ -1,0 +1,10 @@
+package:
+  name: tudat    # [cpp]
+  name: tudatpy  # [py]
+
+modules:
+  - interface
+  - simulation
+  - plotting      # [py]
+  - cli           # [py]
+  - util          # [py]

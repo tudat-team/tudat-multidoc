@@ -1,0 +1,27 @@
+description: "Converting stuff!"
+
+functions:
+  - name: cartesian_to_keplerian
+    short_summary: "Converts state from Cartesian to Keplerian."
+    extended_summary: |
+      This is an example of an extended summary!
+
+      .. math::
+
+         \Omega = atan2(-z_2, z_1)
+         i = atan2(z_3, \sqrt{z_1^2 + z_2^2})
+         \omega = atan2(y_3, x_3)
+
+    parameters:
+      - name: cartesian_elements
+        description: >
+          Array of Cartesian state, ordered as described by [Rx, Ry, Rz, Vx, Vy, Vz], in base S.I. units.
+
+    returns:
+      - name: keplerian_state
+        type: "{{ api.conversion.KeplerianElementIndices }}"
+        description: >
+          Array of Keplerian state, ordered as described by `{{ api.conversion.KeplerianElementIndices }}` in base S.I. units.
+        # TODO: Add layer that converts api-specific links to other documented objects, specific to the language, i.e.
+        #   python(module='conversion', submodule='', object='KeplerianElementIndices') -> `tudatpy.kernel.conversion.KeplerianElementIndices`
+        #   python(module='conversion', submodule='', object='KeplerianElementIndices') -> `tudat::conversion::KeplerianElementIndices`

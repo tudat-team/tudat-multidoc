@@ -1,0 +1,3 @@
+[submodule "multidoc"]
+	path = multidoc
+	url = https://github.com/ggarrett13/multidoc.git

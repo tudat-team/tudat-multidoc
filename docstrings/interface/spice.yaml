@@ -1,0 +1,434 @@
+description: "This module provides an interface to the Spice package."
+notes: "None"
+
+# documentation of classes and functions are made distinct to perform
+# sanity checks on the provided fields below. i.e. Class constructors don't need the return detailed.
+#classes:
+
+classes:
+  - name: SpiceEphemeris
+    short_summary: "Ephemeris derived class which retrieves the state of a body directly from the SPICE library."
+    extended_summary: |
+      Ephemeris derived class which retrieves the state of a body directly from the SPICE library.
+      The body of which the ephemeris is to be retrieved, as well as the origin and orientation
+      of the reference frame in which the states are returned, and any corrections that are
+      applied, are defined once during object construction.
+    methods:
+      - name: __init__
+        short_summary: "Constructor."
+        extended_summary: "Constructor, sets the input variables for the calls to the spice function to retrieve state."
+        parameters:
+          - name: target_body_name
+            description: "Name of body of which the ephemeris is to be calculated."
+          - name: observer_body_name
+            description: "Name of body relative to which the ephemeris is to be calculated."
+          - name: correct_for_stellar_aberration
+            description: >
+              Boolean whether to correct for stellar Aberration in
+              retrieved values of (observed state).
+          - name: correct_for_light_time_aberration
+            description: >
+              Boolean whether to correct for light time in
+              retrieved values of (observed state).
+          - name: converge_ligh_time_aberration
+            description: >
+              Boolean whether to use single iteration or max. 3
+              iterations for calculating light time.
+          - name: reference_frame_name
+            description: >
+              Name of the reference frame in which the epehemeris is to be
+              calculated.
+          - name: reference_julian_day
+            description: >
+              Reference julian day w.r.t. which ephemeris is evaluated.
+      - name: get_cartesian_state
+        short_summary: "Get Cartesian state from ephemeris."
+        extended_summary: " Returns Cartesian state from ephemeris at given Julian day."
+        parameters:
+          - name: seconds_since_epoch  # [py]
+            type: float                # [py]
+          - name: secondsSinceEpoch    # [cpp]
+            type: double               # [cpp]
+            description: "Seconds since epoch at which ephemeris is to be evaluated."
+
+
+functions:
+  - name: "convert_julian_date_to_ephemeris_time"
+    short_summary: "Convert a Julian date to ephemeris time (equivalent to TDB in Spice)."
+    extended_summary: |
+      The following math is for documentation demonstration purposes
+
+      .. math:: X(e^{j\omega } ) = x(n)e^{ - j\omega n}
+
+      \f$ f(x) = a + b \f$
+
+      Function to convert a Julian date to ephemeris time, which is
+      equivalent to barycentric dynamical time. A leap second kernel
+      must have been loaded to use this function.
+    parameters:
+      - name: julian_date
+        type: int
+        description: "Julian date that is to be converted to ephemeris time."
+    returns:
+      name: ephemeris_time
+      #        type: double  # [cpp]
+      type: float  # [py]
+      description: "Julian date calculated from ephemeris time."
+
+  - name: "convert_ephemeris_time_to_julian_date"
+    short_summary: "Convert ephemeris time (equivalent to TDB) to a Julian date."
+    extended_summary: |
+      Function to convert ephemeris time, which is nearly equal to
+      barycentric dynamical time, to the Julian date. A leap second
+      kernel must have been loaded to use this function.
+    parameters:
+      - name: ephemeris_time
+        type: float  # [py]
+        description: "Ephemeris time that is to be converted to Julian date."
+    returns:
+      name: julian_date
+      type: float  # [py]
+      description: "Julian date calculated from ephemeris time."
+
+  - name: convert_date_string_to_ephemeris_time
+    short_summary: "Converts a date string to ephemeris time."
+    extended_summary: |
+      Function to convert a date string, for instance
+      1988 June 13, 3:29:48 to ephemeris time, wrapper for `str2et_c`
+      spice function.
+    parameters:
+      - name: date_string
+        description: |
+          String representing the date. See documentation of spice
+          function `str2et_c` for details on supported formats.
+        type: str  # [py]
+    returns:
+      name: ephemeris_time
+      type: str  # [py]
+      description: "Ephemeris time corresponding to given date_string."
+
+  - name: get_body_cartesian_state_at_epoch
+    short_summary: "Get Cartesian state of a body, as observed from another body."
+    extended_summary: |
+      This function returns the state of a body, relative to another
+      body, in a frame specified by the user. Corrections for light-time
+      correction and stellar aberration can be applied to obtain the
+      state of one of the bodies, as observed from the other. Wrapper
+      for `spkezr_c` spice function.
+    parameters:
+      - name: target_body_name
+        type: str  # [py]
+        description: |
+          Name of the body of which the state is to be obtained. A kernel
+          with the ephemeris of this body must have been loaded. The
+          string must be a spice-recognized name or ID.
+      - name: observer_body_name
+        type: str  # [py]
+        description: |
+          Name of the body relative to which the state is to be obtained.
+          A kernel with the ephemeris of this body must have been loaded.
+          The string must be a spice-recognized name or ID.
+      - name: reference_frame_name
+        type: str  # [py]
+        description: |
+          The spice-recognized name of the reference frame in which the
+          state is to be returned. Spice kernel(s) required to perform
+          the necessary conversion from the states of the target and
+          observer bodies to this frame need to have been loaded.
+      - name: aberration_corrections
+        type: str  # [py]
+        description: |
+          Setting for correction for setting corrections. See Spice
+          documentation for extended discussion.
+          Short summary:
+
+          - NONE: none
+          - LT: light time corrected (one iteration for calculation)
+          - CN: light time corrected (multiple iterations, max 3)
+            for calculation,
+          - S: Stellar aberration corrected.
+          - XLT and XCN can be provided to make the ephemeris time
+            input argument the transmission time,
+            instead of reception time.
+
+          Arguments can be combined (i.e."LT+S" or "XCN+S").
+      - name: ephemeris_time
+        type: float  # [py]
+        description: |
+          Observation time (or transmission time of observed light, see description
+          of aberrationCorrections).
+    returns:
+      name: cartesian_state_vector
+      type: np.ndarray[6,]  # [py]
+      description: "Cartesian state vector (x,y,z, position+velocity)."
+
+  - name: get_body_cartesian_position_at_epoch
+    short_summary: "Get Cartesian position of a body, as observed from another body."
+    extended_summary: |
+      This function returns the position of a body, relative to another
+      body, in a frame specified by the user. Corrections for light-time
+      correction and stellar aberration can be applied to obtain the
+      state of one of the bodies, as observed from the other. Wrapper
+      for `spkpos_c` spice function.
+    parameters:
+      - name: target_body_name
+        type: str  # [py]
+        description: |
+          Name of the body of which the state is to be obtained. A kernel
+          with the ephemeris of this body must have been loaded. The
+          string must be a spice-recognized name or ID.
+      - name: observer_body_name
+        type: str  # [py]
+        description: |
+          Name of the body relative to which the state is to be obtained.
+          A kernel with the ephemeris of this body must have been loaded.
+          The string must be a spice-recognized name or ID.
+      - name: reference_frame_name
+        type: str  # [py]
+        description: |
+          The spice-recognized name of the reference frame in which the
+          state is to be returned. Spice kernel(s) required to perform
+          the necessary conversion from the states of the target and
+          observer bodies to this frame need to have been loaded.
+      - name: aberration_corrections
+        type: str  # [py]
+        description: |
+          Setting for correction for setting corrections. See Spice
+          documentation for extended discussion.
+          Short summary:
+
+          - NONE: none
+          - LT: light time corrected (one iteration for calculation)
+          - CN: light time corrected (multiple iterations, max 3)
+            for calculation,
+          - S: Stellar aberration corrected.
+          - XLT and XCN can be provided to make the ephemeris time
+            input argument the transmission time,
+            instead of reception time.
+
+          Arguments can be combined (i.e."LT+S" or "XCN+S").
+      - name: ephemeris_time
+        type: float  # [py]
+        description: |
+          Observation time (or transmission time of observed light, see description
+          of aberrationCorrections).
+
+
+
+  - name: get_cartesian_state_from_tle_at_epoch
+    short_summary: "Get Cartesian state of a satellite from its two-line element set at a specified epoch."
+    extended_summary: |
+      This function retrieves the state of a satellite at a certain epoch
+      by propagating the SGP or SDP models (near-Earth resp. deep space)
+      with the given two-line elements (TLE). This function serves as a
+      wrapper for the `ev2lin_` function in CSpice.
+    parameters:
+      - name: epoch
+        type: float  # [py]
+        description: "Time in seconds since J2000 at which the state is to be retrieved."
+      - name: tle
+        type: :class:`~tudatpy.kernel.astro.ephemerides.Tle`  # [py]
+        description: "Shared pointer to a Tle object containing the SGP/SDP model parameters as derived from the element set."
+    returns:
+      name: cartesian_state_vector
+      type: np.ndarray[6,]  # [py]
+      description: "Cartesian state vector (x,y,z, position+velocity)."
+
+  - name: compute_rotation_quaternion_between_frames
+    short_summary: "Compute quaternion of rotation between two frames."
+    extended_summary: |
+      This function computes the quaternion of rotation between two
+      frames at a given time instant. kernels defining the two frames,
+      as well as any required intermediate frames, at the requested
+      time must have been loaded. Wrapper for `pxform_c` spice function.
+    parameters:
+      - name: original_frame
+        description: "Reference frame from which the rotation is made."
+      - name: new_frame
+        description: "Reference frame to which the rotation is made."
+      - name: ephemeris_time
+        description: "Value of ephemeris time at which rotation is to be determined."
+    returns:
+      description: "Rotation quaternion from original to new frame at given time."
+
+  - name: compute_rotation_matrix_derivative_between_frames
+    short_summary: "Computes time derivative of rotation matrix between two frames."
+    extended_summary: |
+      This function computes the derivative of the rotation matrix
+      between two frames at a given time instant. kernels defining the
+      two frames, as well as any required intermediate frames, at the
+      requested time must have been loaded. Wrapper for (part of)
+      `sxform_c` spice function.
+
+
+
+    parameters:
+      - name: original_frame
+        description: "Reference frame from which the rotation is made."
+      - name: new_frame
+        description: "Reference frame to which the rotation is made."
+      - name: ephemeris_time
+        description: "Value of ephemeris time at which rotation is to be determined."
+    returns:
+      description: "Time derivative of rotation matrix from original to new frame at given time."
+
+  - name: get_angular_velocity_vector_of_frame_in_original_frame
+    short_summary: "Computes the angular velocity of one frame w.r.t. to another frame."
+    extended_summary: |
+      Computes the angular velocity of one frame w.r.t. to another frame.
+      at a given time instant. kernels defining the two frames, as well
+      as any required intermediate frames, at the requested time must
+      have been loaded. Wrapper for `xf2rav_c`_ spice function (utilizing
+      `sxform_c`_).
+
+      .. _`xf2rav_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xf2rav_c.html
+      .. _`sxform_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html
+
+    parameters:
+      - name: original_frame
+        description: "Reference frame from which the rotation is made."
+      - name: new_frame
+        description: "Reference frame to which the rotation is made."
+      - name: ephemeris_time
+        description: "Value of ephemeris time at which rotation is to be determined."
+    returns:
+      description: "Angular velocity of newFrame w.r.t. originalFrame, expressed in originalFrame."
+
+  - name: get_body_properties
+    short_summary: "Get property of a body from Spice."
+    extended_summary: |
+      Function to retrieve a property of a body from Spice, wraps the bodvrd_c Spice function.
+    notes: |
+      Function returns values with distance unit km, not m!
+    parameters:
+      - name: body_name
+        description: "Name of the body of which the property is to be retrieved."
+      - name: property
+        description: |
+          Name of the property that is to be retrieved. Naming conventions can be found
+          in the `bodvrd_c`_ function documentation.
+
+          .. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html
+
+      - name: maximum_number_of_values
+        type: int  # [py]
+        description: |
+          Number of values by which the property is expressed (i.e. 1 for
+          gravitational parameter, 3 for tri-axial ellipsoid principal axes).
+    returns:
+      description: "Property value(s) expressed in an STL vector of doubles."
+
+  - name: get_body_gravitational_parameter
+    short_summary: "Get gravitational parameter of a body."
+    extended_summary: |
+      This function retrieves the gravitational parameter of a body.
+      Wraps the `bodvrd_c`_ spice function with "GM" as property type.
+
+      .. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html
+
+    parameters:
+      - name: body
+        description: "Name of the body of which the parameter is to be retrieved."
+    returns:
+      description: "Gravitational parameter of requested body."
+
+  - name: get_average_radius
+    short_summary: "Get the (arithmetic) mean of the three principal axes of the tri-axial ellipsoid shape."
+    extended_summary: |
+      Returns the (arithmetic) mean of the three principal axes of the
+      tri-axial ellipsoid shape of the requested body. Uses the
+      `bodvrd_c` spice function with "RADII" as property type.
+
+      .. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html
+
+    parameters:
+      - name: body
+        description: "Name of the body of which the average radius is to be retrieved."
+    returns:
+      description: "Arithmetic mean of principal axes of tri-axial ellipsoid shape model of body."
+
+  - name: convert_body_name_to_naif_id
+    short_summary: "Convert a body name to its NAIF identification number."
+    extended_summary: |
+      This function converts a body name to its NAIF identification
+      number. The NAIF id number is required for a number of spice
+      functions, whereas the name is easily interpretable by the user.
+      Wrapper for the ``bods2c_c`` function.
+
+    parameters:
+      - name: body_name
+        description: "Name of the body for which NAIF id is to be retrieved."
+    returns:
+      description: "NAIF id number for the body with bodyName."
+
+  - name: check_body_property_in_kernel_pool
+    short_summary: "Check if a certain property of a body is in the kernel pool."
+    extended_summary: |
+      This function checks if a certain property of a body is in the
+      kernel pool. These properties are defined in PCK kernels. Their
+      names are given in the kernel file, typical names can be found in
+      the Spice documentation. Wrapper for the `bodfnd_c`_ function.
+
+      .. _`bodfnd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodfnd_c.html
+
+    parameters:
+      - name: body_name
+        description: "Name of the body of which the property is to be checked."
+      - name: body_property
+        description: "Name of the property of which the presence is to be checked, not case-sensitive."
+    returns:
+      description: "True if property is in pool, false if not."
+      type: bool
+
+  - name: get_standard_kernels
+    short_summary: "Get the paths to the default legacy kernels."
+
+  - name: load_standard_kernels
+    short_summary: "Load the default legacy kernels."
+    parameters:
+      - name: kernel_paths
+        type: List[str]
+        description: "Optional addition kernels to be loaded."
+
+  - name: get_total_count_of_kernels_loaded
+    short_summary: "Get the number of spice kernels currently loaded."
+    extended_summary: |
+      This function returns the amount of Spice kernels that are loaded
+      into the kernel pool. The same kernel can be loaded multiple times.
+      Wrapper for the `ktotal_c`_ function.
+
+      .. _`ktotal_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/ktotal_c.html
+
+    returns:
+      name: n_kernels
+      type: int
+      description: "Number of spice kernels currently loaded."
+
+  - name: load_kernel
+    short_summary: "Loads a Spice kernel into the pool."
+    extended_summary: |
+      This function loads a Spice kernel into the kernel pool, from which
+      it can be used by the various internal spice routines. Matters
+      regarding the manner in which Spice handles different kernels
+      containing the same information can be found in the spice required
+      reading documentation, kernel section. Wrapper for the `furnsh_c`_
+      function.
+
+      .. _`furnsh_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/furnsh_c.html
+
+    parameters:
+      - name: file_path
+        type: str
+        description: "Path to the spice kernel to be loaded."
+
+  - name: clear_kernels
+    short_summary: "Clear all loaded spice kernels."
+    extended_summary: |
+      This function removes all Spice kernels from the kernel pool.
+      Wrapper for the `kclear_c`_ function.
+
+      .. _`kclear_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/kclear_c.html
+
+    returns:
+      type: None   # [python]
+#      type: void   # [cpp]
