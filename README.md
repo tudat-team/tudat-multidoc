@@ -33,4 +33,7 @@ You should now have the following directories under your `tudat-bundle`
 environment. They are listed under `tudat-bundle/.gitignore`, so they will 
 not be tracked.
 
+- `tudat-bundle/.tudat-documented`
+- `tudat-bundle/.tudatpy-documented`
+
 # Let's document a new feature of `tudat`/`tudatpy` 
