@@ -144,14 +144,9 @@ functions:
 
           - NONE: none
           - LT: light time corrected (one iteration for calculation)
-          - CN: light time corrected (multiple iterations, max 3)
-            for calculation,
+          - CN: light time corrected (multiple iterations, max 3) for calculation
           - S: Stellar aberration corrected.
-          - XLT and XCN can be provided to make the ephemeris time
-            input argument the transmission time,
-            instead of reception time.
-
-          Arguments can be combined (i.e."LT+S" or "XCN+S").
+          - XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e."LT+S" or "XCN+S").
       - name: ephemeris_time
         type: float  # [py]
         description: |
@@ -199,14 +194,9 @@ functions:
 
           - NONE: none
           - LT: light time corrected (one iteration for calculation)
-          - CN: light time corrected (multiple iterations, max 3)
-            for calculation,
+          - CN: light time corrected (multiple iterations, max 3) for calculation,
           - S: Stellar aberration corrected.
-          - XLT and XCN can be provided to make the ephemeris time
-            input argument the transmission time,
-            instead of reception time.
-
-          Arguments can be combined (i.e."LT+S" or "XCN+S").
+          - XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e."LT+S" or "XCN+S").
       - name: ephemeris_time
         type: float  # [py]
         description: |
@@ -257,8 +247,7 @@ functions:
       This function computes the derivative of the rotation matrix
       between two frames at a given time instant. kernels defining the
       two frames, as well as any required intermediate frames, at the
-      requested time must have been loaded. Wrapper for (part of)
-      `sxform_c` spice function.
+      requested time must have been loaded. Wrapper for (part of) `sxform_c` spice function.
 
 
 
@@ -278,8 +267,7 @@ functions:
       Computes the angular velocity of one frame w.r.t. to another frame.
       at a given time instant. kernels defining the two frames, as well
       as any required intermediate frames, at the requested time must
-      have been loaded. Wrapper for `xf2rav_c`_ spice function (utilizing
-      `sxform_c`_).
+      have been loaded. Wrapper for `xf2rav_c`_ spice function (utilizing `sxform_c`_).
 
       .. _`xf2rav_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xf2rav_c.html
       .. _`sxform_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html
@@ -336,8 +324,7 @@ functions:
     short_summary: "Get the (arithmetic) mean of the three principal axes of the tri-axial ellipsoid shape."
     extended_summary: |
       Returns the (arithmetic) mean of the three principal axes of the
-      tri-axial ellipsoid shape of the requested body. Uses the
-      `bodvrd_c` spice function with "RADII" as property type.
+      tri-axial ellipsoid shape of the requested body. Uses the `bodvrd_c` spice function with "RADII" as property type.
 
       .. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html
 
