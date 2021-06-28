@@ -801,6 +801,48 @@ classes:
 
 # derived classes:
 
+  - name: ScaledEphemerisSettings
+    short_summary: "Class for defining settings from scaling existing ephemeris settings."
+    extended_summary: "`EphemerisSettings` derived class for a new ephemeris created from scaling an existing ephemeris settings object. It allows the user to apply a scaling factor to the resulting Cartesian states (for instance for an uncertainty analysis)."
+
+    # class is not exposed as class in tudatpy
+    # attributes:
+
+    methods:
+      - name: ctor # [cpp]
+      # - name: __init__ # [py]
+        short_summary: "Constructor."
+        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaledEphemerisSettings` factory functions." # [cpp]
+        # extended_summary: "Instances of the `InterpolatedSpiceEphemerisSettings` class should be created through the `scaled` factory functions." # [py]
+
+      - name: getBaseSettings # [cpp]
+          short_summary: "Retrieve base settings of (un)scaled ephemeris."
+          extended_summary: "Function to retrieve the base settings (frame origin and orientation) of (un)scaled ephemeris."
+          parameters:
+            - name: None
+          returns:
+            - type: std::shared_ptr< EphemerisSettings > # [cpp]
+              description: Base settings (frame origin and orientation) of (un)scaled ephemeris.
+
+      - name: getScaling # [cpp]
+          short_summary: "Retrieve scaling factor(s)."
+          extended_summary: "Function to retrieve the scaling factor(s). Can be constant factor for all elements of Cartesian state, constant factor for each Cartesian state or even custom time-dependent function for scaling factors for each Cartesian state."
+          parameters:
+            - name: None
+          returns:
+            - type: double, Eigen::Vector6d, std::function< Eigen::Vector6d( const double ) > # [cpp]
+              description: Scaling factor(s) for ephemeris scaling.
+
+      - name: getIsScalingAbsolute # [cpp]
+          short_summary: "Check whether ephemeris scaling is absolute."
+          extended_summary: "Function to retrieve the boolean indicating whether ephemeris scaling is absolute. When set to true (default false), the scaling factors will be interpreted as values and added to the state."
+          parameters:
+            - name: None
+          returns:
+            - type: bool # [cpp]
+              description: Boolean indicating whether ephemeris scaling is absolute.
+
+
   - name: DirectSpiceEphemerisSettings
     short_summary: "Class for defining settings of an ephemeris linked directly to Spice."
     extended_summary: "`EphemerisSettings` derived class for ephemeris which are directly linked to Spice."
@@ -1354,7 +1396,7 @@ functions:
 
     parameters:
       - name: custom_state_function # [py]
-        type: # [py]
+        type: # [py] # (%! py type for function)
       - name: customStateFunction # [cpp]
         type: std::function< Eigen::Vector6d > # [cpp]
         description: "Function returning the state as a function of time."
@@ -1487,6 +1529,35 @@ functions:
     returns:
       - type: KeplerEphemerisSettings
         description: ""
+
+
+  - name: scaled # [py] # (%! there are 2 overloads)
+  - name: scaledEphemerisSettings # [cpp] # (%! there are 2 overloads)
+    short_summary: "Factory function for creating scaled ephemeris model settings."
+    extended_summary: |
+      Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
+      The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
+      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
+
+    parameters:
+      - name: unscaled_ephemeris_settings # [py]
+        type: EphemerisSettings # [py] # (%! correct type?)
+      - name: baseSettings # [cpp]
+        type: std::shared_ptr< EphemerisSettings > # [cpp]
+        description: "Sets base settings of ephemeris to be scaled."
+
+      - name: scaling_constant # [py]
+        type: float # [py]
+      - name: scaling # [cpp]
+        type: double # [cpp]
+        description: "Constant scaling factor to be applied to all elements of the Cartesian state."
+
+      - name: is_scaling_absolute # [py]
+        type: bool, default=false # [py]
+      - name: isScalingAbsolute # [cpp]
+        type: bool # [cpp]
+        description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+
 
 
   # then only return types & syntax, aestetics are open
