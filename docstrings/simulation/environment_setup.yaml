@@ -829,8 +829,45 @@ functions:
 
   # factory functions:
 
-  - name: simple # [py]
   - name: simpleRotationModelSettings # [cpp]     # overload cpp
+    short_summary: "Factory function for creating simple rotation model settings."
+    extended_summary: |
+      Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.
+      Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix.
+      Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s).
+      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
+
+    parameters:
+
+      - name: originalFrame # [cpp]
+        type: std::string # [cpp]
+        description: Base frame of rotation model.
+
+      - name: target_frame # [cpp]
+        type: std::string # [cpp]
+        description: Target frame of rotation model.
+
+      - name: initialOrientation # [cpp]
+        type: Eigen::Quaterniond # [cpp]
+        description: Orientation of target frame in base frame at initial time.
+
+
+      - name: initialTime # [cpp]
+        type: double # [cpp]
+        description: Initial time (reference epoch for rotation matrices).
+
+
+      - name: rotationRate # [cpp]
+        type: double # [cpp]
+        description: Constant rotation rate [rad/s] about rotational axis.
+
+    returns:
+      - type: SimpleRotationModelSettings
+        description: Simple rotation model settings object (derived from `RotationModelSettings` base class).
+
+
+  - name: simple # [py]
+  - name: simpleRotationModelSettings # [cpp]     # overload 1, cpp only
     short_summary: "Factory function for creating simple rotation model settings."
     extended_summary: |
       Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.
@@ -854,7 +891,7 @@ functions:
       - name: initial_orientation # [py]
         type: numpy.ndarray # [py]
       - name: initialOrientation # [cpp]
-        type: Eigen::Quaterniond # [cpp]
+        type: Eigen::Matrix3d # [cpp]
         description: Orientation of target frame in base frame at initial time.
 
       - name: initial_time # [py]
@@ -1012,6 +1049,33 @@ functions:
         description: High-accuracy Earth rotation model settings object (derived from RotationModelSettings base class).
 
 
+  - name: constantRotationModelSettings # [cpp]
+    short_summary: "Factory function for creating simple rotation model settings for target-frames with constant orientation."
+    extended_summary: |
+      Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix.
+      These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation.
+      This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object.
+
+    parameters:
+
+      - name: baseFrame # [cpp]
+        type: std::string # [cpp]
+        description: Base frame of rotation model.
+
+      - name: targetFrame
+        type: std::string
+        description: Target frame of rotation model.
+
+       - name: initialOrientation
+         type: Eigen::Quaterniond
+         description: Orientation of target frame in base frame at initial time (constant throughout).
+
+    returns:
+      - type: SimpleRotationModelSettings
+        description: Simple rotation model settings object (derived from RotationModelSettings base class) with constant orientation of target in base frame.
+
+
+
   - name: constant # [py]
   - name: constantRotationModelSettings # [cpp] # overload cpp
     short_summary: "Factory function for creating simple rotation model settings for target-frames with constant orientation."
@@ -1034,7 +1098,7 @@ functions:
         description: Target frame of rotation model.
 
        - name: initial_orientation # [py]
-         type: # [py]
+         type: numpy.ndarray # [py]
        - name: initialOrientation # [cpp]
          type: Eigen::Quaterniond # [cpp]
          description: Orientation of target frame in base frame at initial time (constant throughout).
@@ -1570,8 +1634,8 @@ functions:
         description: ""
 
 
-  - name: scaled # [py] # (%! there are 2 overloads)
-  - name: scaledEphemerisSettings # [cpp] # (%! there are 2 overloads)
+  - name: scaled # [py]
+  - name: scaledEphemerisSettings # [cpp]
     short_summary: "Factory function for creating scaled ephemeris model settings."
     extended_summary: |
       Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
@@ -1590,6 +1654,69 @@ functions:
       - name: scaling # [cpp]
         type: double # [cpp]
         description: "Constant scaling factor to be applied to all elements of the Cartesian state."
+
+      - name: is_scaling_absolute # [py]
+        type: bool, default=false # [py]
+      - name: isScalingAbsolute # [cpp]
+        type: bool # [cpp]
+        description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+
+    returns:
+      - type: ScaledEphemerisSettings
+        description: ""
+
+
+  - name: scaled # [py]
+  - name: scaledEphemerisSettings # [cpp]
+    short_summary: "Factory function for creating scaled ephemeris model settings."
+    extended_summary: |
+      Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
+      The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
+      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
+
+    parameters:
+      - name: unscaled_ephemeris_settings # [py]
+        type: EphemerisSettings # [py] # (%! correct type?)
+      - name: baseSettings # [cpp]
+        type: std::shared_ptr< EphemerisSettings > # [cpp]
+        description: "Sets base settings of ephemeris to be scaled."
+
+      - name: scaling_vector # [py]
+        type: numpy.ndarray # [py]
+      - name: scaling # [cpp]
+        type: double # [cpp]
+        description: "Vector containing scaling factors to be applied to each element of the Cartesian state."
+
+      - name: is_scaling_absolute # [py]
+        type: bool, default=false # [py]
+      - name: isScalingAbsolute # [cpp]
+        type: bool # [cpp]
+        description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+
+    returns:
+      - type: ScaledEphemerisSettings
+        description: ""
+
+  - name: scaled # [py]
+  - name: scaledEphemerisSettings # [cpp]
+    short_summary: "Factory function for creating scaled ephemeris model settings."
+    extended_summary: |
+      Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
+      The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
+      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
+
+    parameters:
+      - name: unscaled_ephemeris_settings # [py]
+        type: EphemerisSettings # [py] # (%! correct type?)
+      - name: baseSettings # [cpp]
+        type: std::shared_ptr< EphemerisSettings > # [cpp]
+        description: "Sets base settings of ephemeris to be scaled."
+
+      - name: scaling_vector_function # [py]
+        type: function < numpy.ndarray > # [py] #(%! type)
+      - name: scaling # [cpp]
+        type: double # [cpp]
+        description: "Function returning a vector with the scaling factors to be applied to each element of the Cartesian state."
 
       - name: is_scaling_absolute # [py]
         type: bool, default=false # [py]
