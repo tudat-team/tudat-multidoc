@@ -1,0 +1,6 @@
+.gitignore
+
+.DS_Store
+*/.DS_Store
+
+docstrings/template_v01.yaml
