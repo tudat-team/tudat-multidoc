@@ -19,5 +19,6 @@ dependencies:
   # Other doc related
   - jinja2
   - yaml
+  - pydantic
   - numpydoc
   - doxygen # for cpp api
