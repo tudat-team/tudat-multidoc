@@ -1,20 +1,11 @@
-description: "This module provides the functionality for creating propagation settings."
+description: "This module provides the functionality for creating dependent variable settings."
 notes: "None"
 
 # documentation of classes and functions are made distinct to perform
 # sanity checks on the provided fields below. i.e. Class constructors don't need the return detailed.
 
-# the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy)
-
-# includes content for (tudat):
-# --
-
-
-
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-################## Propagation Output Settings ( propagationOutputSettings.h ) ########################################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
+# includes content for propagationOutputSettings.h (tudat)
 
 # enums
 #       py::enum_<tp::PropagationDependentVariables>
@@ -23,10 +14,6 @@ notes: "None"
 
 classes:
 
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  ################## Propagation Output Settings ( propagationOutputSettings.h ) ########################################
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
   # base
   - name: VariableSettings
     short_summary: "Functional base class to define settings for variables."
@@ -34,6 +21,8 @@ classes:
       This class is a functional base class for defining settings for variables.
       Any variable that requires additional information in addition to what can be provided here, should be defined by a
       dedicated derived class.
+
+
 
   # derived (level 1)
   - name: SingleDependentVariableSaveSettings
@@ -61,10 +50,6 @@ classes:
 
 
 functions:
-
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  ################## Propagation Output Settings ( propagationOutputSettings.h ) ########################################
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   # factory functions:
 
@@ -289,7 +274,7 @@ functions:
         description: Dependent variable settings object.
 
 
-  # TODO: modified_equinoctial_state is not exposed
+  # TODO: modified_equinoctial_state and others are not exposed
 
 
   # Single acceleration
