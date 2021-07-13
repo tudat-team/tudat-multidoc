@@ -1,9 +1,6 @@
 description: "This module provides the functionality for creating dependent variable settings."
 notes: "None"
 
-# documentation of classes and functions are made distinct to perform
-# sanity checks on the provided fields below. i.e. Class constructors don't need the return detailed.
-
 # the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for propagationOutputSettings.h (tudat)
 
@@ -676,7 +673,6 @@ functions:
   # Total gravity field variation acceleration
   - name: totalGravityFieldVariationAccelerationContributionVariable # [cpp]
   - name: total_gravity_field_variation_acceleration # [py]
-    # TODO: fix descriptions
     short_summary: "Function to add the total gravity field variation acceleration to the dependent variables to save."
     extended_summary: "Function to add the total gravity field variation acceleration to the dependent variables to save. This function does not distinguish between different sources of variations of the gravity field. To select only one contribution, look for the single gravity field variation acceleration."
 
@@ -701,7 +697,6 @@ functions:
   # Single gravity field variation acceleration
   - name: singleGravityFieldVariationAccelerationContributionVariable # [cpp]
   - name: single_gravity_field_variation_acceleration # [py]
-    # TODO: fix descriptions
     short_summary: "Function to add a single gravity field variation acceleration to the dependent variables to save."
     extended_summary: "Function to add a single gravity field variation acceleration to the dependent variables to save. This function does distinguish between different sources of variations of the gravity field, but not between terms of the spherical harmonic expansion. To select specific combinations of order and degree, look for the single per term gravity field variation acceleration."
 
@@ -738,7 +733,6 @@ functions:
   # Single, per-term gravity field variation acceleration
   - name: singleGravityFieldVariationSeparateTermsAccelerationContributionVariable # [cpp]
   - name: single_per_terms_gravity_field_variation_acceleration # [py]
-    # TODO: fix descriptions
     short_summary: "Function to add specific spherical harmonic terms of a single gravity field variation acceleration to the dependent variables to save."
     extended_summary: "Function to add specific spherical harmonic terms of a single gravity field variation acceleration to the dependent variables to save."
 
