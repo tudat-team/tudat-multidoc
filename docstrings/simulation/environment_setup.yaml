@@ -315,10 +315,10 @@ classes:
             type: bool # [cpp]
             description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
 
+
 # skip for now
 #  - name: FromFileSphericalHarmonicsGravityFieldSettings
 #    short_summary: "`SphericalHarmonicsGravityFieldSettings` derived class defining settings from a spherical harmonics model file."
-
 
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
