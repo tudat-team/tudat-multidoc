@@ -120,13 +120,13 @@ functions:
         type: std::function<Eigen::Vector3d(const double)> # [cpp]
       - name: torque_function # [py]
         type: Callable[[float], list] # [py]
-        description: Custom torque function.
+        description: Custom torque function with time as an independent variable.
 
       - name: scalingFunction # [cpp]
         type: std::function<double(const double)>, default=nullptr # [cpp]
       - name: scaling_function # [py]
         type: Callable[[float], float], default=None # [py]
-        description: Scaling function to be multiplied by the custom torque function.
+        description: Scaling function with time as an independent variable to be multiplied by the custom torque function.
 
     returns:
       - type: TorqueSettings
