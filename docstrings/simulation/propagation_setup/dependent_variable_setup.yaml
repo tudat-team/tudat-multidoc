@@ -981,8 +981,8 @@ functions:
 
 
   # Rotation matrix: from inertial to body-fixed
-  - name: rotationMatrixToBodyFixedFrameVariable # [cpp]
-  - name: rotation_matrix_to_body_fixed_frame # [py]
+  - name: inertialToBodyFixedRotationMatrixVariable # [cpp]
+  - name: inertial_to_body_fixed_rotation_frame # [py]
     short_summary: "Function to add the rotation matrix from the inertial RF to the body-fixed RF to the dependent variables to save."
     extended_summary: "Function to add the rotation matrix from the inertial RF to the body-fixed RF to the dependent variables to save."
 
