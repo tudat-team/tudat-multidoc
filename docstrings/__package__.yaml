@@ -1,6 +1,6 @@
-package:
-  name: tudat    # [cpp]
-  name: tudatpy  # [py]
+config:
+  name: tudatpy     # [py]
+  name: tudat       # [cpp]
 
 modules:
   - interface

@@ -315,10 +315,10 @@ classes:
             type: bool # [cpp]
             description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
 
+
 # skip for now
 #  - name: FromFileSphericalHarmonicsGravityFieldSettings
 #    short_summary: "`SphericalHarmonicsGravityFieldSettings` derived class defining settings from a spherical harmonics model file."
-
 
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -895,7 +895,7 @@ functions:
         - the ``target_frame`` parameter is the name of frame that Tudat assigns to the body-fixed frame
         - the ``target_frame_spice`` is the name of the frame in Spice for which the initial orientation and rotation rate are extracted.
 
-      # (%!) This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
+      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
 
     parameters:
       - name: base_frame # [py]
@@ -937,8 +937,8 @@ functions:
         .. math:: \mathbf{x} \cross \mathbf{v} )
         - the body-fixed y-axis completes the right-handed reference frame
 
-        #(%!)Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.
-        #(%!)This function creates an instance of a `RotationModelSettings` derived `SynchronousRotationModelSettings` object.
+        Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.
+        This function creates an instance of a `RotationModelSettings` derived `SynchronousRotationModelSettings` object.
 
     parameters:
       - name: central_body_name # [py]
@@ -997,11 +997,9 @@ functions:
       Factory function for settings object, defining high-accuracy Earth rotation model according to the IERS 2010 Conventions.
       This settings class has various options to deviate from the default settings, typical applications will use default.
       Note that for this model the original frame must be J2000 or GCRS (in the case of the former, the frame bias between GCRS and J2000 is automatically corrected for). The target frame (e.g. body-fixed frame) name is ITRS.
-      # (%!) The precession-nutation theory may be `iau_2000a`, `iau_2000b` or `iau_2006`, as implemented in the SOFA toolbox. Alternative options to modify the input (not shown above) include the EOP correction file, input time scale, short period UT1 and polar motion variations.
-      # The target frame (e.g. body-fixed frame) name is ITRS.
-      # This function creates an instance of a `RotationModelSettings` derived `gcrsToItrsRotationModelSettings` object.
-
-      # (%!) move info to parameter description?
+      The precession-nutation theory may be `iau_2000a` / `iau_2000b` or `iau_2006`, as implemented in the SOFA toolbox. Alternative options to modify the input (not shown above) include the EOP correction file, input time scale, short period UT1 and polar motion variations.
+      The target frame (e.g. body-fixed frame) name is ITRS.
+      This function creates an instance of a `RotationModelSettings` derived `gcrsToItrsRotationModelSettings` object.
 
     parameters:
       - name: precession_nutation_theory # [py]
