@@ -5,7 +5,7 @@ notes: "None"
 # includes content for propagationOutputSettings.h (tudat)
 
 # Enums
-# TODO
+# TODO: expose enums
 #       py::enum_<tp::PropagationDependentVariables>
 
 
@@ -57,8 +57,27 @@ functions:
 
   - name: createDependentVariableSaveSettings # [cpp]
   - name: create # [py]
-    short_summary: "Function to create settings for a dependent variable."
-    extended_summary: "TODO" # TODO
+    short_summary: "Function to create settings for a generic dependent variable."
+    extended_summary: |
+      Function to create settings for a dependent variable. It creates objects that calculate dependent variables
+      from the objects that define their settings. It is usually not relevant nor useful for the user.
+
+    parameters:
+      - name: dependentVariables # [cpp]
+        type: std::vector<std::shared_ptr<SingleDependentVariableSaveSettings>> # [cpp]
+      - name: dependent_variable_list # [py]
+        type: List[SingleDependentVariableSaveSettings] # [py]
+        description: List of dependent variables to be saved.
+
+      - name: printDependentVariableTypes # [cpp]
+        type: bool, default=true # [cpp]
+      - name: print_variable_indices # [py]
+        type: bool, default=True # [py]
+        description: Whether the types of dependent variables to be saved should be printed on the terminal.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
   # Mach number
   - name: machNumberDependentVariable # [cpp]
@@ -276,7 +295,28 @@ functions:
         description: Dependent variable settings object.
 
 
-  # TODO: modified_equinoctial_state and others are not exposed
+  # Modified equinoctial state
+  - name: modifiedEquinoctialStateDependentVariable # [cpp]
+  - name: modified_equinoctial_state # [py]
+    short_summary: "Function to add the modified equinoctial state to the dependent variables to save."
+    extended_summary: "Function to add the modified equinoctial state to the dependent variables to save. The value of the parameter I is automatically chosen as +1 or -1, depending on whether the inclination is smaller or larger than 90 degrees."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body with respect to which the modified equinoctial state is computed.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
 
   # Single acceleration
@@ -339,7 +379,139 @@ functions:
         description: Dependent variable settings object.
 
 
-  # Single spherical harmonic vector term
+  # Total scalar acceleration
+  - name: totalAccelerationNormDependentVariable # [cpp]
+  - name: total_acceleration_norm # [py]
+    short_summary: "Function to add the total scalar acceleration (norm of the vector) acting on a body to the dependent variables to save."
+    extended_summary: "Function to add the total scalar acceleration (norm of the vector) acting on a body to the dependent variables to save."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body undergoing acceleration.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Total acceleration vector
+  - name: totalAccelerationDependentVariable # [cpp]
+  - name: total_acceleration # [py]
+    short_summary: "Function to add the total acceleration vector acting on a body to the dependent variables to save."
+    extended_summary: "Function to add the total acceleration vector acting on a body to the dependent variables to save."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body undergoing acceleration.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Single torque norm
+  - name: singleTorqueNormVariable # [cpp]
+  - name: single_torque_norm # [py]
+    short_summary: "Function to add a single torque (norm of the torque vector) to the dependent variables to save."
+    extended_summary: "Function to add a single torque (norm of the torque vector) to the dependent variables to save. The altitude depends on the shape of the central body."
+
+    parameters:
+      - name: torqueModelType # [cpp]
+        type: AvailableTorque # [cpp]
+      - name: torque_type # [py]
+        type: AvailableTorque # [py]
+        description: Torque type to be saved.
+
+      - name: bodyUndergoingTorque # [cpp]
+        type: std::str # [cpp]
+      - name: body_undergoing_torque # [py]
+        type: str # [py]
+        description: Body undergoing torque.
+
+      - name: bodyExertingTorque # [cpp]
+        type: std::str # [cpp]
+      - name: body_exerting_torque # [py]
+        type: str # [py]
+        description: Body exerting torque.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Single torque
+  - name: singleTorqueVariable # [cpp]
+  - name: single_torque # [py]
+    short_summary: "Function to add a single torque vector to the dependent variables to save."
+    extended_summary: "Function to add a single torque vector to the dependent variables to save. The altitude depends on the shape of the central body."
+
+    parameters:
+      - name: torqueModelType # [cpp]
+        type: AvailableTorque # [cpp]
+      - name: torque_type # [py]
+        type: AvailableTorque # [py]
+        description: Torque type to be saved.
+
+      - name: bodyUndergoingTorque # [cpp]
+        type: std::str # [cpp]
+      - name: body_undergoing_torque # [py]
+        type: str # [py]
+        description: Body undergoing torque.
+
+      - name: bodyExertingTorque # [cpp]
+        type: std::str # [cpp]
+      - name: body_exerting_torque # [py]
+        type: str # [py]
+        description: Body exerting torque.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Total torque norm
+  - name: totalTorqueNormDependentVariable # [cpp]
+  - name: total_torque_norm # [py]
+    short_summary: "Function to add the total torque (norm of the torque vector) to the dependent variables to save."
+    extended_summary: "Function to add the total torque (norm of the torque vector) to the dependent variables to save."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Total torque
+  - name: totalTorqueDependentVariable # [cpp]
+  - name: total_torque # [py]
+    short_summary: "Function to add the total torque vector to the dependent variables to save."
+    extended_summary: "Function to add the total torque vector to the dependent variables to save."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+    # Single spherical harmonic vector term
   - name: sphericalHarmonicAccelerationTermsDependentVariable # [cpp]
   - name: spherical_harmonic_terms_acceleration # [py]
     short_summary: "Function to add a single term of the spherical harmonic acceleration vector to the dependent variables to save."
@@ -399,42 +571,6 @@ functions:
         description: Dependent variable settings object.
 
 
-  # Total acceleration vector
-  - name: totalAccelerationDependentVariable # [cpp]
-  - name: total_acceleration # [py]
-    short_summary: "Function to add the total acceleration vector acting on a body to the dependent variables to save."
-    extended_summary: "Function to add the total acceleration vector acting on a body to the dependent variables to save."
-
-    parameters:
-      - name: bodyUndergoingAcceleration # [cpp]
-        type: std::str # [cpp]
-      - name: body_undergoing_acceleration # [py]
-        type: str # [py]
-        description: Body undergoing acceleration.
-
-    returns:
-      - type: SingleDependentVariableSaveSettings
-        description: Dependent variable settings object.
-
-
-  # Total scalar acceleration
-  - name: totalAccelerationDependentVariable # [cpp]
-  - name: total_acceleration # [py]
-    short_summary: "Function to add the total scalar acceleration (norm of the vector) acting on a body to the dependent variables to save."
-    extended_summary: "Function to add the total scalar acceleration (norm of the vector) acting on a body to the dependent variables to save."
-
-    parameters:
-      - name: bodyUndergoingAcceleration # [cpp]
-        type: std::str # [cpp]
-      - name: body_undergoing_acceleration # [py]
-        type: str # [py]
-        description: Body undergoing acceleration.
-
-    returns:
-      - type: SingleDependentVariableSaveSettings
-        description: Dependent variable settings object.
-
-
   # Aerodynamic force coefficients
   - name: aerodynamicForceCoefficientDependentVariable # [cpp]
   - name: aerodynamic_force_coefficients # [py]
@@ -457,8 +593,7 @@ functions:
   - name: aerodynamicMomentCoefficientDependentVariable # [cpp]
   - name: aerodynamic_moment_coefficients # [py]
     short_summary: "Function to add the aerodynamic moment coefficients to the dependent variables to save."
-    # TODO: order of coefficients is not known
-    extended_summary: "Function to add the aerodynamic force coefficients to the dependent variables to save. It requires an aerodynamic torque acting on the vehicle. The coefficients are returned in the following order: TODO"
+    extended_summary: "Function to add the aerodynamic force coefficients to the dependent variables to save. It requires an aerodynamic torque acting on the vehicle. The coefficients are returned in the following order: C_l, C_m, C_n (respectively about the X, Y, Z axes of the body-fixed frame, see Mooij 1994)."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -490,6 +625,30 @@ functions:
       - name: central_body # [py]
         type: str # [py]
         description: Body with respect to which the latitude is computed.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Geodetic latitude
+  - name: geodeticLatitudeDependentVariable # [cpp]
+  - name: geodetic_latitude # [py]
+    short_summary: "Function to add the geodetic latitude to the dependent variables to save."
+    extended_summary: "Function to add the geodetic latitude to the dependent variables to save."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body with respect to which the geodetic latitude is computed.
 
     returns:
       - type: SingleDependentVariableSaveSettings
@@ -777,7 +936,6 @@ functions:
   - name: bodyFixedAirspeedBasedVelocityVariable # [cpp]
   - name: body_fixed_airspeed_velocity # [py]
     short_summary: "Function to add the airspeed velocity vector to the dependent variables to save."
-    # TODO: is it vector?
     extended_summary: "Function to add the airspeed velocity vector to the dependent variables to save. The airspeed velocity is expressed with respect to a central body and returned in a frame fixed to the same central body. It requires the central body to have an atmosphere."
 
     parameters:
@@ -802,7 +960,6 @@ functions:
   - name: bodyFixedGroundspeedBasedVelocityVariable # [cpp]
   - name: body_fixed_groundspeed_velocity # [py]
     short_summary: "Function to add the groundspeed velocity vector to the dependent variables to save."
-    # TODO: is it vector?
     extended_summary: "Function to add the groundspeed velocity vector to the dependent variables to save. The groundspeed velocity is expressed with respect to a central body and returned in a frame fixed to the same central body."
 
     parameters:
@@ -937,9 +1094,9 @@ functions:
         description: Dependent variable settings object.
 
 
-  # Altitude of periapsis
-  - name: periapsisAltitudeVariable # [cpp]
-  - name: periapsis_altitude # [py]
+  # Control surface deflection
+  - name: controlSurfaceDeflectionDependentVariable # [cpp]
+  - name: control_surface_deflection # [py]
     short_summary: "Function to add the altitude of periapsis to the dependent variables to save."
     extended_summary: "Function to add the altitude of periapsis to the dependent variables to save. The altitude depends on the shape of the central body."
 
@@ -950,11 +1107,11 @@ functions:
         type: str # [py]
         description: Body whose dependent variable should be saved.
 
-      - name: centralBody # [cpp]
+      - name: controlSurface # [cpp]
         type: std::str # [cpp]
-      - name: central_body # [py]
+      - name: control_surface # [py]
         type: str # [py]
-        description: Body with respect to which the altitude of periapsis is computed.
+        description: Control surface whose deflection should be saved.
 
     returns:
       - type: SingleDependentVariableSaveSettings
@@ -985,8 +1142,6 @@ functions:
         description: Dependent variable settings object.
 
 
-
-
   # Cartesian position wrt to a central body
   - name: centralBodyFixedCartesianPositionVariable # [cpp]
   - name: central_body_fixed_cartesian_position # [py]
@@ -1010,9 +1165,6 @@ functions:
       - type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
-
-
-
   # Body mass
   - name: bodyMassVariable # [cpp]
   - name: body_mass # [py]
@@ -1029,8 +1181,6 @@ functions:
     returns:
       - type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
-
-
 
 
   # Radiation pressure coefficient
@@ -1057,8 +1207,140 @@ functions:
         description: Dependent variable settings object.
 
 
+  # Local temperature
+  - name: localTemperatureDependentVariable # [cpp]
+  - name: local_temperature # [py]
+    short_summary: "Function to add the local temperature to the dependent variables to save."
+    extended_summary: "Function to add the local temperature to the dependent variables to save (at position of body undergoing acceleration). It requires an aerodynamic acceleration to be acting on the body."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
 
+  # Local dynamic pressure
+  - name: localDynamicPressureDependentVariable # [cpp]
+  - name: local_dynamic_pressure # [py]
+    short_summary: "Function to add the local temperature to the dependent variables to save."
+    extended_summary: "Function to add the local temperature to the dependent variables to save (at position of body undergoing acceleration). It requires an aerodynamic acceleration to be acting on the body."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Aerodynamic heat rate
+  - name: localAerodynamicHeatRateDependentVariable # [cpp]
+  - name: local_aerodynamic_heat_rate # [py]
+    short_summary: "Function to add the local aerodynamic heat rate to the dependent variables to save."
+    extended_summary: "Function to add the local aerodynamic heat rate felt by the vehicle based on the current velocity and atmospheric conditions to the dependent variables to save (at position of body undergoing acceleration). It requires an aerodynamic acceleration to be acting on the body."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Total aerodynamic G-load
+  - name: totalAerodynamicGLoadDependentVariable # [cpp]
+  - name: local_aerodynamic_g_load # [py]
+    short_summary: "Function to add the total aerodynamic G-load to the dependent variables to save."
+    extended_summary: "Function to add the total aerodynamic G-load induced by the aerodynamic acceleration to the dependent variables to save (at position of body undergoing acceleration). It requires an aerodynamic acceleration to be acting on the body."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Stagnation point heat flux
+  - name: stagnationPointHeatFluxDependentVariable # [cpp]
+  - name: stagnation_point_heat_flux # [py]
+    short_summary: "Function to add the heat flux at the stagnation point to the dependent variables to save."
+    extended_summary: "Function to add the heat flux induced by atmospheric friction at the stagnation point to the dependent variables to save. It requires an aerodynamic acceleration to be acting on the body and a vehicle nose radius to be defined."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # Total mass rate
+  - name: totalMassRateDependentVariable # [cpp]
+  - name: total_mass_rate # [py]
+    short_summary: "Function to add the total mass rate to the dependent variables to save."
+    extended_summary: "Function to add the total mass rate to the dependent variables to save. It requires the body mass to be numerically propagated."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # TODO: duplicate
+  # Aerodynamic g-load
+  - name: aerodynamicGLoadVariable # [cpp]
+  - name: aerodynamic_g_load # [py]
+    short_summary: "Function to add the aerodynamic g-load to the dependent variables to save."
+    extended_summary: "Function to add the aerodynamic g-load to the dependent variables to save (at position of body undergoing acceleration). It requires an aerodynamic acceleration to be acting on the body."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body with respect to which the aerodynamic g-load is computed.
+
+    returns:
+      - type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+
+  # TODO: duplicate
   # Dynamic pressure
   - name: dynamicPressureVariable # [cpp]
   - name: dynamic_pressure # [py]
@@ -1083,30 +1365,7 @@ functions:
         description: Dependent variable settings object.
 
 
-  # Aerodynamic g-load
-  - name: aerodynamicGLoadVariable # [cpp]
-  - name: aerodynamic_g_load # [py]
-    short_summary: "Function to add the aerodynamic g-load to the dependent variables to save."
-    extended_summary: "Function to add the aerodynamic g-load to the dependent variables to save. It requires the central body to have an atmosphere."
-
-    parameters:
-      - name: associatedBody # [cpp]
-        type: std::str # [cpp]
-      - name: body # [py]
-        type: str # [py]
-        description: Body whose dependent variable should be saved.
-
-      - name: centralBody # [cpp]
-        type: std::str # [cpp]
-      - name: central_body # [py]
-        type: str # [py]
-        description: Body with respect to which the aerodynamic g-load is computed.
-
-    returns:
-      - type: SingleDependentVariableSaveSettings
-        description: Dependent variable settings object.
-
-
+  # TODO: duplicate
   # Atmospheric temperature
   - name: atmosphericTemperatureVariable # [cpp]
   - name: atmospheric_temperature # [py]
