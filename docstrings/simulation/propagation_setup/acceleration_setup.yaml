@@ -1037,11 +1037,10 @@ functions:
         description: Thrust direction settings object.
 
 
-  # Custom thrust orientation (overload 1)
+  # Custom thrust orientation (overload 1, cpp only)
   - name: customThrustOrientationSettings # [cpp]
-  - name: custom_thrust_orientation # [py]
-    short_summary: "Create custom thrust orientation settings, expressed as a quaternion."
-    extended_summary: |
+    short_summary: "Create custom thrust orientation settings, expressed as a quaternion." # [cpp]
+    extended_summary: | # [cpp]
       Factory function that creates custom thrust orientation settings, expressed through a quaternion.
       As an alternative expression for generalized thrust direction guidance, the thrust orientation can be defined as
       an arbitrary function of time. As with the custom thrust direction, this allows a broad range of options to be
@@ -1049,16 +1048,15 @@ functions:
       The thrust orientation is provided through a unit quaternion representing the rotation
       from body-fixed thrust direction to the inertial thrust direction.
 
+
     parameters:
       - name: thrustOrientationFunction # [cpp]
         type: std::function<Eigen::Quaterniond(double)> # [cpp]
-      - name: thrust_orientation_function # [py]
-        type: Callable[[float], numpy.ndarray] # [py]
-        description: Function of time returning the quaternion representing the rotation between the thrust direction in the body-fixed frame to the inertial frame.
+        description: Function of time returning the quaternion representing the rotation between the thrust direction in the body-fixed frame to the inertial frame. # [cpp]
 
     returns:
-      - type: CustomThrustOrientationSettings
-        description: Custom thrust orientation settings object.
+      - type: CustomThrustOrientationSettings # [cpp]
+        description: Custom thrust orientation settings object. t# [cpp]
 
 
   # Custom thrust orientation (overload 2)
