@@ -5,12 +5,14 @@ notes: "None"
 # includes tudat content for:
 # - accelerationModelTypes.h
 # - accelerationSettings.h
+# - thrustSettings.h
 
 # Enums
 # TODO
 #       py::enum_<tba::AvailableAcceleration>
 #       py::enum_<tss::ThrustDirectionTypes>
 #       py::enum_<tss::ThrustMagnitudeTypes>
+#       py::enum_<tss::ThrustFrames>
 
 
 
