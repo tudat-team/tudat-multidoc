@@ -184,3 +184,495 @@ classes:
 
 functions:
 
+  # Free function
+  - name: createCombinedInitialState # [cpp]
+  - name: combine_initial_states # [py]
+    short_summary: "Function to retrieve the initial state for a list of propagator settings."
+    extended_summary: |
+      Function to retrieve the initial state for a list of propagator settings. This way, the initial state for
+      different quantities to be propagated (e.g., translational state, rotational state, mass) are retrieved and
+      organized in a single container.
+
+    parameters: # [cpp]
+      - name: propagatorSettingsList # [cpp]
+        type: map # [cpp]
+      - name: propagator_settings_per_type # [py]
+        type: dict # [py]
+        description: Propagator settings where the type of propagation is reported as key and the respective list of propagator settings as value.
+
+    returns:
+      - type: Eigen::Matrix # [cpp]
+      - type: numpy.ndarray # [py]
+        description: Vector of initial states, sorted in order of IntegratedStateType, and then in the order of the vector of SingleArcPropagatorSettings of given type.
+
+
+  # Factory functions
+  # Translational propagator (overload 1)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with generic stopping conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration model. In this function, the dependent variables to save are provided
+      as a unique DependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the termination settings object provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: terminationSettings # [cpp]
+      - type: PropagationTerminationSettings # [cpp]
+      - name: termination_settings # [py]
+      - type: PropagationTerminationSettings # [py]
+        description: Generic termination settings object to check whether the propagation should be ended.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: DependentVariableSaveSettings, default=none # [cpp]
+      - name: output_variables # [py]
+      - type: DependentVariableSaveSettings, default=none # [py]
+        description: Cumulative dependent variable to be saved settings object (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 2)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with generic stopping conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration model. In this function, the dependent variables to save are provided
+      as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the termination settings object provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: terminationSettings # [cpp]
+      - type: PropagationTerminationSettings # [cpp]
+      - name: termination_settings # [py]
+      - type: PropagationTerminationSettings # [py]
+        description: Generic termination settings object to check whether the propagation should be ended.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      - name: output_variables # [py]
+      - type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        description: List of dependent variables to be saved, provided as a list of SingleDependentVariableSaveSettings objects (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 3)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with generic stopping conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration settings object. In this function, the dependent variables to save are provided
+      as a unique DependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the termination settings object provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration settings objects.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: terminationSettings # [cpp]
+      - type: PropagationTerminationSettings # [cpp]
+      - name: termination_settings # [py]
+      - type: PropagationTerminationSettings # [py]
+        description: Generic termination settings object to check whether the propagation should be ended.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: DependentVariableSaveSettings, default=none # [cpp]
+      - name: output_variables # [py]
+      - type: DependentVariableSaveSettings, default=none # [py]
+        description: Cumulative dependent variable to be saved settings object (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 4)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with generic stopping conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration settings object. In this function, the dependent variables to save are provided
+      as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the termination settings object provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration settings objects.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: terminationSettings # [cpp]
+      - type: PropagationTerminationSettings # [cpp]
+      - name: termination_settings # [py]
+      - type: PropagationTerminationSettings # [py]
+        description: Generic termination settings object to check whether the propagation should be ended.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      - name: output_variables # [py]
+      - type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        description: List of dependent variables to be saved (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 5)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with time termination conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration model. In this function, the dependent variables to save are
+      provided as a unique DependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the final time provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: endTime # [cpp]
+      - type: double # [cpp]
+      - name: termination_time # [py]
+      - type: float # [py]
+        description: Final time of the propagation to be used as termination criterion.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: DependentVariableSaveSettings, default=none # [cpp]
+      - name: output_variables # [py]
+      - type: DependentVariableSaveSettings, default=none # [py]
+        description: Cumulative dependent variable to be saved settings object (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 6)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with time termination conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration model. In this function, the dependent variables to save are provided
+      as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the final time provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: endTime # [cpp]
+      - type: double # [cpp]
+      - name: termination_time # [py]
+      - type: float # [py]
+        description: Final time of the propagation to be used as termination criterion.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      - name: output_variables # [py]
+      - type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        description: List of dependent variables to be saved (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
+  # Translational propagator (overload 7)
+  - name: translationalStatePropagatorSettings # [cpp]
+  - name: translational # [py]
+    short_summary: "Factory function to create translational state propagator settings with time termination conditions."
+    extended_summary: |
+      Factory function to create translational state propagator settings with generic stopping conditions.
+      It works by providing a key-value acceleration container, containing the list of accelerations acting on
+      each body. The map has as key a string denoting the name of the body on which a set of accelerations, provided
+      as value, act. This set is again a key-value container, with the key denoting the body exerting the acceleration
+      and the value (a pointer to) an acceleration settings object. In this function, the dependent variables to save are provided
+      as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
+      through the final time provided.
+
+    parameters: # [cpp]
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+
+      - name: accelerationsMap # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration settings objects.
+
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_integrate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+
+      - name: initialBodyStates # [cpp]
+      - type: Eigen::Matrix # [cpp]
+      - name: initial_states # [py]
+      - type: numpy.ndarray # [py]
+        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+
+      - name: endTime # [cpp]
+      - type: double # [cpp]
+      - name: termination_time # [py]
+      - type: float # [py]
+        description: Final time of the propagation to be used as termination criterion.
+
+      - name: propagator # [cpp]
+      - type: TranslationalPropagatorType, default=cowell # [cpp]
+      - name: propagator # [py]
+      - type: TranslationalPropagatorType, default=cowell # [py]
+        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+
+      - name: dependentVariablesToSave # [cpp]
+        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      - name: output_variables # [py]
+      - type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        description: List of dependent variables to be saved (by default, no dependent variables are saved).
+
+      - name: printInterval # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+      - name: print_interval # [py]
+        type: float, default=TUDAT_NAN # [cpp]
+        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+
+    returns:
+      - type: TranslationalStatePropagatorSettings
+        description: Translational state propagator settings object.
+
+
