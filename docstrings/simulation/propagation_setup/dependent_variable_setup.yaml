@@ -42,8 +42,8 @@ classes:
 
   # derived (level 2)
   - name: SingleAccelerationDependentVariableSaveSettings
-      short_summary: "`SingleDependentVariableSaveSettings`-derived class to save a single acceleration (norm or vector) during propagation."
-      extendend_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
+    short_summary: "`SingleDependentVariableSaveSettings`-derived class to save a single acceleration (norm or vector) during propagation."
+    extendend_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
 
     methods:
       - name: ctor # [cpp]

@@ -1,0 +1,2379 @@
+{
+    "type": "package",
+    "path": "docstrings",
+    "file": "__package__.yaml",
+    "_implicit_name": "docstrings",
+    "config": {
+        "name": "tudatpy",
+        "version": null
+    },
+    "summary": null,
+    "extended_summary": null,
+    "routine_listings": null,
+    "see_also": null,
+    "notes": null,
+    "references": null,
+    "examples": null,
+    "classes": null,
+    "functions": null,
+    "constants": null,
+    "modules": [
+        "interface",
+        "simulation",
+        "plotting",
+        "cli",
+        "util"
+    ],
+    "name": "tudatpy",
+    "version": null,
+    "interface": {
+        "type": "package",
+        "path": "docstrings/interface",
+        "file": "__package__.yaml",
+        "_implicit_name": "interface",
+        "config": null,
+        "summary": null,
+        "extended_summary": null,
+        "routine_listings": null,
+        "see_also": null,
+        "notes": null,
+        "references": null,
+        "examples": null,
+        "classes": null,
+        "functions": null,
+        "constants": null,
+        "modules": [
+            "spice"
+        ],
+        "name": "interface",
+        "version": null,
+        "spice": {
+            "type": "module",
+            "path": "docstrings/interface",
+            "file": "spice.yaml",
+            "_implicit_name": "spice",
+            "config": null,
+            "summary": null,
+            "extended_summary": null,
+            "routine_listings": null,
+            "see_also": null,
+            "notes": "None",
+            "references": null,
+            "examples": null,
+            "classes": [
+                {
+                    "name": "SpiceEphemeris",
+                    "short_summary": "Ephemeris derived class which retrieves the state of a body directly from the SPICE library.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Ephemeris derived class which retrieves the state of a body directly from the SPICE library.\nThe body of which the ephemeris is to be retrieved, as well as the origin and orientation\nof the reference frame in which the states are returned, and any corrections that are\napplied, are defined once during object construction.\n",
+                    "parameters": null,
+                    "attributes": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": [
+                        {
+                            "name": "__init__",
+                            "short_summary": "Constructor.",
+                            "deprecation_warning": null,
+                            "extended_summary": "Constructor, sets the input variables for the calls to the spice function to retrieve state.",
+                            "parameters": [
+                                {
+                                    "name": "target_body_name",
+                                    "type": null,
+                                    "description": "Name of body of which the ephemeris is to be calculated."
+                                },
+                                {
+                                    "name": "observer_body_name",
+                                    "type": null,
+                                    "description": "Name of body relative to which the ephemeris is to be calculated."
+                                },
+                                {
+                                    "name": "correct_for_stellar_aberration",
+                                    "type": null,
+                                    "description": "Boolean whether to correct for stellar Aberration in retrieved values of (observed state).\n"
+                                },
+                                {
+                                    "name": "correct_for_light_time_aberration",
+                                    "type": null,
+                                    "description": "Boolean whether to correct for light time in retrieved values of (observed state).\n"
+                                },
+                                {
+                                    "name": "converge_ligh_time_aberration",
+                                    "type": null,
+                                    "description": "Boolean whether to use single iteration or max. 3 iterations for calculating light time.\n"
+                                },
+                                {
+                                    "name": "reference_frame_name",
+                                    "type": null,
+                                    "description": "Name of the reference frame in which the epehemeris is to be calculated.\n"
+                                },
+                                {
+                                    "name": "reference_julian_day",
+                                    "type": null,
+                                    "description": "Reference julian day w.r.t. which ephemeris is evaluated.\n"
+                                }
+                            ],
+                            "returns": null,
+                            "yields": null,
+                            "other_parameters": null,
+                            "raises": null,
+                            "warns": null,
+                            "warnings": null,
+                            "see_also": null,
+                            "notes": null,
+                            "references": null,
+                            "examples": null
+                        },
+                        {
+                            "name": "get_cartesian_state",
+                            "short_summary": "Get Cartesian state from ephemeris.",
+                            "deprecation_warning": null,
+                            "extended_summary": " Returns Cartesian state from ephemeris at given Julian day.",
+                            "parameters": [
+                                {
+                                    "name": "seconds_since_epoch",
+                                    "type": "float",
+                                    "description": "Seconds since epoch at which ephemeris is to be evaluated."
+                                }
+                            ],
+                            "returns": null,
+                            "yields": null,
+                            "other_parameters": null,
+                            "raises": null,
+                            "warns": null,
+                            "warnings": null,
+                            "see_also": null,
+                            "notes": null,
+                            "references": null,
+                            "examples": null
+                        }
+                    ]
+                }
+            ],
+            "functions": [
+                {
+                    "name": "convert_julian_date_to_ephemeris_time",
+                    "short_summary": "Convert a Julian date to ephemeris time (equivalent to TDB in Spice).",
+                    "deprecation_warning": null,
+                    "extended_summary": "The following math is for documentation demonstration purposes\n\n.. math:: X(e^{j\\omega } ) = x(n)e^{ - j\\omega n}\n\n\\f$ f(x) = a + b \\f$\n\nFunction to convert a Julian date to ephemeris time, which is\nequivalent to barycentric dynamical time. A leap second kernel\nmust have been loaded to use this function.\n",
+                    "parameters": [
+                        {
+                            "name": "julian_date",
+                            "type": "int",
+                            "description": "Julian date that is to be converted to ephemeris time."
+                        }
+                    ],
+                    "returns": {
+                        "name": "ephemeris_time",
+                        "type": "float",
+                        "description": "Julian date calculated from ephemeris time."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "convert_ephemeris_time_to_julian_date",
+                    "short_summary": "Convert ephemeris time (equivalent to TDB) to a Julian date.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Function to convert ephemeris time, which is nearly equal to\nbarycentric dynamical time, to the Julian date. A leap second\nkernel must have been loaded to use this function.\n",
+                    "parameters": [
+                        {
+                            "name": "ephemeris_time",
+                            "type": "float",
+                            "description": "Ephemeris time that is to be converted to Julian date."
+                        }
+                    ],
+                    "returns": {
+                        "name": "julian_date",
+                        "type": "float",
+                        "description": "Julian date calculated from ephemeris time."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "convert_date_string_to_ephemeris_time",
+                    "short_summary": "Converts a date string to ephemeris time.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Function to convert a date string, for instance\n1988 June 13, 3:29:48 to ephemeris time, wrapper for `str2et_c`\nspice function.\n",
+                    "parameters": [
+                        {
+                            "name": "date_string",
+                            "type": "str",
+                            "description": "String representing the date. See documentation of spice\nfunction `str2et_c` for details on supported formats.\n"
+                        }
+                    ],
+                    "returns": {
+                        "name": "ephemeris_time",
+                        "type": "str",
+                        "description": "Ephemeris time corresponding to given date_string."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_body_cartesian_state_at_epoch",
+                    "short_summary": "Get Cartesian state of a body, as observed from another body.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function returns the state of a body, relative to another\nbody, in a frame specified by the user. Corrections for light-time\ncorrection and stellar aberration can be applied to obtain the\nstate of one of the bodies, as observed from the other. Wrapper\nfor `spkezr_c` spice function.\n",
+                    "parameters": [
+                        {
+                            "name": "target_body_name",
+                            "type": "str",
+                            "description": "Name of the body of which the state is to be obtained. A kernel\nwith the ephemeris of this body must have been loaded. The\nstring must be a spice-recognized name or ID.\n"
+                        },
+                        {
+                            "name": "observer_body_name",
+                            "type": "str",
+                            "description": "Name of the body relative to which the state is to be obtained.\nA kernel with the ephemeris of this body must have been loaded.\nThe string must be a spice-recognized name or ID.\n"
+                        },
+                        {
+                            "name": "reference_frame_name",
+                            "type": "str",
+                            "description": "The spice-recognized name of the reference frame in which the\nstate is to be returned. Spice kernel(s) required to perform\nthe necessary conversion from the states of the target and\nobserver bodies to this frame need to have been loaded.\n"
+                        },
+                        {
+                            "name": "aberration_corrections",
+                            "type": "str",
+                            "description": "Setting for correction for setting corrections. See Spice\ndocumentation for extended discussion.\nShort summary:\n\n- NONE: none\n- LT: light time corrected (one iteration for calculation)\n- CN: light time corrected (multiple iterations, max 3) for calculation\n- S: Stellar aberration corrected.\n- XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e.\"LT+S\" or \"XCN+S\").\n"
+                        },
+                        {
+                            "name": "ephemeris_time",
+                            "type": "float",
+                            "description": "Observation time (or transmission time of observed light, see description\nof aberrationCorrections).\n"
+                        }
+                    ],
+                    "returns": {
+                        "name": "cartesian_state_vector",
+                        "type": "np.ndarray[6,]",
+                        "description": "Cartesian state vector (x,y,z, position+velocity)."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_body_cartesian_position_at_epoch",
+                    "short_summary": "Get Cartesian position of a body, as observed from another body.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function returns the position of a body, relative to another\nbody, in a frame specified by the user. Corrections for light-time\ncorrection and stellar aberration can be applied to obtain the\nstate of one of the bodies, as observed from the other. Wrapper\nfor `spkpos_c` spice function.\n",
+                    "parameters": [
+                        {
+                            "name": "target_body_name",
+                            "type": "str",
+                            "description": "Name of the body of which the state is to be obtained. A kernel\nwith the ephemeris of this body must have been loaded. The\nstring must be a spice-recognized name or ID.\n"
+                        },
+                        {
+                            "name": "observer_body_name",
+                            "type": "str",
+                            "description": "Name of the body relative to which the state is to be obtained.\nA kernel with the ephemeris of this body must have been loaded.\nThe string must be a spice-recognized name or ID.\n"
+                        },
+                        {
+                            "name": "reference_frame_name",
+                            "type": "str",
+                            "description": "The spice-recognized name of the reference frame in which the\nstate is to be returned. Spice kernel(s) required to perform\nthe necessary conversion from the states of the target and\nobserver bodies to this frame need to have been loaded.\n"
+                        },
+                        {
+                            "name": "aberration_corrections",
+                            "type": "str",
+                            "description": "Setting for correction for setting corrections. See Spice\ndocumentation for extended discussion.\nShort summary:\n\n- NONE: none\n- LT: light time corrected (one iteration for calculation)\n- CN: light time corrected (multiple iterations, max 3) for calculation,\n- S: Stellar aberration corrected.\n- XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e.\"LT+S\" or \"XCN+S\").\n"
+                        },
+                        {
+                            "name": "ephemeris_time",
+                            "type": "float",
+                            "description": "Observation time (or transmission time of observed light, see description\nof aberrationCorrections).\n"
+                        }
+                    ],
+                    "returns": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_cartesian_state_from_tle_at_epoch",
+                    "short_summary": "Get Cartesian state of a satellite from its two-line element set at a specified epoch.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function retrieves the state of a satellite at a certain epoch\nby propagating the SGP or SDP models (near-Earth resp. deep space)\nwith the given two-line elements (TLE). This function serves as a\nwrapper for the `ev2lin_` function in CSpice.\n",
+                    "parameters": [
+                        {
+                            "name": "epoch",
+                            "type": "float",
+                            "description": "Time in seconds since J2000 at which the state is to be retrieved."
+                        },
+                        {
+                            "name": "tle",
+                            "type": ":class:`~tudatpy.kernel.astro.ephemerides.Tle`",
+                            "description": "Shared pointer to a Tle object containing the SGP/SDP model parameters as derived from the element set."
+                        }
+                    ],
+                    "returns": {
+                        "name": "cartesian_state_vector",
+                        "type": "np.ndarray[6,]",
+                        "description": "Cartesian state vector (x,y,z, position+velocity)."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "compute_rotation_quaternion_between_frames",
+                    "short_summary": "Compute quaternion of rotation between two frames.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function computes the quaternion of rotation between two\nframes at a given time instant. kernels defining the two frames,\nas well as any required intermediate frames, at the requested\ntime must have been loaded. Wrapper for `pxform_c` spice function.\n",
+                    "parameters": [
+                        {
+                            "name": "original_frame",
+                            "type": null,
+                            "description": "Reference frame from which the rotation is made."
+                        },
+                        {
+                            "name": "new_frame",
+                            "type": null,
+                            "description": "Reference frame to which the rotation is made."
+                        },
+                        {
+                            "name": "ephemeris_time",
+                            "type": null,
+                            "description": "Value of ephemeris time at which rotation is to be determined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Rotation quaternion from original to new frame at given time."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "compute_rotation_matrix_derivative_between_frames",
+                    "short_summary": "Computes time derivative of rotation matrix between two frames.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function computes the derivative of the rotation matrix\nbetween two frames at a given time instant. kernels defining the\ntwo frames, as well as any required intermediate frames, at the\nrequested time must have been loaded. Wrapper for (part of) `sxform_c` spice function.\n",
+                    "parameters": [
+                        {
+                            "name": "original_frame",
+                            "type": null,
+                            "description": "Reference frame from which the rotation is made."
+                        },
+                        {
+                            "name": "new_frame",
+                            "type": null,
+                            "description": "Reference frame to which the rotation is made."
+                        },
+                        {
+                            "name": "ephemeris_time",
+                            "type": null,
+                            "description": "Value of ephemeris time at which rotation is to be determined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Time derivative of rotation matrix from original to new frame at given time."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_angular_velocity_vector_of_frame_in_original_frame",
+                    "short_summary": "Computes the angular velocity of one frame w.r.t. to another frame.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Computes the angular velocity of one frame w.r.t. to another frame.\nat a given time instant. kernels defining the two frames, as well\nas any required intermediate frames, at the requested time must\nhave been loaded. Wrapper for `xf2rav_c`_ spice function (utilizing `sxform_c`_).\n\n.. _`xf2rav_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xf2rav_c.html\n.. _`sxform_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html\n",
+                    "parameters": [
+                        {
+                            "name": "original_frame",
+                            "type": null,
+                            "description": "Reference frame from which the rotation is made."
+                        },
+                        {
+                            "name": "new_frame",
+                            "type": null,
+                            "description": "Reference frame to which the rotation is made."
+                        },
+                        {
+                            "name": "ephemeris_time",
+                            "type": null,
+                            "description": "Value of ephemeris time at which rotation is to be determined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Angular velocity of newFrame w.r.t. originalFrame, expressed in originalFrame."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_body_properties",
+                    "short_summary": "Get property of a body from Spice.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Function to retrieve a property of a body from Spice, wraps the bodvrd_c Spice function.\n",
+                    "parameters": [
+                        {
+                            "name": "body_name",
+                            "type": null,
+                            "description": "Name of the body of which the property is to be retrieved."
+                        },
+                        {
+                            "name": "property",
+                            "type": null,
+                            "description": "Name of the property that is to be retrieved. Naming conventions can be found\nin the `bodvrd_c`_ function documentation.\n\n.. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n"
+                        },
+                        {
+                            "name": "maximum_number_of_values",
+                            "type": "int",
+                            "description": "Number of values by which the property is expressed (i.e. 1 for\ngravitational parameter, 3 for tri-axial ellipsoid principal axes).\n"
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Property value(s) expressed in an STL vector of doubles."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": "Function returns values with distance unit km, not m!\n",
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_body_gravitational_parameter",
+                    "short_summary": "Get gravitational parameter of a body.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function retrieves the gravitational parameter of a body.\nWraps the `bodvrd_c`_ spice function with \"GM\" as property type.\n\n.. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "type": null,
+                            "description": "Name of the body of which the parameter is to be retrieved."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Gravitational parameter of requested body."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_average_radius",
+                    "short_summary": "Get the (arithmetic) mean of the three principal axes of the tri-axial ellipsoid shape.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Returns the (arithmetic) mean of the three principal axes of the\ntri-axial ellipsoid shape of the requested body. Uses the `bodvrd_c` spice function with \"RADII\" as property type.\n\n.. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "type": null,
+                            "description": "Name of the body of which the average radius is to be retrieved."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "Arithmetic mean of principal axes of tri-axial ellipsoid shape model of body."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "convert_body_name_to_naif_id",
+                    "short_summary": "Convert a body name to its NAIF identification number.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function converts a body name to its NAIF identification\nnumber. The NAIF id number is required for a number of spice\nfunctions, whereas the name is easily interpretable by the user.\nWrapper for the ``bods2c_c`` function.\n",
+                    "parameters": [
+                        {
+                            "name": "body_name",
+                            "type": null,
+                            "description": "Name of the body for which NAIF id is to be retrieved."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": null,
+                        "description": "NAIF id number for the body with bodyName."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "check_body_property_in_kernel_pool",
+                    "short_summary": "Check if a certain property of a body is in the kernel pool.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function checks if a certain property of a body is in the\nkernel pool. These properties are defined in PCK kernels. Their\nnames are given in the kernel file, typical names can be found in\nthe Spice documentation. Wrapper for the `bodfnd_c`_ function.\n\n.. _`bodfnd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodfnd_c.html\n",
+                    "parameters": [
+                        {
+                            "name": "body_name",
+                            "type": null,
+                            "description": "Name of the body of which the property is to be checked."
+                        },
+                        {
+                            "name": "body_property",
+                            "type": null,
+                            "description": "Name of the property of which the presence is to be checked, not case-sensitive."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "bool",
+                        "description": "True if property is in pool, false if not."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_standard_kernels",
+                    "short_summary": "Get the paths to the default legacy kernels.",
+                    "deprecation_warning": null,
+                    "extended_summary": null,
+                    "parameters": null,
+                    "returns": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "load_standard_kernels",
+                    "short_summary": "Load the default legacy kernels.",
+                    "deprecation_warning": null,
+                    "extended_summary": null,
+                    "parameters": [
+                        {
+                            "name": "kernel_paths",
+                            "type": "List[str]",
+                            "description": "Optional addition kernels to be loaded."
+                        }
+                    ],
+                    "returns": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "get_total_count_of_kernels_loaded",
+                    "short_summary": "Get the number of spice kernels currently loaded.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function returns the amount of Spice kernels that are loaded\ninto the kernel pool. The same kernel can be loaded multiple times.\nWrapper for the `ktotal_c`_ function.\n\n.. _`ktotal_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/ktotal_c.html\n",
+                    "parameters": null,
+                    "returns": {
+                        "name": "n_kernels",
+                        "type": "int",
+                        "description": "Number of spice kernels currently loaded."
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "load_kernel",
+                    "short_summary": "Loads a Spice kernel into the pool.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function loads a Spice kernel into the kernel pool, from which\nit can be used by the various internal spice routines. Matters\nregarding the manner in which Spice handles different kernels\ncontaining the same information can be found in the spice required\nreading documentation, kernel section. Wrapper for the `furnsh_c`_\nfunction.\n\n.. _`furnsh_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/furnsh_c.html\n",
+                    "parameters": [
+                        {
+                            "name": "file_path",
+                            "type": "str",
+                            "description": "Path to the spice kernel to be loaded."
+                        }
+                    ],
+                    "returns": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "clear_kernels",
+                    "short_summary": "Clear all loaded spice kernels.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This function removes all Spice kernels from the kernel pool.\nWrapper for the `kclear_c`_ function.\n\n.. _`kclear_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/kclear_c.html\n",
+                    "parameters": null,
+                    "returns": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                }
+            ],
+            "constants": null,
+            "name": "spice",
+            "version": null,
+            "convert_julian_date_to_ephemeris_time": "\nConvert a Julian date to ephemeris time (equivalent to TDB in Spice).\n\nThe following math is for documentation demonstration purposes\n\n.. math:: X(e^{j\\omega } ) = x(n)e^{ - j\\omega n}\n\n\\f$ f(x) = a + b \\f$\n\nFunction to convert a Julian date to ephemeris time, which is\nequivalent to barycentric dynamical time. A leap second kernel\nmust have been loaded to use this function.\n\n\nParameters\n----------\njulian_date : int\n    Julian date that is to be converted to ephemeris time.\n\nReturns\n-------\nephemeris_time : floatJulian date calculated from ephemeris time.\n\n",
+            "convert_ephemeris_time_to_julian_date": "\nConvert ephemeris time (equivalent to TDB) to a Julian date.\n\nFunction to convert ephemeris time, which is nearly equal to\nbarycentric dynamical time, to the Julian date. A leap second\nkernel must have been loaded to use this function.\n\n\nParameters\n----------\nephemeris_time : float\n    Ephemeris time that is to be converted to Julian date.\n\nReturns\n-------\njulian_date : floatJulian date calculated from ephemeris time.\n\n",
+            "convert_date_string_to_ephemeris_time": "\nConverts a date string to ephemeris time.\n\nFunction to convert a date string, for instance\n1988 June 13, 3:29:48 to ephemeris time, wrapper for `str2et_c`\nspice function.\n\n\nParameters\n----------\ndate_string : str\n    String representing the date. See documentation of spice\n    function `str2et_c` for details on supported formats.\n\n\nReturns\n-------\nephemeris_time : strEphemeris time corresponding to given date_string.\n\n",
+            "get_body_cartesian_state_at_epoch": "\nGet Cartesian state of a body, as observed from another body.\n\nThis function returns the state of a body, relative to another\nbody, in a frame specified by the user. Corrections for light-time\ncorrection and stellar aberration can be applied to obtain the\nstate of one of the bodies, as observed from the other. Wrapper\nfor `spkezr_c` spice function.\n\n\nParameters\n----------\ntarget_body_name : str\n    Name of the body of which the state is to be obtained. A kernel\n    with the ephemeris of this body must have been loaded. The\n    string must be a spice-recognized name or ID.\n\nobserver_body_name : str\n    Name of the body relative to which the state is to be obtained.\n    A kernel with the ephemeris of this body must have been loaded.\n    The string must be a spice-recognized name or ID.\n\nreference_frame_name : str\n    The spice-recognized name of the reference frame in which the\n    state is to be returned. Spice kernel(s) required to perform\n    the necessary conversion from the states of the target and\n    observer bodies to this frame need to have been loaded.\n\naberration_corrections : str\n    Setting for correction for setting corrections. See Spice\n    documentation for extended discussion.\n    Short summary:\n\n    - NONE: none\n    - LT: light time corrected (one iteration for calculation)\n    - CN: light time corrected (multiple iterations, max 3) for calculation\n    - S: Stellar aberration corrected.\n    - XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e.\"LT+S\" or \"XCN+S\").\n\nephemeris_time : float\n    Observation time (or transmission time of observed light, see description\n    of aberrationCorrections).\n\n\nReturns\n-------\ncartesian_state_vector : np.ndarray[6,]Cartesian state vector (x,y,z, position+velocity).\n\n",
+            "get_body_cartesian_position_at_epoch": "\nGet Cartesian position of a body, as observed from another body.\n\nThis function returns the position of a body, relative to another\nbody, in a frame specified by the user. Corrections for light-time\ncorrection and stellar aberration can be applied to obtain the\nstate of one of the bodies, as observed from the other. Wrapper\nfor `spkpos_c` spice function.\n\n\nParameters\n----------\ntarget_body_name : str\n    Name of the body of which the state is to be obtained. A kernel\n    with the ephemeris of this body must have been loaded. The\n    string must be a spice-recognized name or ID.\n\nobserver_body_name : str\n    Name of the body relative to which the state is to be obtained.\n    A kernel with the ephemeris of this body must have been loaded.\n    The string must be a spice-recognized name or ID.\n\nreference_frame_name : str\n    The spice-recognized name of the reference frame in which the\n    state is to be returned. Spice kernel(s) required to perform\n    the necessary conversion from the states of the target and\n    observer bodies to this frame need to have been loaded.\n\naberration_corrections : str\n    Setting for correction for setting corrections. See Spice\n    documentation for extended discussion.\n    Short summary:\n\n    - NONE: none\n    - LT: light time corrected (one iteration for calculation)\n    - CN: light time corrected (multiple iterations, max 3) for calculation,\n    - S: Stellar aberration corrected.\n    - XLT and XCN: can be provided to make the ephemeris time input argument the transmission time, instead of reception time. Arguments can be combined (i.e.\"LT+S\" or \"XCN+S\").\n\nephemeris_time : float\n    Observation time (or transmission time of observed light, see description\n    of aberrationCorrections).\n\n",
+            "get_cartesian_state_from_tle_at_epoch": "\nGet Cartesian state of a satellite from its two-line element set at a specified epoch.\n\nThis function retrieves the state of a satellite at a certain epoch\nby propagating the SGP or SDP models (near-Earth resp. deep space)\nwith the given two-line elements (TLE). This function serves as a\nwrapper for the `ev2lin_` function in CSpice.\n\n\nParameters\n----------\nepoch : float\n    Time in seconds since J2000 at which the state is to be retrieved.\ntle : :class:`~tudatpy.kernel.astro.ephemerides.Tle`\n    Shared pointer to a Tle object containing the SGP/SDP model parameters as derived from the element set.\n\nReturns\n-------\ncartesian_state_vector : np.ndarray[6,]Cartesian state vector (x,y,z, position+velocity).\n\n",
+            "compute_rotation_quaternion_between_frames": "\nCompute quaternion of rotation between two frames.\n\nThis function computes the quaternion of rotation between two\nframes at a given time instant. kernels defining the two frames,\nas well as any required intermediate frames, at the requested\ntime must have been loaded. Wrapper for `pxform_c` spice function.\n\n\nParameters\n----------\noriginal_frame\n    Reference frame from which the rotation is made.\nnew_frame\n    Reference frame to which the rotation is made.\nephemeris_time\n    Value of ephemeris time at which rotation is to be determined.\n\nReturns\n-------\nRotation quaternion from original to new frame at given time.\n\n",
+            "compute_rotation_matrix_derivative_between_frames": "\nComputes time derivative of rotation matrix between two frames.\n\nThis function computes the derivative of the rotation matrix\nbetween two frames at a given time instant. kernels defining the\ntwo frames, as well as any required intermediate frames, at the\nrequested time must have been loaded. Wrapper for (part of) `sxform_c` spice function.\n\n\nParameters\n----------\noriginal_frame\n    Reference frame from which the rotation is made.\nnew_frame\n    Reference frame to which the rotation is made.\nephemeris_time\n    Value of ephemeris time at which rotation is to be determined.\n\nReturns\n-------\nTime derivative of rotation matrix from original to new frame at given time.\n\n",
+            "get_angular_velocity_vector_of_frame_in_original_frame": "\nComputes the angular velocity of one frame w.r.t. to another frame.\n\nComputes the angular velocity of one frame w.r.t. to another frame.\nat a given time instant. kernels defining the two frames, as well\nas any required intermediate frames, at the requested time must\nhave been loaded. Wrapper for `xf2rav_c`_ spice function (utilizing `sxform_c`_).\n\n.. _`xf2rav_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xf2rav_c.html\n.. _`sxform_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html\n\n\nParameters\n----------\noriginal_frame\n    Reference frame from which the rotation is made.\nnew_frame\n    Reference frame to which the rotation is made.\nephemeris_time\n    Value of ephemeris time at which rotation is to be determined.\n\nReturns\n-------\nAngular velocity of newFrame w.r.t. originalFrame, expressed in originalFrame.\n\n",
+            "get_body_properties": "\nGet property of a body from Spice.\n\nFunction to retrieve a property of a body from Spice, wraps the bodvrd_c Spice function.\n\n\nParameters\n----------\nbody_name\n    Name of the body of which the property is to be retrieved.\nproperty\n    Name of the property that is to be retrieved. Naming conventions can be found\n    in the `bodvrd_c`_ function documentation.\n\n    .. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n\nmaximum_number_of_values : int\n    Number of values by which the property is expressed (i.e. 1 for\n    gravitational parameter, 3 for tri-axial ellipsoid principal axes).\n\n\nReturns\n-------\nProperty value(s) expressed in an STL vector of doubles.\n\n",
+            "get_body_gravitational_parameter": "\nGet gravitational parameter of a body.\n\nThis function retrieves the gravitational parameter of a body.\nWraps the `bodvrd_c`_ spice function with \"GM\" as property type.\n\n.. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n\n\nParameters\n----------\nbody\n    Name of the body of which the parameter is to be retrieved.\n\nReturns\n-------\nGravitational parameter of requested body.\n\n",
+            "get_average_radius": "\nGet the (arithmetic) mean of the three principal axes of the tri-axial ellipsoid shape.\n\nReturns the (arithmetic) mean of the three principal axes of the\ntri-axial ellipsoid shape of the requested body. Uses the `bodvrd_c` spice function with \"RADII\" as property type.\n\n.. _`bodvrd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html\n\n\nParameters\n----------\nbody\n    Name of the body of which the average radius is to be retrieved.\n\nReturns\n-------\nArithmetic mean of principal axes of tri-axial ellipsoid shape model of body.\n\n",
+            "convert_body_name_to_naif_id": "\nConvert a body name to its NAIF identification number.\n\nThis function converts a body name to its NAIF identification\nnumber. The NAIF id number is required for a number of spice\nfunctions, whereas the name is easily interpretable by the user.\nWrapper for the ``bods2c_c`` function.\n\n\nParameters\n----------\nbody_name\n    Name of the body for which NAIF id is to be retrieved.\n\nReturns\n-------\nNAIF id number for the body with bodyName.\n\n",
+            "check_body_property_in_kernel_pool": "\nCheck if a certain property of a body is in the kernel pool.\n\nThis function checks if a certain property of a body is in the\nkernel pool. These properties are defined in PCK kernels. Their\nnames are given in the kernel file, typical names can be found in\nthe Spice documentation. Wrapper for the `bodfnd_c`_ function.\n\n.. _`bodfnd_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodfnd_c.html\n\n\nParameters\n----------\nbody_name\n    Name of the body of which the property is to be checked.\nbody_property\n    Name of the property of which the presence is to be checked, not case-sensitive.\n\nReturns\n-------\nbool\nTrue if property is in pool, false if not.\n\n",
+            "get_standard_kernels": "\nGet the paths to the default legacy kernels.\n\n",
+            "load_standard_kernels": "\nLoad the default legacy kernels.\n\n\nParameters\n----------\nkernel_paths : List[str]\n    Optional addition kernels to be loaded.\n",
+            "get_total_count_of_kernels_loaded": "\nGet the number of spice kernels currently loaded.\n\nThis function returns the amount of Spice kernels that are loaded\ninto the kernel pool. The same kernel can be loaded multiple times.\nWrapper for the `ktotal_c`_ function.\n\n.. _`ktotal_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/ktotal_c.html\n\n\nReturns\n-------\nn_kernels : intNumber of spice kernels currently loaded.\n\n",
+            "load_kernel": "\nLoads a Spice kernel into the pool.\n\nThis function loads a Spice kernel into the kernel pool, from which\nit can be used by the various internal spice routines. Matters\nregarding the manner in which Spice handles different kernels\ncontaining the same information can be found in the spice required\nreading documentation, kernel section. Wrapper for the `furnsh_c`_\nfunction.\n\n.. _`furnsh_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/furnsh_c.html\n\n\nParameters\n----------\nfile_path : str\n    Path to the spice kernel to be loaded.\n",
+            "clear_kernels": "\nClear all loaded spice kernels.\n\nThis function removes all Spice kernels from the kernel pool.\nWrapper for the `kclear_c`_ function.\n\n.. _`kclear_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/kclear_c.html\n\n",
+            "SpiceEphemeris": {
+                "name": "SpiceEphemeris",
+                "short_summary": "Ephemeris derived class which retrieves the state of a body directly from the SPICE library.",
+                "deprecation_warning": null,
+                "extended_summary": "Ephemeris derived class which retrieves the state of a body directly from the SPICE library.\nThe body of which the ephemeris is to be retrieved, as well as the origin and orientation\nof the reference frame in which the states are returned, and any corrections that are\napplied, are defined once during object construction.\n",
+                "parameters": null,
+                "attributes": null,
+                "yields": null,
+                "other_parameters": null,
+                "raises": null,
+                "warns": null,
+                "warnings": null,
+                "see_also": null,
+                "notes": null,
+                "references": null,
+                "examples": null,
+                "methods": [
+                    {
+                        "name": "__init__",
+                        "short_summary": "Constructor.",
+                        "deprecation_warning": null,
+                        "extended_summary": "Constructor, sets the input variables for the calls to the spice function to retrieve state.",
+                        "parameters": [
+                            {
+                                "name": "target_body_name",
+                                "type": null,
+                                "description": "Name of body of which the ephemeris is to be calculated."
+                            },
+                            {
+                                "name": "observer_body_name",
+                                "type": null,
+                                "description": "Name of body relative to which the ephemeris is to be calculated."
+                            },
+                            {
+                                "name": "correct_for_stellar_aberration",
+                                "type": null,
+                                "description": "Boolean whether to correct for stellar Aberration in retrieved values of (observed state).\n"
+                            },
+                            {
+                                "name": "correct_for_light_time_aberration",
+                                "type": null,
+                                "description": "Boolean whether to correct for light time in retrieved values of (observed state).\n"
+                            },
+                            {
+                                "name": "converge_ligh_time_aberration",
+                                "type": null,
+                                "description": "Boolean whether to use single iteration or max. 3 iterations for calculating light time.\n"
+                            },
+                            {
+                                "name": "reference_frame_name",
+                                "type": null,
+                                "description": "Name of the reference frame in which the epehemeris is to be calculated.\n"
+                            },
+                            {
+                                "name": "reference_julian_day",
+                                "type": null,
+                                "description": "Reference julian day w.r.t. which ephemeris is evaluated.\n"
+                            }
+                        ],
+                        "returns": null,
+                        "yields": null,
+                        "other_parameters": null,
+                        "raises": null,
+                        "warns": null,
+                        "warnings": null,
+                        "see_also": null,
+                        "notes": null,
+                        "references": null,
+                        "examples": null
+                    },
+                    {
+                        "name": "get_cartesian_state",
+                        "short_summary": "Get Cartesian state from ephemeris.",
+                        "deprecation_warning": null,
+                        "extended_summary": " Returns Cartesian state from ephemeris at given Julian day.",
+                        "parameters": [
+                            {
+                                "name": "seconds_since_epoch",
+                                "type": "float",
+                                "description": "Seconds since epoch at which ephemeris is to be evaluated."
+                            }
+                        ],
+                        "returns": null,
+                        "yields": null,
+                        "other_parameters": null,
+                        "raises": null,
+                        "warns": null,
+                        "warnings": null,
+                        "see_also": null,
+                        "notes": null,
+                        "references": null,
+                        "examples": null
+                    }
+                ],
+                "__init__": "\nConstructor.\n\nConstructor, sets the input variables for the calls to the spice function to retrieve state.\n\nParameters\n----------\ntarget_body_name\n    Name of body of which the ephemeris is to be calculated.\nobserver_body_name\n    Name of body relative to which the ephemeris is to be calculated.\ncorrect_for_stellar_aberration\n    Boolean whether to correct for stellar Aberration in retrieved values of (observed state).\n\ncorrect_for_light_time_aberration\n    Boolean whether to correct for light time in retrieved values of (observed state).\n\nconverge_ligh_time_aberration\n    Boolean whether to use single iteration or max. 3 iterations for calculating light time.\n\nreference_frame_name\n    Name of the reference frame in which the epehemeris is to be calculated.\n\nreference_julian_day\n    Reference julian day w.r.t. which ephemeris is evaluated.\n\n",
+                "get_cartesian_state": "\nGet Cartesian state from ephemeris.\n\n Returns Cartesian state from ephemeris at given Julian day.\n\nParameters\n----------\nseconds_since_epoch : float\n    Seconds since epoch at which ephemeris is to be evaluated.\n",
+                "__docstring__": "\nEphemeris derived class which retrieves the state of a body directly from the SPICE library.\n\nEphemeris derived class which retrieves the state of a body directly from the SPICE library.\nThe body of which the ephemeris is to be retrieved, as well as the origin and orientation\nof the reference frame in which the states are returned, and any corrections that are\napplied, are defined once during object construction.\n\n"
+            }
+        }
+    },
+    "simulation": {
+        "type": "package",
+        "path": "docstrings/simulation",
+        "file": "__package__.yaml",
+        "_implicit_name": "simulation",
+        "config": null,
+        "summary": null,
+        "extended_summary": null,
+        "routine_listings": null,
+        "see_also": null,
+        "notes": null,
+        "references": null,
+        "examples": null,
+        "classes": null,
+        "functions": null,
+        "constants": null,
+        "modules": [
+            "environment_setup"
+        ],
+        "name": "simulation",
+        "version": null,
+        "environment_setup": {
+            "type": "module",
+            "path": "docstrings/simulation",
+            "file": "environment_setup.yaml",
+            "_implicit_name": "environment_setup",
+            "config": null,
+            "summary": null,
+            "extended_summary": null,
+            "routine_listings": null,
+            "see_also": null,
+            "notes": "None",
+            "references": null,
+            "examples": null,
+            "classes": [
+                {
+                    "name": "RotationModelSettings",
+                    "short_summary": "Base class for providing settings for automatic rotation model creation.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This class is a functional base class for settings of rotation models that require no information in addition to their type.\nBasic rotation model has constant orientation of the rotation axis (body-fixed z-axis) and constant rotation rate about this axis.\nRotation models requiring additional information must be created using the factory functions which create the specific object derived from this base class.\n",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "rotation_type",
+                            "type": "RotationModelType",
+                            "description": "Type of rotation model that is to be created."
+                        },
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": null
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "GravityFieldSettings",
+                    "short_summary": "Base class for providing settings for automatic gravity field model creation.",
+                    "deprecation_warning": null,
+                    "extended_summary": "This class is a functional base class for settings of gravity field models that require no information in addition to their type.\nGravity field model classes requiring additional information must be created using an object derived from this class.\n",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "gravity_field_type",
+                            "type": "GravityFieldType",
+                            "description": "Type of gravity field model that is to be created."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": [
+                        {
+                            "name": "__init__",
+                            "short_summary": null,
+                            "deprecation_warning": null,
+                            "extended_summary": null,
+                            "parameters": null,
+                            "returns": null,
+                            "yields": null,
+                            "other_parameters": null,
+                            "raises": null,
+                            "warns": null,
+                            "warnings": null,
+                            "see_also": null,
+                            "notes": null,
+                            "references": null,
+                            "examples": null
+                        }
+                    ]
+                },
+                {
+                    "name": "CentralGravityFieldSettings",
+                    "short_summary": "`GravityFieldSettings` derived class defining settings of point mass gravity field.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Derived class of `GravityFieldSettings` for central gravity fields, which are defined by a single gravitational parameter.\n",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of central gravity field."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "SphericalHarmonicsGravityFieldSettings",
+                    "short_summary": "`GravityFieldSettings` derived class defining settings of spherical harmonic gravity field representation.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Derived class of `GravityFieldSettings` for gravity fields, which are defined by a spherical harmonic gravity field representation.\n",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of gravity field."
+                        },
+                        {
+                            "name": "reference_radius",
+                            "type": "float",
+                            "description": "Reference radius of spherical harmonic field expansion."
+                        },
+                        {
+                            "name": "normalized_cosine_coefficients",
+                            "type": "numpy.ndarray",
+                            "description": "Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j."
+                        },
+                        {
+                            "name": "normalized_sine_coefficients",
+                            "type": "numpy.ndarray",
+                            "description": "Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j."
+                        },
+                        {
+                            "name": "associated_reference_frame",
+                            "type": "str",
+                            "description": "Identifier for body-fixed reference frame with which the coefficients are associated."
+                        },
+                        {
+                            "name": "create_time_dependent_field",
+                            "type": "bool",
+                            "description": "Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially)."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "EphemerisSettings",
+                    "short_summary": "Base class for providing settings for ephemeris model.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Functional (base) class for settings of ephemeris models that require no information in addition to their type (and frame origin and orientation).\nEphemeris model classes requiring additional information must be created using an object derived from this class.\n",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "ephemeris_type",
+                            "type": "EphemerisType",
+                            "description": "Type of ephemeris that is to be created."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str",
+                            "description": "Origin of frame in which ephemeris data is to be defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str",
+                            "description": "Orientation of frame in which ephemeris data is to be defined."
+                        },
+                        {
+                            "name": "make_multi_arc_ephemeris",
+                            "type": "bool",
+                            "description": "Boolean denoting whether the ephemeris that is to be created is a multi-arc ephemeris."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "ScaledEphemerisSettings",
+                    "short_summary": "Class for defining settings from scaling existing ephemeris settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for a new ephemeris created from scaling an existing ephemeris settings object. It allows the user to apply a scaling factor to the resulting Cartesian states (for instance for an uncertainty analysis).",
+                    "parameters": null,
+                    "attributes": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "DirectSpiceEphemerisSettings",
+                    "short_summary": "Class for defining settings of an ephemeris linked directly to Spice.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for ephemeris which are directly linked to Spice.",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "correct_for_stellar_aberration",
+                            "type": "bool",
+                            "description": "Boolean defining whether to correct for stellar abberations in retrieved values (of observed state)."
+                        },
+                        {
+                            "name": "correct_for_light_time_aberration",
+                            "type": "bool",
+                            "description": "Boolean defining whether to correct for light time in retrieved values (of observed state)."
+                        },
+                        {
+                            "name": "converge_light_time_aberration",
+                            "type": "bool",
+                            "description": "Boolean defining whether to use single iteration or max. 3 iterations for calculating light time correction."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "InterpolatedSpiceEphemerisSettings",
+                    "short_summary": "Class for defining settings of an ephemeris interpolated from Spice data.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`DirectSpiceEphemerisSettings` derived class for setting ephemerides to be created from interpolated Spice ephemeris data.",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "initial_time",
+                            "type": "float",
+                            "description": "Initial time from which interpolated data from Spice should be created."
+                        },
+                        {
+                            "name": "final_time",
+                            "type": "float",
+                            "description": "Final time from which interpolated data from Spice should be created."
+                        },
+                        {
+                            "name": "time_step",
+                            "type": "float",
+                            "description": "Time step setting to be used for the state interpolation."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "ApproximatePlanetPositionSettings",
+                    "short_summary": "Class for creating settings of approximate ephemeris for major planets.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximatePlanetPositions class and derived class (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "body_identifier",
+                            "type": null,
+                            "description": "Type Parameter identifying for which body an ephemeris is to be created."
+                        },
+                        {
+                            "name": "use_circular_coplanar_approximation",
+                            "type": "bool",
+                            "description": "Boolean defining whether a circular coplanar orbit of the body is to be assumed."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "ConstantEphemerisSettings",
+                    "short_summary": "Class for defining settings of constant ephemerides.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for ephemerides producing a constant (time-independent) state.",
+                    "parameters": null,
+                    "attributes": null,
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "CustomEphemerisSettings",
+                    "short_summary": "Class for defining settings of a custom ephemeris.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for ephemerides which represent an ideal Kepler orbit.",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "initial_state_in_keplerian_elements",
+                            "type": "numpy.ndarray",
+                            "description": "Kepler elements at time epochOfInitialState."
+                        },
+                        {
+                            "name": "epoch_of_initial_state",
+                            "type": "float",
+                            "description": "Time at which initialStateInKeplerianElements represents the Keplerian state."
+                        },
+                        {
+                            "name": "central_body_gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of the central body that is used in the computations."
+                        },
+                        {
+                            "name": "root_finder_absolute_tolerance",
+                            "type": "float",
+                            "description": "Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        },
+                        {
+                            "name": "root_finder_maximum_number_of_iterations",
+                            "type": "float",
+                            "description": "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                },
+                {
+                    "name": "TabulatedEphemerisSettings",
+                    "short_summary": "Class for defining settings of ephemeris to be created from tabulated data.",
+                    "deprecation_warning": null,
+                    "extended_summary": "`EphemerisSettings` derived class for ephemeris created from tabulated data. The provided data is interpolated into ephemerides.",
+                    "parameters": null,
+                    "attributes": [
+                        {
+                            "name": "body_state_history",
+                            "type": "dict",
+                            "description": "Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray)."
+                        },
+                        {
+                            "name": "use_long_double_states",
+                            "type": "bool",
+                            "description": "Boolean defining whether increased numerical precision (long double type) is to be used when creating the ephemeris."
+                        }
+                    ],
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null,
+                    "methods": null
+                }
+            ],
+            "functions": [
+                {
+                    "name": "simple",
+                    "short_summary": "Factory function for creating simple rotation model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.\nRotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix.\nRotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s).\nThis function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": "Target frame of rotation model."
+                        },
+                        {
+                            "name": "initial_orientation",
+                            "type": "numpy.ndarray",
+                            "description": "Orientation of target frame in base frame at initial time."
+                        },
+                        {
+                            "name": "initial_time",
+                            "type": "float",
+                            "description": "Initial time (reference epoch for rotation matrices)."
+                        },
+                        {
+                            "name": "rotation_rate",
+                            "type": "float",
+                            "description": "Constant rotation rate [rad/s] about rotational axis."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "simple_from_spice",
+                    "short_summary": "Factory function for creating simple rotation model settings using initial orientation and rotaton rates from Spice.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.\nNote that *only* the initial orientation and rotation rate ( at the time defined by `initial_time` ) are extracted from Spice.\nThe distinction between the two target frame inputs is the following\n\n  - the ``target_frame`` parameter is the name of frame that Tudat assigns to the body-fixed frame\n  - the ``target_frame_spice`` is the name of the frame in Spice for which the initial orientation and rotation rate are extracted.\n\n# (%!) This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": "Target frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame_spice",
+                            "type": "str",
+                            "description": "Spice reference of target frame."
+                        },
+                        {
+                            "name": "initial_time",
+                            "type": "float",
+                            "description": "Initial time (reference epoch for rotation matrices)."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "synchronous",
+                    "short_summary": "Factory function for creating synchronous rotational ephemeris settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a synchronous rotation model where rotation of a body is defined from its relative orbit w.r.t. some central body. Specifically\n- the body-fixed x-axis is *always* pointing towards the central body\n- the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of\n.. math:: \\mathbf{x} \\cross \\mathbf{v} )\n- the body-fixed y-axis completes the right-handed reference frame\n\n#(%!)Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.\n#(%!)This function creates an instance of a `RotationModelSettings` derived `SynchronousRotationModelSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "central_body_name",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": "Spice reference of target frame."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "spice",
+                    "short_summary": "Factory function for creating rotation model settings from the Spice interface.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a rotation model directly (and entirely) from Spice interface.\nThis function creates an instance of a `RotationModelSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": "Target frame of rotation model."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "gcrs_to_itrs",
+                    "short_summary": "Factory function for creating high-accuracy Earth rotation model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining high-accuracy Earth rotation model according to the IERS 2010 Conventions.\nThis settings class has various options to deviate from the default settings, typical applications will use default.\nNote that for this model the original frame must be J2000 or GCRS (in the case of the former, the frame bias between GCRS and J2000 is automatically corrected for). The target frame (e.g. body-fixed frame) name is ITRS.\n# (%!) The precession-nutation theory may be `iau_2000a`, `iau_2000b` or `iau_2006`, as implemented in the SOFA toolbox. Alternative options to modify the input (not shown above) include the EOP correction file, input time scale, short period UT1 and polar motion variations.\n# The target frame (e.g. body-fixed frame) name is ITRS.\n# This function creates an instance of a `RotationModelSettings` derived `gcrsToItrsRotationModelSettings` object.\n\n# (%!) move info to parameter description?\n",
+                    "parameters": [
+                        {
+                            "name": "precession_nutation_theory",
+                            "type": "default=tba::iau_2006",
+                            "description": "Setting theory for modelling Earth nutation.\n"
+                        },
+                        {
+                            "name": "base_frame",
+                            "type": "str, default='GCRS'",
+                            "description": "Base frame of rotation model"
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "constant",
+                    "short_summary": "Factory function for creating simple rotation model settings for target-frames with constant orientation.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix.\nThese model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation.\nThis function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "base_frame",
+                            "type": "str",
+                            "description": "Base frame of rotation model."
+                        },
+                        {
+                            "name": "target_frame",
+                            "type": "str",
+                            "description": "Target frame of rotation model."
+                        },
+                        {
+                            "name": "initial_orientation",
+                            "type": "numpy.ndarray",
+                            "description": "Orientation of target frame in base frame at initial time (constant throughout)."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "central",
+                    "short_summary": "Factory function for central gravity field settings object.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a point-mass gravity field model with user-defined gravitational parameter.\nThis function returns a `GravityFieldSettings` derived `CentralGravityFieldSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "gravitational_parameter",
+                            "type": "float",
+                            "description": null
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "central_spice",
+                    "short_summary": "Factory function to create central gravity field settings from Spice settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a point-mass gravity field model with gravitational parameter from Spice.\nThis function returns a `GravityFieldSettings` object of gravity field type ``central_spice``.\n",
+                    "parameters": [
+                        {
+                            "name": "None",
+                            "type": null,
+                            "description": null
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "spherical_harmonic",
+                    "short_summary": "Factory function for creating a spherical harmonics gravity field settings object.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a gravity field model through spherical harmonic expansion.\nThe associated reference frame must presently be the same frame ID as the target frame of the body\u2019s rotation model.\nIt represents the frame in which the spherical harmonic field is defined.\nSpherical harmonic coefficients used for this environment model must *always* be fully normalized.\nTo normalize unnormalized spherical harmonic coefficients, see `spherical_harmonics_normalization`.\nThis function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of gravity field."
+                        },
+                        {
+                            "name": "reference_radius",
+                            "type": "float",
+                            "description": "Reference radius of spherical harmonic field expansion."
+                        },
+                        {
+                            "name": "normalized_cosine_coefficients",
+                            "type": "numpy.ndarray",
+                            "description": "Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j.\nAs such, note that entry (0,0) of cosine coefficients should be equal to 1.\n"
+                        },
+                        {
+                            "name": "normalized_sine_coefficients",
+                            "type": "numpy.ndarray",
+                            "description": "Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j."
+                        },
+                        {
+                            "name": "associated_reference_frame",
+                            "type": "str",
+                            "description": "Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "spherical_harmonic_triaxial_body",
+                    "short_summary": "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid.\nThe constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.\nGravity fields from this setting object are expressed in normalized spherical harmonic coefficients.\n(%!) The x-, y- and z-axis of the ... ABC (?).\nThis function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "axis_a",
+                            "type": "float",
+                            "description": "Dimension of largest axis of triaxial ellipsoid."
+                        },
+                        {
+                            "name": "axis_b",
+                            "type": "float",
+                            "description": "Dimension of intermediate axis of triaxial ellipsoid."
+                        },
+                        {
+                            "name": "axis_c",
+                            "type": "float",
+                            "description": "Dimension of smallest axis of triaxial ellipsoid."
+                        },
+                        {
+                            "name": "density",
+                            "type": "float",
+                            "description": "Density of ellipsoid."
+                        },
+                        {
+                            "name": "maximum_degree",
+                            "type": "int",
+                            "description": "Maximum degree of spherical harmonics expansion."
+                        },
+                        {
+                            "name": "maximum_order",
+                            "type": "int",
+                            "description": "Maximum order of spherical harmonics expansion."
+                        },
+                        {
+                            "name": "associated_reference_frame",
+                            "type": "str",
+                            "description": "Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "direct_spice",
+                    "short_summary": "Factory function for creating ephemeris model settings entirely from Spice.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model directly and entirely from Spice.\nRequires an appropriate Spice kernel to be loaded.\nThis function creates an instance of an `EphemerisSettings` derived `DirectSpiceEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "body_name_to_use",
+                            "type": "str, default = \"\"",
+                            "description": "?"
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "interpolated_spice",
+                    "short_summary": "Factory function for creating ephemeris model settings using interpolated Spice data.",
+                    "deprecation_warning": null,
+                    "extended_summary": null,
+                    "parameters": [
+                        {
+                            "name": "initial_time",
+                            "type": "float",
+                            "description": "Initial time from which interpolated data from Spice should be created."
+                        },
+                        {
+                            "name": "final_time",
+                            "type": "float",
+                            "description": "Final time from which interpolated data from Spice should be created."
+                        },
+                        {
+                            "name": "time_step",
+                            "type": "float",
+                            "description": "Time step with which interpolated data from Spice should be created."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "interpolator_settings",
+                            "type": "std::make_shared< interpolators::InterpolatorSettings >, default=std::make_shared< interpolators::LagrangeInterpolatorSettings >( 6 )",
+                            "description": "Settings to be used for the state interpolation."
+                        },
+                        {
+                            "name": "body_name_to_use",
+                            "type": "str, default = \"\"",
+                            "description": "?"
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "approximate_planet_positions",
+                    "short_summary": "Factory function for creating approximate ephemeris model settings for major planets.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining approximate ephemeris model for major planets.\nIn this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).\n#(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.\nThis function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "body_name_to_use",
+                            "type": "str",
+                            "description": "String that is attempted to be matched to an identifier for the body that the ephemeris is to be created for."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "approximate_planet_positions",
+                    "short_summary": "Factory function for creating approximate ephemeris model settings for major planets.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining approximate ephemeris model for major planets.\nIn this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).\n#(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.\nThis function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "None",
+                            "type": null,
+                            "description": null
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "constant",
+                    "short_summary": "Factory function for creating constant ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model with a constant, time-independent state.\nThis function creates an instance of an `EphemerisSettings` derived `constantEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "constant_state",
+                            "type": "numpy.ndarray",
+                            "description": "Constant state that will be provided as output of the ephemeris at all times."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "custom",
+                    "short_summary": "Factory function for creating custom ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model with a custom state.\nThis allows the user to provide an custom state function as ephemeris model.\nThe state function (pointer) must be taking a time (float) as input and returning the Cartesian state (numpy.ndarray).\nThis function creates an instance of an `EphemerisSettings` derived `customEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "custom_state_function",
+                            "type": null,
+                            "description": "Function returning the state as a function of time."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "keplerian",
+                    "short_summary": "Factory function for creating Keplerian ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from the given Kepler elements.\nThese are taken as the elements at the ``initial_state_epoch`` and propagated to any other time using the provided ``central_body_gravitational_parameter``.\nSee Frame/State Transformations (`link`) for more details on orbital elements in Tudat.\nThis function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "initial_state_in_keplerian_elements",
+                            "type": "numpy.ndarray",
+                            "description": "Kepler elements at time epochOfInitialState."
+                        },
+                        {
+                            "name": "initial_state_epoch",
+                            "type": "float",
+                            "description": "Time at which initialStateInKeplerianElements represents the Keplerian state."
+                        },
+                        {
+                            "name": "central_body_gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of the central body that is used in the computations."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "root_finder_absolute_tolerance",
+                            "type": "float",
+                            "description": "Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        },
+                        {
+                            "name": "root_finder_maximum_number_of_iterations",
+                            "type": "float",
+                            "description": "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "keplerian_from_spice",
+                    "short_summary": "Factory function for creating Keplerian ephemeris model settings with initial state from Spice.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from an initial state from Spice.\nThe Kepler elements inferred from the initial state are propagated to any other time using the provided ``central_body_gravitational_parameter``.\nSee Frame/State Transformations (`link`) for more details on orbital elements in Tudat.\nThis function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "type": "str",
+                            "description": "Name of body for which to create ephemeris settings and infer initial state from Spice."
+                        },
+                        {
+                            "name": "initial_state_epoch",
+                            "type": "float",
+                            "description": "Time at which initialStateInKeplerianElements represents the Keplerian state."
+                        },
+                        {
+                            "name": "central_body_gravitational_parameter",
+                            "type": "float",
+                            "description": "Gravitational parameter of the central body that is used in the computations."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "root_finder_absolute_tolerance",
+                            "type": "float",
+                            "description": "Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        },
+                        {
+                            "name": "root_finder_maximum_number_of_iterations",
+                            "type": "float",
+                            "description": "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "scaled",
+                    "short_summary": "Factory function for creating scaled ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "unscaled_ephemeris_settings",
+                            "type": "EphemerisSettings",
+                            "description": "Sets base settings of ephemeris to be scaled."
+                        },
+                        {
+                            "name": "scaling_constant",
+                            "type": "float",
+                            "description": "Constant scaling factor to be applied to all elements of the Cartesian state."
+                        },
+                        {
+                            "name": "is_scaling_absolute",
+                            "type": "bool, default=false",
+                            "description": "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "scaled",
+                    "short_summary": "Factory function for creating scaled ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "unscaled_ephemeris_settings",
+                            "type": "EphemerisSettings",
+                            "description": "Sets base settings of ephemeris to be scaled."
+                        },
+                        {
+                            "name": "scaling_vector",
+                            "type": "numpy.ndarray",
+                            "description": "Vector containing scaling factors to be applied to each element of the Cartesian state."
+                        },
+                        {
+                            "name": "is_scaling_absolute",
+                            "type": "bool, default=false",
+                            "description": "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "scaled",
+                    "short_summary": "Factory function for creating scaled ephemeris model settings.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "unscaled_ephemeris_settings",
+                            "type": "EphemerisSettings",
+                            "description": "Sets base settings of ephemeris to be scaled."
+                        },
+                        {
+                            "name": "scaling_vector_function",
+                            "type": "function < numpy.ndarray >",
+                            "description": "Function returning a vector with the scaling factors to be applied to each element of the Cartesian state."
+                        },
+                        {
+                            "name": "is_scaling_absolute",
+                            "type": "bool, default=false",
+                            "description": "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                },
+                {
+                    "name": "tabulated",
+                    "short_summary": "Factory function for creating ephemeris model settings from tabulated data.",
+                    "deprecation_warning": null,
+                    "extended_summary": "Factory function for settings object, defining ephemeris model to be created from tabulated data.\nCurrently the data that is provided gets interpolated by a 6th order Lagrange interpolator (hardcoded).\nAt the edges of the interpolation interval a cubic spline interpolator is used to suppres the influence of Runge's phenomenon.\nThis function creates an instance of an `EphemerisSettings` derived `TabulatedEphemerisSettings` object.\n",
+                    "parameters": [
+                        {
+                            "name": "body_state_history",
+                            "type": "dict",
+                            "description": "Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray)."
+                        },
+                        {
+                            "name": "frame_origin",
+                            "type": "str, default='SSB'",
+                            "description": "Origin of frame in which ephemeris data is defined."
+                        },
+                        {
+                            "name": "frame_orientation",
+                            "type": "str, default='ECLIPJ2000'",
+                            "description": "Orientation of frame in which ephemeris data is defined."
+                        }
+                    ],
+                    "returns": {
+                        "name": null,
+                        "type": "description",
+                        "description": null
+                    },
+                    "yields": null,
+                    "other_parameters": null,
+                    "raises": null,
+                    "warns": null,
+                    "warnings": null,
+                    "see_also": null,
+                    "notes": null,
+                    "references": null,
+                    "examples": null
+                }
+            ],
+            "constants": null,
+            "name": "environment_setup",
+            "version": null,
+            "simple": "\nFactory function for creating simple rotation model settings.\n\nFactory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.\nRotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix.\nRotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s).\nThis function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.\n\n\nParameters\n----------\nbase_frame : str\n    Base frame of rotation model.\ntarget_frame : str\n    Target frame of rotation model.\ninitial_orientation : numpy.ndarray\n    Orientation of target frame in base frame at initial time.\ninitial_time : float\n    Initial time (reference epoch for rotation matrices).\nrotation_rate : float\n    Constant rotation rate [rad/s] about rotational axis.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "simple_from_spice": "\nFactory function for creating simple rotation model settings using initial orientation and rotaton rates from Spice.\n\nFactory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.\nNote that *only* the initial orientation and rotation rate ( at the time defined by `initial_time` ) are extracted from Spice.\nThe distinction between the two target frame inputs is the following\n\n  - the ``target_frame`` parameter is the name of frame that Tudat assigns to the body-fixed frame\n  - the ``target_frame_spice`` is the name of the frame in Spice for which the initial orientation and rotation rate are extracted.\n\n# (%!) This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.\n\n\nParameters\n----------\nbase_frame : str\n    Base frame of rotation model.\ntarget_frame : str\n    Target frame of rotation model.\ntarget_frame_spice : str\n    Spice reference of target frame.\ninitial_time : float\n    Initial time (reference epoch for rotation matrices).\n\nReturns\n-------\ndescription\nNone\n\n",
+            "synchronous": "\nFactory function for creating synchronous rotational ephemeris settings.\n\nFactory function for settings object, defining a synchronous rotation model where rotation of a body is defined from its relative orbit w.r.t. some central body. Specifically\n- the body-fixed x-axis is *always* pointing towards the central body\n- the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of\n.. math:: \\mathbf{x} \\cross \\mathbf{v} )\n- the body-fixed y-axis completes the right-handed reference frame\n\n#(%!)Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.\n#(%!)This function creates an instance of a `RotationModelSettings` derived `SynchronousRotationModelSettings` object.\n\n\nParameters\n----------\ncentral_body_name : str\n    Base frame of rotation model.\nbase_frame : str\n    Base frame of rotation model.\ntarget_frame : str\n    Spice reference of target frame.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "spice": "\nFactory function for creating rotation model settings from the Spice interface.\n\nFactory function for settings object, defining a rotation model directly (and entirely) from Spice interface.\nThis function creates an instance of a `RotationModelSettings` object.\n\n\nParameters\n----------\nbase_frame : str\n    Base frame of rotation model.\ntarget_frame : str\n    Target frame of rotation model.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "gcrs_to_itrs": "\nFactory function for creating high-accuracy Earth rotation model settings.\n\nFactory function for settings object, defining high-accuracy Earth rotation model according to the IERS 2010 Conventions.\nThis settings class has various options to deviate from the default settings, typical applications will use default.\nNote that for this model the original frame must be J2000 or GCRS (in the case of the former, the frame bias between GCRS and J2000 is automatically corrected for). The target frame (e.g. body-fixed frame) name is ITRS.\n# (%!) The precession-nutation theory may be `iau_2000a`, `iau_2000b` or `iau_2006`, as implemented in the SOFA toolbox. Alternative options to modify the input (not shown above) include the EOP correction file, input time scale, short period UT1 and polar motion variations.\n# The target frame (e.g. body-fixed frame) name is ITRS.\n# This function creates an instance of a `RotationModelSettings` derived `gcrsToItrsRotationModelSettings` object.\n\n# (%!) move info to parameter description?\n\n\nParameters\n----------\nprecession_nutation_theory : default=tba::iau_2006\n    Setting theory for modelling Earth nutation.\n\nbase_frame : str, default='GCRS'\n    Base frame of rotation model\n\nReturns\n-------\ndescription\nNone\n\n",
+            "constant": {
+                "overloaded": true,
+                "overloads": 2,
+                "0": "\nFactory function for creating simple rotation model settings for target-frames with constant orientation.\n\nFactory function for settings object, defining simple rotation model setting objects with constant rotation matrix.\nThese model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation.\nThis function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object.\n\n\nParameters\n----------\nbase_frame : str\n    Base frame of rotation model.\ntarget_frame : str\n    Target frame of rotation model.\ninitial_orientation : numpy.ndarray\n    Orientation of target frame in base frame at initial time (constant throughout).\n\nReturns\n-------\ndescription\nNone\n\n",
+                "1": "\nFactory function for creating constant ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model with a constant, time-independent state.\nThis function creates an instance of an `EphemerisSettings` derived `constantEphemerisSettings` object.\n\n\nParameters\n----------\nconstant_state : numpy.ndarray\n    Constant state that will be provided as output of the ephemeris at all times.\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\n\nReturns\n-------\ndescription\nNone\n\n"
+            },
+            "central": "\nFactory function for central gravity field settings object.\n\nFactory function for settings object, defining a point-mass gravity field model with user-defined gravitational parameter.\nThis function returns a `GravityFieldSettings` derived `CentralGravityFieldSettings` object.\n\n\nParameters\n----------\ngravitational_parameter : float\n    None\n\nReturns\n-------\ndescription\nNone\n\n",
+            "central_spice": "\nFactory function to create central gravity field settings from Spice settings.\n\nFactory function for settings object, defining a point-mass gravity field model with gravitational parameter from Spice.\nThis function returns a `GravityFieldSettings` object of gravity field type ``central_spice``.\n\n\nParameters\n----------\nNone\n    None\n\nReturns\n-------\ndescription\nNone\n\n",
+            "spherical_harmonic": "\nFactory function for creating a spherical harmonics gravity field settings object.\n\nFactory function for settings object, defining a gravity field model through spherical harmonic expansion.\nThe associated reference frame must presently be the same frame ID as the target frame of the body\u2019s rotation model.\nIt represents the frame in which the spherical harmonic field is defined.\nSpherical harmonic coefficients used for this environment model must *always* be fully normalized.\nTo normalize unnormalized spherical harmonic coefficients, see `spherical_harmonics_normalization`.\nThis function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.\n\n\nParameters\n----------\ngravitational_parameter : float\n    Gravitational parameter of gravity field.\nreference_radius : float\n    Reference radius of spherical harmonic field expansion.\nnormalized_cosine_coefficients : numpy.ndarray\n    Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j.\n    As such, note that entry (0,0) of cosine coefficients should be equal to 1.\n\nnormalized_sine_coefficients : numpy.ndarray\n    Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j.\nassociated_reference_frame : str\n    Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "spherical_harmonic_triaxial_body": "\nFactory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters.\n\nFactory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid.\nThe constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.\nGravity fields from this setting object are expressed in normalized spherical harmonic coefficients.\n(%!) The x-, y- and z-axis of the ... ABC (?).\nThis function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.\n\n\nParameters\n----------\naxis_a : float\n    Dimension of largest axis of triaxial ellipsoid.\naxis_b : float\n    Dimension of intermediate axis of triaxial ellipsoid.\naxis_c : float\n    Dimension of smallest axis of triaxial ellipsoid.\ndensity : float\n    Density of ellipsoid.\nmaximum_degree : int\n    Maximum degree of spherical harmonics expansion.\nmaximum_order : int\n    Maximum order of spherical harmonics expansion.\nassociated_reference_frame : str\n    Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "direct_spice": "\nFactory function for creating ephemeris model settings entirely from Spice.\n\nFactory function for settings object, defining ephemeris model directly and entirely from Spice.\nRequires an appropriate Spice kernel to be loaded.\nThis function creates an instance of an `EphemerisSettings` derived `DirectSpiceEphemerisSettings` object.\n\n\nParameters\n----------\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\nbody_name_to_use : str, default = \"\"\n    ?\n\nReturns\n-------\ndescription\nNone\n\n",
+            "interpolated_spice": "\nFactory function for creating ephemeris model settings using interpolated Spice data.\n\n\nParameters\n----------\ninitial_time : float\n    Initial time from which interpolated data from Spice should be created.\nfinal_time : float\n    Final time from which interpolated data from Spice should be created.\ntime_step : float\n    Time step with which interpolated data from Spice should be created.\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\ninterpolator_settings : std::make_shared< interpolators::InterpolatorSettings >, default=std::make_shared< interpolators::LagrangeInterpolatorSettings >( 6 )\n    Settings to be used for the state interpolation.\nbody_name_to_use : str, default = \"\"\n    ?\n\nReturns\n-------\ndescription\nNone\n\n",
+            "approximate_planet_positions": {
+                "overloaded": true,
+                "overloads": 2,
+                "0": "\nFactory function for creating approximate ephemeris model settings for major planets.\n\nFactory function for settings object, defining approximate ephemeris model for major planets.\nIn this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).\n#(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.\nThis function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.\n\n\nParameters\n----------\nbody_name_to_use : str\n    String that is attempted to be matched to an identifier for the body that the ephemeris is to be created for.\n\nReturns\n-------\ndescription\nNone\n\n",
+                "1": "\nFactory function for creating approximate ephemeris model settings for major planets.\n\nFactory function for settings object, defining approximate ephemeris model for major planets.\nIn this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).\n#(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.\nThis function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.\n\n\nParameters\n----------\nNone\n    None\n\nReturns\n-------\ndescription\nNone\n\n"
+            },
+            "custom": "\nFactory function for creating custom ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model with a custom state.\nThis allows the user to provide an custom state function as ephemeris model.\nThe state function (pointer) must be taking a time (float) as input and returning the Cartesian state (numpy.ndarray).\nThis function creates an instance of an `EphemerisSettings` derived `customEphemerisSettings` object.\n\n\nParameters\n----------\ncustom_state_function\n    Function returning the state as a function of time.\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "keplerian": "\nFactory function for creating Keplerian ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from the given Kepler elements.\nThese are taken as the elements at the ``initial_state_epoch`` and propagated to any other time using the provided ``central_body_gravitational_parameter``.\nSee Frame/State Transformations (`link`) for more details on orbital elements in Tudat.\nThis function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.\n\n\nParameters\n----------\ninitial_state_in_keplerian_elements : numpy.ndarray\n    Kepler elements at time epochOfInitialState.\ninitial_state_epoch : float\n    Time at which initialStateInKeplerianElements represents the Keplerian state.\ncentral_body_gravitational_parameter : float\n    Gravitational parameter of the central body that is used in the computations.\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\nroot_finder_absolute_tolerance : float\n    Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState.\nroot_finder_maximum_number_of_iterations : float\n    Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "keplerian_from_spice": "\nFactory function for creating Keplerian ephemeris model settings with initial state from Spice.\n\nFactory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from an initial state from Spice.\nThe Kepler elements inferred from the initial state are propagated to any other time using the provided ``central_body_gravitational_parameter``.\nSee Frame/State Transformations (`link`) for more details on orbital elements in Tudat.\nThis function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.\n\n\nParameters\n----------\nbody : str\n    Name of body for which to create ephemeris settings and infer initial state from Spice.\ninitial_state_epoch : float\n    Time at which initialStateInKeplerianElements represents the Keplerian state.\ncentral_body_gravitational_parameter : float\n    Gravitational parameter of the central body that is used in the computations.\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\nroot_finder_absolute_tolerance : float\n    Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState.\nroot_finder_maximum_number_of_iterations : float\n    Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "scaled": {
+                "overloaded": true,
+                "overloads": 3,
+                "0": "\nFactory function for creating scaled ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n\n\nParameters\n----------\nunscaled_ephemeris_settings : EphemerisSettings\n    Sets base settings of ephemeris to be scaled.\nscaling_constant : float\n    Constant scaling factor to be applied to all elements of the Cartesian state.\nis_scaling_absolute : bool, default=false\n    Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value.\n\nReturns\n-------\ndescription\nNone\n\n",
+                "1": "\nFactory function for creating scaled ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n\n\nParameters\n----------\nunscaled_ephemeris_settings : EphemerisSettings\n    Sets base settings of ephemeris to be scaled.\nscaling_vector : numpy.ndarray\n    Vector containing scaling factors to be applied to each element of the Cartesian state.\nis_scaling_absolute : bool, default=false\n    Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value.\n\nReturns\n-------\ndescription\nNone\n\n",
+                "2": "\nFactory function for creating scaled ephemeris model settings.\n\nFactory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.\nThe user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).\nThis function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.\n\n\nParameters\n----------\nunscaled_ephemeris_settings : EphemerisSettings\n    Sets base settings of ephemeris to be scaled.\nscaling_vector_function : function < numpy.ndarray >\n    Function returning a vector with the scaling factors to be applied to each element of the Cartesian state.\nis_scaling_absolute : bool, default=false\n    Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value.\n\nReturns\n-------\ndescription\nNone\n\n"
+            },
+            "tabulated": "\nFactory function for creating ephemeris model settings from tabulated data.\n\nFactory function for settings object, defining ephemeris model to be created from tabulated data.\nCurrently the data that is provided gets interpolated by a 6th order Lagrange interpolator (hardcoded).\nAt the edges of the interpolation interval a cubic spline interpolator is used to suppres the influence of Runge's phenomenon.\nThis function creates an instance of an `EphemerisSettings` derived `TabulatedEphemerisSettings` object.\n\n\nParameters\n----------\nbody_state_history : dict\n    Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray).\nframe_origin : str, default='SSB'\n    Origin of frame in which ephemeris data is defined.\nframe_orientation : str, default='ECLIPJ2000'\n    Orientation of frame in which ephemeris data is defined.\n\nReturns\n-------\ndescription\nNone\n\n",
+            "RotationModelSettings": {
+                "__docstring__": "\nBase class for providing settings for automatic rotation model creation.\n\nThis class is a functional base class for settings of rotation models that require no information in addition to their type.\nBasic rotation model has constant orientation of the rotation axis (body-fixed z-axis) and constant rotation rate about this axis.\nRotation models requiring additional information must be created using the factory functions which create the specific object derived from this base class.\n\n"
+            },
+            "GravityFieldSettings": {
+                "name": "GravityFieldSettings",
+                "short_summary": "Base class for providing settings for automatic gravity field model creation.",
+                "deprecation_warning": null,
+                "extended_summary": "This class is a functional base class for settings of gravity field models that require no information in addition to their type.\nGravity field model classes requiring additional information must be created using an object derived from this class.\n",
+                "parameters": null,
+                "attributes": [
+                    {
+                        "name": "gravity_field_type",
+                        "type": "GravityFieldType",
+                        "description": "Type of gravity field model that is to be created."
+                    }
+                ],
+                "yields": null,
+                "other_parameters": null,
+                "raises": null,
+                "warns": null,
+                "warnings": null,
+                "see_also": null,
+                "notes": null,
+                "references": null,
+                "examples": null,
+                "methods": [
+                    {
+                        "name": "__init__",
+                        "short_summary": null,
+                        "deprecation_warning": null,
+                        "extended_summary": null,
+                        "parameters": null,
+                        "returns": null,
+                        "yields": null,
+                        "other_parameters": null,
+                        "raises": null,
+                        "warns": null,
+                        "warnings": null,
+                        "see_also": null,
+                        "notes": null,
+                        "references": null,
+                        "examples": null
+                    }
+                ],
+                "__init__": "\n",
+                "__docstring__": "\nBase class for providing settings for automatic gravity field model creation.\n\nThis class is a functional base class for settings of gravity field models that require no information in addition to their type.\nGravity field model classes requiring additional information must be created using an object derived from this class.\n\n"
+            },
+            "CentralGravityFieldSettings": {
+                "__docstring__": "\n`GravityFieldSettings` derived class defining settings of point mass gravity field.\n\nDerived class of `GravityFieldSettings` for central gravity fields, which are defined by a single gravitational parameter.\n\n"
+            },
+            "SphericalHarmonicsGravityFieldSettings": {
+                "__docstring__": "\n`GravityFieldSettings` derived class defining settings of spherical harmonic gravity field representation.\n\nDerived class of `GravityFieldSettings` for gravity fields, which are defined by a spherical harmonic gravity field representation.\n\n"
+            },
+            "EphemerisSettings": {
+                "__docstring__": "\nBase class for providing settings for ephemeris model.\n\nFunctional (base) class for settings of ephemeris models that require no information in addition to their type (and frame origin and orientation).\nEphemeris model classes requiring additional information must be created using an object derived from this class.\n\n"
+            },
+            "ScaledEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings from scaling existing ephemeris settings.\n\n`EphemerisSettings` derived class for a new ephemeris created from scaling an existing ephemeris settings object. It allows the user to apply a scaling factor to the resulting Cartesian states (for instance for an uncertainty analysis).\n"
+            },
+            "DirectSpiceEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings of an ephemeris linked directly to Spice.\n\n`EphemerisSettings` derived class for ephemeris which are directly linked to Spice.\n"
+            },
+            "InterpolatedSpiceEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings of an ephemeris interpolated from Spice data.\n\n`DirectSpiceEphemerisSettings` derived class for setting ephemerides to be created from interpolated Spice ephemeris data.\n"
+            },
+            "ApproximatePlanetPositionSettings": {
+                "__docstring__": "\nClass for creating settings of approximate ephemeris for major planets.\n\n`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximatePlanetPositions class and derived class (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).\n"
+            },
+            "ConstantEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings of constant ephemerides.\n\n`EphemerisSettings` derived class for ephemerides producing a constant (time-independent) state.\n"
+            },
+            "CustomEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings of a custom ephemeris.\n\n`EphemerisSettings` derived class for ephemerides which represent an ideal Kepler orbit.\n"
+            },
+            "TabulatedEphemerisSettings": {
+                "__docstring__": "\nClass for defining settings of ephemeris to be created from tabulated data.\n\n`EphemerisSettings` derived class for ephemeris created from tabulated data. The provided data is interpolated into ephemerides.\n"
+            }
+        }
+    },
+    "plotting": {
+        "type": "module",
+        "path": "docstrings",
+        "file": "plotting.yaml",
+        "_implicit_name": "plotting",
+        "config": null,
+        "summary": null,
+        "extended_summary": null,
+        "routine_listings": null,
+        "see_also": null,
+        "notes": null,
+        "references": null,
+        "examples": null,
+        "classes": null,
+        "functions": [
+            {
+                "name": "plot_blue_marble_ground_track",
+                "short_summary": null,
+                "deprecation_warning": null,
+                "extended_summary": null,
+                "parameters": null,
+                "returns": null,
+                "yields": null,
+                "other_parameters": null,
+                "raises": null,
+                "warns": null,
+                "warnings": null,
+                "see_also": null,
+                "notes": null,
+                "references": null,
+                "examples": null
+            },
+            {
+                "name": "plot_miller_ground_track",
+                "short_summary": null,
+                "deprecation_warning": null,
+                "extended_summary": null,
+                "parameters": null,
+                "returns": null,
+                "yields": null,
+                "other_parameters": null,
+                "raises": null,
+                "warns": null,
+                "warnings": null,
+                "see_also": null,
+                "notes": null,
+                "references": null,
+                "examples": null
+            }
+        ],
+        "constants": null,
+        "name": "plotting",
+        "version": null,
+        "plot_blue_marble_ground_track": "\n",
+        "plot_miller_ground_track": "\n"
+    },
+    "cli": {
+        "type": "module",
+        "path": "docstrings",
+        "file": "cli.yaml",
+        "_implicit_name": "cli",
+        "config": null,
+        "summary": null,
+        "extended_summary": null,
+        "routine_listings": null,
+        "see_also": null,
+        "notes": null,
+        "references": null,
+        "examples": null,
+        "classes": null,
+        "functions": null,
+        "constants": null,
+        "name": "cli",
+        "version": null
+    },
+    "util": {
+        "type": "module",
+        "path": "docstrings",
+        "file": "util.yaml",
+        "_implicit_name": "util",
+        "config": null,
+        "summary": null,
+        "extended_summary": null,
+        "routine_listings": null,
+        "see_also": null,
+        "notes": null,
+        "references": null,
+        "examples": null,
+        "classes": null,
+        "functions": [
+            {
+                "name": "result2array",
+                "short_summary": null,
+                "deprecation_warning": null,
+                "extended_summary": null,
+                "parameters": null,
+                "returns": null,
+                "yields": null,
+                "other_parameters": null,
+                "raises": null,
+                "warns": null,
+                "warnings": null,
+                "see_also": null,
+                "notes": null,
+                "references": null,
+                "examples": null
+            }
+        ],
+        "constants": null,
+        "name": "util",
+        "version": null,
+        "result2array": "\n"
+    }
+}
