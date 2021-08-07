@@ -1,0 +1,26 @@
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+################## Rotation Model Setup ( createRotationalModel.h ) ###################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# enums
+#      py::enum_<tss::RotationModelType>
+#      py::enum_<tba::IAUConventions>
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+################## Gravity Field Setup ( createGravityField.h ) #######################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# enums
+#       py::enum_<tss::GravityFieldType>
+#       py::enum_<tss::SphericalHarmonicsModel>
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+############# Ephemeris Models ( approximatePlanetPositionsBase.h, createEphemeris.h ) ################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# enums
+#    py::enum_<te::ApproximatePlanetPositionsBase::BodiesWithEphemerisData>
+
