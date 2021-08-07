@@ -180,7 +180,7 @@ classes:
 
     attributes:
     - name: propagator_settings_per_type # [py]
-      type: std::map<IntegratedStateType, std::vector<SingleArcPropagatorSettings>>
+      type: Dict[IntegratedStateType, List[SingleArcPropagatorSettings]] # [py]
 
     methods:
       - name: ctor
