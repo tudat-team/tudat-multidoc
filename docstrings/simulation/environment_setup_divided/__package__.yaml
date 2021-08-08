@@ -1,6 +1,0 @@
-description: "None."
-
-modules:
-  - ephemeris_setup
-  - gravity_field_setup
-  - rotation_model_setup
