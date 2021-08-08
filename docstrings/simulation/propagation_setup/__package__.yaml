@@ -1,9 +1,9 @@
 description: "None."
 
 modules:
-  - acceleration_setup
-  - dependent_variable_setup
-  - integrator_setup
-  - mass_rate_setup
-  - propagator_setup
-  - torque_setup
+  - acceleration
+  - dependent_variable
+  - integrator
+  - mass_rate
+  - propagator
+  - torque
