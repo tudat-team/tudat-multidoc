@@ -5,6 +5,6 @@ config:
 modules:
   - interface
   - simulation
-  - plotting      # [py]
-  - cli           # [py]
-  - util          # [py]
+#  - plotting      # [py]
+#  - cli           # [py]
+#  - util          # [py]
