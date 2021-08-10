@@ -100,7 +100,7 @@ classes:
 
 
   # derived (5)
-  - name: customAccelerationSettings
+  - name: CustomAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for custom acceleration."
     extendend_summary: |
       Class to provide settings for custom accelerations. This is done by means of a function and, if necessary,
@@ -1043,12 +1043,12 @@ functions:
   - name: customThrustOrientationSettings # [cpp]
     short_summary: "Create custom thrust orientation settings, expressed as a quaternion." # [cpp]
     extended_summary: | # [cpp]
-      Factory function that creates custom thrust orientation settings, expressed through a quaternion.
-      As an alternative expression for generalized thrust direction guidance, the thrust orientation can be defined as
-      an arbitrary function of time. As with the custom thrust direction, this allows a broad range of options to be
-      defined, at the expense of increased complexity (somehow the thrust orientation needs to be manually defined).
-      The thrust orientation is provided through a unit quaternion representing the rotation
-      from body-fixed thrust direction to the inertial thrust direction.
+      Factory function that creates custom thrust orientation settings, expressed through a quaternion. # [cpp]
+      As an alternative expression for generalized thrust direction guidance, the thrust orientation can be defined as # [cpp]
+      an arbitrary function of time. As with the custom thrust direction, this allows a broad range of options to be # [cpp]
+      defined, at the expense of increased complexity (somehow the thrust orientation needs to be manually defined). # [cpp]
+      The thrust orientation is provided through a unit quaternion representing the rotation # [cpp]
+      from body-fixed thrust direction to the inertial thrust direction. # [cpp]
 
 
     parameters:
@@ -1058,7 +1058,7 @@ functions:
 
     returns:
       - type: CustomThrustOrientationSettings # [cpp]
-        description: Custom thrust orientation settings object. t# [cpp]
+        description: Custom thrust orientation settings object. # [cpp]
 
 
   # Custom thrust orientation (overload 2)
@@ -1240,19 +1240,19 @@ functions:
       - name: isEngineOnFunction # [cpp]
         type: std::function<bool(double)>, default=[](double){return true;} # [cpp]
       - name: is_engine_on_function # [py]
-        type: Callable[[float], bool], default=lambda t: true  # [py]
+        type: "Callable[[float], bool], default=lambda t: true"  # [py]
         description: Function of time returning a boolean, denoting  whether the thrust should be engaged at all (e.g. thrust is 0 N if it returns false). It is useful to link the mass propagation to the thrust model.
 
       - name: bodyFixedThrustDirection # [cpp]
         type: std::function<Eigen::Vector3d()>, , default=[](){return Eigen::Vector3d::UnitX();} # [cpp] # [cpp]
       - name: body_fixed_thrust_direction # [py]
-      - name: Callable[[], numpy.ndarray], default=lambda t: numpy.ndarray([]) # [py]
+      - name: "Callable[[], numpy.ndarray], default=lambda t: numpy.ndarray([])" # [py]
         description: Constant body-fixed thrust direction (positive x-direction by default). Note that this function should be a unit-vector representing the direction opposite to the nozzle direction. This setting can be used to incorporate thrust-vector control (TVC) into the thrust.
 
       - name: customThrustResetFunction # [cpp]
         type: std::function<void(const double)>, default=std::function<void(const double)>() # [cpp]
       - name: custom_thrust_reset_function # [py]
-        type: Callable[[float], ], default=lambda t: None # [py]
+        type: "Callable[[float], ], default=lambda t: None" # [py]
         description: Function of time that updates any relevant aspects of the environment/system models, called before retrieving the thrust magnitude, specific impulse, and body-fixed thrust direction.
 
     returns:
