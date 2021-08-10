@@ -43,7 +43,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: RotationModelType # [cpp]
+            type: RotationModelType # [cpp]
             description: Type of rotation model that is to be created. # [cpp]
 
       - name: getOriginalFrame # [cpp]
@@ -52,7 +52,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Base frame of rotation model. # [cpp]
 
       - name: getTargetFrame # [cpp]
@@ -61,7 +61,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Target frame of rotation model. # [cpp]
 
       - name: resetOriginalFrame # [cpp]
@@ -121,7 +121,7 @@ functions:
         description: Constant rotation rate [rad/s] about rotational axis. # [cpp]
 
     returns: # [cpp]
-      - type: SimpleRotationModelSettings # [cpp]
+        type: SimpleRotationModelSettings # [cpp]
         description: Simple rotation model settings object (derived from `RotationModelSettings` base class). # [cpp]
 
 
@@ -166,7 +166,7 @@ functions:
         description: Constant rotation rate [rad/s] about rotational axis.
 
     returns:
-      - type: SimpleRotationModelSettings
+        type: SimpleRotationModelSettings
         description: Simple rotation model settings object (derived from `RotationModelSettings` base class).
 
 
@@ -209,7 +209,7 @@ functions:
         description: Initial time (reference epoch for rotation matrices).
 
     returns:
-      - type: SimpleRotationModelSettings
+        type: SimpleRotationModelSettings
         description: Simple rotation model settings object (derived from RotationModelSettings base class) with target frame info inferred from Spice.
 
 
@@ -247,7 +247,7 @@ functions:
 
 
     returns:
-      - type: SynchronousRotationModelSettings
+        type: SynchronousRotationModelSettings
         description: Synchonous rotation model settings object (derived from RotationModelSettings base class).
 
 
@@ -272,7 +272,7 @@ functions:
         description: Target frame of rotation model.
 
     returns:
-      - type: RotationModelSettings
+        type: RotationModelSettings
         description: Rotation model settings object inferred from Spice rotational model.
 
 
@@ -302,7 +302,7 @@ functions:
         description: Base frame of rotation model
 
     returns:
-      - type: GcrsToItrsRotationModelSettings
+        type: GcrsToItrsRotationModelSettings
         description: High-accuracy Earth rotation model settings object (derived from RotationModelSettings base class).
 
 
@@ -328,7 +328,7 @@ functions:
         description: Orientation of target frame in base frame at initial time (constant throughout). # [cpp]
 
     returns: # [cpp]
-      - type: SimpleRotationModelSettings # [cpp]
+        type: SimpleRotationModelSettings # [cpp]
         description: Simple rotation model settings object (derived from RotationModelSettings base class) with constant orientation of target in base frame. # [cpp]
 
 
@@ -361,7 +361,7 @@ functions:
         description: Orientation of target frame in base frame at initial time (constant throughout).
 
     returns:
-      - type: SimpleRotationModelSettings
+        type: SimpleRotationModelSettings
         description: Simple rotation model settings object (derived from RotationModelSettings base class) with constant orientation of target in base frame.
 
 

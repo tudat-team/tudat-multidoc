@@ -122,7 +122,7 @@ functions:
         description: Whether the propagation termination conditions should be evaluated during the intermediate sub-steps of the integrator (true) or only at the end of each integration step (false).
 
     returns:
-      - type: IntegratorSettings
+        type: IntegratorSettings
         description: Integrator settings object.
 
 
@@ -160,7 +160,7 @@ functions:
         description: Whether the propagation termination conditions should be evaluated during the intermediate sub-steps of the integrator (true) or only at the end of each integration step (false).
 
     returns:
-      - type: IntegratorSettings
+        type: IntegratorSettings
         description: Integrator settings object.
 
 
@@ -223,7 +223,7 @@ functions:
         description: Minimum increase between consecutive time steps, expressed as the factor between new and old step size. # [cpp]
 
     returns: # [cpp]
-      - type: RungeKuttaVariableStepSizeSettingsScalarTolerances # [cpp]
+        type: RungeKuttaVariableStepSizeSettingsScalarTolerances # [cpp]
         description: RungeKuttaVariableStepSizeSettingsScalarTolerances object. # [cpp]
 
 
@@ -286,7 +286,7 @@ functions:
         description: Minimum increase between consecutive time steps, expressed as the factor between new and old step size. # [cpp]
 
     returns: # [cpp]
-      - type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [cpp]
+        type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [cpp]
         description: RungeKuttaVariableStepSizeSettingsVectorTolerances object. # [cpp]
 
 
@@ -349,7 +349,7 @@ functions:
         description: Minimum increase between consecutive time steps, expressed as the factor between new and old step size. # [py]
 
     returns: # [py]
-      - type: RungeKuttaVariableStepSizeSettingsScalarTolerances or RungeKuttaVariableStepSizeSettingsVectorTolerances # [py]
+        type: RungeKuttaVariableStepSizeSettingsScalarTolerances or RungeKuttaVariableStepSizeSettingsVectorTolerances # [py]
         description: RungeKuttaVariableStepSizeSettingsScalarTolerances or RungeKuttaVariableStepSizeSettingsVectorTolerances object. # [py]
 
 
@@ -443,7 +443,7 @@ functions:
         description: Minimum increase between consecutive time steps, expressed as the factor between new and old step size.
 
     returns:
-      - type: BulirschStoerIntegratorSettings
+        type: BulirschStoerIntegratorSettings
         description: BulirschStoerIntegratorSettings object.
 
 
@@ -525,5 +525,5 @@ functions:
         description: Maximum error factor for doubling the stepsize.
 
     returns:
-      - type: AdamsBashforthMoultonSettings
+        type: AdamsBashforthMoultonSettings
         description: AdamsBashforthMoultonSettings object.

@@ -397,7 +397,7 @@ functions:
       gravity field model defined.
 
     returns:
-      - type: AccelerationSettings
+        type: AccelerationSettings
         description: Acceleration settings object.
 
 
@@ -410,7 +410,7 @@ functions:
       atmosphere defined.
 
     returns:
-      - type: AccelerationSettings
+        type: AccelerationSettings
         description: Acceleration settings object.
 
 
@@ -425,7 +425,7 @@ functions:
       radiation needs to have radiative properties defined (the Sun has default ones).
 
     returns:
-      - type: AccelerationSettings
+        type: AccelerationSettings
         description: Acceleration settings object.
 
 
@@ -452,7 +452,7 @@ functions:
         description: Maximum order of the spherical harmonic expansion.
 
     returns:
-      - type: SphericalHarmonicAccelerationSettings
+        type: SphericalHarmonicAccelerationSettings
         description: Spherical harmonic acceleration settings object.
 
 
@@ -505,7 +505,7 @@ functions:
         description: Maximum order of the spherical harmonic expansion for the central body, if needed.
 
     returns:
-      - type: MutualSphericalHarmonicAccelerationSettings
+        type: MutualSphericalHarmonicAccelerationSettings
         description: Spherical harmonic acceleration settings object.
 
 
@@ -552,7 +552,7 @@ functions:
         description: Maximum degree of the spherical harmonic expansion for the central body, if needed.
 
     returns:
-      - type: RelativisticAccelerationCorrectionSettings
+        type: RelativisticAccelerationCorrectionSettings
         description: Relativistic acceleration correction settings object.
 
 
@@ -587,7 +587,7 @@ functions:
         description: Cosine term (function of the true anomaly), defined in the RSW frame..
 
     returns:
-      - type: EmpiricalAccelerationSettings
+        type: EmpiricalAccelerationSettings
         description: Empirical acceleration settings object.
 
 
@@ -616,7 +616,7 @@ functions:
         description: Scaling function with time as an independent variable to be multiplied by the custom acceleration function.
 
     returns:
-      - type: CustomAccelerationSettings
+        type: CustomAccelerationSettings
         description: Custom acceleration settings object.
 
 
@@ -658,7 +658,7 @@ functions:
         description: It denotes whether the tide raised on the planet is to be modelled (if true) or the tide raised on the satellite (if false).
 
     returns:
-      - type: DirectTidalDissipationAccelerationSettings
+        type: DirectTidalDissipationAccelerationSettings
         description: Direct tidal dissipation acceleration settings object.
 
   # Momentum wheel desaturation
@@ -702,7 +702,7 @@ functions:
         description: Time taken by the acceleration to go from zero to its maximum level.
 
     returns:
-      - type: MomentumWheelDesaturationAccelerationSettings
+        type: MomentumWheelDesaturationAccelerationSettings
         description: Momentum wheel desaturation acceleration settings object.
 
 
@@ -728,7 +728,7 @@ functions:
         description: Thrust magnitude settings object.
 
     returns:
-      - type: ThrustAccelerationSettings
+        type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
 
 
@@ -767,7 +767,7 @@ functions:
         description: Central body that is the origin of the thrust frame (if different from the vehicle, otherwise empty by default).
 
     returns:
-      - type: ThrustAccelerationSettings
+        type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
 
 
@@ -807,7 +807,7 @@ functions:
         description: Central body that is the origin of the thrust frame (if different from the vehicle, otherwise empty by default).
 
     returns:
-      - type: ThrustAccelerationSettings
+        type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
 
 
@@ -842,8 +842,8 @@ functions:
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
-#      - type: Eigen::Vector3d # [cpp]
-#      - type: numpy.ndarray # [py]
+#        type: Eigen::Vector3d # [cpp]
+#        type: numpy.ndarray # [py]
 #        description: Net thrust direction vector.
 #
 #
@@ -869,8 +869,8 @@ functions:
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
-#      - type: Eigen::Vector3d # [cpp]
-#      - type: numpy.ndarray # [py]
+#        type: Eigen::Vector3d # [cpp]
+#        type: numpy.ndarray # [py]
 #        description: Net thrust direction vector.
 #
 #
@@ -896,8 +896,8 @@ functions:
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
-#      - type: Eigen::Vector3d # [cpp]
-#      - type: numpy.ndarray # [py]
+#        type: Eigen::Vector3d # [cpp]
+#        type: numpy.ndarray # [py]
 #        description: Net thrust direction vector.
 #
 #
@@ -1020,7 +1020,7 @@ functions:
         description: Whether the thrust is pointing towards the thrusting body (true) or the central body (false).
 
     returns:
-      - type: ThrustDirectionFromStateGuidanceSettings
+        type: ThrustDirectionFromStateGuidanceSettings
         description: Thrust direction from state guidance settings object.
 
 
@@ -1035,7 +1035,7 @@ functions:
       body-fixed thrust direction (defined in ThrustMagnitudeSettings) and the existing vehicle orientation.
 
     returns:
-      - type: ThrustDirectionSettings
+        type: ThrustDirectionSettings
         description: Thrust direction settings object.
 
 
@@ -1057,7 +1057,7 @@ functions:
         description: Function of time returning the quaternion representing the rotation between the thrust direction in the body-fixed frame to the inertial frame. # [cpp]
 
     returns:
-      - type: CustomThrustOrientationSettings # [cpp]
+        type: CustomThrustOrientationSettings # [cpp]
         description: Custom thrust orientation settings object. # [cpp]
 
 
@@ -1081,7 +1081,7 @@ functions:
         description: Function of time returning the matrix representing the rotation between the thrust direction in the body-fixed frame to the inertial frame.
 
     returns:
-      - type: CustomThrustOrientationSettings
+        type: CustomThrustOrientationSettings
         description: Custom thrust orientation settings object.
 
 
@@ -1103,7 +1103,7 @@ functions:
         description: Function of time returning the thrust direction in the inertial frame.
 
     returns:
-      - type: CustomThrustDirectionSettings
+        type: CustomThrustDirectionSettings
         description: Custom thrust direction settings object.
 
 
@@ -1137,7 +1137,7 @@ functions:
         description: Interpolator object returning the five costates with time as an independent variable.
 
     returns:
-      - type: MeeCostateBasedThrustDirectionSettings
+        type: MeeCostateBasedThrustDirectionSettings
         description: Modified Equinoctial Elements costate-based thrust direction settings object.
 
 
@@ -1171,7 +1171,7 @@ functions:
         description: Set of five constant costates.
 
     returns:
-      - type: MeeCostateBasedThrustDirectionSettings
+        type: MeeCostateBasedThrustDirectionSettings
         description: Modified Equinoctial Elements costate-based thrust direction settings object.
 
   # Factory functions: thrust magnitude
@@ -1205,7 +1205,7 @@ functions:
         description: Constant body-fixed thrust direction (positive x-direction by default). Note that this should be a unit-vector representing the direction opposite to the nozzle direction.
 
     returns:
-      - type: ConstantThrustMagnitudeSettings
+        type: ConstantThrustMagnitudeSettings
         description: Constant thrust magnitude settings object.
 
 
@@ -1256,5 +1256,5 @@ functions:
         description: Function of time that updates any relevant aspects of the environment/system models, called before retrieving the thrust magnitude, specific impulse, and body-fixed thrust direction.
 
     returns:
-      - type: FromFunctionThrustMagnitudeSettings
+        type: FromFunctionThrustMagnitudeSettings
         description: From function thrust magnitude settings object.

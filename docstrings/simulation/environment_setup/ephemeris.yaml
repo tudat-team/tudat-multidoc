@@ -178,7 +178,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: Boolean defining whether to correct for stellar abberations in retrieved values (of observed state). # [cpp]
 
       - name: getCorrectForLightTimeAberration # [cpp]
@@ -188,7 +188,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: Boolean defining whether to correct for light time abberations in retrieved values (of observed state). # [cpp]
 
       - name: getConvergeLighTimeAberration # [cpp]
@@ -198,7 +198,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: Boolean defining whether to use single iteration or max. 3 iterations for calculating light time. # [cpp]
 
 
@@ -235,7 +235,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Initial time from which interpolated data from Spice should be created." # [cpp]
 
       - name: getFinalTime # [cpp]
@@ -244,7 +244,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Final time from which interpolated data from Spice should be created." # [cpp]
 
       - name: getTimeStep # [cpp]
@@ -253,7 +253,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Time step setting to be used for the state interpolation." # [cpp]
 
 
@@ -285,7 +285,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: ephemerides::ApproximatePlanetPositionsBase::BodiesWithEphemerisData # [cpp]
+            type: ephemerides::ApproximatePlanetPositionsBase::BodiesWithEphemerisData # [cpp]
             description: "Type Parameter identifying for which body an ephemeris is to be created." # [cpp]
 
       - name: getUseCircularCoplanarApproximation # [cpp]
@@ -295,7 +295,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: "Boolean defining whether a circular coplanar orbit of the body is to be assumed." # [cpp]
 
 
@@ -318,7 +318,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: Eigen::Vector6d # [cpp]
+            type: Eigen::Vector6d # [cpp]
             description: "Constant (time-independent) state that defines the ephemeris to be created." # [cpp]
 
 
@@ -346,7 +346,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::function< Eigen::Vector6d > # [cpp]
+            type: std::function< Eigen::Vector6d > # [cpp]
             description: "Function returning the state as a function of time." # [cpp]
 
 
@@ -387,7 +387,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: Eigen::Vector6d # [cpp]
+            type: Eigen::Vector6d # [cpp]
             description: "Kepler elements at time epochOfInitialState." # [cpp]
 
       - name: getEpochOfInitialState # [cpp]
@@ -396,7 +396,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Time at which initialStateInKeplerianElements represents the Keplerian state." # [cpp]
 
       - name: getCentralBodyGravitationalParameter # [cpp]
@@ -405,7 +405,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Gravitational parameter of the central body that is used in the computations." # [cpp]
 
       - name: getRootFinderAbsoluteTolerance # [cpp]
@@ -414,7 +414,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState." # [cpp]
 
       - name: getRootFinderMaximumNumberOfIterations # [cpp]
@@ -423,7 +423,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState." # [cpp]
 
 
@@ -453,7 +453,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::map< double, Eigen::Vector6d > # [cpp]
+            type: std::map< double, Eigen::Vector6d > # [cpp]
             description: Data map defining discrete data from which an ephemeris is to be created. # [cpp]
 
       - name: setUseLongDoubleStates # [cpp]
@@ -501,7 +501,7 @@ functions:
         description: "Boolean whether to use single iteration or max. 3 iterations for calculating light time." # [cpp]
 
     returns: # [cpp]
-      - type: DirectSpiceEphemerisSettings # [cpp]
+        type: DirectSpiceEphemerisSettings # [cpp]
         description: # [cpp]
 
   - name: direct_spice # [py]
@@ -532,9 +532,9 @@ functions:
         description: "?"
 
     returns:
-      - type: DirectSpiceEphemerisSettings  # [py]
+        type: DirectSpiceEphemerisSettings  # [py]
         description: # [py]
-      - type: DirectSpiceEphemerisSettings  # [cpp]
+        type: DirectSpiceEphemerisSettings  # [cpp]
         description: # [cpp]
 
 
@@ -595,10 +595,10 @@ functions:
         description: "?"
 
     returns:
-      - type: InterpolatedSpiceEphemerisSettings # [py]
-        description: # [py]
-      - type: InterpolatedSpiceEphemerisSettings # [cpp]
-        description: # [cpp]
+      type: InterpolatedSpiceEphemerisSettings # [py]
+      description: # [py]
+      type: InterpolatedSpiceEphemerisSettings # [cpp]
+      description: # [cpp]
 
 
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
@@ -623,7 +623,7 @@ functions:
       #    Boolean defining whether a circular, coplanar orbit of the body is to be assumed, or whether a non-zero inclination and long-period changes in the orbit are to be included.
 
     returns: # [cpp]
-      - type: ApproximatePlanetPositionSettings # [cpp]
+        type: ApproximatePlanetPositionSettings # [cpp]
         description: # [cpp]
 
 
@@ -644,7 +644,7 @@ functions:
         description: "String that is attempted to be matched to an identifier for the body that the ephemeris is to be created for."
 
     returns:
-      - type: ApproximatePlanetPositionSettings
+        type: ApproximatePlanetPositionSettings
         description:
 
 
@@ -660,7 +660,7 @@ functions:
       - name: None
 
     returns:
-      - type: ApproximatePlanetPositionSettings
+        type: ApproximatePlanetPositionSettings
         description:
 
 
@@ -691,7 +691,7 @@ functions:
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
-      - type: ConstantEphemerisSettings
+        type: ConstantEphemerisSettings
         description: ""
 
 
@@ -724,7 +724,7 @@ functions:
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
-      - type: CustomEphemerisSettings
+        type: CustomEphemerisSettings
         description: ""
 
   - name: keplerian # [py]
@@ -780,7 +780,7 @@ functions:
         description: "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
 
     returns:
-      - type: KeplerEphemerisSettings
+        type: KeplerEphemerisSettings
         description: ""
 
 
@@ -837,7 +837,7 @@ functions:
         description: "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState."
 
     returns:
-      - type: KeplerEphemerisSettings
+        type: KeplerEphemerisSettings
         description: ""
 
 
@@ -869,7 +869,7 @@ functions:
         description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
 
     returns:
-      - type: ScaledEphemerisSettings
+        type: ScaledEphemerisSettings
         description: ""
 
 
@@ -901,7 +901,7 @@ functions:
         description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
 
     returns:
-      - type: ScaledEphemerisSettings
+        type: ScaledEphemerisSettings
         description: ""
 
   - name: scaled # [py]
@@ -932,7 +932,7 @@ functions:
         description: "Boolean indicating whether ephemeris scaling is absolute. Setting this boolean to true will add the scaling value to the state, instead of the default behaviour of multiplying the state by the scaling value."
 
     returns:
-      - type: ScaledEphemerisSettings
+        type: ScaledEphemerisSettings
         description: ""
 
   - name: tabulated # [py]
@@ -965,5 +965,5 @@ functions:
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
-      - type: TabulatedEphemerisSettings
+        type: TabulatedEphemerisSettings
         description: ""

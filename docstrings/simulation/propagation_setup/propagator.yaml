@@ -336,7 +336,7 @@ functions:
 
     returns:
         type: Eigen::Matrix # [cpp]
-      - type: numpy.ndarray # [py]
+        type: numpy.ndarray # [py]
         description: Vector of initial states, sorted in order of IntegratedStateType, and then in the order of the vector of SingleArcPropagatorSettings of given type.
 
 
@@ -404,7 +404,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -538,7 +538,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -605,7 +605,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -672,7 +672,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -739,7 +739,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -806,7 +806,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: TranslationalStatePropagatorSettings
+        type: TranslationalStatePropagatorSettings
         description: Translational state propagator settings object.
 
 
@@ -867,7 +867,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: RotationalStatePropagatorSettings
+        type: RotationalStatePropagatorSettings
         description: Rotational state propagator settings object.
 
 
@@ -928,7 +928,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: RotationalStatePropagatorSettings
+        type: RotationalStatePropagatorSettings
         description: Rotational state propagator settings object.
 
 
@@ -981,7 +981,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1035,7 +1035,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1088,7 +1088,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1141,7 +1141,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1194,7 +1194,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1234,7 +1234,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1274,7 +1274,7 @@ functions:
         description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
     returns:
-      - type: MassPropagatorSettings
+        type: MassPropagatorSettings
         description: Mass propagator settings object.
 
 
@@ -1300,7 +1300,7 @@ functions:
         description: It denotes whether whether the initial state of arc N+1 is to be taken from arc N (for N>0).
 
     returns:
-      - type: MultiArcPropagatorSettings
+        type: MultiArcPropagatorSettings
         description: Multi-arc propagator settings object.
 
   # Hybrid arc propagator
@@ -1324,7 +1324,7 @@ functions:
         description: MultiArcPropagatorSettings object to use for the propagation.
 
     returns:
-      - type: HybridArcPropagatorSettings
+        type: HybridArcPropagatorSettings
         description: Hybrid-arc propagator settings object.
 
 
@@ -1350,7 +1350,7 @@ functions:
         description: Denotes whether the propagation is to terminate exactly on the final condition, or whether it is to terminate on the first step where it is violated.
 
     returns:
-      - type: PropagationTimeTerminationSettings
+        type: PropagationTimeTerminationSettings
         description: Time termination settings object.
 
 
@@ -1370,7 +1370,7 @@ functions:
         description: Maximum CPU time for the propagation.
 
     returns:
-      - type: PropagationCPUTimeTerminationSettings
+        type: PropagationCPUTimeTerminationSettings
         description: CPU time termination settings object.
 
 
@@ -1414,7 +1414,7 @@ functions:
         description: Settings object to create root finder used to converge on exact final condition.
 
     returns:
-      - type: PropagationDependentVariableTerminationSettings
+        type: PropagationDependentVariableTerminationSettings
         description: Dependent variable termination settings object.
 
 
@@ -1434,7 +1434,7 @@ functions:
         description: Function of time (independent variable) which is called during the propagation and returns a boolean value denoting whether the termination condition is verified.
 
     returns:
-      - type: PropagationCustomTerminationSettings
+        type: PropagationCustomTerminationSettings
         description: Custom termination settings object.
 
 
@@ -1461,5 +1461,5 @@ functions:
         description: Whether only a single condition of those provided must be met to stop the propagation (true) or all of them simultaneously (false).
 
     returns:
-      - type: PropagationHybridTerminationSettings
+        type: PropagationHybridTerminationSettings
         description: Hybrid termination settings object.

@@ -3,5 +3,5 @@ description: "None."
 modules:
   - ephemeris
   - gravity_field
-  - # Note: leave rotation_model as last item for the API to build correctly
+  # Note: leave rotation_model as last item for the API to build correctly
   - rotation_model

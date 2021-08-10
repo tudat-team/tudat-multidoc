@@ -75,7 +75,7 @@ functions:
         description: Name of engine model from which thrust is to be derived (must be empty if the first argument is set to true).
 
     returns:
-      - type: FromThrustMassRateSettings
+        type: FromThrustMassRateSettings
         description: From thrust mass rate settings object.
 
 
@@ -95,5 +95,5 @@ functions:
         description: Function of time defining the custom mass rate.
 
     returns:
-      - type: CustomMassRateSettings
+        type: CustomMassRateSettings
         description: Custom mass rate settings object.

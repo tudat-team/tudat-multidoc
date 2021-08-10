@@ -57,7 +57,7 @@ functions:
       orientation (e.g. angle of attack and sideslip angle), these angles can be manually or automatically defined.
 
     returns:
-      - type: TorqueSettings
+        type: TorqueSettings
         description: Torque settings object.
 
 
@@ -84,7 +84,7 @@ functions:
         description: Maximum order of the spherical harmonic expansion.
 
     returns:
-      - type: TorqueSettings
+        type: TorqueSettings
         description: Torque settings object.
 
 
@@ -100,7 +100,7 @@ functions:
       harmonics).
 
     returns:
-      - type: TorqueSettings
+        type: TorqueSettings
         description: Torque settings object.
 
 
@@ -129,5 +129,5 @@ functions:
         description: Scaling function with time as an independent variable to be multiplied by the custom torque function.
 
     returns:
-      - type: TorqueSettings
+        type: TorqueSettings
         description: Torque settings object.

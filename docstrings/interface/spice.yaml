@@ -417,5 +417,5 @@ functions:
       .. _`kclear_c`: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/kclear_c.html
 
     returns:
-      type: None   # [python]
-#      type: void   # [cpp]
+      type: None   # [py]
+      type: void   # [cpp]

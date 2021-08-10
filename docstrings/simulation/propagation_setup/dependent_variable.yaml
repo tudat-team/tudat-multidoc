@@ -76,7 +76,7 @@ functions:
         description: Whether the types of dependent variables to be saved should be printed on the terminal.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
   # Mach number
@@ -99,7 +99,7 @@ functions:
         description: Body with atmosphere with respect to which the Mach number is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -123,7 +123,7 @@ functions:
         description: Body with atmosphere with respect to which the altitude is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -147,7 +147,7 @@ functions:
         description: Body with atmosphere with respect to which the airspeed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -171,7 +171,7 @@ functions:
         description: Body with atmosphere with respect to which the density is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -195,7 +195,7 @@ functions:
         description: Body with respect to which the relative speed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -219,7 +219,7 @@ functions:
         description: Body with respect to which the relative position is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -243,7 +243,7 @@ functions:
         description: Body with respect to which the relative distance is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -267,7 +267,7 @@ functions:
         description: Body with respect to which the relative velocity is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -291,7 +291,7 @@ functions:
         description: Body with respect to which the Keplerian state is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -315,7 +315,7 @@ functions:
         description: Body with respect to which the modified equinoctial state is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -345,7 +345,7 @@ functions:
         description: Body exerting acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -375,7 +375,7 @@ functions:
         description: Body exerting acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -393,7 +393,7 @@ functions:
         description: Body undergoing acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -411,7 +411,7 @@ functions:
         description: Body undergoing acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -441,7 +441,7 @@ functions:
         description: Body exerting torque.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -471,7 +471,7 @@ functions:
         description: Body exerting torque.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -489,7 +489,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -507,7 +507,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -537,7 +537,7 @@ functions:
         description: Tuples of (degree, order) indicating the terms to save.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -567,7 +567,7 @@ functions:
         description: Tuples of (degree, order) indicating the terms to save.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -585,7 +585,7 @@ functions:
         description: Body undergoing acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -603,7 +603,7 @@ functions:
         description: Body undergoing acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -627,7 +627,7 @@ functions:
         description: Body with respect to which the latitude is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -651,7 +651,7 @@ functions:
         description: Body with respect to which the geodetic latitude is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -675,7 +675,7 @@ functions:
         description: Body with respect to which the longitude is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
   # TODO: geodetic latitude not yet exposed
@@ -701,7 +701,7 @@ functions:
         description: Body with respect to which the heading angle is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -726,7 +726,7 @@ functions:
         description: Body with respect to which the flight path angle is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -751,7 +751,7 @@ functions:
         description: Body with respect to which the angle of attack is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -776,7 +776,7 @@ functions:
         description: Body with respect to which the sideslip angle is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -801,7 +801,7 @@ functions:
         description: Body with respect to which the bank angle is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -825,7 +825,7 @@ functions:
         description: Radiating body.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -849,7 +849,7 @@ functions:
         description: Body exerting the acceleration.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -885,7 +885,7 @@ functions:
         description: Identifier for the deformation type.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -928,7 +928,7 @@ functions:
         description: Identifier for the deformation type.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -952,7 +952,7 @@ functions:
         description: Body with respect to which the airspeed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -976,7 +976,7 @@ functions:
         description: Body with respect to which the groundspeed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -994,7 +994,7 @@ functions:
         description: Body of interest.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1018,7 +1018,7 @@ functions:
         description: Body with respect to which the groundspeed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1036,7 +1036,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1066,7 +1066,7 @@ functions:
         description: Target reference frame for the transformation.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1090,7 +1090,7 @@ functions:
         description: Body with respect to which the altitude of periapsis is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1114,7 +1114,7 @@ functions:
         description: Control surface whose deflection should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1138,7 +1138,7 @@ functions:
         description: Body with respect to which the spherical, body-fixed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1162,7 +1162,7 @@ functions:
         description: Body with respect to which the cartesian, body-fixed is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
   # Body mass
@@ -1179,7 +1179,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1203,7 +1203,7 @@ functions:
         description: Emitting body.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1221,7 +1221,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1239,7 +1239,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1257,7 +1257,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1275,7 +1275,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1293,7 +1293,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1311,7 +1311,7 @@ functions:
         description: Body whose dependent variable should be saved.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1336,7 +1336,7 @@ functions:
         description: Body with respect to which the aerodynamic g-load is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1361,7 +1361,7 @@ functions:
         description: Body with respect to which the dynamic pressure is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
 
@@ -1386,5 +1386,5 @@ functions:
         description: Body with respect to which the atmospheric temperature is computed.
 
     returns:
-      - type: SingleDependentVariableSaveSettings
+        type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.

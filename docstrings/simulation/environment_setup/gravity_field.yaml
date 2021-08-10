@@ -64,7 +64,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: Gravitational parameter of central gravity field. # [cpp]
 
       - name: resetGravitationalParameter # [cpp]
@@ -120,7 +120,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: Gravitational parameter of gravity field. # [cpp]
 
       - name: resetGravitationalParameter # [cpp]
@@ -137,7 +137,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double # [cpp]
+            type: double # [cpp]
             description: Reference radius of spherical harmonic field expansion. # [cpp]
 
       - name: getCosineCoefficients # [cpp]
@@ -146,7 +146,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: Eigen::MatrixXd # [cpp]
+            type: Eigen::MatrixXd # [cpp]
             description: Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
 
       - name: resetCosineCoefficients # [cpp]
@@ -164,7 +164,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: Eigen::MatrixXd # [cpp]
+            type: Eigen::MatrixXd # [cpp]
             description: Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
 
       - name: resetSineCoefficients # [cpp]
@@ -181,7 +181,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients of the settings object are associated. # [cpp]
 
       - name: resetAssociatedReferenceFrame # [cpp]
@@ -198,7 +198,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
 
       - name: setCreateTimeDependentField # [cpp]
@@ -233,7 +233,7 @@ functions:
       - name: gravitationalParameter # [cpp]
         type: double # [cpp]
     returns:
-      - type: CentralGravityFieldSettings
+        type: CentralGravityFieldSettings
         description: "`CentralGravityFieldSettings` object defined by the provided gravitational parameter."
 
 
@@ -246,7 +246,7 @@ functions:
     parameters:
       - name: None
     returns:
-      - type: GravityFieldSettings
+        type: GravityFieldSettings
         description: "`GravityFieldSettings` object defined by gravitational parameters from Spice settings."
 
 
@@ -295,7 +295,7 @@ functions:
         description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
 
     returns:
-      - type: SphericalHarmonicsGravityFieldSettings
+        type: SphericalHarmonicsGravityFieldSettings
         description: "`SphericalHarmonicsGravityFieldSettings` object defined by the provided parameters."
 
 
@@ -353,5 +353,5 @@ functions:
         description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
 
     returns:
-      - type: SphericalHarmonicsGravityFieldSettings
+        type: SphericalHarmonicsGravityFieldSettings
         description: "`SphericalHarmonicsGravityFieldSettings` object defined by expansion of homogeneous triaxial ellipsoid."
