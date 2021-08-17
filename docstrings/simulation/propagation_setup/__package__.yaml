@@ -6,5 +6,4 @@ modules:
   - integrator
   - mass_rate
   - propagator
-  # Note: leave torque as last item for the API to build correctly
   - torque
