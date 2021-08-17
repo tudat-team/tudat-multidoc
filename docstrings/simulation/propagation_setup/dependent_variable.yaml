@@ -66,7 +66,7 @@ functions:
       - name: dependentVariables # [cpp]
         type: std::vector<std::shared_ptr<SingleDependentVariableSaveSettings>> # [cpp]
       - name: dependent_variable_list # [py]
-        type: List[SingleDependentVariableSaveSettings] # [py]
+        type: list[SingleDependentVariableSaveSettings] # [py]
         description: List of dependent variables to be saved.
 
       - name: printDependentVariableTypes # [cpp]

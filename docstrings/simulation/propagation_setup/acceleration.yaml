@@ -648,13 +648,13 @@ functions:
       - name: includeDirectRadialComponent # [cpp]
         type: bool, default=true # [cpp]
       - name: include_direct_radial_component # [py]
-        type: bool, default=True # [cpp]
+        type: bool, default=True # [py]
         description: It denotes whether the term independent of the time lag is to be computed.
 
       - name: useTideRaisedOnPlanet # [cpp]
         type: bool, default=true # [cpp]
       - name: use_tide_raised_on_planet # [py]
-        type: bool, default=True # [cpp]
+        type: bool, default=True # [py]
         description: It denotes whether the tide raised on the planet is to be modelled (if true) or the tide raised on the satellite (if false).
 
     returns:
@@ -692,13 +692,13 @@ functions:
       - name: totalManeuverTime # [cpp]
         type: double # [cpp]
       - name: total_maneuver_time # [py]
-        type: float # [cpp]
+        type: float # [py]
         description: Total duration of every maneuver.
 
       - name: maneuverRiseTime # [cpp]
         type: double # [cpp]
       - name: maneuver_rise_time # [py]
-        type: float # [cpp]
+        type: float # [py]
         description: Time taken by the acceleration to go from zero to its maximum level.
 
     returns:
@@ -832,13 +832,13 @@ functions:
 #      - name: thrustDirections # [cpp]
 #        type: std::vector<std::function<Eigen::Vector3d()>> # [cpp]
 #      - name: thrust_directions # [py]
-#        type: List[Callable[[], numpy.ndarray] # [py]
+#        type: list[Callable[[], numpy.ndarray] # [py]
 #        description: Set of functions of time representing the thrust direction vector of each thrust source.
 #
 #      - name: thrustMagnitudes # [cpp]
 #        type: std::vector<std::function<double()> # [cpp]
 #      - name: thrust_magnitudes # [py]
-#        type: List[Callable[[], float] # [py]
+#        type: list[Callable[[], float] # [py]
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
@@ -859,13 +859,13 @@ functions:
 #      - name: thrustDirections # [cpp]
 #        type: std::vector<std::function<Eigen::Vector3d()>> # [cpp]
 #      - name: thrust_directions # [py]
-#        type: List[Callable[[], numpy.ndarray] # [py]
+#        type: list[Callable[[], numpy.ndarray] # [py]
 #        description: Set of functions of time representing the thrust direction vector of each thrust source.
 #
 #      - name: thrustMagnitudes # [cpp]
 #        type: std::vector<std::function<double()> # [cpp]
 #      - name: thrust_magnitudes # [py]
-#        type: List[Callable[[], float] # [py]
+#        type: list[Callable[[], float] # [py]
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
@@ -886,13 +886,13 @@ functions:
 #      - name: thrustDirections # [cpp]
 #        type: std::vector<std::function<Eigen::Vector3d()>> # [cpp]
 #      - name: thrust_directions # [py]
-#        type: List[Callable[[], numpy.ndarray] # [py]
+#        type: list[Callable[[], numpy.ndarray] # [py]
 #        description: Set of functions of time representing the thrust direction vector of each thrust source.
 #
 #      - name: thrustMagnitudes # [cpp]
 #        type: std::vector<std::function<double()> # [cpp]
 #      - name: thrust_magnitudes # [py]
-#        type: List[Callable[[], float] # [py]
+#        type: list[Callable[[], float] # [py]
 #        description: Set of functions of time representing the thrust magnitude of each thrust source.
 #
 #    returns:
@@ -924,7 +924,7 @@ functions:
 #      - name: currentTime # [cpp]
 #        type: std::vector<std::function<double()> # [cpp]
 #      - name: current_time # [py]
-#        type: List[Callable[[], float] # [py]
+#        type: list[Callable[[], float] # [py]
 #        description: Time at which the thrust direction and magnitude should be updated.
 #
 #
@@ -951,7 +951,7 @@ functions:
 #      - name: currentTime # [cpp]
 #        type: std::vector<std::function<double()> # [cpp]
 #      - name: current_time # [py]
-#        type: List[Callable[[], float] # [py]
+#        type: list[Callable[[], float] # [py]
 #        description: Time to which the old time should be updated (relevant for the thrust direction and magnitude).
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -979,13 +979,13 @@ functions:
       - name: independentVariables # [cpp]
         type: std::vector<ThrustIndependentVariables> # [cpp]
       - name: independent_variables # [py]
-        type: List[ThrustIndependentVariables] # [py]
+        type: list[ThrustIndependentVariables] # [py]
         description: Set of dependent variables that should be used to compute the thrust.
 
       - name: guidanceInputFunctions # [cpp]
         type: std::vector<std::function<double()>, default=std::vector<std::function<double()>() # [cpp]
       - name: guidance_input_functions # [py]
-        type: List[Callable[[], float], default=[] # [py]
+        type: list[Callable[[], float], default=[] # [py]
         description: Set of functions to compute the thrust, each associated to a specific dependent variable.
 
 

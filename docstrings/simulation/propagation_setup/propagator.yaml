@@ -180,7 +180,7 @@ classes:
 
     attributes:
     - name: propagator_settings_per_type # [py]
-      type: Dict[IntegratedStateType, List[SingleArcPropagatorSettings]] # [py]
+      type: dict[IntegratedStateType, list[SingleArcPropagatorSettings]] # [py]
 
     methods:
       - name: ctor
@@ -358,7 +358,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -370,7 +370,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -425,7 +425,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -437,7 +437,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -461,7 +461,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved, provided as a list of SingleDependentVariableSaveSettings objects (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -492,7 +492,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -504,7 +504,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -559,7 +559,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -571,7 +571,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -595,7 +595,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -626,7 +626,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -638,7 +638,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -693,7 +693,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -705,7 +705,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -729,7 +729,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -760,7 +760,7 @@ functions:
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
       - name: accelerationsMap # [cpp]
@@ -772,7 +772,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -796,7 +796,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -833,7 +833,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -857,7 +857,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -894,7 +894,7 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_integrate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
       - name: initialBodyStates # [cpp]
@@ -918,7 +918,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -947,13 +947,13 @@ functions:
       - name: bodiesWithMassToPropagate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_with_mass_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies whose mass should be numerically propagated.
 
       - name: massRateModels # [cpp]
         type: std::map<std::string, MassRateModel> # [cpp]
       - name: mass_rate_models # [py]
-        type: Dict[str, MassRateModel] # [py]
+        type: dict[str, MassRateModel] # [py]
         description: List of mass rates associated to each body, provided as mass rate models.
 
       - name: initialBodyMasses # [cpp]
@@ -1001,13 +1001,13 @@ functions:
       - name: bodiesWithMassToPropagate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_with_mass_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies whose mass should be numerically propagated.
 
       - name: massRateModels # [cpp]
         type: std::map<std::string, std::vector<MassRateModel>> # [cpp]
       - name: mass_rate_models # [py]
-        type: Dict[str, MassRateModel] # [py]
+        type: dict[str, MassRateModel] # [py]
         description: List of mass rates associated to each body, provided as mass rate models.
 
       - name: initialBodyMasses # [cpp]
@@ -1054,7 +1054,7 @@ functions:
       - name: bodiesWithMassToPropagate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_with_mass_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies whose mass should be numerically propagated.
 
       - name: massRateSettings # [cpp]
@@ -1107,13 +1107,13 @@ functions:
       - name: bodiesWithMassToPropagate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_with_mass_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies whose mass should be numerically propagated.
 
       - name: massRateModels # [cpp]
         type: std::map<std::string, MassRateModel> # [cpp]
       - name: mass_rate_models # [py]
-        type: Dict[str, MassRateModel] # [py]
+        type: dict[str, MassRateModel] # [py]
         description: List of mass rates associated to each body, provided as mass rate models.
 
       - name: initialBodyMasses # [cpp]
@@ -1131,7 +1131,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -1160,7 +1160,7 @@ functions:
       - name: bodiesWithMassToPropagate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_with_mass_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies whose mass should be numerically propagated.
 
       - name: massRateSettings # [cpp]
@@ -1184,7 +1184,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -1212,7 +1212,7 @@ functions:
       - name: propagatorSettingsVector # [cpp]
         type: std::vector<SingleArcPropagatorSettings> # [cpp]
       - name: propagator_settings_list # [py]
-        type: List[SingleArcPropagatorSettings] # [py]
+        type: list[SingleArcPropagatorSettings] # [py]
         description: List of SingleArcPropagatorSettings objects to use.
 
       - name: terminationSettings # [cpp]
@@ -1252,7 +1252,7 @@ functions:
       - name: propagatorSettingsVector # [cpp]
         type: std::vector<SingleArcPropagatorSettings> # [cpp]
       - name: propagator_settings_list # [py]
-        type: List[SingleArcPropagatorSettings] # [py]
+        type: list[SingleArcPropagatorSettings] # [py]
         description: List of SingleArcPropagatorSettings objects to use.
 
       - name: terminationSettings # [cpp]
@@ -1264,7 +1264,7 @@ functions:
       - name: dependentVariablesToSave # [cpp]
         type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
       - name: output_variables # [py]
-        type: List[SingleDependentVariableSaveSettings], default=[] # [py]
+        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
       - name: printInterval # [cpp]
@@ -1290,7 +1290,7 @@ functions:
       - name: singleArcSettings # [cpp]
         type: std::vector<SingleArcPropagatorSettings> # [cpp]
       - name: single_arc_settings # [py]
-        type: List[SingleArcPropagatorSettings] # [py]
+        type: list[SingleArcPropagatorSettings] # [py]
         description: List of SingleArcPropagatorSettings objects to use, one for each arc.
 
       - name: transferInitialStateInformationPerArc # [cpp]
@@ -1451,7 +1451,7 @@ functions:
       - name: terminationSettings # [cpp]
         type: std::vector<PropagationTerminationSettings> # [cpp]
       - name: termination_settings # [py]
-        type: List[PropagationTerminationSettings] # [py]
+        type: list[PropagationTerminationSettings] # [py]
         description: List of single PropagationTerminationSettings objects to be checked during the propagation.
 
       - name: fulfillSingleCondition # [cpp]
