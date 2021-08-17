@@ -363,7 +363,7 @@ functions:
       The tolerance is composed of an absolute and a relative part.
       Different extrapolation sequences can be used (see the `ExtrapolationMethodStepSequences` enum).
 
-    parameters: # [cpp]
+    parameters:
       - name: initialTime # [cpp]
         type: double # [cpp]
       - name: initial_time # [py]
