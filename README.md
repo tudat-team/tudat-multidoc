@@ -15,6 +15,18 @@ In the `tudat-multidoc` directory, there are two subdirectories:
    are provided in the dedicated `docstrings/README.md` file.
 2. `tudat-multidoc/multidoc`, where the software to build the API is located. The content of this repository
    should not be modified. 
+   
+## Branches
+
+The branches used to write the documentation are the following (listed for each repo):
+
+- `tudat-bundle`: main
+- `tudat`: feature/api-docs
+- `tudatpy`: feature/api-docs
+- `tudat-multidoc`: main
+- `tudat-multidoc/multidoc`: develop
+
+These will be revised and merged in the future, but for now it is recommended to stick to these to avoid issues.
 
 ## How to generate documented versions of `tudat`/`tudatpy` 
 
@@ -66,6 +78,8 @@ The subcommands, their scopes and **their required order of execution** are summ
 2. **`[build/b]`** Building the `tudat-bundle` and its contained project sources.
 3. **`[sphinx/s]`** Building the `sphinx` API documentation for the **builds** of the `tudat-bundle` subprojects.
 4. **`[all/a]`** Executes 1,2 and 3 in that order.
+
+TODO: the following is currently not working.
 
 It is possible to build only one project (either `tudat` or `tudatpy`) by appending `-p project_name` to the `python cli X`
 command, where `project_name` is `tudat` or `tudatpy` and `X` is one of the four letters listed above.
