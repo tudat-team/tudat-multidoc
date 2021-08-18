@@ -4,9 +4,15 @@ This is an instructional document including a template for documenting enums, cl
 
 
 ## Table of Contents
-1. [Basic Concepts](##Basic Concepts) 
-2.
-
+1. Basic Concepts
+2. Tudat vs. Tudatpy
+3. Documentation style
+4. Linking docstrings to the code
+5. Linking within API
+6. Linking external resources
+7. Modifying exposure code 
+8. Full template
+   
 ## Basic Concepts
 
 Docstrings are kept in yaml files in the tudat-bundle/tudat-multidoc/docstrings directory.
@@ -174,10 +180,6 @@ TODO
 Have not yet found out how to do that elegantly. For now I simply copied the url in.
 
 
-## Enum docstrings
-
-TODO
-
 ## Modifying exposure code while setting up docstrings
 While setting up the docstrings, it is your responsibility to work over the exposure of the code that is being
 documented and make the necessary adjustments. This includes:
@@ -200,6 +202,10 @@ documented and make the necessary adjustments. This includes:
   
 
 ## Full template
+
+### Enums
+
+TODO
 
 ### Base class
 
