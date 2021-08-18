@@ -1,98 +1,19 @@
 # TUDAT & TUDATPY API
 
-This is an instructional document incl template for documenting enums, classes and (factory) functions.
+This is an instructional document including a template for documenting enums, classes and (factory) functions.
+
+
+## Table of Contents
+1. [Basic Concepts](##Basic Concepts) 
+2.
 
 ## Basic Concepts
 
 Docstrings are kept in yaml files in the tudat-bundle/tudat-multidoc/docstrings directory.
-  The content is divided over a file tree structure that mimics the structure of the tudatpy exposure in
-  tudat-bundle/tudatpy/tudatpy/kernel (currently, this is being restructured).
-  Each file bundles the content of a module exposure function (i.e. Ephemeris, Gravity Field, Rotation, etc). Within each
-  yaml file, all module classes are listed under a single "classes:" key, while functions are listed under a single "functions" key.
-
-
-## Linking docstrings to respective function and classes
-
-The docstrings need to be linked in the code, such that during the API build a connection from docstrings to the code can be made.
-
-### TUDAT
-
-This is done by placing tags right above the class/function declaration in the header files of the cpp source code (tudat-bundle/tudat/include/):
-- for classes:
-  ````
-  //! @get_docstring(<ClassName>.__docstring__)
-  ````
-- for functions:
-  ````
-  //! @get_docstring(<function_name>)
-  ````
-- for overload nr X (X=0,1,...) of a function:
-  ````
-  //! @get_docstring(<function_name>, X)
-  ````
-  
-> **Note:** all other tags present in .cpp/.h files, used to connect the source code to the Doxygen documentation engine, 
-> should be removed, otherwise they will be automatically included in the API.
-
-### TUDATPY
-      
-In order to make the link to the exposed tudatpy classes and functions, the docstring needs to be exposed as well:
-- for classes:
-  ````
-  get_docstring("<ClassName>.__docstring__")
-  ````
-  as last argument of `py:class_<>()`, as in
-  ````
-  py:class_<CppClass, CppPointerToClass, CppParentClass>(module, "ClassName", get_docstring("<ClassName>.__docstring__"))
-  ````
-- for functions:
-  ````
-  get_docstring("<function_name>").c_str()
-  ````
-  as last argument of `m.def("<function_name>", ... )` exposure function
-- for overload nr X (X=0,1,...) of a function:
-  ````
-  get_docstring("<function_name>", X).c_str()
-  ````
-  as last argument of m.def("<function_name>", ... ) exposure function
-
-> **Note:** it is not necessary to include the `get_docstring` tag for class methods, as the docstring for all methods will be
-       retrieved automatically from the class. Therefore, it is sufficient to include the `get_docstring` tag for the
-       itself.
-
-### Examples
-
-#### TUDAT class
- ````
- //! @get_docstring(ThrustAccelerationSettings.__docstring__)
- class ThrustAccelerationSettings: public AccelerationSettings{
- ...
- }
- ````
-
-#### TUDAT regular function
-````
- //! @get_docstring(customAccelerationSettings)
- inline std::shared_ptr< AccelerationSettings > customAccelerationSettings(
-         const std::function< Eigen::Vector3d( const double ) > accelerationFunction,
-         const std::function< double( const double ) > scalingFunction = nullptr )
- {
- ...
- }
-````
-
-#### TUDAT overloaded function
-````
- //! @get_docstring(thrustAcceleration, 0)
- inline std::shared_ptr< AccelerationSettings > thrustAcceleration( const std::shared_ptr< ThrustDirectionSettings >
-         thrustDirectionGuidanceSettings,
- 		const std::shared_ptr< ThrustMagnitudeSettings > thrustMagnitudeSettings )
- {
- ...
- }
-````
-
-TODO: add examples for TUDATPY
+The content is divided over a file tree structure that mimics the structure of the tudatpy exposure in
+tudat-bundle/tudatpy/tudatpy/kernel, which is the same structure of the tudatpy modules.
+Each file bundles the content of a module exposure function (i.e. Ephemeris, Gravity Field, Rotation, etc). Within each
+yaml file, all module classes are listed under a single "classes:" key, while functions are listed under a single "functions" key.
 
 
 ## TUDAT vs. TUDATPY
@@ -111,7 +32,6 @@ Class attributes are only documented as such for the tudatpy API, while the tuda
 methods of the classes instead.
 This is of course reflected in the exposure of classes in tudatpy, where "properties" (attributes) of the
 tudatpy classes are exposed by making them available via the original get/set methods of the tudat classes.
-
 
 
 ## Documentation style: classes and related factory functions
@@ -135,17 +55,128 @@ base classes (but of the derived classes through the dedicated FFs) and this sha
 in the `extended_description`.
 
 
+## Linking docstrings to respective function and classes
 
+The docstrings need to be linked in the code, such that during the API build a connection from docstrings to the code can be made.
+
+### TUDAT
+
+This is done by placing tags right above the class/function declaration in the header files of the cpp source code (tudat-bundle/tudat/include/):
+- for classes:
+  ````
+  //! @get_docstring(<ClassName>.__docstring__)
+  ````
+- for functions:
+  ````
+  //! @get_docstring(<function_name>)
+  ````
+- for overload nr X (X=0,1,...) of a function:
+  ````
+  //! @get_docstring(<function_name>, X)
+  ````
+
+> **Note:** all other tags present in .cpp/.h files, used to connect the source code to the Doxygen documentation engine,
+> should be removed, otherwise they will be automatically included in the API.
+
+### TUDATPY
+
+In order to make the link to the exposed tudatpy classes and functions, the docstring needs to be exposed as well:
+- for classes:
+  ````
+  get_docstring("<ClassName>")
+  ````
+  as last argument of `py:class_<>()`, as in
+  ````
+  py:class_<CppClass, CppPointerToClass, CppParentClass>(module, "ClassName", get_docstring("<ClassName>.__docstring__"))
+  ````
+- for functions:
+  ````
+  get_docstring("<function_name>").c_str()
+  ````
+  as last argument of `m.def("<function_name>", ... )` exposure function
+- for overload nr X (X=0,1,...) of a function:
+  ````
+  get_docstring("<function_name>", X).c_str()
+  ````
+  as last argument of m.def("<function_name>", ... ) exposure function
+
+> **Note:** it is not necessary to include the `get_docstring` tag for class methods, as the docstring for all methods will be
+retrieved automatically from the class. Therefore, it is sufficient to include the `get_docstring` tag for the
+itself.
+
+### Examples: TUDAT
+
+#### TUDAT class
+ ````c++
+ //! @get_docstring(ThrustAccelerationSettings.__docstring__)
+ class ThrustAccelerationSettings: public AccelerationSettings{
+ ...
+ }
+ ````
+
+#### TUDAT regular function
+````c++
+ //! @get_docstring(customAccelerationSettings)
+ inline std::shared_ptr< AccelerationSettings > customAccelerationSettings(
+         const std::function< Eigen::Vector3d( const double ) > accelerationFunction,
+         const std::function< double( const double ) > scalingFunction = nullptr )
+ {
+ ...
+ }
+````
+
+#### TUDAT overloaded function
+````c++
+ //! @get_docstring(thrustAcceleration, 0)
+ inline std::shared_ptr< AccelerationSettings > thrustAcceleration( const std::shared_ptr< ThrustDirectionSettings >
+         thrustDirectionGuidanceSettings,
+ 		const std::shared_ptr< ThrustMagnitudeSettings > thrustMagnitudeSettings )
+ {
+ ...
+ }
+````
+
+### Examples: TUDATPY
+
+#### TUDATPY class
+````c++
+    py::class_<tss::ThrustAccelerationSettings,
+            std::shared_ptr<tss::ThrustAccelerationSettings>,
+            tss::AccelerationSettings>(m, "ThrustAccelerationSettings",
+                                       get_docstring("ThrustAccelerationSettings").c_str())
+````
+
+#### TUDATPY regular function
+````c++
+    m.def("aerodynamic", &tss::aerodynamicAcceleration,
+          get_docstring("aerodynamic").c_str());
+````
+
+#### TUDATPY overloaded function
+```c++
+    m.def("thrust_acceleration", py::overload_cast<const std::shared_ptr<tss::ThrustDirectionSettings>,
+                  const std::shared_ptr<tss::ThrustMagnitudeSettings>>(&tss::thrustAcceleration),
+          py::arg("thrust_direction_settings"),
+          py::arg("thrust_magnitude_settings"),
+          get_docstring("thrust_acceleration", 0).c_str());
+```
 
 ## Linking within API
+TODO
+
 Have not yet found out how to do that. For now make sure to put all class / function names that you refer to
 within descriptions in single quotation marks, such as e.g. `EphemerisSettings`
 
 
 ## Linking external resources via urls
+TODO
+
 Have not yet found out how to do that elegantly. For now I simply copied the url in.
 
 
+## Enum docstrings
+
+TODO
 
 ## Modifying exposure code while setting up docstrings
 While setting up the docstrings, it is your responsibility to work over the exposure of the code that is being
@@ -154,22 +185,19 @@ documented and make the necessary adjustments. This includes:
 - breaking down the exposure to its lowest level, meaning that each module exposure function shall be defined in its own file
 - if a class to be documented has a constructor exposed (`.def(py::init< >, .. )`), comment out the exposure;
 - if the class has get / set methods exposed, replace them by exposing the cpp getter/setter methods as an attribute,
-   e.g.:
+  e.g.:
   ````
   .def_property("use_long_double_states", 
                 &tss::TabulatedEphemerisSettings::getUseLongDoubleStates,
                 &tss::TabulatedEphemerisSettings::setUseLongDoubleStates);
   ````
 - if the class has only a get method exposed, replace it by exposing the cpp getter method as a readonly attribute,
-   e.g.
+  e.g.
   ````
   .def_property_readonly("body_state_history",
                          &tss::TabulatedEphemerisSettings::getBodyStateHistory)
   ````
-
-## Enum docstrings
-
-## Readonly attributes
+  
 
 ## Full template
 
