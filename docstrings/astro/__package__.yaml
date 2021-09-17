@@ -1,0 +1,4 @@
+description: "Provides diverse low-level to support  astrodynamics calculations. This module can be used as standalone together with the math moduke. The other modules make extensive use of the functionality exposed here"
+
+modules:
+  - frame_conversion

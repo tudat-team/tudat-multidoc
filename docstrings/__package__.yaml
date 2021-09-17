@@ -3,6 +3,7 @@ config:
   name: tudat       # [cpp]
 
 modules:
+  - astro
   - interface
   - simulation
 #  - plotting      # [py]
