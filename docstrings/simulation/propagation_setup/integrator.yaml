@@ -457,7 +457,7 @@ functions:
       The tolerance is composed of an absolute and a relative part.
       Different coefficient sets (Butcher's tableau) can be used (see the `RungeKuttaCoefficients::CoefficientSets` enum).
 
-    parameters: # [cpp]
+    parameters:
       - name: initialTime # [cpp]
         type: double # [cpp]
       - name: initial_time # [py]

@@ -4,6 +4,6 @@ modules:
   - acceleration
   - dependent_variable
   - integrator
-  - mass_rate
+  - mass
   - propagator
   - torque
