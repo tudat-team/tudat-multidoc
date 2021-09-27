@@ -4,12 +4,41 @@ notes: "None"
 # The structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for torqueSettings.h (tudat)
 
-# Enums
-# TODO
-#       py::enum_<tba::AvailableTorque>
 
 
 classes:
+
+  ###### enums
+
+  #       py::enum_<tba::AvailableTorque>
+  #        enum tudat::basic_astrodynamics::AvailableTorque
+
+  - name: AvailableTorque
+    short_summary: "Enumeration of available torque types."
+    extended_summary: |
+      Enumeration of torque types supported by tudat.
+
+    attributes:
+
+      - name: torque_free # [cpp]
+      - name: underfined_torque # [cpp]
+      - name: second_order_gravitational_torque # [cpp]
+      - name: aerodynamic_torque # [cpp]
+      - name: spherical_harmonic_gravitational_torque # [cpp]
+      - name: inertial_torque # [cpp]
+      - name: dissipative_torque # [cpp]
+      - name: custom_torque # [cpp]
+
+      - name: torque_free_type # [py]
+      - name: underfined_torque_type # [py]
+      - name: second_order_gravitational_torque_type # [py]
+      - name: aerodynamic_torque_type # [py]
+      - name: spherical_harmonic_gravitational_torque_type # [py]
+      - name: inertial_torque_type # [py]
+      - name: dissipative_torque_type # [py]
+      - name: custom_torque_type # [py]
+
+  ######
 
   # base
   - name: TorqueSettings

@@ -4,12 +4,32 @@ notes: "None"
 # The structure of this file follows the order of expose_mass_rate_setup.cpp (tudatpy) and
 # includes content for createMassRateModels.h (tudat)
 
-# Enums
-# TODO
-#       py::enum_<tba::AvailableMassRateModels>
 
 
 classes:
+
+  ###### enums
+
+  #       py::enum_<tba::AvailableMassRateModels>
+  #        enum tudat::basic_astrodynamics::AvailableMassRateModels
+
+  - name: AvailableMassRateModels
+    short_summary: "Enumeration of available mass rate models."
+    extended_summary: |
+      Enumeration of mass rate models supported by tuday.
+
+    attributes:
+
+      - name: undefined_mass_rate_model # [cpp]
+      - name: custom_mass_rate_model # [cpp]
+      - name: from_thrust_mass_rate_model # [cpp]
+
+      - name: undefined_mass_rate_type # [py]
+      - name: custom_mass_rate_type # [py]
+      - name: from_thrust_mass_rate_type # [py]
+
+  ######
+
 
   # base
   - name: MassRateModelSettings

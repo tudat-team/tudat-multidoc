@@ -7,17 +7,117 @@ notes: "None"
 # - accelerationSettings.h
 # - thrustSettings.h
 
-# Enums
-# TODO
-#       py::enum_<tba::AvailableAcceleration>
-#       py::enum_<tss::ThrustDirectionTypes>
-#       py::enum_<tss::ThrustMagnitudeTypes>
-#       py::enum_<tss::ThrustFrames>
-
-
 
 
 classes:
+
+###### enums from all included headers
+
+  #    py::enum_<tba::AvailableAcceleration>
+  #        enum tudat::basic_astrodynamics::AvailableAcceleration
+
+  - name: AvailableAcceleration
+    short_summary: "Enumeration of available acceleration types."
+    extended_summary: |
+      Enumeration of acceleration types supported by tudat.
+
+    attributes:
+      - name: undefined_acceleration # [cpp]
+      - name: point_mass_gravity # [cpp]
+      - name: central_gravity # [cpp]
+      - name: aerodynamic # [cpp]
+      - name: cannon_ball_radiation_pressure # [cpp]
+      - name: spherical_harmonic_gravity # [cpp]
+      - name: mutual_spherical_harmonic_gravity # [cpp]
+      - name: third_body_point_mass_gravity # [cpp]
+      - name: third_body_central_gravity # [cpp]
+      - name: third_body_spherical_harmonic_gravity # [cpp]
+      - name: third_body_mutual_spherical_harmonic_gravity # [cpp]
+      - name: thrust_acceleration # [cpp]
+      - name: relativistic_correction_acceleration # [cpp]
+      - name: empirical_acceleration # [cpp]
+      - name: direct_tidal_dissipation_in_central_body_acceleration # [cpp]
+      - name: direct_tidal_dissipation_in_orbiting_body_acceleration # [cpp]
+      - name: panelled_radiation_pressure_acceleration # [cpp]
+      - name: momentum_wheel_desaturation_acceleration # [cpp]
+      - name: solar_sail_acceleration # [cpp]
+      - name: custom_acceleration # [cpp]
+
+      - name: undefined_acceleration_type # [py]
+      - name: point_mass_gravity_type # [py]
+      - name: central_gravity_type # [py]
+      - name: aerodynamic_type # [py]
+      - name: cannon_ball_radiation_pressure_type # [py]
+      - name: spherical_harmonic_gravity_type # [py]
+      - name: mutual_spherical_harmonic_gravity_type # [py]
+      - name: third_body_point_mass_gravity_type # [py]
+      - name: third_body_central_gravity_type # [py]
+      - name: third_body_spherical_harmonic_gravity_type # [py]
+      - name: third_body_mutual_spherical_harmonic_gravity_type # [py]
+      - name: thrust_acceleration_type # [py]
+      - name: relativistic_correction_acceleration_type # [py]
+      - name: empirical_acceleration_type # [py]
+      - name: direct_tidal_dissipation_in_central_body_acceleration_type # [py]
+      - name: direct_tidal_dissipation_in_orbiting_body_acceleration_type # [py]
+      - name: panelled_radiation_pressure_acceleration_type # [py]
+      - name: momentum_wheel_desaturation_acceleration_type # [py]
+      - name: solar_sail_acceleration_type # [py]
+      - name: custom_acceleration_type # [py]
+
+
+  #    py::enum_<tss::ThrustFrames>
+  #        enum tudat::simulation_setup::ThrustFrames
+
+  - name: ThrustFrames
+    short_summary: "Enumeration of available thrust frame types."
+    extended_summary: |
+      Enumeration of thrust frame types supported by tudat.
+
+    attributes:
+      - name: unspecified_thrust_frame # [cpp]
+      - name: inertial_thrust_frame # [cpp]
+      - name: lvlh_thrust_frame # [cpp]
+
+      - name: unspecified_thrust_frame_type # [py]
+      - name: inertial_thrust_frame_type # [py]
+      - name: lvlh_thrust_frame_type # [py]
+
+
+  #    py::enum_<tss::ThrustMagnitudeTypes>
+  #        enum tudat::simulation_setup::ThrustMagnitudeTypes
+
+  - name: ThrustMagnitudeTypes
+    short_summary: "Enumeration of available thrust magnitude types."
+    extended_summary: |
+      Enumeration of thrust magnitude types supported by tudat.
+
+    attributes:
+
+      - name: constant_thrust_magnitude
+      - name: from_engine_properties_thrust_magnitude
+      - name: thrust_magnitude_from_time_function
+      - name: thrust_magnitude_from_dependent_variables
+      - name: bang_bang_thrust_magnitude_from_mee_costates
+
+
+  #    py::enum_<tss::ThrustDirectionTypes>
+  #        enum tudat::simulation_setup::ThrustDirectionTypes
+
+  - name: ThrustDirectionTypes
+    short_summary: "Enumeration of available thrust direction types."
+    extended_summary: |
+      Enumeration of thrust direction types supported by tudat.
+
+    attributes:
+
+      - name: colinear_with_state_segment_thrust_direction
+      - name: thrust_direction_from_existing_body_orientation
+      - name: custom_thrust_direction
+      - name: custom_thrust_orientation
+      - name: mee_costate_based_thrust_direction
+
+  ######
+
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   ################## Acceleration settings ( accelerationSettings.h ) #################################################

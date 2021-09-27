@@ -9,9 +9,70 @@ notes: "None"
 #       py::enum_<tni::AvailableIntegrators>
 #       py::enum_<tni::RungeKuttaCoefficients::CoefficientSets>
 #       py::enum_<tni::ExtrapolationMethodStepSequences>
-#       py::enum_<ExtrapolationMethodStepSequences>
 
 classes:
+
+  ###### enums
+
+  #    py::enum_<tni::AvailableIntegrators>
+  #        enum tudat::numerical_integrators::AvailableIntegrators
+
+  - name: AvailableIntegrators
+    short_summary: "Enumeration of available integrators."
+    extended_summary: |
+      Enumeration of integrators supported by tudat.
+
+    attributes:
+
+      - name: euler # [cpp]
+      - name: rungeKutta4 # [cpp]
+      - name: rungeKuttaVariableStepSize # [cpp]
+      - name: bulirschStoer # [cpp]
+      - name: adamsBashforthMoulton # [cpp]
+
+      - name: euler_type # [py]
+      - name: runge_kutta_4_type # [py]
+      - name: runge_kutta_variable_step_size_type # [py]
+      - name: bulirsch_stoer_type # [py]
+      - name: adams_bashforth_moulton_type # [py]
+
+
+  #    py::enum_<tni::RungeKuttaCoefficients::CoefficientSets>
+  #        enum tudat::numerical_integrators::RungeKuttaCoefficients::CoefficientSets
+
+  - name: CoefficientSets
+    short_summary: "Coefficient sets for Runge-Kutta integrators."
+    extended_summary: |
+      Coefficient sets for Runge-Kutta integrators.
+
+    attributes:
+
+      - name: undefinedCoefficientSet # [cpp]
+      - name: rungeKuttaFehlberg45 # [cpp]
+      - name: rungeKuttaFehlberg56 # [cpp]
+      - name: rungeKuttaFehlberg78 # [cpp]
+      - name: rungeKutta87DormandPrince # [cpp]
+
+      - name: rkf_45 # [py]
+      - name: rkf_56 # [py]
+      - name: rkf_78 # [py]
+      - name: rkdp_87 # [py]
+
+
+  #       py::enum_<tni::ExtrapolationMethodStepSequences>
+  #           enum tudat::numerical_integrators::ExtrapolationMethodStepSequences
+
+  - name: ExtrapolationMethodStepSequences
+    short_summary: "Enumeration of available extrapolation method step sequences."
+    extended_summary: |
+      Enumeration of extrapolation method step sequences supported by tudat.
+
+    attributes:
+
+      - name: bulirsch_stoer_sequence
+      - name: deufelhard_sequence
+
+  ######
 
   # base
   - name: IntegratorSettings

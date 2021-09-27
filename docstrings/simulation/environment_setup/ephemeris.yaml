@@ -9,6 +9,32 @@ notes: "None"
 
 classes:
 
+###### enums
+
+  #    py::enum_<te::ApproximatePlanetPositionsBase::BodiesWithEphemerisData>
+  #        enum tudat::ephemerides::BodiesWithEphemerisData
+
+  - name: BodiesWithEphemerisData
+    short_summary: "Enumeration of bodies with ephemeris data."
+    extended_summary: |
+      Enumeration of bodies with ephemeris data.
+
+    attributes:
+      - name: mercury
+      - name: venus
+      - name: earthMoonBarycenter # [cpp]
+      - name: earth_moon_barycenter # [py]
+      - name: mars
+      - name: jupiter
+      - name: saturn
+      - name: uranus
+      - name: neptune
+      - name: pluto
+      - name: undefined # [cpp]
+
+######
+
+
   - name: EphemerisSettings
     short_summary: "Base class for providing settings for ephemeris model."
     extended_summary: |

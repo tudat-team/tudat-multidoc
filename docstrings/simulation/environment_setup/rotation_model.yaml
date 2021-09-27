@@ -9,6 +9,39 @@ notes: "None"
 
 classes:
 
+###### enums
+
+  #    py::enum_<tss::RotationModelType>
+  #        enum tudat::simulation_setup::RotationModelType
+
+  - name: RotationModelType
+    short_summary: "Enumeration of rotation model types."
+    extended_summary: |
+      Enumeration of rotation model types supported by tudat.
+
+    attributes:
+      - name: simple_rotation_model
+      - name: spice_rotation_model
+      - name: gcrs_to_itrs_rotation_model
+      - name: synchronous_rotation_model
+      - name: planetary_rotation_model
+
+  #      py::enum_<tba::IAUConventions>
+  #          enum tudat::basic_astrodynamics::IAUConventions
+
+  - name: IAUConventions
+    short_summary: "Enumeration of IAU conventions for Earth rotation."
+    extended_summary: |
+      Enumeration of IAU conventions for Earth rotation supported by tudat.
+
+    methods:
+      - name: iau_2000_a
+      - name: iau_2000_b
+      - name: iau_2006
+
+
+######
+
 
   # base class:
 
