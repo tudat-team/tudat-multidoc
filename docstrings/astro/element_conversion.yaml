@@ -1,0 +1,131 @@
+description: "This module provide a variety of functions and classes to convert between different representations of translational and rotational states (e.g. Cartesian <-> Keplerian). Note that rotations between different reference frames are provided in the frame_conversion module
+notes: "None"
+
+classes:
+
+
+  # base class:
+
+  
+  # derived classes:
+
+functions:
+
+
+  # conversion functions:
+
+  - name: cartesian_to_keplerian # [py]
+  - name: convertCartesianToKeplerianElements # [cpp]
+    short_summary: "Function to convert Cartesian to Keplerian elements."
+    extended_summary: |
+      Function to convert from Cartesian elements to standard Keplerian elements. The Keplerian 
+      elements that are returned are ordered as:
+        0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
+        1: Eccentricity
+        2: Inclination
+        3: Argument of periapsis
+        4: Longitude of ascending node
+        5: True anomaly
+    parameters:
+      - name: cartesian_elements # [py]
+        type: numpy.ndarray # [py]
+      - name: cartesianElements # [cpp]
+        type: Eigen::Vector6d # [cpp]
+        description: Cartesian state that is to be converted to Keplerian elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+      - name: centralBodyGravitationalParameter # [cpp]
+        type: double # [cpp]
+        description: Gravitational parameter of central body used for conversion
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, as computed from Cartesian element input. 
+
+
+  - name: keplerian_to_cartesian # [py]
+  - name: convertKeplerianToCartesianElements # [cpp]
+    short_summary: "Function to convert Keplerian to Cartesian elements."
+    extended_summary: |
+      Function to convert from standard Keplerian elements to Cartesian elements. The Keplerian 
+      elements that are provided as input must be ordered as:
+        0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
+        1: Eccentricity
+        2: Inclination
+        3: Argument of periapsis
+        4: Longitude of ascending node
+        5: True anomaly
+    parameters:
+      - name: keplerian_elements # [py]
+        type: numpy.ndarray # [py]
+      - name: keplerianElements # [cpp]
+        type: Eigen::Vector6d # [cpp]
+        description: Keplerian state that is to be converted to Cartesian elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+      - name: centralBodyGravitationalParameter # [cpp]
+        type: double # [cpp]
+        description: Gravitational parameter of central body used for conversion
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, as computed from Cartesian element input. 
+
+
+  - name: keplerian_to_cartesian_elementwise # [py]
+  - name: convertKeplerianToCartesianElements # [cpp]
+    short_summary: "Function to convert Keplerian to Cartesian elements, with elementwise input."
+    extended_summary: |
+      Function to convert from standard Keplerian elements to Cartesian elements,  with elementwise 
+      input. Note that the final Keplerian element is always the true anomaly.
+    parameters:
+      - name: semi_major_axis # [py]
+        type: float # [py]
+      - name: semiMajorAxis # [cpp]
+        type: double # [cpp]
+        description: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
+
+      - name: eccentricity # [py]
+        type: float # [py]
+      - name: eccentricity # [cpp]
+        type: double # [cpp]
+        description: Eccentricity
+
+      - name: inclination # [py]
+        type: float # [py]
+      - name: inclination # [cpp]
+        type: double # [cpp]
+        description: Inclination
+
+      - name: argument_of_periapsis # [py]
+        type: float # [py]
+      - name: argumentOfPeriapsis # [cpp]
+        type: double # [cpp]
+        description: Argument of periapsis
+
+      - name: longitude_of_ascending_node # [py]
+        type: float # [py]
+      - name: longitudeOfAscendingNode # [cpp]
+        type: double # [cpp]
+        description: Longitude of ascending node
+
+      - name: true_anomaly # [py]
+        type: float # [py]
+      - name: trueAnomaly # [cpp]
+        type: double # [cpp]
+        description: True anomaly
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+      - name: centralBodyGravitationalParameter # [cpp]
+        type: double # [cpp]
+        description: Gravitational parameter of central body used for conversion
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, as computed from Cartesian element input. 
+
+
+

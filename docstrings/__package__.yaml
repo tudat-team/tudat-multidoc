@@ -5,7 +5,7 @@ config:
 modules:
   - astro
   - interface
-  - simulation
+  - numerical-simulation
 #  - plotting      # [py]
 #  - cli           # [py]
 #  - util          # [py]

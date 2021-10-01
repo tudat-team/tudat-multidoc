@@ -19,7 +19,7 @@
     "constants": null,
     "modules": [
         "interface",
-        "simulation",
+        "numerical-simulation",
         "plotting",
         "cli",
         "util"
@@ -846,11 +846,11 @@
             }
         }
     },
-    "simulation": {
+    "numerical-simulation": {
         "type": "package",
-        "path": "docstrings/simulation",
+        "path": "docstrings/numerical-simulation",
         "file": "__package__.yaml",
-        "_implicit_name": "simulation",
+        "_implicit_name": "numerical-simulation",
         "config": null,
         "summary": null,
         "extended_summary": null,
@@ -865,11 +865,11 @@
         "modules": [
             "environment_setup"
         ],
-        "name": "simulation",
+        "name": "numerical-simulation",
         "version": null,
         "environment_setup": {
             "type": "module",
-            "path": "docstrings/simulation",
+            "path": "docstrings/numerical-simulation",
             "file": "environment_setup.yaml",
             "_implicit_name": "environment_setup",
             "config": null,
