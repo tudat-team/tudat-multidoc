@@ -2,10 +2,19 @@ config:
   name: tudatpy     # [py]
   name: tudat       # [cpp]
 
+summary: |
+  TU Delft Astrodynamics Toolbox in Python, or tudatpy, is a library that
+  primarily exposes the powerful set of C++ libraries, Tudat. TudatPy
+  aims at accelerating the implementation of Tudat simulations, providing
+  an interface between Tudat and popular machine learning frameworks and
+  establishing a platform to provide quality education in the field of
+  astrodynamics.
+
 modules:
   - astro
   - interface
   - numerical-simulation
-#  - plotting      # [py]
+  - simulation
+  - plotting      # [py]
 #  - cli           # [py]
-#  - util          # [py]
+  - util          # [py]

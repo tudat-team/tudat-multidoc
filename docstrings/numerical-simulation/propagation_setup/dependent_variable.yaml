@@ -4,13 +4,119 @@ notes: "None"
 # the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for propagationOutputSettings.h (tudat)
 
-# Enums
-# TODO: expose enums
-#       py::enum_<tp::PropagationDependentVariables>
-
 
 
 classes:
+
+###### enums
+
+  #    py::enum_<tp::PropagationDependentVariables>
+  #        enum tudat::propagators::PropagationDependentVariables
+
+  - name: PropagationDependentVariables
+    short_summary: "Enumeration of available propagation dependent variables."
+    extended_summary: |
+      Enumeration of propagation dependent variables supported by tudat.
+
+    attributes:
+
+    - name: mach_number_dependent_variable # [cpp]
+    - name: altitude_dependent_variable # [cpp]
+    - name: airspeed_dependent_variable # [cpp]
+    - name: local_density_dependent_variable # [cpp]
+    - name: relative_speed_dependent_variable # [cpp]
+    - name: relative_position_dependent_variable # [cpp]
+    - name: relative_distance_dependent_variable # [cpp]
+    - name: relative_velocity_dependent_variable # [cpp]
+    - name: radiation_pressure_dependent_variable # [cpp]
+    - name: total_acceleration_norm_dependent_variable # [cpp]
+    - name: single_acceleration_norm_dependent_variable # [cpp]
+    - name: total_acceleration_dependent_variable # [cpp]
+    - name: single_acceleration_dependent_variable # [cpp]
+    - name: aerodynamic_force_coefficients_dependent_variable # [cpp]
+    - name: aerodynamic_moment_coefficients_dependent_variable # [cpp]
+    - name: inertial_to_body_fixed_rotation_matrix_variable # [cpp]
+    - name: intermediate_aerodynamic_rotation_matrix_variable # [cpp]
+    - name: relative_body_aerodynamic_orientation_angle_variable # [cpp]
+    - name: body_fixed_airspeed_based_velocity_variable # [cpp]
+    - name: total_aerodynamic_g_load_variable # [cpp]
+    - name: stagnation_point_heat_flux_dependent_variable # [cpp]
+    - name: local_temperature_dependent_variable # [cpp]
+    - name: geodetic_latitude_dependent_variable # [cpp]
+    - name: control_surface_deflection_dependent_variable # [cpp]
+    - name: total_mass_rate_dependent_variables # [cpp]
+    - name: lvlh_to_inertial_frame_rotation_dependent_variable # [cpp]
+    - name: periapsis_altitude_dependent_variable # [cpp]
+    - name: total_torque_norm_dependent_variable # [cpp]
+    - name: single_torque_norm_dependent_variable # [cpp]
+    - name: total_torque_dependent_variable # [cpp]
+    - name: single_torque_dependent_variable # [cpp]
+    - name: body_fixed_groundspeed_based_velocity_variable # [cpp]
+    - name: keplerian_state_dependent_variable # [cpp]
+    - name: modified_equinocial_state_dependent_variable # [cpp]
+    - name: spherical_harmonic_acceleration_terms_dependent_variable # [cpp]
+    - name: spherical_harmonic_acceleration_norm_terms_dependent_variable # [cpp]
+    - name: body_fixed_relative_cartesian_position # [cpp]
+    - name: body_fixed_relative_spherical_position # [cpp]
+    - name: total_gravity_field_variation_acceleration # [cpp]
+    - name: single_gravity_field_variation_acceleration # [cpp]
+    - name: single_gravity_field_variation_acceleration_terms # [cpp]
+    - name: acceleration_partial_wrt_body_translational_state # [cpp]
+    - name: local_dynamic_pressure_dependent_variable # [cpp]
+    - name: local_aerodynamic_heat_rate_dependent_variable # [cpp]
+    - name: euler_angles_to_body_fixed_313 # [cpp]
+    - name: current_body_mass_dependent_variable # [cpp]
+    - name: radiation_pressure_coefficient_dependent_variable # [cpp]
+
+    - name: mach_number_type # [py]
+    - name: altitude_type # [py]
+    - name: airspeed_type # [py]
+    - name: local_density_type # [py]
+    - name: relative_speed_type # [py]
+    - name: relative_position_type # [py]
+    - name: relative_distance_type # [py]
+    - name: relative_velocity_type # [py]
+    - name: radiation_pressure_type # [py]
+    - name: total_acceleration_norm_type # [py]
+    - name: single_acceleration_norm_type # [py]
+    - name: total_acceleration_type # [py]
+    - name: single_acceleration_type # [py]
+    - name: aerodynamic_force_coefficients_type # [py]
+    - name: aerodynamic_moment_coefficients_type # [py]
+    - name: rotation_matrix_to_body_fixed_frame_type # [py]
+    - name: intermediate_aerodynamic_rotation_matrix_type # [py]
+    - name: relative_body_aerodynamic_orientation_angle_type # [py]
+    - name: body_fixed_airspeed_based_velocity_type # [py]
+    - name: total_aerodynamic_g_load_type # [py]
+    - name: stagnation_point_heat_flux_type # [py]
+    - name: local_temperature_type # [py]
+    - name: geodetic_latitude_type # [py]
+    - name: control_surface_deflection_type # [py]
+    - name: total_mass_rate_type # [py]
+    - name: lvlh_to_inertial_frame_rotation_type # [py]
+    - name: periapsis_altitude_type # [py]
+    - name: total_torque_norm_type # [py]
+    - name: single_torque_norm_type # [py]
+    - name: total_torque_type # [py]
+    - name: single_torque_type # [py]
+    - name: body_fixed_groundspeed_based_velocity_type # [py]
+    - name: keplerian_state_type # [py]
+    - name: modified_equinoctial_state_type # [py]
+    - name: spherical_harmonic_acceleration_terms_type # [py]
+    - name: spherical_harmonic_acceleration_norm_terms_type # [py]
+    - name: body_fixed_relative_cartesian_position_type # [py]
+    - name: body_fixed_relative_spherical_position_type # [py]
+    - name: total_gravity_field_variation_acceleration_type # [py]
+    - name: single_gravity_field_variation_acceleration_type # [py]
+    - name: single_gravity_field_variation_acceleration_terms_type # [py]
+    - name: acceleration_partial_wrt_body_translational_state_type # [py]
+    - name: local_dynamic_pressure_type # [py]
+    - name: local_aerodynamic_heat_rate_type # [py]
+    - name: euler_angles_to_body_fixed_type # [py]
+    - name: current_body_mass_type # [py]
+    - name: radiation_pressure_coefficient_type # [py]
+
+  ######
 
   # base
   - name: VariableSettings

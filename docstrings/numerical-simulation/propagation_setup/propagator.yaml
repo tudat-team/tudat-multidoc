@@ -7,11 +7,85 @@ notes: "None"
 
 # Enums
 # TODO
-#       py::enum_<tp::TranslationalPropagatorType>
+
 #       py::enum_<tp::RotationalPropagatorType>
 
 
 classes:
+
+  ###### enums from all included headers
+
+  #       py::enum_<tp::TranslationalPropagatorType>
+  #        enum tudat::propagators::TranslationalPropagatorType
+
+  - name: TranslationalPropagatorType
+    short_summary: "Enumeration of available translational propagator types."
+    extended_summary: |
+      Enumeration of translational propagator types supported by tudat.
+
+    attributes:
+      - name: undefined_translational_propagator
+      - name: cowell
+      - name: encke
+      - name: gauss_keplerian
+      - name: gauss_modified_equinoctial
+      - name: unified_state_model_quaternions
+      - name: unified_state_model_modified_rodrigues_parameters
+      - name: unified_state_model_exponential_map
+
+  #       py::enum_<tp::RotationalPropagatorType>
+  #        enum tudat::propagators::RotationalPropagatorType
+
+  - name: RotationalPropagatorType
+    short_summary: "Enumeration of available rotational propagator types."
+    extended_summary: |
+      Enumeration of rotational propagator types supported by tudat.
+
+    attributes:
+      - name: undefined_rotational_propagator
+      - name: quaternions
+      - name: modified_rodrigues_parameters
+      - name: exponential_map
+
+  #       py::enum_<tp::IntegratedStateType>
+  #        enum tudat::propagators::IntegratedStateType
+
+  - name: IntegratedStateType # [cpp]
+  - name: StateType # [py]
+    short_summary: "Enumeration of available integrated state types."
+    extended_summary: |
+      Enumeration of integrated state types supported by tudat.
+
+    attributes:
+
+      - name: hybrid  # [cpp]
+      - name: translational_state # [cpp]
+      - name: rotational_state # [cpp]
+      - name: body_mass_state # [cpp]
+      - name: custom_state # [cpp]
+
+      - name: hybrid_type # [py]
+      - name: translational_type # [py]
+      - name: rotational_type # [py]
+      - name: body_mass_type # [py]
+      - name: custom_type # [py]
+
+
+  #   enum tudatpy.simulation.propagation_setup.propagator.PropagationTerminationTypes # python only(?)
+
+  - name: RotationalPropagatorType # [py]
+    short_summary: "Enumeration of available rotational propagator types." # [py]
+    extended_summary: | # [py]
+      Enumeration of rotational propagator types supported by tudat. # [py]
+
+    attributes:
+      - name: time_stopping_condition # [py]
+      - name: cpu_time_stopping_condition # [py]
+      - name: dependent_variable_stopping_condition # [py]
+      - name: hybrid_stopping_condition # [py]
+      - name: custom_stopping_condition # [py]
+
+  ######
 
   # base: dependent variables
   - name: DependentVariableSaveSettings

@@ -9,6 +9,47 @@ notes: "None"
 
 classes:
 
+###### enums
+
+  #    py::enum_<tss::GravityFieldType>
+  #        enum tudat::simulation_setup::GravityFieldType
+
+  - name: GravityFieldType
+    short_summary: "Enumeration of gravity field types."
+    extended_summary: |
+      Enumeration of gravity field types supported by tudat.
+
+    attributes:
+
+      - name: central # [cpp]
+      - name: central_spice # [cpp]
+      - name: spherical_harmonic # [cpp]
+
+      - name: central_gravity # [py]
+      - name: central_spice_gravity # [py]
+      - name: spherical_harmonic_gravity # [py]
+
+  #    py::enum_<tss::SphericalHarmonicsModel>
+  #        enum tudat::simulation_setup::SphericalHarmonicsModel
+
+  - name: SphericalHarmonicsModel
+    short_summary: "Enumeration of spherical harmonics models."
+    extended_summary: |
+      Enumeration of spherical harmonics models supported by tudat.
+
+    attributes:
+      - name: customModel # [cpp]
+      - name: custom_model # [py]
+      - name: egm96
+      - name: ggm02c
+      - name: ggm02s
+      - name: glgm3150
+      - name: lpe200
+      - name: jgmro120d
+
+
+######
+
 
   # base class:
 
