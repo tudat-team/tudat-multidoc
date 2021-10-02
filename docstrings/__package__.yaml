@@ -13,8 +13,7 @@ summary: |
 modules:
   - astro
   - interface
-  - numerical-simulation
-  - simulation
+  - numerical_simulation
   - plotting      # [py]
 #  - cli           # [py]
   - util          # [py]
