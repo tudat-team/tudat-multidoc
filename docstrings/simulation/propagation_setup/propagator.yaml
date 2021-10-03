@@ -618,23 +618,23 @@ classes:
 
       - name: processNumericalEquationsOfMotionSolution # [cpp]
       - name: process_numerical_equations_of_motion_solution # [py]
-       short_summary: "This function updates the environment with the numerical solution of the propagation."
-       extended_summary: |
-         This function updates the environment with the numerical solution of the propagation. It sets
-         the propagated translational dynamics solution as the new input for the Ephemeris object of the body that was
-         propagated.
+        short_summary: "This function updates the environment with the numerical solution of the propagation."
+        extended_summary: |
+          This function updates the environment with the numerical solution of the propagation. It sets
+          the propagated translational dynamics solution as the new input for the Ephemeris object of the body that was
+          propagated.
 
       - name: suppressDependentVariableDataPrinting # [cpp]
       - name: suppress_dependent_variable_terminal_printing # [py]
-       short_summary: "This function is used to deactivate the output to the terminal informing the user about the dependent variable saved."
-       extended_summary: |
-         This function is used to deactivate the output to the terminal informing the user about the dependent variable saved.
+        short_summary: "This function is used to deactivate the output to the terminal informing the user about the dependent variable saved."
+        extended_summary: |
+          This function is used to deactivate the output to the terminal informing the user about the dependent variable saved.
 
       - name: enableDependentVariableDataPrinting # [cpp]
       - name: enable_dependent_variable_terminal_printing # [py]
-       short_summary: "This function is used to activate the output to the terminal informing the user about the dependent variable saved."
-       extended_summary: |
-         This function is used to activate the output to the terminal informing the user about the dependent variable saved.
+        short_summary: "This function is used to activate the output to the terminal informing the user about the dependent variable saved."
+        extended_summary: |
+          This function is used to activate the output to the terminal informing the user about the dependent variable saved.
 
 
 functions:
