@@ -5,10 +5,6 @@ notes: "None"
 # includes content for nBodyStateDerivative.h, bulirschStoerVariableStepsizeIntegrator.h,
 # propagationSettings.h, propagationTerminationSettings.h (tudat)
 
-# Enums
-# TODO
-
-#       py::enum_<tp::RotationalPropagatorType>
 
 
 classes:
