@@ -110,11 +110,11 @@ classes:
 
     attributes:
 
-      - name: colinear_with_state_segment_thrust_direction
-      - name: thrust_direction_from_existing_body_orientation
-      - name: custom_thrust_direction
-      - name: custom_thrust_orientation
-      - name: mee_costate_based_thrust_direction
+      - name: colinear_with_state_segment_thrust_direction_type
+      - name: thrust_direction_from_existing_body_orientation_type
+      - name: custom_thrust_direction_type
+      - name: custom_thrust_orientation_type
+      - name: mee_costate_based_thrust_direction_type
 
   ######
 
@@ -808,11 +808,11 @@ functions:
 
   # Thrust acceleration (overload 1)
   - name: thrustAcceleration # [cpp]
-  - name: thrust_acceleration # [py]
+  - name: thrust_from_direction_and_magnitude # [py]
     short_summary: "Creates settings for thrust acceleration from thrust guidance settings."
     extended_summary: |
       Creates settings for thrust acceleration from thrust guidance settings. The thrust direction and magnitude are
-      supplied in the form of dedicated settings objects (see the API for the respective classes).
+      supplied  separately in the form of dedicated settings objects (see the API for the respective classes).
 
     parameters:
       - name: ThrustDirectionSettings # [cpp]
@@ -834,12 +834,13 @@ functions:
 
   # Thrust acceleration (overload 2)
   - name: thrustAcceleration # [cpp]
-  - name: thrust_acceleration # [py]
-    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with variable magnitude."
+  - name: thrust_from_interpolator_variable_isp # [py]
+    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with variable specific impulse."
     extended_summary: |
-      Creates settings for thrust acceleration from interpolated thrust data. The thrust direction is defined through
-      the related interpolator (which uses time as independent variable) and it returns the thrust direction vector in
-      the specified frame (it can be local or inertial). The variable thrust magnitude is computed from the specific impulse, given as a function of time.
+      Creates settings for thrust acceleration from interpolated thrust data and variable specific impulse. The thrust 
+      direction and magnitude is defined through the related interpolator (which uses time as independent variable) and 
+      it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
+      The specific impulse is defined through a user-defined function of time.
 
     parameters:
       - name: dataInterpolationSettings # [cpp]
@@ -873,13 +874,12 @@ functions:
 
   # Thrust acceleration (overload 3)
   - name: thrustAcceleration # [cpp]
-  - name: thrust_acceleration # [py]
-    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with constant magnitudee."
+  - name: thrust_from_interpolator # [py]
+    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with constant specific impulse."
     extended_summary: |
-      Creates settings for thrust acceleration from interpolated thrust data. The thrust direction is defined through
-      the related interpolator (which uses time as independent variable) and it returns the thrust direction vector in
-      the specified frame (it can be local or inertial). The constant thrust magnitude is computed from the constant
-      specific impulse.
+      Creates settings for thrust acceleration from interpolated thrust data and constant specific impulse. The thrust 
+      direction and magnitude is defined through the related interpolator (which uses time as independent variable) and 
+      it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
 
     parameters:
       - name: dataInterpolationSettings # [cpp]

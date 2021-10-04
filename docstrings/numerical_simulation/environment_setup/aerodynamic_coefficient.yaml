@@ -252,7 +252,7 @@ functions:
         description: # [cpp]
 
 
-  - name: tabulated # [py]
+  - name: tabulated_force_only # [py]
   - name: oneDimensionalTabulatedAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings from user-defined, 1-d tabulated force coefficients."
     extended_summary: |
@@ -321,7 +321,7 @@ functions:
         description: # [cpp]
 
 
-  - name: scaled # [py]
+  - name: scaled_by_constant # [py]
   - name: scaledAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings by applying one constant scaling factor/value to all coefficients of an existing model settings object."
     extended_summary: |
@@ -367,7 +367,7 @@ functions:
         description: # [cpp]
 
 
-  - name: scaled # [py]
+  - name: scaled_by_vector # [py]
   - name: scaledAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings by applying constant scaling factors/values to the coefficients of an existing model settings object."
     extended_summary: |
@@ -414,7 +414,7 @@ functions:
         description: # [cpp]
 
 
-  - name: scaled # [py]
+  - name: scaled_by_vector_function # [py]
   - name: scaledAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings by applying custom scaling factors/values to the coefficients of an existing model settings object."
     extended_summary: |

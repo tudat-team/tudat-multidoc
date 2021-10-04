@@ -307,7 +307,7 @@ functions:
 
   # Relative position
   - name: relativePositionDependentVariable # [cpp]
-  - name: relative_speed # [py]
+  - name: relative_position # [py]
     short_summary: "Function to add the relative position vector to the dependent variables to save."
     extended_summary: "Function to add the relative position vector with respect to a second body to the dependent variables to save. The relative position is computed between the bodies' centers of mass."
 

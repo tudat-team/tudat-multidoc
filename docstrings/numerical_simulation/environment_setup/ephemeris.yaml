@@ -11,26 +11,6 @@ classes:
 
 ###### enums
 
-  #    py::enum_<te::ApproximatePlanetPositionsBase::BodiesWithEphemerisData>
-  #        enum tudat::ephemerides::BodiesWithEphemerisData
-
-  - name: BodiesWithEphemerisData
-    short_summary: "Enumeration of bodies with ephemeris data."
-    extended_summary: |
-      Enumeration of bodies with ephemeris data.
-
-    attributes:
-      - name: mercury
-      - name: venus
-      - name: earthMoonBarycenter # [cpp]
-      - name: earth_moon_barycenter # [py]
-      - name: mars
-      - name: jupiter
-      - name: saturn
-      - name: uranus
-      - name: neptune
-      - name: pluto
-      - name: undefined # [cpp]
 
 ######
 
@@ -867,7 +847,7 @@ functions:
         description: ""
 
 
-  - name: scaled # [py]
+  - name: scaled_by_constant # [py]
   - name: scaledEphemerisSettings # [cpp]
     short_summary: "Factory function for creating scaled ephemeris model settings."
     extended_summary: |
@@ -899,7 +879,7 @@ functions:
         description: ""
 
 
-  - name: scaled # [py]
+  - name: scaled_by_vector # [py]
   - name: scaledEphemerisSettings # [cpp]
     short_summary: "Factory function for creating scaled ephemeris model settings."
     extended_summary: |
@@ -930,7 +910,7 @@ functions:
         type: ScaledEphemerisSettings
         description: ""
 
-  - name: scaled # [py]
+  - name: scaled_by_vector_function # [py]
   - name: scaledEphemerisSettings # [cpp]
     short_summary: "Factory function for creating scaled ephemeris model settings."
     extended_summary: |
