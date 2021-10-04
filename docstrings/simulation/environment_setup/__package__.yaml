@@ -1,6 +1,12 @@
 description: "None."
 
 modules:
+  - aerodynamic_coefficient
+# - atmosphere
   - ephemeris
   - gravity_field
+# - gravity_field_variation
+# - radiation_pressure
   - rotation_model
+  - shape
+
