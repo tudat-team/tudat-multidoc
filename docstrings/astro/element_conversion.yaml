@@ -1,4 +1,4 @@
-description: "This module provide a variety of functions and classes to convert between different representations of translational and rotational states (e.g. Cartesian <-> Keplerian). Note that rotations between different reference frames are provided in the frame_conversion module
+description: "This module provide a variety of functions and classes to convert between different representations of translational and rotational states (e.g. Cartesian <-> Keplerian). Note that rotations between different reference frames are provided in the frame_conversion module"
 notes: "None"
 
 classes:
@@ -19,7 +19,7 @@ functions:
     short_summary: "Function to convert Cartesian to Keplerian elements."
     extended_summary: |
       Function to convert from Cartesian elements to standard Keplerian elements. The Keplerian 
-      elements that are returned are ordered as:
+      elements that are returned are ordered as
         0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
         1: Eccentricity
         2: Inclination
@@ -49,7 +49,7 @@ functions:
     short_summary: "Function to convert Keplerian to Cartesian elements."
     extended_summary: |
       Function to convert from standard Keplerian elements to Cartesian elements. The Keplerian 
-      elements that are provided as input must be ordered as:
+      elements that are provided as input must be ordered as
         0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
         1: Eccentricity
         2: Inclination

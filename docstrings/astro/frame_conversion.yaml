@@ -97,6 +97,7 @@ functions:
         description: Rotation matrix from inertial to TNW frame.
 
 
+
   - name: tnw_to_inertial_rotation_matrix # [py]
   - name: getTnwToInertialRotation # [cpp]
     short_summary: "Function to compute the rotation matrix from TNW to inertial frame"
@@ -129,3 +130,63 @@ functions:
         type: numpy.ndarray # [py]
         description: Rotation matrix from TNW to inertial frame.
 
+
+
+  - name: inertial_to_body_fixed_rotation_matrix # [py]
+  - name: getInertialToPlanetocentricFrameTransformationMatrix # [cpp]
+    short_summary: "Function to compute the rotation matrix from inertial to body-fixed frame"
+    extended_summary: |
+      Function to compute the rotation matrix from inertial to body-fixed frame, using typical pole
+      right ascension :math:`\alpha`, pole declination :math:`\delta`, and prime meridian longitude
+      :math:`W` angles. This definition of a body-fixed orientation is used by, for instance, the IAU
+      Working Group on Cartographic Coordinates and Rotational Elements. Rotation is performed by a
+      succesive z-x-z Euler angle rotation (see Archinal, B. A., et al. *Report of the IAU working
+      group on cartographic coordinates and rotational elements: 2015*. Celestial Mechanics and
+      Dynamical Astronomy 130.3 (2018): 1-46)
+    parameters:
+      - name: pole_declination # [py]
+        type: float # [py]
+        description: Declination of body pole in inertial frame
+
+      - name: pole_right_ascension # [py]
+        type: float # [py]
+        description: Right ascension of body pole in inertial frame
+
+      - name: prime_meridian_longitude # [py]
+        type: float # [py]
+        description: Longitude of prime meridian w.r.t. intermediate framee)
+
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Rotation matrix from inertial to body-fixed frame
+
+
+  - name: body_fixed_to_inertial_rotation_matrix # [py]
+  - name: getRotatingPlanetocentricToInertialFrameTransformationMatrix # [cpp]
+    short_summary: "Function to compute the rotation matrix from body-fixed to inertial frame"
+    extended_summary: |
+      Function to compute the rotation matrix from body-fixed to inertial frame, using typical pole
+      right ascension :math:`\alpha`, pole declination :math:`\delta`, and prime meridian longitude
+      :math:`W` angles. This definition of a body-fixed orientation is used by, for instance, the IAU
+      Working Group on Cartographic Coordinates and Rotational Elements. Rotation is performed by a
+      succesive z-x-z Euler angle rotation (see Archinal, B. A., et al. *Report of the IAU working
+      group on cartographic coordinates and rotational elements: 2015*. Celestial Mechanics and
+      Dynamical Astronomy 130.3 (2018): 1-46)
+    parameters:
+      - name: pole_declination # [py]
+        type: float # [py]
+        description: Declination of body pole in inertial frame
+
+      - name: pole_right_ascension # [py]
+        type: float # [py]
+        description: Right ascension of body pole in inertial frame
+
+      - name: prime_meridian_longitude # [py]
+        type: float # [py]
+        description: Longitude of prime meridian w.r.t. intermediate framee)
+
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Rotation matrix from body-fixed to inertial  frame

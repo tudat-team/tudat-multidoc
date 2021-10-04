@@ -2,3 +2,4 @@ description: "Provides diverse low-level to support  astrodynamics calculations.
 
 modules:
   - frame_conversion
+  - element_conversion
