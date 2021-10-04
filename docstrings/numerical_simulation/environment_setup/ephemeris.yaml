@@ -137,10 +137,10 @@ classes:
     methods:
       - name: ctor # [cpp]
         short_summary: "Constructor." # [cpp]
-        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaledEphemerisSettings` factory functions." # [cpp]
+        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaledEphemerisSettings` factory function." # [cpp]
       #      - name: __init__ # [py]
       #        short_summary: "Constructor."
-      #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory functions." # [py]
+      #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory function." # [py]
 
       - name: getBaseSettings # [cpp]
         short_summary: "Retrieve base settings of (un)scaled ephemeris." # [cpp]
@@ -915,9 +915,9 @@ functions:
         description: "Sets base settings of ephemeris to be scaled."
 
       - name: scaling_vector # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[6, 1]] # [py]
       - name: scaling # [cpp]
-        type: double # [cpp]
+        type: Eigen::Vector6d # [cpp]
         description: "Vector containing scaling factors to be applied to each element of the Cartesian state."
 
       - name: is_scaling_absolute # [py]
@@ -946,9 +946,9 @@ functions:
         description: "Sets base settings of ephemeris to be scaled."
 
       - name: scaling_vector_function # [py]
-        type: function < numpy.ndarray > # [py] #(%! type)
+        type: Callable[[float], numpy.ndarray[numpy.float64[6, 1]]] # [py]
       - name: scaling # [cpp]
-        type: double # [cpp]
+        type: std::function< Eigen::Vector6d( const double ) > # [cpp]
         description: "Function returning a vector with the scaling factors to be applied to each element of the Cartesian state."
 
       - name: is_scaling_absolute # [py]
