@@ -7,3 +7,116 @@ modules:
   - mass_rate
   - propagator
   - torque
+
+
+functions:
+
+
+  - name: createAccelerationModelsMap # [cpp]
+  - name: create_acceleration_models # [py]
+    short_summary: "Function to create a set of acceleration models from a dictionary of bodies linked to acceleration model types."
+
+    extended_summary: |
+      Function to create a set of acceleration models from a map of bodies and acceleration model types. The propagated
+      bodies and central bodies are provided as two separate lists with the same order.
+
+    parameters:
+      - name: bodies # [cpp]
+        type: SystemOfBodies # [cpp]
+      - name: body_system # [py]
+        type: SystemOfBodies # [py]
+        description: System of bodies to be used in the propagation.
+
+      - name: selectedAccelerationPerBody # [cpp]
+        type: SelectedAccelerationMap # [cpp]
+      - name: selected_acceleration_per_body # [py]
+        type: SelectedAccelerationMap # [py]
+        description: Key-value container indicating the acceleration type(s) as value and the body undergoing such acceleration(s) as key.
+
+      - name: propagatedBodies # [cpp]
+        type: std::vector # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: list # [py]
+        description: List of bodies to propagate.
+
+      - name: centralBodies # [cpp]
+        type: std::vector # [cpp]
+      - name: central_bodies # [py]
+        type: list # [py]
+        description: List of central bodies, each referred to each propagated body in the same order.
+
+    returns:
+        type: AccelerationMap # [cpp]
+        type: AccelerationMap # [py]
+        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+
+
+  - name: createTorqueModelsMap # [cpp]
+  - name: create_torque_models # [py]
+    short_summary: "Function to create a set of acceleration models from a dictionary of bodies linked to acceleration model types."
+
+    extended_summary: |
+      Function to create a set of acceleration models from a map of bodies and acceleration model types. The propagated
+      bodies is provided as a list.
+
+    parameters:
+      - name: bodies # [cpp]
+        type: SystemOfBodies # [cpp]
+      - name: body_system # [py]
+        type: SystemOfBodies # [py]
+        description: System of bodies to be used in the propagation.
+
+      - name: selectedTorquePerBody # [cpp]
+        type: SelectedTorqueMap # [cpp]
+      - name: selected_torque_per_body # [py]
+        type: SelectedTorqueMap # [py]
+        description: Key-value container indicating the acceleration type(s) as value and the body undergoing such acceleration(s) as key.
+
+      - name: propagatedBodies # [cpp]
+        type: std::vector # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: list # [py]
+        description: List of bodies to propagate.
+
+    returns:
+        type: TorqueModelMap # [cpp]
+        type: TorqueModelMap # [py]
+        description: Set of torques acting on the bodies to propagate, provided as torque models.
+
+
+  - name: getInitialStatesOfBodies # [cpp]
+  - name: create_acceleration_models # [py]
+    short_summary: "Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time."
+
+    extended_summary: |
+      Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time.
+
+    parameters:
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: List[str] # [py]
+        description: List of bodies to be propagated.
+
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: List[str] # [py]
+        description: List of central bodies, each referred to a body being propagated (in the same order).
+
+      - name: bodies # [cpp]
+        type: SystemOfBodies # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: body_system # [py]
+        description: System of bodies used in the propagation.
+
+      - name: initialTime # [cpp]
+        type: double # [cpp]
+      - name: initial_time # [py]
+        type: float # [py]
+        description: Initial time of the propagation.
+
+    returns:
+        type: Eigen::Matrix # [cpp]
+        type: numpy.ndarray # [py]
+        description: Time at which the states should be retrieved.
