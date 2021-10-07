@@ -3,257 +3,254 @@ description: "None."
 modules:
   - environment_setup
   - propagation_setup
-
-
+  - environment
 
 classes:
 
+  - name: SingleArcSimulator
+    short_summary: "Base class to define single arc dynamics simulator settings."
+    extendend_summary: |
+       Functional base class to define settings for single arc dynamics simulation.
 
-# Base: dynamics simulator
-- name: SingleArcSimulator
-  short_summary: "Base class to define single arc dynamics simulator settings."
-  extendend_summary: |
-     Functional base class to define settings for single arc dynamics simulation.
-
-  attributes:
-    - name: equationsOfMotionNumericalSolution_ # [cpp]
-      type: std::map<double, Eigen::Matrix> # [cpp]
-    - name: state_history # [py]
-      type: Dict[float, numpy.ndarray] # [py]
-      description: |
-        Numerical solution of the equations of motion as key-value pairs. This consists of the state history
-        of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
-        as value, with the epoch as key.
-
-    - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
-      type: std::map<double, Eigen::Matrix> # [cpp]
-    - name: unprocessed_state_history # [py]
-      type: Dict[float, numpy.ndarray] # [py]
-      description: |
-        Raw numerical solution of the equations of motion as key-value pairs. This consists of the state history
-        of the propagated bodies expressed in the "raw" form in which the propagation took place (e.g., Encke, Gauss,
-        etc...) as value, with the epoch as key.
-
-    - name: dependentVariableHistory_ # [cpp]
-      type: std::map<double, Eigen::Vector> # [cpp]
-    - name: dependent_variable_history # [py]
-      type: Dict[float, numpy.ndarray] # [py]
-      description: |
-        Dependent variables computed during the propagation as key-value pairs.
-        They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
-        as value, with the epoch as key.
-
-    - name: cumulativeComputationTimeHistory_ # [cpp]
-      type: std::map<double, double> # [cpp]
-    - name: cumulative_computation_time_history # [py]
-      type: Dict[float, float] # [py]
-      description: |
-        History of cumulative computation time needed during the propagation as key-value
-        pairs. This means that at each time step the computation time is the sum of the computation time needed for that particular
-        time step and the computation time needed for all the previous time steps. The computation time is returned
-        as value, with time as key.
-
-    - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
-      type: std::map<double, int> # [cpp]
-    - name: cumulative_number_of_function_evaluations # [py]
-      type: Dict[float, int] # [py]
-      description: |
-        This function returns the history of cumulative computation number of function evaluations needed during the propagation as key-value
-        pairs. This means that at each time step the number of function evaluations is the sum of the computation time needed for that particular
-        time step and the number of function evaluations needed for all the previous time steps. The number of function evaluations is returned
-        as value, with time as key.
-
-    - name: state_history_base # [py]
-      type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-      description: |
-        Numerical solution of the equations of motion as a vector of key-value containers. This consists of the state history
-        of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
-        as value, with the epoch as key. This function is similar to the corresponding function without "base", with
-        different return types.
-
-    - name: getDependentVariableHistoryBase # [cpp]
-      type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-      description: |
-        This function returns the dependent variables computed during the propagation as a vector of key-value containers.
-        They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
-        as value, with the epoch as key. This function is similar to the corresponding function without "base", with
-        different return types.
-
-    - name: getCumulativeComputationTimeHistoryBase # [cpp]
-      type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-      description: |
-        This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
-        This means that at each time step the computation time is the sum of the computation time needed for that particular
-        time step and the computation time needed for all the previous time steps. The computation time is returned
-        as value, with time as key. This function is similar to the corresponding function without "base", with
-        different return types.
-
-    - name: integratorSettings_ # [cpp]
-    - name: integrator_settings # [py]
-      type: IntegratorSettings
-      description: |
-        Object used in the propagation to specify the integrator settings.
-
-    - name: stateDerivativeFunction_ # [cpp]
-      type: std::function<Eigen::Matrix>(double, Eigen::Matrix)
-    - name: state_derivative_function # [py]
-      type: Callable[[float, numpy.ndarray], numpy.ndarray]
-      description: |
-        Function that performs a single state derivative function evaluation.
-
-    - name: doubleStateDerivativeFunction_ # [cpp]
-      type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
-    - name: double_state_derivative_function # [py]
-      type: Callable[[float, numpy.ndarray], numpy.ndarray] # [py]
-      description: |
-        Function that performs a single state derivative function evaluation with double precision.
-
-    - name: environmentUpdater_ # [cpp]
-    - name: environment_updater # [py]
-      type: EnvironmentUpdater
-      description: |
-        Object used in the propagation to update the enviroment.
-
-    - name: propagationTerminationCondition_ # [cpp]
-    - name: propagation_termination_condition # [py]
-      type: PropagationTerminationCondition
-      description: |
-        Object used in the propagation to define when the propagation should stop.
-
-    - name: integratedStateProcessors_ # [cpp]
-      type: std::map<IntegratedStateType, std::vector<IntegratedStateProcessor>> # [cpp]
-    - name: integrated_state_processors # [py]
-      type: Dict[float, List[IntegratedStateProcessor]] # [py]
-      description: |
-        List of object (per dynamics type) that process the integrated numerical solution by updating the environment.
-
-    - name: propagationTerminationReason_ # [cpp]
-    - name: propagation_termination_reason # [py]
-      type: PropagationTerminationCondition
-      description: |
-        Event that triggered the termination of the last propagation.
-
-    - name: integratedStateProcessors_ # [cpp]
-      type: bool # [cpp]
-    - name: integrated_state_processors # [py]
-      type: bool # [py]
-      description: |
-        Whether the integration was completed successfully.
-
-    - name: dependentVariableIds_ # [cpp]
-      type: std::map< int, std::string > # [cpp]
-    - name: dependent_variable_ids # [py]
-      type: Dict[int, str] # [py]
-      description: |
-        Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
-
-    - name: initialPropagationTime_ # [cpp]
-      type: double # [cpp]
-    - name: initial_propagation_time # [py]
-      type: float # [py]
-      description: |
-        Initial time of the propagation.
-
-    - name: dependentVariablesFunctions_ # [cpp]
-      type: std::function<Eigen::Vector> # [cpp]
-    - name: dependent_variables_functions # [py]
-      type: List[numpy.ndarray] # [py]
-      description: |
-        List of functions that compute the dependent variables at each time step.
-
-
-  methods:
-    - name: ctor
-      short_summary: "Constructor."
-      extended_summary: |
-        Instances of this class are typically not generated by the user because this is a base class.
-
-    - name: integrateEquationsOfMotion # [cpp]
-    - name: integrate_equations_of_motion # [py]
-      short_summary: "This function numerically (re-)integrates the equations of motion."
-      extended_summary: |
-        This function numerically (re-)integrates the equations of motion, using the settings set through the constructor
-        and a new initial state vector provided here. The raw results are set in the equationsOfMotionNumericalSolution_
-        attribute.
-
-      parameters:
-      - name: initialStates # [cpp]
-        type: Eigen::Matrix # [cpp]
-      - name: initial_states # [py]
-        type: numpy.ndarray # [py]
+    attributes:
+      - name: equationsOfMotionNumericalSolution_ # [cpp]
+        type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: state_history # [py]
+        type: Dict[float, numpy.ndarray] # [py]
         description: |
-          Initial state vector that is to be used for numerical integration. Note that this state should
-          be in the correct frame (i.e. corresponding to centralBodies in propagatorSettings_), but not in the propagator-
-          specific form (i.e Encke, Gauss, etc. for translational dynamics).
+          Numerical solution of the equations of motion as key-value pairs. This consists of the state history
+          of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
+          as value, with the epoch as key.
 
-    - name: manuallySetAndProcessRawNumericalEquationsOfMotionSolution # [cpp]
-    - name: manually_set_and_process_raw_numerical_equations_of_motion_solution # [py]
-      short_summary: "This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers."
-      extended_summary: |
-        This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
-        This means that at each time step the computation time is the sum of the computation time needed for that particular
-        time step and the computation time needed for all the previous time steps. The computation time is returned
-        as value, with time as key. This function is similar to the corresponding function without "base", with
-        different return types.
-
-      parameters:
-        - name: equationsOfMotionNumericalSolution # [cpp]
-          type: std::map<double, Eigen::Matrix> # [cpp]
-        - name: equations_of_motion_numerical_solution # [py]
-          type: Dict[float, numpy.ndarray] # [py]
-          description: State history generated externally.
-
-        - name: dependentVariableHistory # [cpp]
-          type: std::map<double, Eigen::Vector> # [cpp]
-        - name: dependent_variable_history # [py]
-          type: Dict[float, numpy.ndarray] # [py]
-          description: Dependent variable history generated externally.
-
-        - name: processSolution # [cpp]
-          type: bool # [cpp]
-        - name: process_solution # [py]
-          type: bool # [py]
-          description: If true, the new solution will be reprocessed immediately.
-
-    - name: resetInitialPropagationTime # [cpp]
-    - name: reset_initial_propagation_time # [py]
-      short_summary: "This function resets the initial time of the propagation."
-      extended_summary: |
-        This function resets the initial time of the propagation.
-
-      parameters:
-      - name: initialPropagationTime # [cpp]
-        type: double # [cpp]
-      - name: new_initial_propagation_time # [py]
-        type: float # [py]
+      - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
+        type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: unprocessed_state_history # [py]
+        type: Dict[float, numpy.ndarray] # [py]
         description: |
-          New value for the initial time of the propagation.
+          Raw numerical solution of the equations of motion as key-value pairs. This consists of the state history
+          of the propagated bodies expressed in the "raw" form in which the propagation took place (e.g., Encke, Gauss,
+          etc...) as value, with the epoch as key.
 
-    - name: resetPropagationTerminationConditions # [cpp]
-    - name: reset_propagation_termination_conditions # [py]
-      short_summary: "This function resets the termination conditions of the propagation."
-      extended_summary: |
-        Function to reset the object that checks whether the simulation should be stopped based on the (newly)
-        defined propagation settings.
+      - name: dependentVariableHistory_ # [cpp]
+        type: std::map<double, Eigen::Vector> # [cpp]
+      - name: dependent_variable_history # [py]
+        type: Dict[float, numpy.ndarray] # [py]
+        description: |
+          Dependent variables computed during the propagation as key-value pairs.
+          They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
+          as value, with the epoch as key.
 
-    - name: processNumericalEquationsOfMotionSolution # [cpp]
-    - name: process_numerical_equations_of_motion_solution # [py]
-      short_summary: "This function updates the environment with the numerical solution of the propagation."
-      extended_summary: |
-        This function updates the environment with the numerical solution of the propagation. It sets
-        the propagated translational dynamics solution as the new input for the Ephemeris object of the body that was
-        propagated.
+      - name: cumulativeComputationTimeHistory_ # [cpp]
+        type: std::map<double, double> # [cpp]
+      - name: cumulative_computation_time_history # [py]
+        type: Dict[float, float] # [py]
+        description: |
+          History of cumulative computation time needed during the propagation as key-value
+          pairs. This means that at each time step the computation time is the sum of the computation time needed for that particular
+          time step and the computation time needed for all the previous time steps. The computation time is returned
+          as value, with time as key.
 
-    - name: suppressDependentVariableDataPrinting # [cpp]
-    - name: suppress_dependent_variable_terminal_printing # [py]
-      short_summary: "This function is used to deactivate the output to the terminal informing the user about the dependent variable saved."
-      extended_summary: |
-        This function is used to deactivate the output to the terminal informing the user about the dependent variable saved.
+      - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
+        type: std::map<double, int> # [cpp]
+      - name: cumulative_number_of_function_evaluations # [py]
+        type: Dict[float, int] # [py]
+        description: |
+          This function returns the history of cumulative computation number of function evaluations needed during the propagation as key-value
+          pairs. This means that at each time step the number of function evaluations is the sum of the computation time needed for that particular
+          time step and the number of function evaluations needed for all the previous time steps. The number of function evaluations is returned
+          as value, with time as key.
 
-    - name: enableDependentVariableDataPrinting # [cpp]
-    - name: enable_dependent_variable_terminal_printing # [py]
-      short_summary: "This function is used to activate the output to the terminal informing the user about the dependent variable saved."
-      extended_summary: |
-        This function is used to activate the output to the terminal informing the user about the dependent variable saved.
+      - name: state_history_base # [py]
+        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        description: |
+          Numerical solution of the equations of motion as a vector of key-value containers. This consists of the state history
+          of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
+          as value, with the epoch as key. This function is similar to the corresponding function without "base", with
+          different return types.
+
+      - name: getDependentVariableHistoryBase # [cpp]
+        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        description: |
+          This function returns the dependent variables computed during the propagation as a vector of key-value containers.
+          They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
+          as value, with the epoch as key. This function is similar to the corresponding function without "base", with
+          different return types.
+
+      - name: getCumulativeComputationTimeHistoryBase # [cpp]
+        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        description: |
+          This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
+          This means that at each time step the computation time is the sum of the computation time needed for that particular
+          time step and the computation time needed for all the previous time steps. The computation time is returned
+          as value, with time as key. This function is similar to the corresponding function without "base", with
+          different return types.
+
+      - name: integratorSettings_ # [cpp]
+      - name: integrator_settings # [py]
+        type: IntegratorSettings
+        description: |
+          Object used in the propagation to specify the integrator settings.
+
+      - name: stateDerivativeFunction_ # [cpp]
+        type: std::function<Eigen::Matrix>(double, Eigen::Matrix)
+      - name: state_derivative_function # [py]
+        type: Callable[[float, numpy.ndarray], numpy.ndarray]
+        description: |
+          Function that performs a single state derivative function evaluation.
+
+      #- name: doubleStateDerivativeFunction_ # [cpp]
+        #type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
+      #- name: double_state_derivative_function # [py]
+        #type: Callable[[float, numpy.ndarray], numpy.ndarray] # [py]
+        #description: |
+          #Function that performs a single state derivative function evaluation with double precision.
+
+      - name: environmentUpdater_ # [cpp]
+      - name: environment_updater # [py]
+        type: EnvironmentUpdater
+        description: |
+          Object used in the propagation to update the enviroment.
+
+      #- name: propagationTerminationCondition_ # [cpp]
+      #- name: propagation_termination_condition # [py]
+        #type: PropagationTerminationCondition
+        #description: |
+          #Object used in the propagation to define when the propagation should stop.
+
+      #- name: integratedStateProcessors_ # [cpp]
+        #type: std::map<IntegratedStateType, std::vector<IntegratedStateProcessor>> # [cpp]
+      #- name: integrated_state_processors # [py]
+        #type: Dict[float, List[IntegratedStateProcessor]] # [py]
+        #description: |
+          #List of object (per dynamics type) that process the integrated numerical solution by updating the environment.
+
+      - name: propagationTerminationReason_ # [cpp]
+      - name: propagation_termination_reason # [py]
+        type: PropagationTerminationCondition
+        description: |
+          Event that triggered the termination of the last propagation.
+
+      #- name: integratedStateProcessors_ # [cpp]
+        #type: bool # [cpp]
+      #- name: integrated_state_processors # [py]
+        #type: bool # [py]
+        #description: |
+          #Whether the integration was completed successfully.
+
+      - name: dependentVariableIds_ # [cpp]
+        type: std::map< int, std::string > # [cpp]
+      - name: dependent_variable_ids # [py]
+        type: Dict[int, str] # [py]
+        description: |
+          Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
+
+      #- name: initialPropagationTime_ # [cpp]
+        #type: double # [cpp]
+      #- name: initial_propagation_time # [py]
+        #type: float # [py]
+        #description: |
+          #Initial time of the propagation.
+
+      #- name: dependentVariablesFunctions_ # [cpp]
+        #type: std::function<Eigen::Vector> # [cpp]
+      #- name: dependent_variables_functions # [py]
+        #type: List[numpy.ndarray] # [py]
+        #description: |
+          #List of functions that compute the dependent variables at each time step.
+
+
+    methods:
+      - name: ctor
+        short_summary: "Constructor."
+        extended_summary: |
+          Instances of this class are typically not generated by the user because this is a base class.
+
+      - name: integrateEquationsOfMotion # [cpp]
+      - name: integrate_equations_of_motion # [py]
+        short_summary: "This function numerically (re-)integrates the equations of motion."
+        extended_summary: |
+          This function numerically (re-)integrates the equations of motion, using the settings set through the constructor
+          and a new initial state vector provided here. T
+
+        parameters:
+        - name: initialStates # [cpp]
+          type: Eigen::Matrix # [cpp]
+        - name: initial_states # [py]
+          type: numpy.ndarray # [py]
+          description: |
+            Initial state vector that is to be used for numerical integration. Note that this state should
+            be in the correct frame (i.e. corresponding to central_bodies in propagator_settings), but not in the propagator-
+            specific form (i.e should be in Cartesian, and not in Encke, Gauss, etc. for translational dynamics).
+
+      - name: manuallySetAndProcessRawNumericalEquationsOfMotionSolution # [cpp]
+      - name: manually_set_and_process_raw_numerical_equations_of_motion_solution # [py]
+        short_summary: "This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers."
+        extended_summary: |
+          This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
+          This means that at each time step the computation time is the sum of the computation time needed for that particular
+          time step and the computation time needed for all the previous time steps. The computation time is returned
+          as value, with time as key. This function is similar to the corresponding function without "base", with
+          different return types.
+
+        parameters:
+          - name: equationsOfMotionNumericalSolution # [cpp]
+            type: std::map<double, Eigen::Matrix> # [cpp]
+          - name: equations_of_motion_numerical_solution # [py]
+            type: Dict[float, numpy.ndarray] # [py]
+            description: State history generated externally.
+
+          - name: dependentVariableHistory # [cpp]
+            type: std::map<double, Eigen::Vector> # [cpp]
+          - name: dependent_variable_history # [py]
+            type: Dict[float, numpy.ndarray] # [py]
+            description: Dependent variable history generated externally.
+
+          - name: processSolution # [cpp]
+            type: bool # [cpp]
+          - name: process_solution # [py]
+            type: bool # [py]
+            description: If true, the new solution will be reprocessed immediately.
+
+      #- name: resetInitialPropagationTime # [cpp]
+      #- name: reset_initial_propagation_time # [py]
+        #short_summary: "This function resets the initial time of the propagation."
+        #extended_summary: |
+          #This function resets the initial time of the propagation.
+
+        #parameters:
+        #- name: initialPropagationTime # [cpp]
+          #type: double # [cpp]
+        #- name: new_initial_propagation_time # [py]
+          #type: float # [py]
+          #description: |
+            #New value for the initial time of the propagation.
+
+      #- name: resetPropagationTerminationConditions # [cpp]
+      #- name: reset_propagation_termination_conditions # [py]
+        #short_summary: "This function resets the termination conditions of the propagation."
+        #extended_summary: |
+          #Function to reset the object that checks whether the simulation should be stopped based on the (newly)
+          #defined propagation settings.
+
+      #- name: processNumericalEquationsOfMotionSolution # [cpp]
+      #- name: process_numerical_equations_of_motion_solution # [py]
+        #short_summary: "This function updates the environment with the numerical solution of the propagation."
+        #extended_summary: |
+          #This function updates the environment with the numerical solution of the propagation. It sets
+          #the propagated translational dynamics solution as the new input for the Ephemeris object of the body that was
+          #propagated.
+
+      #- name: suppressDependentVariableDataPrinting # [cpp]
+      #- name: suppress_dependent_variable_terminal_printing # [py]
+        #short_summary: "This function is used to deactivate the output to the terminal informing the user about the dependent variable saved."
+        #extended_summary: |
+          #This function is used to deactivate the output to the terminal informing the user about the dependent variable saved.
+
+      #- name: enableDependentVariableDataPrinting # [cpp]
+      #- name: enable_dependent_variable_terminal_printing # [py]
+        #short_summary: "This function is used to activate the output to the terminal informing the user about the dependent variable saved."
+        #extended_summary: |
+          #This function is used to activate the output to the terminal informing the user about the dependent variable saved.
+
 
 

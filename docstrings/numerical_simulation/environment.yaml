@@ -1,0 +1,38 @@
+description: "This module provides the functionality for functional environment objects and associated functionality. Specifically, it contains the models that perform computations related to environment models of natural and artificial bodies"
+notes: "None"
+
+classes:
+
+  - name: SystemOfBodies
+    short_summary: "Object that contains a set of Body objects and associated frame information."
+    extendend_summary: |
+       Object that contains a set of Body objects and associated frame information. This object stored the entire environment 
+       for a typical Tudat numerical simulation, and is fundamental for the overall Tudat architecture.
+
+    attributes:
+      - name: number_of_bodies # [py]
+        type: int # [py]
+        description: |
+          Number of Body objects stored in this SystemOfBodies
+
+    methods:      
+
+      - name: getBody # [cpp]
+      - name: get # [py]
+        short_summary: "This function extracts a single Body object from the SystemOfBodies."
+        extended_summary: |
+          This function extracts a single Body object from the SystemOfBodies
+
+        parameters:
+        - name: bodyName # [cpp]
+          type: std::string # [cpp]
+        - name: body_name # [py]
+          type: numpy.ndarray # [py]
+          description: |
+            Name of the Body that is to be retrieved
+
+        returns:
+          type: Body
+          description: Body object of the requested name
+
+      
