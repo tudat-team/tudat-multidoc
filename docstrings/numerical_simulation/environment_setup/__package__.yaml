@@ -1,7 +1,7 @@
 description: "None."
 
 modules:
-  - aerodynamic_coefficient
+  - aerodynamic_coefficients
   - atmosphere
   - ephemeris
   - gravity_field

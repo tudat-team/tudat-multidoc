@@ -100,7 +100,7 @@ functions:
           Constant wind velocity in the specified reference frame.
 
       - name: associated_reference_frame # [py]
-        type: astro.frames.AerodynamicsReferenceFrames, default = AerodynamicsReferenceFrames.vertical_frame # [py]
+        type: numerical_simulation.environment.AerodynamicsReferenceFrames, default = AerodynamicsReferenceFrames.vertical_frame # [py]
       - name: associatedFrame # [cpp]
         type: reference_frames::AerodynamicsReferenceFrames, default = reference_frames::vertical_frame # [cpp]
         description: |
@@ -130,7 +130,7 @@ functions:
           Custom wind velocity function (w.r.t. altitude, longitude, latitude and time) in the specified reference frame.
 
       - name: associated_reference_frame # [py]
-        type: astro.frames.AerodynamicsReferenceFrames, default = AerodynamicsReferenceFrames.vertical_frame # [py]
+        type: numerical_simulation.environment.AerodynamicsReferenceFrames, default = AerodynamicsReferenceFrames.vertical_frame # [py]
       - name: associatedFrame # [cpp]
         type: reference_frames::AerodynamicsReferenceFrames, default = reference_frames::vertical_frame # [cpp]
         description: |
@@ -145,7 +145,7 @@ functions:
 
     # AtmosphereSettings hereafter
 
-  - name: exponential # [py]
+  - name: exponential_predefined # [py]
   - name: exponentialAtmosphereSettings # [cpp]
     short_summary: "Factory function for creating atmospheric model settings from pre-defined exponential model."
     extended_summary: |
@@ -166,35 +166,6 @@ functions:
         description: # [py]
       - type: ExponentialAtmosphereSettings  # [cpp]
         description: # [cpp]
-
-
-  - name: exponential # [py]
-  - name: exponentialAtmosphereSettings # [cpp]
-    short_summary: "Factory function for creating atmospheric model settings from two-parameter exponential model."
-    extended_summary: |
-      Factory function for settings object, defining exponential atmosphere model from scale height and ground-level air density parameters.
-      This function creates an instance of an `AtmosphereSettings` derived `ExponentialAtmosphereSettings` object.
-
-    parameters:
-
-      - name: scale_height # [py]
-        type: float # [py]
-      - name: densityScaleHeight # [cpp]
-        type: double # [cpp]
-        description: "Scale height for density profile of atmosphere."
-
-      - name: surface_density # [py]
-        type: float # [py]
-      - name: densityAtZeroAltitude # [cpp]
-        type: double # [cpp]
-        description: "Atmospheric density at ground level."
-
-    returns:
-      - type: ExponentialAtmosphereSettings # [py]
-        description: # [py]
-      - type: ExponentialAtmosphereSettings # [cpp]
-        description: # [cpp]
-
 
   - name: exponential # [py]
   - name: exponentialAtmosphereSettings # [cpp]
@@ -220,13 +191,13 @@ functions:
         description: "Atmospheric density at ground level."
 
       - name: constant_temperature # [py]
-        type: float # [py]
+        type: float, default = 288.15 # [py]
       - name: constantTemperature # [cpp]
-        type: double # [cpp]
+        type: double, default = 288.15 # [cpp]
         description: "Constant atmospheric temperature."
 
       - name: specific_gas_constant # [py]
-        type: float, default = 287.0 # [py]
+        type: float, default = constants.SPECIFIC_GAS_CONSTANT_AIR # [py]
       - name: specificGasConstant # [cpp]
         type: double, default = physical_constants::SPECIFIC_GAS_CONSTANT_AIR # [cpp]
         description: "Specific gas constant for (constant) atmospheric chemical composition."
@@ -302,7 +273,7 @@ functions:
         description: # [cpp]
 
 
-  - name: custom_constant_temperature # [py]
+  - name: custom_four_dimensional_constant_temperature # [py]
   - name: customConstantTemperatureAtmosphereSettings # [cpp]
     short_summary: "Factory function for creating atmospheric model settings from custom density profile."
     extended_summary: |
@@ -344,7 +315,7 @@ functions:
         description: # [cpp]
 
 
-  - name: scaled # [py]
+  - name: scaled_by_function # [py]
   - name: scaledAtmosphereSettings # [cpp]
     short_summary: "Factory function for creating scaled atmospheric model settings."
     extended_summary: |
@@ -379,7 +350,7 @@ functions:
         description: # [cpp]
 
 
-  - name: scaled # [py]
+  - name: scaled_by_constant # [py]
   - name: scaledAtmosphereSettings # [cpp]
     short_summary: "Factory function for creating scaled atmospheric model settings."
     extended_summary: |

@@ -1207,79 +1207,79 @@ functions:
         description: Custom thrust direction settings object.
 
 
-  # Modified equinoctial elements costate-based thrust direction (overload 1)
-  - name: meeCostateBasedThrustDirectionSettings # [cpp]
-  - name: custom_thrust_direction # [py]
-    short_summary: "Create thrust direction settings, expressed through modified equinoctial elements costates."
-    extended_summary: |
-      Factory function that creates thrust direction settings, expressed through modified equinoctial elements costates.
-      By using these settings for the thrust direction, the so-called co-states of the Modified Equinoctial elements
-      are used to determine the direction of the thrust. Details of this model are given by Kluever (2010),
-      Boudestijn (2014) and Hogervorst (2017). This function takes variable costates as an interpolator over time.
+  ## Modified equinoctial elements costate-based thrust direction (overload 1)
+  #- name: meeCostateBasedThrustDirectionSettings # [cpp]
+  #- name: custom_thrust_direction # [py]
+    #short_summary: "Create thrust direction settings, expressed through modified equinoctial elements costates."
+    #extended_summary: |
+      #Factory function that creates thrust direction settings, expressed through modified equinoctial elements costates.
+      #By using these settings for the thrust direction, the so-called co-states of the Modified Equinoctial elements
+      #are used to determine the direction of the thrust. Details of this model are given by Kluever (2010),
+      #Boudestijn (2014) and Hogervorst (2017). This function takes variable costates as an interpolator over time.
 
-    parameters:
-      - name: vehicleName # [cpp]
-        type: std::string # [cpp]
-      - name: vehicle_name # [py]
-        type: str # [py]
-        description: Name of the body undergoing thrust.
+    #parameters:
+      #- name: vehicleName # [cpp]
+        #type: std::string # [cpp]
+      #- name: vehicle_name # [py]
+        #type: str # [py]
+        #description: Name of the body undergoing thrust.
 
-      - name: centralBodyName # [cpp]
-        type: std::string # [cpp]
-      - name: central_body_name # [py]
-        type: str # [py]
-        description: Name of the central body with respect to which the Modified Equinoctial Elements are computed.
+      #- name: centralBodyName # [cpp]
+        #type: std::string # [cpp]
+      #- name: central_body_name # [py]
+        #type: str # [py]
+        #description: Name of the central body with respect to which the Modified Equinoctial Elements are computed.
 
-      - name: costateInterpolator # [cpp]
-        type: OneDimensionalInterpolator<double, Eigen::VectorXd> # [cpp]
-      - name: costate_interpolator # [py]
-        type: OneDimensionalInterpolator<float, numpy.ndarray> # [py]
-        description: Interpolator object returning the five costates with time as an independent variable.
+      #- name: costateInterpolator # [cpp]
+        #type: OneDimensionalInterpolator<double, Eigen::VectorXd> # [cpp]
+      #- name: costate_interpolator # [py]
+        #type: OneDimensionalInterpolator<float, numpy.ndarray> # [py]
+        #description: Interpolator object returning the five costates with time as an independent variable.
 
-    returns:
-        type: MeeCostateBasedThrustDirectionSettings
-        description: Modified Equinoctial Elements costate-based thrust direction settings object.
+    #returns:
+        #type: MeeCostateBasedThrustDirectionSettings
+        #description: Modified Equinoctial Elements costate-based thrust direction settings object.
 
 
-  # Modified equinoctial elements costate-based thrust direction (overload 2)
-  - name: meeCostateBasedThrustDirectionSettings # [cpp]
-  - name: custom_thrust_direction # [py]
-    short_summary: "Create thrust direction settings, expressed through modified equinoctial elements costates."
-    extended_summary: |
-      Factory function that creates thrust direction settings, expressed through modified equinoctial elements costates.
-      By using these settings for the thrust direction, the so-called co-states of the Modified Equinoctial elements
-      are used to determine the direction of the thrust. Details of this model are given by Kluever (2010),
-      Boudestijn (2014) and Hogervorst (2017). This function takes constant costates.
+  ## Modified equinoctial elements costate-based thrust direction (overload 2)
+  #- name: meeCostateBasedThrustDirectionSettings # [cpp]
+  #- name: custom_thrust_direction # [py]
+    #short_summary: "Create thrust direction settings, expressed through modified equinoctial elements costates."
+    #extended_summary: |
+      #Factory function that creates thrust direction settings, expressed through modified equinoctial elements costates.
+      #By using these settings for the thrust direction, the so-called co-states of the Modified Equinoctial elements
+      #are used to determine the direction of the thrust. Details of this model are given by Kluever (2010),
+      #Boudestijn (2014) and Hogervorst (2017). This function takes constant costates.
 
-    parameters:
-      - name: vehicleName # [cpp]
-        type: std::string # [cpp]
-      - name: vehicle_name # [py]
-        type: str # [py]
-        description: Name of the body undergoing thrust.
+    #parameters:
+      #- name: vehicleName # [cpp]
+        #type: std::string # [cpp]
+      #- name: vehicle_name # [py]
+        #type: str # [py]
+        #description: Name of the body undergoing thrust.
 
-      - name: centralBodyName # [cpp]
-        type: std::string # [cpp]
-      - name: central_body_name # [py]
-        type: str # [py]
-        description: Name of the central body with respect to which the Modified Equinoctial Elements are computed.
+      #- name: centralBodyName # [cpp]
+        #type: std::string # [cpp]
+      #- name: central_body_name # [py]
+        #type: str # [py]
+        #description: Name of the central body with respect to which the Modified Equinoctial Elements are computed.
 
-      - name: constantCostates # [cpp]
-        type: Eigen::VectorXd # [cpp]
-      - name: constant_costates # [py]
-        type: numpy.ndarray # [py]
-        description: Set of five constant costates.
+      #- name: constantCostates # [cpp]
+        #type: Eigen::VectorXd # [cpp]
+      #- name: constant_costates # [py]
+        #type: numpy.ndarray # [py]
+        #description: Set of five constant costates.
 
-    returns:
-        type: MeeCostateBasedThrustDirectionSettings
-        description: Modified Equinoctial Elements costate-based thrust direction settings object.
+    #returns:
+        #type: MeeCostateBasedThrustDirectionSettings
+        #description: Modified Equinoctial Elements costate-based thrust direction settings object.
 
   # Factory functions: thrust magnitude
 
   # Constant thrust magnitude
-  - name: fromFunctionThrustMagnitudeSettings # [cpp]
-  - name: custom_thrust_magnitude # [py]
-    short_summary: "Create thrust magnitude settings from a custom thrust magnitude function."
+  - name: constantThrustMagnitudeSettings # [cpp]
+  - name: constant_thrust_magnitude # [py]
+    short_summary: "Create thrust magnitude settings from a constant thrust magnitude and Isp."
     extended_summary: |
       Factory function that creates constant thrust magnitude settings. The specific impulse to use for the thrust is
       also supplied when applying a mass rate model in the propagation of the vehicle dynamics, relating the thrust

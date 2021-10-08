@@ -263,46 +263,9 @@ classes:
             description: "Time step setting to be used for the state interpolation." # [cpp]
 
 
-  - name: ApproximatePlanetPositionSettings
+  - name: ApproximateJplEphemerisSettings
     short_summary: "Class for creating settings of approximate ephemeris for major planets."
-    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximatePlanetPositions class and derived class (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf)."
-
-    attributes: # [py]
-      - name: body_identifier # [py] # readonly
-        # (%! unable to find translated type in tudatpy) type: ephemerides::ApproximatePlanetPositionsBase::BodiesWithEphemerisData
-        description: "Type Parameter identifying for which body an ephemeris is to be created." # [py]
-
-      - name: use_circular_coplanar_approximation # [py] # readonly
-        type: bool # [py]
-        description: "Boolean defining whether a circular coplanar orbit of the body is to be assumed." # [py]
-
-    methods:
-      - name: ctor # [cpp]
-        short_summary: "Constructor." # [cpp]
-        extended_summary: "Instances of the `ApproximatePlanetPositionSettings` class should be created through the `approximatePlanetPositionsSettings` factory function." # [cpp]
-      #      - name: __init__ # [py]
-      #        short_summary: "Constructor." # [py]
-      #        extended_summary: "Instances of the `ApproximatePlanetPositionSettings` class should be created through the `approximate_planet_positions` factory function." # [py]
-
-
-      - name: getBodyIdentifier # [cpp]
-        short_summary: "Retrieve identifier for which body an ephemeris is to be created." # [cpp]
-        extended_summary: "Function to retrieve parameter identifying for which body an ephemeris is to be created." # [cpp]
-        parameters: # [cpp]
-          - name: None # [cpp]
-        returns: # [cpp]
-            type: ephemerides::ApproximatePlanetPositionsBase::BodiesWithEphemerisData # [cpp]
-            description: "Type Parameter identifying for which body an ephemeris is to be created." # [cpp]
-
-      - name: getUseCircularCoplanarApproximation # [cpp]
-        short_summary: "Check weather a circular coplanar orbit of the body is to be assumed." # [cpp]
-        extended_summary: | # [cpp]
-          Function to retrieve parameter indicating whether a circular, coplanar orbit of the body is to be assumed. # [cpp]
-        parameters: # [cpp]
-          - name: None # [cpp]
-        returns: # [cpp]
-            type: bool # [cpp]
-            description: "Boolean defining whether a circular coplanar orbit of the body is to be assumed." # [cpp]
+    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf)."
 
 
   - name: ConstantEphemerisSettings
@@ -629,44 +592,27 @@ functions:
       #    Boolean defining whether a circular, coplanar orbit of the body is to be assumed, or whether a non-zero inclination and long-period changes in the orbit are to be included.
 
     returns: # [cpp]
-        type: ApproximatePlanetPositionSettings # [cpp]
+        type: ApproximateJplEphemerisSettings # [cpp]
         description: # [cpp]
 
 
-  - name: approximate_planet_positions # [py]
-  - name: approximatePlanetPositionsSettings # [cpp] # overload 1
+  - name: approximate_jpl_model # [py]
+  - name: approximateJplEphemerisSettings # [cpp] # overload 1
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets."
     extended_summary: |
       Factory function for settings object, defining approximate ephemeris model for major planets.
       In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).
-      #(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.
       This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.
 
     parameters:
-      - name: body_name_to_use # [py]
+      - name: body_name # [py]
         type: str # [py]
       - name: bodyName # [cpp]
         type: std::string # [cpp]
         description: "String that is attempted to be matched to an identifier for the body that the ephemeris is to be created for."
 
     returns:
-        type: ApproximatePlanetPositionSettings
-        description:
-
-
-  - name: approximate_planet_positions # [py]
-  - name: approximatePlanetPositionsSettings # [cpp] # overload 1
-    short_summary: "Factory function for creating approximate ephemeris model settings for major planets."
-    extended_summary: |
-      Factory function for settings object, defining approximate ephemeris model for major planets.
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).
-      #(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.
-      This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.
-    parameters:
-      - name: None
-
-    returns:
-        type: ApproximatePlanetPositionSettings
+        type: ApproximateJplEphemerisSettings
         description:
 
 

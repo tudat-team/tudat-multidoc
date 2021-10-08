@@ -221,14 +221,14 @@ functions:
 
 
   # Runge Kutta variable step size with scalar tolerances (cpp)
-  - name: runge_kutta_variable_step_size_vector_tolerances # [py]
+  - name: runge_kutta_variable_step_size # [py]
   - name: rungeKuttaVariableStepSettingsScalarTolerances # [cpp]
     short_summary: "Creates the settings for the Runge-Kutta variable step size integrator with scalar tolerances."
     extended_summary: |
       Factory function to create settings for the Runge-Kutta variable step size integrator with scalar tolerances.
       For this integrator, the step size is varied based on the tolerances and safety factor provided.
       The tolerance is composed of an absolute and a relative part.
-      Different coefficient sets (Butcher's tableau) can be used (see the `RungeKuttaCoefficients::CoefficientSets` enum).
+      Different coefficient sets (Butcher's tableau) can be used (see the `CoefficientSets` enum).
 
     parameters:
       - name: initial_time # [py]

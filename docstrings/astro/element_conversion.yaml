@@ -20,12 +20,13 @@ functions:
     extended_summary: |
       Function to convert from Cartesian elements to standard Keplerian elements. The Keplerian 
       elements that are returned are ordered as
-        0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
-        1: Eccentricity
-        2: Inclination
-        3: Argument of periapsis
-        4: Longitude of ascending node
-        5: True anomaly
+
+      | 0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
+      | 1: Eccentricity
+      | 2: Inclination
+      | 3: Argument of periapsis
+      | 4: Longitude of ascending node
+      | 5: True anomaly
     parameters:
       - name: cartesian_elements # [py]
         type: numpy.ndarray # [py]
@@ -50,12 +51,13 @@ functions:
     extended_summary: |
       Function to convert from standard Keplerian elements to Cartesian elements. The Keplerian 
       elements that are provided as input must be ordered as
-        0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
-        1: Eccentricity
-        2: Inclination
-        3: Argument of periapsis
-        4: Longitude of ascending node
-        5: True anomaly
+
+      | 0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
+      | 1: Eccentricity
+      | 2: Inclination
+      | 3: Argument of periapsis
+      | 4: Longitude of ascending node
+      | 5: True anomaly
     parameters:
       - name: keplerian_elements # [py]
         type: numpy.ndarray # [py]

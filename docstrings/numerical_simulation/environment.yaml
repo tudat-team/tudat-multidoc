@@ -3,6 +3,53 @@ notes: "None"
 
 classes:
 
+  - name: Body
+    short_summary: "Object that stores the environment properties and current state of a single body."
+    extendend_summary: |
+       Object that stores the environment properties and current state of a single celestial body (natural or artificial).
+       Each separate environment model (gravity field, ephemeris, etc.) is stored as a member object in this class.
+       During each time step, the Body gets updated to teh current time/propagated state, and the current properties, in
+       as much as they are time-dependent, can be extracted from this object
+
+    attributes:
+      - name: state # [py]
+        type: numpy.array # [py]
+        description: |
+          The translational state of the Body, as set during the current step of the numerical propagation. The translational 
+          state stored here is always in Cartesian elements, w.r.t. the global frame origin, with axes along the global frame 
+          orientation. If the body's translational state is numerically propagated, this property gets extracted from the propagated
+          state vector. If it is not propagated, the state is extracted from this body's ephemeris. In both cases, any required
+          state transformations are automatically applied. Note that this function  is *only* valid during the numerical propagation 
+          if any aspects of the dynamics or dependent variables require the body's state.
+
+    attributes:
+      - name: position # [py]
+        type: numpy.array # [py]
+        description: |
+          The translational position of the Body, as set during the current step of the numerical propagation (see `Body.state`)
+
+    attributes:
+      - name: velocity # [py]
+        type: numpy.array # [py]
+        description: |
+          The translational velocity of the Body, as set during the current step of the numerical propagation (see `Body.state`)
+
+
+    attributes:
+      - name: inertial_to_body_fixed_frame # [py]
+        type: numpy.array # [py]
+        description: |
+          The rotation from inertial frame (with global frame orientation) to this Body's body-fixed frame. The rotation is always
+          returned here as a rotation matrix.  If the body's rotational state is numerically propagated, this property gets extracted 
+          from the propagated state vector. If it is not propagated, the state is extracted from this body's rotatitonal ephemeris.
+          Note that this function  is *only* valid during the numerical propagation if any aspects of the dynamics or dependent variables 
+          require the body's rotational state.
+
+
+
+    methods:     
+
+
   - name: SystemOfBodies
     short_summary: "Object that contains a set of Body objects and associated frame information."
     extendend_summary: |
@@ -10,18 +57,13 @@ classes:
        for a typical Tudat numerical simulation, and is fundamental for the overall Tudat architecture.
 
     attributes:
-      - name: number_of_bodies # [py]
-        type: int # [py]
-        description: |
-          Number of Body objects stored in this SystemOfBodies
 
-    methods:      
-
+    methods:
       - name: getBody # [cpp]
       - name: get # [py]
         short_summary: "This function extracts a single Body object from the SystemOfBodies."
-        extended_summary: |
-          This function extracts a single Body object from the SystemOfBodies
+        #extended_summary: |
+        #  This function extracts a single Body object from the SystemOfBodies
 
         parameters:
         - name: bodyName # [cpp]
