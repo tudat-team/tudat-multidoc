@@ -51,7 +51,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: EphemerisType # [cpp]
+            type: EphemerisType # [cpp]
             description: Type of ephemeris that is to be created. # [cpp]
 
       - name: getFrameOrigin # [cpp]
@@ -60,7 +60,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Ephemeris frame origin. # [cpp]
 
       - name: getFrameOrientation # [cpp]
@@ -69,7 +69,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Ephemeris frame orientation. # [cpp]
 
       - name: getMultiArcEphemeris # [cpp]
@@ -78,7 +78,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::string # [cpp]
+            type: std::string # [cpp]
             description: Boolean denoting whether the ephemeris that is to be created is a multi-arc ephemeris. # [cpp]
 
       - name: resetFrameOrigin # [cpp]
@@ -128,7 +128,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: std::shared_ptr< EphemerisSettings > # [cpp]
+            type: std::shared_ptr< EphemerisSettings > # [cpp]
             description: Base settings (frame origin and orientation) of (un)scaled ephemeris. # [cpp]
 
       - name: getScaling # [cpp]
@@ -138,7 +138,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: double, Eigen::Vector6d, std::function< Eigen::Vector6d( const double ) > # [cpp]
+            type: double, Eigen::Vector6d, std::function< Eigen::Vector6d( const double ) > # [cpp]
             description: Scaling factor(s) for ephemeris scaling. # [cpp]
 
       - name: getIsScalingAbsolute # [cpp]
@@ -148,7 +148,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: bool # [cpp]
+            type: bool # [cpp]
             description: Boolean indicating whether ephemeris scaling is absolute. # [cpp]
 
 

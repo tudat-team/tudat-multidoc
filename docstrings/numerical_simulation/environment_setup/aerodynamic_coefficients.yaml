@@ -95,9 +95,9 @@ functions:
           Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
 
     returns:
-      - type: ConstantAerodynamicCoefficientSettings  # [py]
+        type: ConstantAerodynamicCoefficientSettings  # [py]
         description: # [py]
-      - type: ConstantAerodynamicCoefficientSettings  # [cpp]
+        type: ConstantAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
 
@@ -149,9 +149,9 @@ functions:
           Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
 
     returns:
-      - type: CustomAerodynamicCoefficientSettings  # [py]
+        type: CustomAerodynamicCoefficientSettings  # [py]
         description: # [py]
-      - type: CustomAerodynamicCoefficientSettings  # [cpp]
+        type: CustomAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
 
@@ -246,9 +246,9 @@ functions:
 
 
     returns:
-      - type: TabulatedAerodynamicCoefficientSettings  # [py]
+        type: TabulatedAerodynamicCoefficientSettings  # [py]
         description: # [py]
-      - type: TabulatedAerodynamicCoefficientSettings  # [cpp]
+        type: TabulatedAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
 
@@ -315,9 +315,9 @@ functions:
           where the conditions for interpolation of tabulated inputs are saved.
 
     returns:
-      - type: TabulatedAerodynamicCoefficientSettings  # [py]
+        type: TabulatedAerodynamicCoefficientSettings  # [py]
         description: # [py]
-      - type: TabulatedAerodynamicCoefficientSettings  # [cpp]
+        type: TabulatedAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
 
@@ -361,9 +361,9 @@ functions:
           instead of the default behaviour of multiplying the base value by the scaling factor.
 
     returns:
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
         description: # [py]
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 
 
@@ -408,9 +408,9 @@ functions:
 
 
     returns:
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
         description: # [py]
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 
 
@@ -455,8 +455,8 @@ functions:
 
 
     returns:
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
         description: # [py]
-      - type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
+        type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 

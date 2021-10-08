@@ -91,9 +91,9 @@ functions:
         description: "List of bodies causing (partial) occultation."
 
     returns:
-      - type: CannonBallRadiationPressureInterfaceSettings  # [py]
+        type: CannonBallRadiationPressureInterfaceSettings  # [py]
         description: # [py]
-      - type: CannonBallRadiationPressureInterfaceSettings  # [cpp]
+        type: CannonBallRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]
 
 
@@ -150,7 +150,7 @@ functions:
         description: "List of bodies causing (partial) occultation."
 
     returns:
-      - type: PanelledRadiationPressureInterfaceSettings  # [py]
+        type: PanelledRadiationPressureInterfaceSettings  # [py]
         description: # [py]
-      - type: PanelledRadiationPressureInterfaceSettings  # [cpp]
+        type: PanelledRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]

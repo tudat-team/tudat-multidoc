@@ -96,7 +96,6 @@ classes:
         description: 
           The airspeed of the body w.r.t. the atmosphere
 
-
       - name: airspeed_velocity # [py]
         type: numpy.array # [py]
         description: 
@@ -106,6 +105,27 @@ classes:
         type: float # [py]
         description: 
           The freestream Mach number of the body
+
+      - name: aero_coefficient_independent_variables # [py]
+        type: np.array # [py]
+        description: 
+          List of current values of independent variables of aerodynamic coefficients. This list is only defined if the
+          body has an AerodynamicCoefficientInterface that has dependencies on environmental variables (e.g. Mach number,
+          angle of attack, etc.)
+
+      - name: control_surface_aero_coefficient_independent_variables # [py]
+        type: np.array # [py]
+        description: 
+          List of lists current values of independent variables of aerodynamic coefficients for control surfaces. The outer list
+          defines the control surface, the inner list the values of the independent variables. This list is only defined if the
+          body has an AerodynamicCoefficientInterface with control surfaces that have dependencies on environmental variables 
+          (e.g. Mach number, angle of attack, etc.)
+
+      - name: aerodynamic_coefficient_interface # [py]
+        type: AerodynamicCoefficientInterface # [py]
+        description: 
+          Object extracted from the same Body object as this AtmosphericFlightConditions object, which defines the aerodynamic
+          coefficients.
 
     methods:
       
@@ -216,7 +236,7 @@ classes:
         - name: bodyName # [cpp]
           type: std::string # [cpp]
         - name: body_name # [py]
-          type: numpy.ndarray # [py]
+          type: string # [py]
           description: |
             Name of the Body that is to be added
 

@@ -110,9 +110,9 @@ functions:
         description: "Radius specifying spherical body shape."
 
     returns:
-      - type: SphericalBodyShapeSettings  # [py]
+        type: SphericalBodyShapeSettings  # [py]
         description: # [py]
-      - type: SphericalBodyShapeSettings  # [cpp]
+        type: SphericalBodyShapeSettings  # [cpp]
         description: # [cpp]
 
 
@@ -124,9 +124,9 @@ functions:
       This function creates an instance of an `BodyShapeModel` object.
 
     returns:
-      - type: BodyShapeSettings  # [py]
+        type: BodyShapeSettings  # [py]
         description: # [py]
-      - type: BodyShapeSettings  # [cpp]
+        type: BodyShapeSettings  # [cpp]
         description: # [cpp]
 
 
@@ -153,7 +153,7 @@ functions:
 
 
     returns:
-      - type: OblateSphericalBodyShapeSettings  # [py]
+        type: OblateSphericalBodyShapeSettings  # [py]
         description: # [py]
-      - type: OblateSphericalBodyShapeSettings  # [cpp]
+        type: OblateSphericalBodyShapeSettings  # [cpp]
         description: # [cpp]

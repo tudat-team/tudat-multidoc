@@ -51,7 +51,7 @@ classes:
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
-          - type: WindModelSettings # [cpp]
+            type: WindModelSettings # [cpp]
             description: Wind settings of the atmosphere model settings object. # [cpp]
 
 
@@ -107,9 +107,9 @@ functions:
           Reference frame in which constant wind velocity is defined.
 
     returns:
-      - type: ConstantWindModelSettings  # [py]
+        type: ConstantWindModelSettings  # [py]
         description: # [py]
-      - type: ConstantWindModelSettings  # [cpp]
+        type: ConstantWindModelSettings  # [cpp]
         description: # [cpp]
 
 
@@ -137,9 +137,9 @@ functions:
           Reference frame in which constant wind velocity is defined.
 
     returns:
-      - type: CustomWindModelSettings  # [py]
+        type: CustomWindModelSettings  # [py]
         description: # [py]
-      - type: CustomWindModelSettings  # [cpp]
+        type: CustomWindModelSettings  # [cpp]
         description: # [cpp]
 
 
@@ -162,9 +162,9 @@ functions:
           Body for which pre-defined model settings are to be loaded. Available bodies "Earth", "Mars".
 
     returns:
-      - type: ExponentialAtmosphereSettings  # [py]
+        type: ExponentialAtmosphereSettings  # [py]
         description: # [py]
-      - type: ExponentialAtmosphereSettings  # [cpp]
+        type: ExponentialAtmosphereSettings  # [cpp]
         description: # [cpp]
 
   - name: exponential # [py]
@@ -209,9 +209,9 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-      - type: ExponentialAtmosphereSettings # [py]
+        type: ExponentialAtmosphereSettings # [py]
         description: # [py]
-      - type: ExponentialAtmosphereSettings # [cpp]
+        type: ExponentialAtmosphereSettings # [cpp]
         description: # [cpp]
 
 
@@ -225,9 +225,9 @@ functions:
       This function creates an instance of an `AtmosphereSettings` object.
 
     returns:
-      - type: AtmosphereSettings # [py]
+        type: AtmosphereSettings # [py]
         description:  # [py]
-      - type: AtmosphereSettings # [cpp]
+        type: AtmosphereSettings # [cpp]
         description: AtmosphereSettings object of athmosphereType nrlmsise00.# [cpp]
 
 
@@ -267,9 +267,9 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-      - type: CustomConstantTemperatureAtmosphereSettings # [py]
+        type: CustomConstantTemperatureAtmosphereSettings # [py]
         description: # [py]
-      - type: CustomConstantTemperatureAtmosphereSettings # [cpp]
+        type: CustomConstantTemperatureAtmosphereSettings # [cpp]
         description: # [cpp]
 
 
@@ -309,9 +309,9 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-      - type: CustomConstantTemperatureAtmosphereSettings # [py]
+        type: CustomConstantTemperatureAtmosphereSettings # [py]
         description: # [py]
-      - type: CustomConstantTemperatureAtmosphereSettings # [cpp]
+        type: CustomConstantTemperatureAtmosphereSettings # [cpp]
         description: # [cpp]
 
 
@@ -344,9 +344,9 @@ functions:
           Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
 
     returns:
-      - type: ScaledAtmosphereSettings # [py]
+        type: ScaledAtmosphereSettings # [py]
         description: # [py]
-      - type: ScaledAtmosphereSettings # [cpp]
+        type: ScaledAtmosphereSettings # [cpp]
         description: # [cpp]
 
 
@@ -379,9 +379,9 @@ functions:
           Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
 
     returns:
-      - type: ScaledAtmosphereSettings # [py]
+        type: ScaledAtmosphereSettings # [py]
         description: # [py]
-      - type: ScaledAtmosphereSettings # [cpp]
+        type: ScaledAtmosphereSettings # [cpp]
         description: # [cpp]
 
 

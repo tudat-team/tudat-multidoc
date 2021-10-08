@@ -310,9 +310,9 @@ functions:
           Minimum increase between consecutive time steps, expressed as the factor between new and old step size.
 
     returns:
-      - type: RungeKuttaVariableStepSettingsScalarTolerances # [py]
+        type: RungeKuttaVariableStepSettingsScalarTolerances # [py]
         description: RungeKuttaVariableStepSettingsScalarTolerances object. # [py]
-      - type: RungeKuttaVariableStepSettingsScalarTolerances # [cpp]
+        type: RungeKuttaVariableStepSettingsScalarTolerances # [cpp]
         description: RungeKuttaVariableStepSettingsScalarTolerances object. # [cpp]
 
 
@@ -407,9 +407,9 @@ functions:
           Minimum increase between consecutive time steps, expressed as the factor between new and old step size.
 
     returns:
-      - type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [py]
+        type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [py]
         description: RungeKuttaVariableStepSizeSettingsVectorTolerances object. # [py]
-      - type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [cpp]
+        type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [cpp]
         description: RungeKuttaVariableStepSizeSettingsVectorTolerances object. # [cpp]
 
 

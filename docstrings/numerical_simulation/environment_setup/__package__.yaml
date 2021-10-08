@@ -10,3 +10,140 @@ modules:
   - rotation_model
   - shape
 
+classes:
+
+
+  - name: BodyListSettings
+    short_summary: "Class for defining settings for the creation of a system of bodies."
+    extended_summary: |
+      Class for defining settings for the creation of a system of bodies. This object is typicall created from default settings, and
+      then adapted to the user's specific needs.
+
+    attributes:
+      - name: frame_origin # [py] # readonly
+        type: string # [py]
+        description: Definition of the global frame origin for the bodies
+
+      - name: frame_orientation # [py] # readonly
+        type: string # [py]
+        description: Definition of the global frame orienation for the bodies
+
+
+    methods:
+      - name: getBody # [cpp]
+      - name: get # [py]
+        short_summary: "This function extracts a single BodySettings object ."
+
+        parameters:
+        - name: bodyName # [cpp]
+          type: std::string # [cpp]
+        - name: body_name # [py]
+          type: string # [py]
+          description: |
+            Name of the body for which settings are to be retrieved
+
+
+  - name: BodySettings
+    short_summary: "Class for defining settings for the creation of a single body."
+    extended_summary: |
+      Class for defining settings for the creation of a single body, this object is typically stored inside a
+      :class:`BodyListSettings`, :class:`tudatpy.numerical_simulation.environment.BodyListSettings`  object.
+
+    attributes:
+      - name: constant_mass # [py]
+        type: float # [py]
+        description: Mass that gets assigned to the vehicle. Note that this mass does *not* automatically define a gravity field
+          model, but is instead used for the calculation of non-conservative forces only. When creating a body with a gravity field,
+          leave this entry empty.
+
+      - name: atmosphere_settings # [py]
+        type: AtmosphereSettings # [py]
+        description: Object that defines the settings of the atmosphere model that is to be created. Note that wind model settings
+          may be defined inside this object. A variable of this type is typically assigned by using a factory function from the
+          :ref:`tudatpy.numerical_simulation.environment_setup.atmosphere` module.
+
+      - name: ephemeris_settings # [py]
+        type: EphemerisSettings # [py]
+        description: Object that defines the settings of the ephemeris model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.ephemeris` module.
+
+      - name: gravity_field_settings # [py]
+        type: GravityFieldSettings # [py]
+        description: Object that defines the settings of the gravity field model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.gravity_field` module.
+
+      - name: rotation_model_settings # [py]
+        type: RotationModelSettings # [py]
+        description: Object that defines the settings of the rotation model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.rotation_model` module.
+
+      - name: shape_settings # [py]
+        type: BodyShapeSettings # [py]
+        description: Object that defines the settings of the shape model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module.
+
+functions:
+
+  - name: get_default_body_settings # [py]
+  - name: getDefaultBodySettings # [cpp]
+    short_summary: "Function that retrieves the default settings for the given set of input bodies."
+    extended_summary: |
+      Function that retrieves the default settings for the given set of input bodies. Default settings are described in
+      detail `here <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/create_bodies/default_settings.html>`_ .
+      Note that if a body is provided as input for which default settings do not exist, an exception is thrown. In addition
+      to settings for each separate body, this function returns an object that defines the global frame origin and orientation,
+    parameters:
+      - name: bodies # [py]
+        type: List[string] # [py]
+        description: "List of name of bodies for which default settings are to be retrieved."
+
+      - name: base_frame_origin # [py]
+        type: string # [py]
+        description: "Base frame origin of the set of bodies that is to be created."
+
+      - name: base_frame_orientation # [py]
+        type: string # [py]
+        description: "Base frame orientation of the set of bodies that is to be created."
+
+    returns:
+        type: BodyListSettings  # [py]
+        description: Object containing the settings for the SystemOfBodies that are to be created # [py]
+
+
+  - name: get_default_body_settings_time_limited # [py]
+  - name: getDefaultBodySettings # [cpp]
+    short_summary: "Function that retrieves the default settings for the given set of input bodies, with a limited valid time interval."
+    extended_summary: |
+      Same as :ref:`get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
+      the extraction of states from ephemerides more computationally efficient, at the expense of more RAM usage, and a
+      constrained time interval over which the ephemerides are valid. See `this page <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/valid_time_range.html>`_ for more details.
+
+    parameters:
+      - name: bodies # [py]
+        type: List[string] # [py]
+        description: "List of name of bodies for which default settings are to be retrieved."
+
+      - name: initial_time # [py]
+        type: float # [py]
+        description: "Start time from which the environment settings should be created."
+
+      - name: final_time # [py]
+        type: float # [py]
+        description: "End time up to which the environment settings should be created."
+
+      - name: base_frame_origin # [py]
+        type: string # [py]
+        description: "Base frame origin of the set of bodies that is to be created."
+
+      - name: base_frame_orientation # [py]
+        type: string # [py]
+        description: "Base frame orientation of the set of bodies that is to be created."
+
+      - name: time_step # [py]
+        type: float, default = 300.0 # [py]
+        description: "Time step to be used for the tabulated ephemeris."
+
+
+    returns:
+        type: BodyListSettings  # [py]
+        description: Object containing the settings for the SystemOfBodies that are to be created # [py]
