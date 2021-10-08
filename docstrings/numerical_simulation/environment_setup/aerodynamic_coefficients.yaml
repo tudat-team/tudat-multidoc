@@ -156,7 +156,7 @@ functions:
 
 
 
-  - name: tabulated # [py]
+  - name: tabulated_one_dimensional # [py]
   - name: oneDimensionalTabulatedAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings from user-defined, 1-d tabulated coefficients."
     extended_summary: |

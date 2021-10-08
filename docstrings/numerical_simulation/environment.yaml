@@ -3,6 +3,114 @@ notes: "None"
 
 classes:
 
+  - name: FlightConditions
+    short_summary: "Object that calculates various state-derived quantities typically relevant for flight dynamics."
+    extendend_summary: |
+       Object that calculates various state-derived quantities typically relevant for flight dynamics, such as latitude, longitude,
+       altitude, etc. It also contains an ``AerodynamicAngleCalculator`` that computes derived angles (flight path, heading angle, etc.).
+       This object is limited to non-atmospheric flight. For flight through Body objects endowed with an atmosphere model, the derived
+       class ``AtmosphericFlightConditions`` is used. This object is stored inside a Body object, and represents the flight conditions
+       of a single body w.r.t. a single central body
+
+    attributes:
+      - name: aerodynamic_angle_calculator # [py]
+        type: AerodynamicAngleCalculator # [py]
+        description: 
+          The object that is responsible for computing various relevant flight dynamics angles and frame rotations
+
+      - name: longitude # [py]
+        type: float # [py]
+        description: 
+          The body-fixed longitude of the body w.r.t. its central body.
+
+      - name: latitude # [py]
+        type: float # [py]
+        description: 
+          The body-fixed geographic latitude of the body w.r.t. its central body.
+
+      - name: geodetic_latitude # [py]
+        type: float # [py]
+        description: 
+          The body-fixed geodetic latitude of the body w.r.t. its central body, using an OblateSpheroidBodyShapeModel 
+          of the central body. If no such model is defined in the central body, this atribute equals the latitude
+
+
+      - name: altitude # [py]
+        type: float # [py]
+        description: 
+          The altitude of this body w.r.t. the central body (using the ShapeModel of the central body)
+
+
+      - name: time # [py]
+        type: float # [py]
+        description: 
+          The current time, at which this object was last updated
+
+      - name: body_centered_body_fixed_state # [py]
+        type: numpy.array # [py]
+        description: 
+          Cartesian translational state, expressed in a frame centered at, and fixed to, the central body. Note that, due
+          to the rotation of the central body, the norm of the body-fixed, body-centered, velocity differs from the norm of
+          the inertial body-centered velocity.
+
+    methods:
+      
+
+  - name: AtmosphericFlightConditions
+    short_summary: "Object that calculates various state-derived quantities typically relevant for flight dynamics, for flight in an atmosphere."
+    extendend_summary: |
+       Object that calculates various state-derived quantities typically relevant for flight dynamics, for flight in an atmosphere, 
+       such as latitude,  longitude, altitude, density, Mach number etc. It also contains an ``AerodynamicAngleCalculator`` that 
+       computes derived angles (flight path, heading angle, etc.). This object is derived from ``FlightConditions``, which performs
+       computations for non-atmospheric flight only. This object is stored inside a Body object, and represents the flight conditions
+       of a single body w.r.t. a single central body
+
+    attributes:
+      - name: density # [py]
+        type: float # [py]
+        description: 
+          The freestream atmospheric density at the body's current location
+
+      - name: temperature # [py]
+        type: float # [py]
+        description: 
+          The freestream atmospheric temperature at the body's current location
+
+      - name: dynamic_pressure # [py]
+        type: float # [py]
+        description: 
+          The freestream atmospheric dynamic pressure at the body's current location
+
+      - name: pressure # [py]
+        type: float # [py]
+        description: 
+          The freestream atmospheric static pressure at the body's current location
+
+      - name: speed_of_sound # [py]
+        type: float # [py]
+        description: 
+          The freestream atmospheric speed of sound at the body's current location
+
+      - name: airspeed # [py]
+        type: float # [py]
+        description: 
+          The airspeed of the body w.r.t. the atmosphere
+
+
+      - name: airspeed_velocity # [py]
+        type: numpy.array # [py]
+        description: 
+          The velocity vector of the body w.r.t. the freestream atmosphere (e.g. vectorial counterpart of airspeed)
+
+      - name: mach_number # [py]
+        type: float # [py]
+        description: 
+          The freestream Mach number of the body
+
+    methods:
+      
+
+
   - name: Body
     short_summary: "Object that stores the environment properties and current state of a single body."
     extendend_summary: |
@@ -22,20 +130,16 @@ classes:
           state transformations are automatically applied. Note that this function  is *only* valid during the numerical propagation 
           if any aspects of the dynamics or dependent variables require the body's state.
 
-    attributes:
       - name: position # [py]
         type: numpy.array # [py]
         description: |
           The translational position of the Body, as set during the current step of the numerical propagation (see `Body.state`)
 
-    attributes:
       - name: velocity # [py]
         type: numpy.array # [py]
         description: |
           The translational velocity of the Body, as set during the current step of the numerical propagation (see `Body.state`)
 
-
-    attributes:
       - name: inertial_to_body_fixed_frame # [py]
         type: numpy.array # [py]
         description: |
@@ -45,6 +149,30 @@ classes:
           Note that this function  is *only* valid during the numerical propagation if any aspects of the dynamics or dependent variables 
           require the body's rotational state.
 
+      - name: body_fixed_to_inertial_frame # [py]
+        type: numpy.array # [py]
+        description: |
+          The rotation from this Body's body-fixed frame to inertial frame (see `Body.inertial_to_body_fixed_frame`)
+
+      - name: inertial_to_body_fixed_frame_derivative # [py]
+        type: numpy.array # [py]
+        description: |
+          Time derivative of rotation matrix from inertial frame to this Body's body-fixed frame (see `Body.inertial_to_body_fixed_frame`)
+
+      - name: body_fixed_to_inertial_frame_derivative # [py]
+        type: numpy.array # [py]
+        description: |
+          Time derivative of rotation matrix from this Body's body-fixed frame to inertial frame (see `Body.inertial_to_body_fixed_frame`)
+
+      - name: inertial_angular_velocity # [py]
+        type: numpy.array # [py]
+        description: |
+          Angular velocity vector of the body, expressed in inertial frame (see `Body.inertial_to_body_fixed_frame`)
+    
+      - name: body_fixed_angular_velocity # [py]
+        type: numpy.array # [py]
+        description: |
+          Angular velocity vector of the body, expressed in body-fixed frame (see `Body.inertial_to_body_fixed_frame`)
 
 
     methods:     
@@ -76,5 +204,77 @@ classes:
         returns:
           type: Body
           description: Body object of the requested name
+
+      - name: createEmptyBody # [cpp]
+      - name: create_empty_body # [py]
+        short_summary: "This function creates a new empty body."
+        extended_summary: |
+          This function creates a new empty body, and adds it to the SystemOfBodies. Since the body is empty, it will not have
+          any environment models defined. These must all be added manually by a user.           
+
+        parameters:
+        - name: bodyName # [cpp]
+          type: std::string # [cpp]
+        - name: body_name # [py]
+          type: numpy.ndarray # [py]
+          description: |
+            Name of the Body that is to be added
+
+        parameters:
+        - name: processBody # [cpp]
+          type: bool, default=true # [cpp]
+        - name: process_body # [py]
+          type: bool, default=true # [py]
+          description: |
+            Variable that defines whether this new Body will have its global frame origin/orientation set to conform to rest of
+            the environment. Warning: only in very rare cases should this variable be anything other than 'true'. Users are
+            recommended to keep this default value intact.
+
+      - name: addBody # [cpp]
+      - name: add_body # [py]
+        short_summary: "This function adds an existing body, which the user has separately created, to the SystemOfBodies."
+
+        parameters:
+        - name: bodyToAdd # [cpp]
+          type: std::shared_ptr< Body > # [cpp]
+        - name: body_to_add # [py]
+          type: Body # [py]
+          description: |
+            Body object that is to be added
+
+        parameters:
+        - name: bodyName # [cpp]
+          type: std::string # [cpp]
+        - name: body_name # [py]
+          type: numpy.ndarray # [py]
+          description: |
+            Name of the Body that is to be added
+
+        parameters:
+        - name: processBody # [cpp]
+          type: bool, default=true # [cpp]
+        - name: process_body # [py]
+          type: bool, default=true # [py]
+          description: |
+            Variable that defines whether this new Body will have its global frame origin/orientation set to conform to rest of
+            the environment. Warning: only in very rare cases should this variable be anything other than 'true'. Users are
+            recommended to keep this default value intact.
+
+      - name: deleteBody # [cpp]
+      - name: remove_body # [py]
+        short_summary: "This function removes an existing body from the SystemOfBodies."
+        extended_summary: |
+          This function removes an existing body from the SystemOfBodies. Warning, this function does *not* necessarilly delete the 
+          Body object, it only removes it from this object. If any existing models in the simulation refer to this Body, it will
+          continue to exist in memory 
+
+        parameters:
+        - name: bodyName # [cpp]
+          type: std::string # [cpp]
+        - name: body_name # [py]
+          type: numpy.ndarray # [py]
+          description: |
+            Name of the Body that is to be removed
+
 
       
