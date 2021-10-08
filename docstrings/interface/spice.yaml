@@ -56,12 +56,6 @@ functions:
   - name: "convert_julian_date_to_ephemeris_time"
     short_summary: "Convert a Julian date to ephemeris time (equivalent to TDB in Spice)."
     extended_summary: |
-      The following math is for documentation demonstration purposes
-
-      .. math:: X(e^{j\omega } ) = x(n)e^{ - j\omega n}
-
-      \f$ f(x) = a + b \f$
-
       Function to convert a Julian date to ephemeris time, which is
       equivalent to barycentric dynamical time. A leap second kernel
       must have been loaded to use this function.
