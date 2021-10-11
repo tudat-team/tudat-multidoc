@@ -15,5 +15,4 @@ modules:
   - interface
   - numerical_simulation
   - plotting      # [py]
-#  - cli           # [py]
   - util          # [py]
