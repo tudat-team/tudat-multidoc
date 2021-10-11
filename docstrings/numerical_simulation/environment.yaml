@@ -139,12 +139,15 @@ classes:
        During each time step, the Body gets updated to teh current time/propagated state, and the current properties, in
        as much as they are time-dependent, can be extracted from this object
 
-    attributes:
+    attributes:     
+
+
+    methods:     
       - name: state # [py]
         type: numpy.array # [py]
         description: |
           The translational state of the Body, as set during the current step of the numerical propagation. The translational 
-          state stored here is always in Cartesian elements, w.r.t. the global frame origin, with axes along the global frame 
+          state stored here is always in Cartesian elements, w.r.t. the global frame origin, with axes along the global frame
           orientation. If the body's translational state is numerically propagated, this property gets extracted from the propagated
           state vector. If it is not propagated, the state is extracted from this body's ephemeris. In both cases, any required
           state transformations are automatically applied. Note that this function  is *only* valid during the numerical propagation 
@@ -193,10 +196,6 @@ classes:
         type: numpy.array # [py]
         description: |
           Angular velocity vector of the body, expressed in body-fixed frame (see `Body.inertial_to_body_fixed_frame`)
-
-
-    methods:     
-
 
   - name: SystemOfBodies
     short_summary: "Object that contains a set of Body objects and associated frame information."

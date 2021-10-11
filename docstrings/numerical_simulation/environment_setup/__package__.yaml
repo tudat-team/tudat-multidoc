@@ -47,7 +47,7 @@ classes:
     short_summary: "Class for defining settings for the creation of a single body."
     extended_summary: |
       Class for defining settings for the creation of a single body, this object is typically stored inside a
-      :class:`BodyListSettings`, :class:`tudatpy.numerical_simulation.environment.BodyListSettings`  object.
+      :class:`BodyListSettings`, object.
 
     attributes:
       - name: constant_mass # [py]
