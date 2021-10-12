@@ -89,13 +89,33 @@ This is done by placing tags right above the class/function declaration in the h
 In order to make the link to the exposed tudatpy classes and functions, the docstring needs to be exposed as well:
 - for classes:
   ````
-  get_docstring("<ClassName>")
+  get_docstring("<ClassName>").c_str()
   ````
   as last argument of `py:class_<>()`, as in
   ````
-  py:class_<CppClass, CppPointerToClass, CppParentClass>(module, "ClassName", get_docstring("<ClassName>.__docstring__"))
+  py:class_<CppClass, CppPointerToClass, CppParentClass>(module, "ClassName", get_docstring("<ClassName>").c_str())
   ````
-- for functions:
+- for class attributes, methods, and properties (generically "fields"):
+  ````
+  get_docstring("<ClassName.FieldName>").c_str()
+  ````
+  - for class attributes: as last argument of `.def_readwrite()` (or `.def_readonly()` for `const` attributes), as in
+    ````
+    .def_readwrite("AttributeName", CppClassName::CppAttributeName, py::arg("ParameterName"), ..., get_docstring("<ClassName.AttributeName>").c_str())
+    ````
+  - for class methods: as last argument of `.def()`, as in
+    ````
+    .def("MethodName", CppClassName::CppMethodName, py::arg("ParameterName"), ..., get_docstring("<ClassName.MethodName>").c_str())
+    ````
+  - for properties: as last argument of `.def_property()` (or `.def_property_readonly()` for properties with a getter only), as in
+    ````
+    .def_property("PropertyName", CppClassName::CppGetterMethodName, CppClassName::CppSetterMethodName, get_docstring("<ClassName.PropertyName>").c_str())
+    ````
+    or
+    ````
+    .def_property_readonly("PropertyName", CppClassName::CppGetterMethodName, get_docstring("<ClassName.PropertyName>").c_str())
+    ````
+- for free functions:
   ````
   get_docstring("<function_name>").c_str()
   ````
@@ -104,11 +124,8 @@ In order to make the link to the exposed tudatpy classes and functions, the docs
   ````
   get_docstring("<function_name>", X).c_str()
   ````
-  as last argument of m.def("<function_name>", ... ) exposure function
+  as last argument of `m.def("<function_name>", ... )` exposure function
 
-> **Note:** it is not necessary to include the `get_docstring` tag for class methods, as the docstring for all methods will be
-retrieved automatically from the class. Therefore, it is sufficient to include the `get_docstring` tag for the
-itself.
 
 ### Examples: TUDAT
 
