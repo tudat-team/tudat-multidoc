@@ -527,13 +527,13 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be propagated.
 
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies, each referred to a body being propagated (in the same order).
 
       - name: bodies # [cpp]
@@ -1060,7 +1060,7 @@ functions:
       - name: checkStopCondition # [cpp]
         type: std::function<bool(double)> # [cpp]
       - name: custom_condition # [py]
-        type: Callable[[float], bool] # [py]
+        type: callable[[float], bool] # [py]
         description: Function of time (independent variable) which is called during the propagation and returns a boolean value denoting whether the termination condition is verified.
 
     returns:

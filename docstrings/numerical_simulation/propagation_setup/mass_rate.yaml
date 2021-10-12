@@ -111,7 +111,7 @@ functions:
       - name: massRateFunction # [cpp]
         type: std::function<double(double)> # [cpp]
       - name: mass_rate_function # [py]
-        type: Callable[[float], float] # [py]
+        type: callable[[float], float] # [py]
         description: Function of time defining the custom mass rate.
 
     returns:

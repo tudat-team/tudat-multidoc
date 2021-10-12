@@ -21,11 +21,11 @@ classes:
 
     attributes:
       - name: frame_origin # [py] # readonly
-        type: string # [py]
+        type: str # [py]
         description: Definition of the global frame origin for the bodies
 
       - name: frame_orientation # [py] # readonly
-        type: string # [py]
+        type: str # [py]
         description: Definition of the global frame orienation for the bodies
 
 
@@ -38,7 +38,7 @@ classes:
         - name: bodyName # [cpp]
           type: std::string # [cpp]
         - name: body_name # [py]
-          type: string # [py]
+          type: str # [py]
           description: |
             Name of the body for which settings are to be retrieved
 
@@ -49,7 +49,7 @@ classes:
       Class for defining settings for the creation of a single body, this object is typically stored inside a
       :class:`BodyListSettings`, :class:`tudatpy.numerical_simulation.environment.BodyListSettings`  object.
 
-    attributes:
+    properties:
       - name: constant_mass # [py]
         type: float # [py]
         description: Mass that gets assigned to the vehicle. Note that this mass does *not* automatically define a gravity field
@@ -94,15 +94,15 @@ functions:
       to settings for each separate body, this function returns an object that defines the global frame origin and orientation,
     parameters:
       - name: bodies # [py]
-        type: List[string] # [py]
+        type: list[str] # [py]
         description: "List of name of bodies for which default settings are to be retrieved."
 
       - name: base_frame_origin # [py]
-        type: string # [py]
+        type: str # [py]
         description: "Base frame origin of the set of bodies that is to be created."
 
       - name: base_frame_orientation # [py]
-        type: string # [py]
+        type: str # [py]
         description: "Base frame orientation of the set of bodies that is to be created."
 
     returns:
@@ -120,7 +120,7 @@ functions:
 
     parameters:
       - name: bodies # [py]
-        type: List[string] # [py]
+        type: list[str] # [py]
         description: "List of name of bodies for which default settings are to be retrieved."
 
       - name: initial_time # [py]
@@ -132,11 +132,11 @@ functions:
         description: "End time up to which the environment settings should be created."
 
       - name: base_frame_origin # [py]
-        type: string # [py]
+        type: str # [py]
         description: "Base frame origin of the set of bodies that is to be created."
 
       - name: base_frame_orientation # [py]
-        type: string # [py]
+        type: str # [py]
         description: "Base frame orientation of the set of bodies that is to be created."
 
       - name: time_step # [py]

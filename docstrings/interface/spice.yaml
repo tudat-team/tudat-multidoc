@@ -368,7 +368,7 @@ functions:
     short_summary: "Load the default legacy kernels."
     parameters:
       - name: kernel_paths
-        type: List[str]
+        type: list[str]
         description: "Optional addition kernels to be loaded."
 
   - name: get_total_count_of_kernels_loaded

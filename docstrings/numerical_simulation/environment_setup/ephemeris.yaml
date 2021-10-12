@@ -872,7 +872,7 @@ functions:
         description: "Sets base settings of ephemeris to be scaled."
 
       - name: scaling_vector_function # [py]
-        type: Callable[[float], numpy.ndarray[numpy.float64[6, 1]]] # [py]
+        type: callable[[float], numpy.ndarray[numpy.float64[6, 1]]] # [py]
       - name: scaling # [cpp]
         type: std::function< Eigen::Vector6d( const double ) > # [cpp]
         description: "Function returning a vector with the scaling factors to be applied to each element of the Cartesian state."

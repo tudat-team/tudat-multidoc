@@ -123,7 +123,7 @@ functions:
 
     parameters:
       - name: wind_velocity # [py]
-        type: Callable[[float, float, float, float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: callable[[float, float, float, float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: constantWindVelocity # [cpp]
         type: std::function< Eigen::Vector3d( const double, const double, const double, const double ) > # [cpp]
         description: |
@@ -242,7 +242,7 @@ functions:
     parameters:
 
       - name: density_function # [py]
-        type: Callable[[float], float] # [py]
+        type: callable[[float], float] # [py]
       - name: densityFunction # [cpp]
         type: std::function< double(const double) > # [cpp]
         description: |
@@ -284,7 +284,7 @@ functions:
     parameters:
 
       - name: density_function # [py]
-        type: Callable[[float, float, float, float], float] # [py]
+        type: callable[[float, float, float, float], float] # [py]
       - name: densityFunction # [cpp]
         type: std::function< double( const double, const double, const double, const double ) > # [cpp]
         description: |

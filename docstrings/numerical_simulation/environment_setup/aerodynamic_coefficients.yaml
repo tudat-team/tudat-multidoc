@@ -111,7 +111,7 @@ functions:
 
     parameters:
       - name: force_coefficient_function # [py]
-        type: Callable[[List[float]], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: callable[[list[float]], numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: forceCoefficientFunction # [cpp]
         type: std::function<Eigen::Vector3d(const std::vector<double> &)> # [cpp]
         description: |
@@ -125,7 +125,7 @@ functions:
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: independent_variable_name # [py]
-        type: List[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
@@ -167,13 +167,13 @@ functions:
     parameters:
 
       - name: independent_variables # [py]
-        type: List[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: constantForceCoefficient # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Values of indepependent variables at which the coefficients in the input multi vector are defined (size 1)"
 
       - name: force_coefficients # [py]
-        type: List[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: forceCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
         description: |
@@ -181,7 +181,7 @@ functions:
           Values of force coefficients at independent variables defined by independentVariables. # [cpp]
 
       - name: moment_coefficients # [py]
-        type: List[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: momentCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
         description: |
@@ -213,7 +213,7 @@ functions:
         description: "Point w.r.t. aerodynamic moment is calculated."
 
       - name: independent_variable_name # [py]
-        type: List[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
@@ -263,13 +263,13 @@ functions:
     parameters:
 
       - name: independent_variables # [py]
-        type: List[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: constantForceCoefficient # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Values of indepependent variables at which the coefficients in the input multi vector are defined (size 1)"
 
       - name: force_coefficients # [py]
-        type: List[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: forceCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
         description: |
@@ -283,7 +283,7 @@ functions:
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: independent_variable_name # [py]
-        type: List[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
@@ -433,13 +433,13 @@ functions:
         description: "Existing aerodynamic interface model settings object that is used as the base for the scaled settings object."
 
       - name: force_scaling_vector_function # [py]
-        type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: forceScaling # [cpp]
         type: std::function< Eigen::Vector3d( const double ) > # [cpp]
         description: "Custom scaling factors to be applied to each aerodynamic force coefficient."
 
       - name: moment_scaling_vector_function # [py]
-        type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: momentScaling # [cpp]
         type: std::function< Eigen::Vector3d( const double ) > # [cpp]
         description: "Custom scaling factors to be applied to each aerodynamic moment coefficient."

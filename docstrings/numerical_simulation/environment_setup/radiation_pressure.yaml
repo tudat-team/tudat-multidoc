@@ -85,7 +85,7 @@ functions:
         description: "Radiation pressure coefficient."
 
       - name: occulting_bodies # [py]
-        type: List[str], default = [''] # [py]
+        type: list[str], default = [''] # [py]
       - name: occultingBodies # [cpp]
         type: std::vector< std::string > # [cpp]
         description: "List of bodies causing (partial) occultation."
@@ -112,7 +112,7 @@ functions:
         description: "Name of body emitting the radiation."
 
       - name: emissivities # [py]
-        type: List[float] # [py]
+        type: list[float] # [py]
       - name: emissivities # [cpp]
         type: std::vector< double > # [cpp]
         description: |
@@ -120,7 +120,7 @@ functions:
           Vector containing the panels' emissivities. # [cpp]
 
       - name: areas # [py]
-        type: List[float] # [py]
+        type: list[float] # [py]
       - name: areas # [cpp]
         type: std::vector< double > # [cpp]
         description: |
@@ -128,7 +128,7 @@ functions:
           Vector containing the panels' areas. # [cpp]
 
       - name: diffusion_coefficients # [py]
-        type: List[float] # [py]
+        type: list[float] # [py]
       - name: diffusionCoefficients # [cpp]
         type: std::vector< double > # [cpp]
         description: |
@@ -136,7 +136,7 @@ functions:
           Vector containing diffuse reflection coefficients of the panels. # [cpp]
 
       - name: surface_normals_in_body_fixed_frame # [py]
-        type: List[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
       - name: surfaceNormalsInBodyFixedFrame # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
         description: |
@@ -144,7 +144,7 @@ functions:
           Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
 
       - name: occulting_bodies # [py]
-        type: List[str], default = [''] # [py]
+        type: list[str], default = [''] # [py]
       - name: occultingBodies # [cpp]
         type: std::vector< std::string > # [cpp]
         description: "List of bodies causing (partial) occultation."

@@ -12,7 +12,7 @@ classes:
        class ``AtmosphericFlightConditions`` is used. This object is stored inside a Body object, and represents the flight conditions
        of a single body w.r.t. a single central body
 
-    attributes:
+    properties:
       - name: aerodynamic_angle_calculator # [py]
         type: AerodynamicAngleCalculator # [py]
         description: 
@@ -47,7 +47,7 @@ classes:
           The current time, at which this object was last updated
 
       - name: body_centered_body_fixed_state # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: 
           Cartesian translational state, expressed in a frame centered at, and fixed to, the central body. Note that, due
           to the rotation of the central body, the norm of the body-fixed, body-centered, velocity differs from the norm of
@@ -65,7 +65,7 @@ classes:
        computations for non-atmospheric flight only. This object is stored inside a Body object, and represents the flight conditions
        of a single body w.r.t. a single central body
 
-    attributes:
+    properties:
       - name: density # [py]
         type: float # [py]
         description: 
@@ -97,7 +97,7 @@ classes:
           The airspeed of the body w.r.t. the atmosphere
 
       - name: airspeed_velocity # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: 
           The velocity vector of the body w.r.t. the freestream atmosphere (e.g. vectorial counterpart of airspeed)
 
@@ -139,9 +139,9 @@ classes:
        During each time step, the Body gets updated to teh current time/propagated state, and the current properties, in
        as much as they are time-dependent, can be extracted from this object
 
-    attributes:
+    properties:
       - name: state # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           The translational state of the Body, as set during the current step of the numerical propagation. The translational 
           state stored here is always in Cartesian elements, w.r.t. the global frame origin, with axes along the global frame 
@@ -151,17 +151,17 @@ classes:
           if any aspects of the dynamics or dependent variables require the body's state.
 
       - name: position # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           The translational position of the Body, as set during the current step of the numerical propagation (see `Body.state`)
 
       - name: velocity # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           The translational velocity of the Body, as set during the current step of the numerical propagation (see `Body.state`)
 
       - name: inertial_to_body_fixed_frame # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           The rotation from inertial frame (with global frame orientation) to this Body's body-fixed frame. The rotation is always
           returned here as a rotation matrix.  If the body's rotational state is numerically propagated, this property gets extracted 
@@ -170,27 +170,27 @@ classes:
           require the body's rotational state.
 
       - name: body_fixed_to_inertial_frame # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           The rotation from this Body's body-fixed frame to inertial frame (see `Body.inertial_to_body_fixed_frame`)
 
       - name: inertial_to_body_fixed_frame_derivative # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           Time derivative of rotation matrix from inertial frame to this Body's body-fixed frame (see `Body.inertial_to_body_fixed_frame`)
 
       - name: body_fixed_to_inertial_frame_derivative # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           Time derivative of rotation matrix from this Body's body-fixed frame to inertial frame (see `Body.inertial_to_body_fixed_frame`)
 
       - name: inertial_angular_velocity # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           Angular velocity vector of the body, expressed in inertial frame (see `Body.inertial_to_body_fixed_frame`)
     
       - name: body_fixed_angular_velocity # [py]
-        type: numpy.array # [py]
+        type: numpy.ndarray # [py]
         description: |
           Angular velocity vector of the body, expressed in body-fixed frame (see `Body.inertial_to_body_fixed_frame`)
 

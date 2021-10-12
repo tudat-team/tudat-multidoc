@@ -95,13 +95,13 @@ functions:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_propagate # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of bodies to be propagated.
 
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
-        type: List[str] # [py]
+        type: list[str] # [py]
         description: List of central bodies, each referred to a body being propagated (in the same order).
 
       - name: bodies # [cpp]

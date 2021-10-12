@@ -12,11 +12,12 @@ classes:
     extendend_summary: |
        Functional base class to define settings for single arc dynamics simulation.
 
-    attributes:
+    properties:
       - name: equationsOfMotionNumericalSolution_ # [cpp]
         type: std::map<double, Eigen::Matrix> # [cpp]
       - name: state_history # [py]
-        type: Dict[float, numpy.ndarray] # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
         description: |
           Numerical solution of the equations of motion as key-value pairs. This consists of the state history
           of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
@@ -25,7 +26,7 @@ classes:
       - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
         type: std::map<double, Eigen::Matrix> # [cpp]
       - name: unprocessed_state_history # [py]
-        type: Dict[float, numpy.ndarray] # [py]
+        type: dict[float, numpy.ndarray] # [py]
         description: |
           Raw numerical solution of the equations of motion as key-value pairs. This consists of the state history
           of the propagated bodies expressed in the "raw" form in which the propagation took place (e.g., Encke, Gauss,
@@ -34,7 +35,7 @@ classes:
       - name: dependentVariableHistory_ # [cpp]
         type: std::map<double, Eigen::Vector> # [cpp]
       - name: dependent_variable_history # [py]
-        type: Dict[float, numpy.ndarray] # [py]
+        type: dict[float, numpy.ndarray] # [py]
         description: |
           Dependent variables computed during the propagation as key-value pairs.
           They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
@@ -43,7 +44,7 @@ classes:
       - name: cumulativeComputationTimeHistory_ # [cpp]
         type: std::map<double, double> # [cpp]
       - name: cumulative_computation_time_history # [py]
-        type: Dict[float, float] # [py]
+        type: dict[float, float] # [py]
         description: |
           History of cumulative computation time needed during the propagation as key-value
           pairs. This means that at each time step the computation time is the sum of the computation time needed for that particular
@@ -53,7 +54,7 @@ classes:
       - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
         type: std::map<double, int> # [cpp]
       - name: cumulative_number_of_function_evaluations # [py]
-        type: Dict[float, int] # [py]
+        type: dict[float, int] # [py]
         description: |
           This function returns the history of cumulative computation number of function evaluations needed during the propagation as key-value
           pairs. This means that at each time step the number of function evaluations is the sum of the computation time needed for that particular
@@ -61,7 +62,7 @@ classes:
           as value, with time as key.
 
       - name: state_history_base # [py]
-        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        type: numpy.ndarray[dict[float, numpy.ndarray]] # [py]
         description: |
           Numerical solution of the equations of motion as a vector of key-value containers. This consists of the state history
           of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
@@ -69,7 +70,7 @@ classes:
           different return types.
 
       - name: getDependentVariableHistoryBase # [cpp]
-        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        type: numpy.ndarray[dict[float, numpy.ndarray]] # [py]
         description: |
           This function returns the dependent variables computed during the propagation as a vector of key-value containers.
           They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
@@ -77,7 +78,7 @@ classes:
           different return types.
 
       - name: getCumulativeComputationTimeHistoryBase # [cpp]
-        type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
+        type: numpy.ndarray[dict[float, numpy.ndarray]] # [py]
         description: |
           This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
           This means that at each time step the computation time is the sum of the computation time needed for that particular
@@ -92,16 +93,16 @@ classes:
           Object used in the propagation to specify the integrator settings.
 
       - name: stateDerivativeFunction_ # [cpp]
-        type: std::function<Eigen::Matrix>(double, Eigen::Matrix)
+        type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
       - name: state_derivative_function # [py]
-        type: Callable[[float, numpy.ndarray], numpy.ndarray]
+        type: callable[[float, numpy.ndarray], numpy.ndarray]
         description: |
           Function that performs a single state derivative function evaluation.
 
       #- name: doubleStateDerivativeFunction_ # [cpp]
         #type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
       #- name: double_state_derivative_function # [py]
-        #type: Callable[[float, numpy.ndarray], numpy.ndarray] # [py]
+        #type: callable[[float, numpy.ndarray], numpy.ndarray] # [py]
         #description: |
           #Function that performs a single state derivative function evaluation with double precision.
 
@@ -120,7 +121,7 @@ classes:
       #- name: integratedStateProcessors_ # [cpp]
         #type: std::map<IntegratedStateType, std::vector<IntegratedStateProcessor>> # [cpp]
       #- name: integrated_state_processors # [py]
-        #type: Dict[float, List[IntegratedStateProcessor]] # [py]
+        #type: dict[float, list[IntegratedStateProcessor]] # [py]
         #description: |
           #List of object (per dynamics type) that process the integrated numerical solution by updating the environment.
 
@@ -140,7 +141,7 @@ classes:
       - name: dependentVariableIds_ # [cpp]
         type: std::map< int, std::string > # [cpp]
       - name: dependent_variable_ids # [py]
-        type: Dict[int, str] # [py]
+        type: dict[int, str] # [py]
         description: |
           Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
 
@@ -154,7 +155,7 @@ classes:
       #- name: dependentVariablesFunctions_ # [cpp]
         #type: std::function<Eigen::Vector> # [cpp]
       #- name: dependent_variables_functions # [py]
-        #type: List[numpy.ndarray] # [py]
+        #type: list[numpy.ndarray] # [py]
         #description: |
           #List of functions that compute the dependent variables at each time step.
 
@@ -196,13 +197,13 @@ classes:
           - name: equationsOfMotionNumericalSolution # [cpp]
             type: std::map<double, Eigen::Matrix> # [cpp]
           - name: equations_of_motion_numerical_solution # [py]
-            type: Dict[float, numpy.ndarray] # [py]
+            type: dict[float, numpy.ndarray] # [py]
             description: State history generated externally.
 
           - name: dependentVariableHistory # [cpp]
             type: std::map<double, Eigen::Vector> # [cpp]
           - name: dependent_variable_history # [py]
-            type: Dict[float, numpy.ndarray] # [py]
+            type: dict[float, numpy.ndarray] # [py]
             description: Dependent variable history generated externally.
 
           - name: processSolution # [cpp]
