@@ -1,4 +1,4 @@
-description: "None."
+extended_summary: |
 
 modules:
   - environment_setup
@@ -12,7 +12,8 @@ classes:
     short_summary: "Base class to define single arc dynamics simulator settings."
     extendend_summary: |
        Functional base class to define settings for single arc dynamics simulation.
-
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
     properties:
       - name: equationsOfMotionNumericalSolution_ # [cpp]
         type: std::map<double, Eigen::Matrix> # [cpp]
@@ -23,8 +24,11 @@ classes:
           Numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
           numerically calculated state at this epoch. For this function, the states are always converted to so-called
           'conventional' formulations (e.g. Cartesian states for translational dynamics), see `here <https://tudat-space.readthedocs.io/en/latest/_src_api/propagation_setup/settings/conventional_vs_propagated_coordinates.html>`_
-          for detailed. For the history of the states that were actually propagated, use the ``unprocessed_state_history`` Note that,
-          for propagation of translational dynamics using cowell propagator, the conventional and propagated coordinates are identical.
+          for detailed. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
+
+          .. note:: For propagation of translational dynamics using cowell
+                    propagator, the conventional and propagated
+                    coordinates are identical.
 
       - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
         type: std::map<double, Eigen::Matrix> # [cpp]
@@ -153,10 +157,12 @@ classes:
           Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
 
       - name: integration_completed_successfully # [py]
-        type: Bool # [py]
+        type: bool # [py]
         description: |
-          Boolean defining whether the last propagation was finished succesfully, as defined by the termination conditions, or
-          if it was terminated prematurely (for instance due to an exception, or an Inf/NaN state entry being detected)/
+          Boolean defining whether the last propagation was finished
+          succesfully, as defined by the termination conditions, or if
+          it was terminated prematurely (for instance due to an
+          exception, or an Inf/NaN state entry being detected).
 
 
       #- name: initialPropagationTime_ # [cpp]
@@ -178,67 +184,108 @@ classes:
       - name: ctor
         short_summary: "Class constructor."
         extended_summary: |
-          Class constructor defining environment, propagation and integrations models, as well as a number of
-          settings related to simulation output and processing. Note that, when using default settings, creating
-          an object of this type automatically triggers the propagation
+          Class constructor defining environment, propagation and
+          integrations models, as well as a number of settings related
+          to simulation output and processing.
+
+          .. note:: When using default settings, creating an object of
+                    this type automatically triggers the propagation
 
         parameters:
           - name: bodies
             type: SystemOfBodies
             description: |
-              Object defining the physical environment, with all properties of artificial and natural bodies.
+              Object defining the physical environment, with all
+              properties of artificial and natural bodies.
 
           - name: integrator_settings # [py]
             type: IntegratorSettings # [py]
             description: |
-              Settings to create the numerical integrator that is to be used for the integration of the equations of motion
+              Settings to create the numerical integrator that is to be
+              used for the integration of the equations of motion
 
           - name: are_equations_of_motion_to_be_integrated # [py]
             type: Bool, default = True # [py]
             description: |
-              Boolean defining whether the propagation should be performed immediately (default), or at a later time when calling
-              the ``integrate_equations_of_motion`` function.
+              Boolean defining whether the propagation should be
+              performed immediately (default), or at a later time when
+              calling the :py:attr:`~integrate_equations_of_motion`
+              function.
 
           - name: clear_numerical_solutions # [py]
             type: Bool, default = False # [py]
             description: |
-              Boolean defining whether the propagation results should be deleted after the propagation is terminated. If this is done,
-              the ``state_history``, ``unprocessed_state_history`` and ``dependent_variable_history`` will not be accessible.
-              Putting this setting to True (deleting the results) is only sensible when the ``set_integrated_result`` is set to True.
-              In that case, the propagated states are *not* accesible directly from this objects, but the results are used
-              to update the environment, *e.g.* update the ephemeris of the propagated body with the numerical results.
+              Boolean defining whether the propagation results should be
+              deleted after the propagation is terminated. If this is
+              done, the :py:attr:`~state_history`,
+              :py:attr:`~unprocessed_state_history` and
+              :py:attr:`~dependent_variable_history` will not be
+              accessible. Putting this setting to True (deleting the
+              results) is only sensible when the
+              :py:attr:`~set_integrated_result` is set to True. In that
+              case, the propagated states are *not* accesible directly
+              from this objects, but the results are used to update the
+              environment, *e.g.* update the ephemeris of the propagated
+              body with the numerical results.
 
           - name: set_integrated_result # [py]
             type: Bool, default = False # [py]
             description: |
-              Boolean defining whether the propagation results are to be used to update the environment. If this variable is set to False,
-              the numerical propagation results can be retrieved from this object (provided the ``clear_numerical_solutions`` is set
-              to False), but the (for instance) Ephemeris of the propagated body is not updated with the propagation results. If this
-              variable is set to True, the properties of the propagated :class:`Body` object will be updated as per the numerical results.
-              Depending on the state type, this will result in
-                 * Translational: the ephemeris of the propagated body will be updated. NOTE: this requires the propagated body to be endowed with a tabulated ephemeris
-                 * Rotational: the rotational ephemeris of the propagated body will be updated. NOTE: this requires the propagated body to be endowed with a tabulated rotational ephemeris
-                 * Mass: the mass function of the propagated body will be update
+              Boolean defining whether the propagation results are to
+              be used to update the environment. If this variable is set
+              to False, the numerical propagation results can be
+              retrieved from this object (provided the
+              :py:attr:`~clear_numerical_solutions` is set to False),
+              but the (for instance) Ephemeris of the propagated body
+              is not updated with the propagation results. If this
+              variable is set to True, the properties of the propagated
+              :class:`~tudatpy.numerical_simulation.environment.Body`
+              object will be updated as per the numerical results.
+              Depending on the state type, this will result in:
+                 - **Translational**: The ephemeris of the propagated body
+                   will be updated.
+
+                   .. note:: This requires the propagated body to be
+                             endowed with a tabulated ephemeris.
+
+                 - **Rotational**: The rotational ephemeris of the
+                   propagated body will be updated.
+
+                   .. note:: This requires the propagated body to be
+                             endowed with a tabulated rotational
+                             ephemeris.
+
+                 - **Mass**: The mass function of the propagated body
+                   will be updated.
 
           - name: print_dependent_variable_data # [py]
-            type: Bool, default = True # [py]
+            type: bool, default = True # [py]
             description: |
-              Boolean defining whether the meaning and indices of the entries of the dependent variable data are to be printed to the console.
-              Note that the same information can be retrieved from the dependent_variable_ids attribute.
+              Boolean defining whether the meaning and indices of the
+              entries of the dependent variable data are to be printed to
+              the console.
+
+              .. note:: The same information can be retrieved from the
+                        :py:attr:`~dependent_variable_ids`
+                        property.
 
 
       - name: integrator_settings # [py]
         type: IntegratorSettings # [py]
         description: |
-          Settings to create the numerical integrator that is to be used for the integration of the equations of motion
+          Settings to create the numerical integrator that is to be used
+          for the integration of the equations of motion
 
 
-      - name: integrateEquationsOfMotion # [cpp]
-      - name: integrate_equations_of_motion # [py]
-        short_summary: "This function numerically (re-)integrates the equations of motion."
+      - name: integrateEquationsOfMotion                          # [cpp]
+      - name: integrate_equations_of_motion                       # [py]
+        short_summary: |
+          This function numerically (re-)integrates the equations of
+          motion.
         extended_summary: |
-          This function numerically (re-)integrates the equations of motion, using the settings set through the constructor
-          and a new initial state vector provided here.
+          This function numerically (re-)integrates the equations of
+          motion, using the settings set through the constructor and a
+          new initial state vector provided here.
 
         parameters:
         - name: initialStates # [cpp]
@@ -246,10 +293,15 @@ classes:
         - name: initial_states # [py]
           type: numpy.ndarray # [py]
           description: |
-            Initial state vector that is to be used for numerical integration. Note that this state should
-            be in the correct frame (i.e. relative to central_bodies in propagator_settings), and in Cartesian
-            elements (even when using a different propagation scheme than Cowell). NOTE, when using default
-            settings for the class constructor, this function is called during object creation
+            Initial state vector that is to be used for numerical
+            integration. Note that this state should be in the correct
+            frame (i.e. relative to central_bodies in
+            propagator_settings), and in Cartesian elements (even when
+            using a different propagation scheme than Cowell).
+
+            .. note:: When using default settings for the class
+                      constructor, this function is called during object
+                      creation.
 
       #- name: manuallySetAndProcessRawNumericalEquationsOfMotionSolution # [cpp]
       #- name: manually_set_and_process_raw_numerical_equations_of_motion_solution # [py]

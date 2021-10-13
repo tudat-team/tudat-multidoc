@@ -1,5 +1,5 @@
-description: "This module provides an interface to the Spice package."
-notes: "None"
+extended_summary: |
+  This module provides an interface to NAIF's ``SPICE`` package.
 
 # documentation of classes and functions are made distinct to perform
 # sanity checks on the provided fields below. i.e. Class constructors don't need the return detailed.

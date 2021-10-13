@@ -3,9 +3,10 @@ summary: "Functions for converting between sets of orbital elements."
 extended_summary: |
   This module provide a variety of functions and classes to
   convert between different representations of translational and
-  rotational states (e.g. Cartesian <-> Keplerian). Note that rotations
-  between different reference frames are provided in the
-  :ref:`\`\`frame_conversion\`\`` module.
+  rotational states (e.g. Cartesian <-> Keplerian).
+
+  .. note:: Rotations between different reference frames are provided in
+            the :ref:`\`\`frame_conversion\`\`` module.
 
 classes:
 

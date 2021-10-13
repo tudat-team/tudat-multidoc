@@ -2,9 +2,12 @@ summary: "Functions for converting between different reference frames."
 
 extended_summary: |
   This module provide a variety of functions and classes to convert
-  between different reference frames. Note that functionality to convert
-  between different state representations is provided in the
-  :ref:`\`\`element_conversion\`\`` module.
+  between different reference frames. Note that
+
+  .. note:: Functionality to convert between different state
+            representations is provided in the
+            :ref:`\`\`element_conversion\`\`` module.
+
 
 classes:
 

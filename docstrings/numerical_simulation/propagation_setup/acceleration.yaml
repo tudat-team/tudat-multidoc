@@ -1,5 +1,6 @@
-description: "This module provides the functionality for creating acceleration settings."
-notes: "None"
+extended_summary: |
+  This module provides the functionality for creating acceleration
+  settings.
 
 # the structure of this file follows the order of expose_acceleration_setup.cpp (tudatpy) and
 # includes tudat content for:
@@ -12,7 +13,6 @@ enums:
     short_summary: "Enumeration of available acceleration types."
     extended_summary: |
       Enumeration of acceleration types supported by tudat.
-
     members:
       - name: undefined_acceleration # [cpp]
       - name: point_mass_gravity # [cpp]
