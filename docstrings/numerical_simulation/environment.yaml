@@ -155,6 +155,11 @@ classes:
         description: |
           The translational position of the Body, as set during the current step of the numerical propagation (see `Body.state`)
 
+      - name: airspeed # [py]
+        type: float # [py]
+        description: 
+          The airspeed of the body w.r.t. the atmosphere
+
       - name: velocity # [py]
         type: numpy.ndarray # [py]
         description: |
@@ -236,7 +241,6 @@ classes:
           description: |
             Name of the Body that is to be added
 
-        parameters:
         - name: processBody # [cpp]
           type: bool, default=true # [cpp]
         - name: process_body # [py]
@@ -258,7 +262,6 @@ classes:
           description: |
             Body object that is to be added
 
-        parameters:
         - name: bodyName # [cpp]
           type: std::string # [cpp]
         - name: body_name # [py]
@@ -266,7 +269,6 @@ classes:
           description: |
             Name of the Body that is to be added
 
-        parameters:
         - name: processBody # [cpp]
           type: bool, default=true # [cpp]
         - name: process_body # [py]

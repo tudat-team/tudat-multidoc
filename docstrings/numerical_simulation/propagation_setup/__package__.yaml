@@ -85,7 +85,7 @@ functions:
 
 
   - name: getInitialStatesOfBodies # [cpp]
-  - name: create_acceleration_models # [py]
+  - name: get_initial_state_of_bodies # [py]
     short_summary: "Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time."
 
     extended_summary: |

@@ -705,7 +705,9 @@ functions:
         type: float # [py]
       - name: centralBodyGravitationalParameter # [cpp]
         type: double # [cpp]
-        description: "Gravitational parameter of the central body that is used in the computations."
+        description: "Effective gravitational parameter of the central body that is used in the computations. Note that when
+         the Keplerian orbit is to represent the relative state of two massive bodies, with one of these bodies as the origin
+         this values should be the *sum* of the two bodies' gravitational parameters"
 
       - name: frame_origin # [py]
         type: str, default='SSB' # [py]

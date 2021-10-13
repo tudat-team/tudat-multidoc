@@ -133,8 +133,8 @@ classes:
           #List of object (per dynamics type) that process the integrated numerical solution by updating the environment.
 
       - name: propagationTerminationReason_ # [cpp]
-      - name: propagation_termination_reason # [py]
-        type: PropagationTerminationReason
+      - name: propagation_termination_details # [py]
+        type: PropagationTerminationDetails
         description: |
           Object describing the details of the event that triggered the termination of the last propagation.
 
@@ -197,7 +197,7 @@ classes:
             type: Bool, default = True # [py]
             description: |
               Boolean defining whether the propagation should be performed immediately (default), or at a later time when calling
-              the ``integrate_equations_of_motion`` function.
+              the :func:`integrate_equations_of_motion` function.
 
           - name: clear_numerical_solutions # [py]
             type: Bool, default = False # [py]
@@ -225,13 +225,6 @@ classes:
             description: |
               Boolean defining whether the meaning and indices of the entries of the dependent variable data are to be printed to the console.
               Note that the same information can be retrieved from the dependent_variable_ids attribute.
-
-
-      - name: integrator_settings # [py]
-        type: IntegratorSettings # [py]
-        description: |
-          Settings to create the numerical integrator that is to be used for the integration of the equations of motion
-
 
       - name: integrateEquationsOfMotion # [cpp]
       - name: integrate_equations_of_motion # [py]
