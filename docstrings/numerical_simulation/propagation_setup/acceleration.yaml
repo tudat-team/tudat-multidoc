@@ -7,21 +7,13 @@ notes: "None"
 # - accelerationSettings.h
 # - thrustSettings.h
 
-
-
-classes:
-
-###### enums from all included headers
-
-  #    py::enum_<tba::AvailableAcceleration>
-  #        enum tudat::basic_astrodynamics::AvailableAcceleration
-
+enums:
   - name: AvailableAcceleration
     short_summary: "Enumeration of available acceleration types."
     extended_summary: |
       Enumeration of acceleration types supported by tudat.
 
-    attributes:
+    members:
       - name: undefined_acceleration # [cpp]
       - name: point_mass_gravity # [cpp]
       - name: central_gravity # [cpp]
@@ -73,7 +65,7 @@ classes:
     extended_summary: |
       Enumeration of thrust frame types supported by tudat.
 
-    attributes:
+    members:
       - name: unspecified_thrust_frame # [cpp]
       - name: inertial_thrust_frame # [cpp]
       - name: lvlh_thrust_frame # [cpp]
@@ -91,7 +83,7 @@ classes:
     extended_summary: |
       Enumeration of thrust magnitude types supported by tudat.
 
-    attributes:
+    members:
 
       - name: constant_thrust_magnitude
       - name: from_engine_properties_thrust_magnitude
@@ -108,13 +100,23 @@ classes:
     extended_summary: |
       Enumeration of thrust direction types supported by tudat.
 
-    attributes:
+    members:
 
       - name: colinear_with_state_segment_thrust_direction_type
       - name: thrust_direction_from_existing_body_orientation_type
       - name: custom_thrust_direction_type
       - name: custom_thrust_orientation_type
       - name: mee_costate_based_thrust_direction_type
+
+
+
+classes:
+
+###### enums from all included headers
+
+  #    py::enum_<tba::AvailableAcceleration>
+  #        enum tudat::basic_astrodynamics::AvailableAcceleration
+
 
   ######
 
