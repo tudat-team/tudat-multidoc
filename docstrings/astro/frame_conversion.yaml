@@ -2,7 +2,11 @@ summary: "Functions for converting between different reference frames."
 
 extended_summary: |
   This module provide a variety of functions and classes to convert
-  between different reference frames. Note that
+  between different reference frames.
+
+  .. raw:: html
+
+     <object data="_static/J2000_.svg" type="image/svg+xml" class="center invertible"></object>
 
   .. note:: Functionality to convert between different state
             representations is provided in the
@@ -146,11 +150,8 @@ functions:
     extended_summary: |
       Function to compute the rotation matrix from inertial to body-fixed frame, using typical pole
       right ascension :math:`\alpha`, pole declination :math:`\delta`, and prime meridian longitude
-      :math:`W` angles. This definition of a body-fixed orientation is used by, for instance, the IAU
-      Working Group on Cartographic Coordinates and Rotational Elements. Rotation is performed by a
-      succesive z-x-z Euler angle rotation (see Archinal, B. A., et al. *Report of the IAU working
-      group on cartographic coordinates and rotational elements: 2015*. Celestial Mechanics and
-      Dynamical Astronomy 130.3 (2018): 1-46)
+      :math:`W` angles.
+
     parameters:
       - name: pole_declination # [py]
         type: float # [py]
@@ -168,6 +169,18 @@ functions:
     returns:
         type: numpy.ndarray # [py]
         description: Rotation matrix from inertial to body-fixed frame # [py]
+
+    notes: |
+      This definition of a body-fixed orientation is used by, for
+      instance, the IAU Working Group on Cartographic Coordinates and
+      Rotational Elements. Rotation is performed by a succesive z-x-z
+      Euler angle rotation (see Archinal et al. [1]_)
+
+    references: |
+      .. [1] Archinal, B. A., et al. *Report of the IAU working group on
+             cartographic coordinates and rotational elements: 2015*.
+             Celestial Mechanics and Dynamical Astronomy 130.3 (2018):
+             1-46
 
 
   - name: body_fixed_to_inertial_rotation_matrix # [py]

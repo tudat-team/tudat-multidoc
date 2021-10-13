@@ -1,5 +1,6 @@
-description: "This module provides the functionality for creating dependent variable settings."
-notes: "None"
+extended_summary: |
+  This module provides the functionality for creating dependent variable
+  settings.
 
 # the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for propagationOutputSettings.h (tudat)

@@ -1,4 +1,5 @@
-description: "This module provides the functionality for creating propagator settings."
+extended_summary: |
+  This module provides the functionality for creating propagator settings.
 
 # The structure of this file follows the order of expose_propagator_setup.cpp (tudatpy) and
 # includes content for nBodyStateDerivative.h, bulirschStoerVariableStepsizeIntegrator.h,

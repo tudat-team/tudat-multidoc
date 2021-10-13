@@ -2,9 +2,9 @@
 ################## Gravity Field Setup ( createGravityField.h ) #####################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-description: "None"
-notes: "None"
-
+extended_summary: |
+  This module consists of factory functions for setting up the
+  gravitational potential models of celestial bodies in an environment.
 
 
 classes:

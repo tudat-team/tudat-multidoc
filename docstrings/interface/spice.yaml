@@ -36,7 +36,7 @@ classes:
               iterations for calculating light time.
           - name: reference_frame_name
             description: >
-              Name of the reference frame in which the epehemeris is to be
+              Name of the reference frame in which the ephemeris is to be
               calculated.
           - name: reference_julian_day
             description: >

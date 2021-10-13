@@ -1,5 +1,6 @@
-description: "This module provides the functionality for creating integrator settings."
-notes: "None"
+extended_summary: |
+  This module provides the functionality for creating integrator
+  settings.
 
 # The structure of this file follows the order of expose_integrator_setup.cpp (tudatpy) and
 # includes content for createNumericalIntegrator.h and bulirschStoerVariableStepsizeIntegrator.h (tudat)

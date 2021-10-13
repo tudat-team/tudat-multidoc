@@ -1,5 +1,5 @@
-description: "This module provides the functionality for creating torque settings."
-notes: "None"
+extended_summary: |
+  This module provides the functionality for creating torque settings.
 
 # The structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for torqueSettings.h (tudat)

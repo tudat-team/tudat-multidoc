@@ -3,37 +3,43 @@ summary: "Functions for converting between sets of orbital elements."
 extended_summary: |
   This module provide a variety of functions and classes to
   convert between different representations of translational and
-  rotational states (e.g. Cartesian <-> Keplerian).
+  rotational states (e.g. Cartesian ↔ Keplerian).
 
   .. note:: Rotations between different reference frames are provided in
             the :ref:`\`\`frame_conversion\`\`` module.
 
-classes:
+notes: |
 
+  In general, unless specified otherwise, the Keplerian elements are
+  ordered as:
 
-  # base class:
-
-  
-  # derived classes:
+  +-------+--------------------------------------------------------------------------------------+
+  | Index | Keplerian Element                                                                    |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semi-latus rectum |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``1`` | Eccentricity                                                                         |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``2`` | Inclination                                                                          |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``3`` | Argument of periapsis                                                                |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``4`` | Longitude of ascending node                                                          |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``5`` | True anomaly                                                                         |
+  +-------+--------------------------------------------------------------------------------------+
 
 functions:
-
-
-  # conversion functions:
-
   - name: cartesian_to_keplerian # [py]
   - name: convertCartesianToKeplerianElements # [cpp]
-    short_summary: "Function to convert Cartesian to Keplerian elements."
+    short_summary: "Convert Cartesian to Keplerian elements."
     extended_summary: |
-      Function to convert from Cartesian elements to standard Keplerian elements. The Keplerian 
-      elements that are returned are ordered as
+      Function to convert from Cartesian elements to standard Keplerian
+      elements.
 
-      | 0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
-      | 1: Eccentricity
-      | 2: Inclination
-      | 3: Argument of periapsis
-      | 4: Longitude of ascending node
-      | 5: True anomaly
+      .. note:: See module level documentation for the standard ordering
+                convention of Keplerian elements used.
+
     parameters:
       - name: cartesian_elements # [py]
         type: numpy.ndarray # [py]
@@ -54,17 +60,14 @@ functions:
 
   - name: keplerian_to_cartesian # [py]
   - name: convertKeplerianToCartesianElements # [cpp]
-    short_summary: "Function to convert Keplerian to Cartesian elements."
+    short_summary: "Convert Keplerian elements to Cartesian."
     extended_summary: |
-      Function to convert from standard Keplerian elements to Cartesian elements. The Keplerian 
-      elements that are provided as input must be ordered as
+      Function to convert from standard Keplerian elements to Cartesian
+      elements.
 
-      | 0: Semi-major axis (except if eccentricity = 1.0, then represents semi-latus rectum)
-      | 1: Eccentricity
-      | 2: Inclination
-      | 3: Argument of periapsis
-      | 4: Longitude of ascending node
-      | 5: True anomaly
+      .. note:: See module level documentation for the standard ordering
+                convention of Keplerian elements used.
+
     parameters:
       - name: keplerian_elements # [py]
         type: numpy.ndarray # [py]
@@ -85,10 +88,13 @@ functions:
 
   - name: keplerian_to_cartesian_elementwise # [py]
   - name: convertKeplerianToCartesianElements # [cpp]
-    short_summary: "Function to convert Keplerian to Cartesian elements, with elementwise input."
+    short_summary: "Convert Keplerian elements to Cartesian, with elementwise input."
     extended_summary: |
-      Function to convert from standard Keplerian elements to Cartesian elements,  with elementwise 
-      input. Note that the final Keplerian element is always the true anomaly.
+      Function to convert from standard Keplerian elements to Cartesian
+      elements, with elementwise input.
+
+      .. note:: The final Keplerian element is always the true anomaly.
+
     parameters:
       - name: semi_major_axis # [py]
         type: float # [py]
