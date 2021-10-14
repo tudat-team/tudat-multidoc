@@ -89,7 +89,7 @@ functions:
       Computes the rotation matrix from RSW to inertial frame.
 
     extended_summary: |
-      Function to compute the rotation matrix from RSE to inertial. The
+      Function to compute the rotation matrix from RSW to inertial. The
       RSW frame is defined  by the state of a body w.r.t. to some central
       body. The x-axis of the RSW frame points away from the origin, and
       the y-axis lies in the orbital plane, and is positive for in the
