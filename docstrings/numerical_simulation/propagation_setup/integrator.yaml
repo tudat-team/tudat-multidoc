@@ -6,7 +6,7 @@ extended_summary: |
 # includes content for createNumericalIntegrator.h and bulirschStoerVariableStepsizeIntegrator.h (tudat)
 
 
-classes:
+enums:
 
   ###### enums
 
@@ -18,7 +18,7 @@ classes:
     extended_summary: |
       Enumeration of integrators supported by tudat.
 
-    attributes:
+    members:
 
       - name: euler # [cpp]
       - name: rungeKutta4 # [cpp]
@@ -41,7 +41,7 @@ classes:
     extended_summary: |
       Coefficient sets for Runge-Kutta integrators.
 
-    attributes:
+    members:
 
       - name: undefinedCoefficientSet # [cpp]
       - name: rungeKuttaFehlberg45 # [cpp]
@@ -63,13 +63,14 @@ classes:
     extended_summary: |
       Enumeration of extrapolation method step sequences supported by tudat.
 
-    attributes:
+    members:
 
       - name: bulirsch_stoer_sequence
       - name: deufelhard_sequence
 
   ######
 
+classes:
   # base
   - name: IntegratorSettings
     short_summary: "Functional base class to define settings for integrators."
