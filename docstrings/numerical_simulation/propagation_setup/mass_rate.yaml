@@ -1,5 +1,5 @@
-description: "This module provides the functionality for creating mass rate settings."
-notes: "None"
+extended_summary: |
+  This module provides the functionality for creating mass rate settings.
 
 # The structure of this file follows the order of expose_mass_rate_setup.cpp (tudatpy) and
 # includes content for createMassRateModels.h (tudat)

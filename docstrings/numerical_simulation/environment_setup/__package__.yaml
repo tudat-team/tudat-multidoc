@@ -1,4 +1,7 @@
-description: "None."
+extended_summary: |
+  This module consists of factory functions for setting up the
+  environment models in a simulation.
+
 
 modules:
   - aerodynamic_coefficients

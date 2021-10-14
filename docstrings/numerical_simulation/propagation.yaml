@@ -1,30 +1,36 @@
-description: "This module provides the functionality for functional environment objects and associated functionality. Specifically, it contains the models that perform computations related to environment models of natural and artificial bodies"
-notes: "None"
+extended_summary: |
+  This module provides the functionality for functional environment
+  objects and associated functionality. Specifically, it contains
+  the models that perform computations related to environment models
+  of natural and artificial bodies.
 
-classes:
-
+enums:
   - name: PropagationTerminationReason
     short_summary: "Enumeration of types of termination of propagation."
 
-    attributes:
+    members:
       - name: propagation_never_run
       - name: unknown_reason
       - name: termination_condition_reached
       - name: runtime_error_caught_in_propagation
       - name: nan_or_inf_detected_in_state
 
-  - name: PropagationTerminationDetails
-    short_summary: "Object that provides information on the reason for the termination of the propagation."
+classes:
 
-    attributes:
+  - name: PropagationTerminationDetails
+    short_summary: |
+       Object that provides information on the reason for the
+       termination of the propagation.
+
+    properties:
       - name: termination_reason # [py]
         type: PropagationTerminationReason # [py]
-        description: 
+        description: |
           Enum defining the reason the propagation was terminated
 
       - name: terminated_on_exact_condition # [py]
-        type: Bool # [py]
-        description: 
+        type: bool # [py]
+        description: |
           Boolean defining whether the propagation was termined on an *exact* final condition, 
           or once the propagation went *past* the determined final condition. The choice of behaviour is
           defined by the termination settings provided as input to the Simulator object.
