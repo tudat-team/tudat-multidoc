@@ -1,213 +1,278 @@
-summary: "Functions for converting between different reference frames."
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+summary: |
+  Conversions between different reference frames.
 
 extended_summary: |
   This module provide a variety of functions and classes to convert
-  between different reference frames.
+  between different reference frames. Functionality to convert between
+  different state representations is provided in the
+  :ref:`\`\`element_conversion\`\`` module.
+
+notes: |
+  - All reference frames used should be assumed as right handed:
+    :math:`\mathbf{X}\times\mathbf{Y}=\mathbf{Z}`.
+
+  - Intertial reference frames are:
+
+    * non-rotating with respect to the stars
+    * have non non-accelerating origins (velocity is typically
+      non-zero, but acceleration is neglible).
+
+  - Examples of inertial reference frames include J2000 (a.k.a EME2000
+    and is made to be approximately equal to the ICRF within 0.1 arc
+    seconds). Inherited from SPICE, J2000 is considered the same as ICRF.
 
   .. raw:: html
 
-     <object data="_static/J2000_.svg" type="image/svg+xml" class="center invertible"></object>
+      <object
+      data="_static/J2000_.svg"
+      type="image/svg+xml"
+      class="center invertible">
+      </object>
 
-  .. note:: Functionality to convert between different state
-            representations is provided in the
-            :ref:`\`\`element_conversion\`\`` module.
+references: |
+  .. [1] Archinal, B.A., Acton, C.H., A’Hearn, M.F. et al. Report of
+         the IAU Working Group on Cartographic Coordinates and
+         Rotational Elements: 2015. Celest Mech Dyn Astr 130, 22
+         (2018). https://doi.org/10.1007/s10569-017-9805-5
 
-
-classes:
-
-
-  # base class:
-
-  
-  # derived classes:
-
+#########################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████
+#########################################################################
 functions:
+  #######################################################################
+  - name: inertial_to_rsw_rotation_matrix                                  # [py]
+  - name: getInertialToRswSatelliteCenteredFrameRotationMatrix             # [cpp]
+    short_summary: |
+      Computes the rotation matrix from inertial to RSW frame.
 
-
-  # conversion functions:
-
-  - name: inertial_to_rsw_rotation_matrix # [py]
-  - name: getInertialToRswSatelliteCenteredFrameRotationMatrix # [cpp]
-    short_summary: "Function to compute the rotation matrix from inertial to RSW frame"
     extended_summary: |
-      Function to compute the rotation matrix from inertial to RSW frame. The RSW frame is defined 
-      by the state of a body w.r.t. to some central body. The x-axis of the RSW frame points      
-      away from the origin, and the y-axis lies in the orbital plane, and is positive for in the 
-      direction of the velocity vector (but is not colinear with the velocity vector, except for 
-      circular orbits). The z-axis is perpendicular to the orbital plane, and completes the right-
-      handed coordinate system.
+      Function to compute the rotation matrix from inertial to RSW frame.
+      The RSW frame is defined  by the state of a body w.r.t. to some
+      central body. The x-axis of the RSW frame points away from the
+      origin, and the y-axis lies in the orbital plane, and is positive
+      for in the direction of the velocity vector (but is not colinear
+      with the velocity vector, except for circular orbits). The z-axis
+      is perpendicular to the orbital plane, and completes the
+      right-handed coordinate system.
+
     parameters:
-      - name: inertial_cartesian_state # [py]
-        type: numpy.ndarray # [py]
-      - name: bodyState # [cpp]
-        type: Eigen::Vector6d # [cpp]
-        description: Cartesian state, in an inertial frame, for which the rotation matrix is to be 
-                     calculated. Note that the RSW frame is defined w.r.t. some central body, and
-                     this Cartesian state must be defined w.r.t. that central body (e.g. central 
-                     body at the origin)
+      - name: inertial_cartesian_state                                     # [py]
+        type: numpy.ndarray                                                # [py]
+      - name: bodyState                                                    # [cpp]
+        type: Eigen::Vector6d                                              # [cpp]
+        description: |
+          Cartesian state, in an inertial frame, for which the rotation
+          matrix is to be calculated. Note that the RSW frame is defined
+          w.r.t. some central body, and this Cartesian state must be
+          defined w.r.t. that central body (e.g. central body at the
+          origin).
 
     returns:
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray                                                # [py]
         description: Rotation matrix from inertial to RSW frame.
 
+  #######################################################################
+  - name: rsw_to_inertial_rotation_matrix                                  # [py]
+  - name: getRswSatelliteCenteredToInertialFrameRotationMatrix             # [cpp]
+    short_summary: |
+      Computes the rotation matrix from RSW to inertial frame.
 
-  - name: rsw_to_inertial_rotation_matrix # [py]
-  - name: getRswSatelliteCenteredToInertialFrameRotationMatrix # [cpp]
-    short_summary: "Function to compute the rotation matrix from RSW to inertial frame"
     extended_summary: |
-      Function to compute the rotation matrix from RSE to inertial. The RSW frame is defined 
-      by the state of a body w.r.t. to some central body. The x-axis of the RSW frame points      
-      away from the origin, and the y-axis lies in the orbital plane, and is positive for in the 
-      direction of the velocity vector (but is not colinear with the velocity vector, except for 
-      circular orbits). The z-axis is perpendicular to the orbital plane, and completes the right-
-      handed coordinate system.
+      Function to compute the rotation matrix from RSE to inertial. The
+      RSW frame is defined  by the state of a body w.r.t. to some central
+      body. The x-axis of the RSW frame points away from the origin, and
+      the y-axis lies in the orbital plane, and is positive for in the
+      direction of the velocity vector (but is not colinear with the
+      velocity vector, except for circular orbits). The z-axis is
+      perpendicular to the orbital plane, and completes the right-handed
+      coordinate system.
+
     parameters:
-      - name: inertial_cartesian_state # [py]
-        type: numpy.ndarray # [py]
-      - name: bodyState # [cpp]
-        type: Eigen::Vector6d # [cpp]
-        description: Cartesian state, in an inertial frame, for which the rotation matrix is to be 
-                     calculated. Note that the RSW frame is defined w.r.t. some central body, and
-                     this Cartesian state must be defined w.r.t. that central body (e.g. central 
-                     body at the origin)
+      - name: inertial_cartesian_state                                     # [py]
+        type: numpy.ndarray                                                # [py]
+
+      - name: bodyState                                                    # [cpp]
+        type: Eigen::Vector6d                                              # [cpp]
+        description: |
+          Cartesian state, in an inertial frame, for which the rotation
+          matrix is to be calculated. Note that the RSW frame is defined
+          w.r.t. some central body, and this Cartesian state must be
+          defined w.r.t. that central body (e.g. central body at the
+          origin).
 
     returns:
         type: numpy.ndarray # [py]
         description: Rotation matrix from RSW to inertial frame.
 
-
-
-  - name: inertial_to_tnw_rotation_matrix # [py]
-  - name: getInertialToTnwRotation # [cpp]
-    short_summary: "Function to compute the rotation matrix from inertial to TNW frame"
+  #######################################################################
+  - name: inertial_to_tnw_rotation_matrix                                  # [py]
+  - name: getInertialToTnwRotation                                         # [cpp]
+    short_summary: |
+      Computes the rotation matrix from inertial to TNW frame.
     extended_summary: |
-      Function to compute the rotation matrix from inertial to TNW frame. The TNW frame is defined 
-      by the state of a body w.r.t. to some central body. The x-axis of the TNW frame points      
-      along the velocity vector, and the y-axis lies in the orbital plane, and is positive in the 
-      direction away from the central body (or positive *towards* the central body if the 
-      n_axis_points_away_from_central_body variable is set to false, see below). The z-axis is 
-      perpendicular to the orbital plane, and completes the right-handed coordinate system.
-    parameters:
-      - name: inertial_cartesian_state # [py]
-        type: numpy.ndarray # [py]
-      - name: vehicleInertialState # [cpp]
-        type: Eigen::Vector6d # [cpp]
-        description: Cartesian state, in an inertial frame, for which the rotation matrix is to be 
-                     calculated. Note that the TNW frame is defined w.r.t. some central body, and
-                     this Cartesian state must be defined w.r.t. that central body (e.g. central 
-                     body at the origin)
+      Function to compute the rotation matrix from inertial to TNW frame.
+      The TNW frame is defined by the state of a body w.r.t. to some
+      central body. The x-axis of the TNW frame points along the velocity
+      vector, and the y-axis lies in the orbital plane, and is positive
+      in the direction away from the central body (or positive **towards**
+      the central body if the ``n_axis_points_away_from_central_body``
+      variable is set to false, see below). The z-axis is perpendicular
+      to the orbital plane, and completes the right-handed coordinate
+      system.
 
-      - name: n_axis_points_away_from_central_body # [py]
-        type: Boolean # [py]
-      - name: doesNaxisPointAwayFromCentralBody # [cpp]
-        type: bool # [cpp]
-        description: Boolean (default true) defining whether the N axis of teh TNW frame points 
-                     away from the central body (if true) or towards the central body (if false)
+    parameters:
+      - name: inertial_cartesian_state                                     # [py]
+        type: numpy.ndarray                                                # [py]
+      - name: vehicleInertialState                                         # [cpp]
+        type: Eigen::Vector6d                                              # [cpp]
+        description: |
+          Cartesian state, in an inertial frame, for which the rotation
+          matrix is to be calculated. Note that the RSW frame is defined
+          w.r.t. some central body, and this Cartesian state must be
+          defined w.r.t. that central body (e.g. central body at the
+          origin).
+
+      - name: n_axis_points_away_from_central_body                         # [py]
+        type: Boolean                                                      # [py]
+      - name: doesNaxisPointAwayFromCentralBody                            # [cpp]
+        type: bool                                                         # [cpp]
+        description: |
+          Boolean (default is ``True``) defining whether the N axis of the
+          TNW frame points away from the central body (if ``True``) or
+          towards the central body (if ``False``).
 
     returns:
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray                                                # [py]
         description: Rotation matrix from inertial to TNW frame.
 
+  #######################################################################
+  - name: tnw_to_inertial_rotation_matrix                                  # [py]
+  - name: getTnwToInertialRotation                                         # [cpp]
+    short_summary: |
+      Computes the rotation matrix from TNW to inertial frame.
 
-
-  - name: tnw_to_inertial_rotation_matrix # [py]
-  - name: getTnwToInertialRotation # [cpp]
-    short_summary: "Function to compute the rotation matrix from TNW to inertial frame"
     extended_summary: |
-      Function to compute the rotation matrix from TNW to inertial frame. The TNW frame is defined 
-      by the state of a body w.r.t. to some central body. The x-axis of the TNW frame points      
-      along the velocity vector, and the y-axis lies in the orbital plane, and is positive in the 
-      direction away from the central body (or positive *towards* the central body if the 
-      n_axis_points_away_from_central_body variable is set to false, see below). The z-axis is 
-      perpendicular to the orbital plane, and completes the right-handed coordinate system.
-    parameters:
-      - name: inertial_cartesian_state # [py]
-        type: numpy.ndarray # [py]
-      - name: vehicleInertialState # [cpp]
-        type: Eigen::Vector6d # [cpp]
-        description: Cartesian state, in an inertial frame, for which the rotation matrix is to be 
-                     calculated. Note that the TNW frame is defined w.r.t. some central body, and
-                     this Cartesian state must be defined w.r.t. that central body (e.g. central 
-                     body at the origin)
-
-      - name: n_axis_points_away_from_central_body # [py]
-        type: Boolean # [py]
-      - name: doesNaxisPointAwayFromCentralBody # [cpp]
-        type: bool # [cpp]
-        description: Boolean (default true) defining whether the N axis of teh TNW frame points
-                     away from the central body (if true) or towards the central body (if false)
-
-
-    returns:
-        type: numpy.ndarray # [py]
-        description: Rotation matrix from TNW to inertial frame # [py]
-
-
-
-  - name: inertial_to_body_fixed_rotation_matrix # [py]
-  - name: getInertialToPlanetocentricFrameTransformationMatrix # [cpp]
-    short_summary: "Function to compute the rotation matrix from inertial to body-fixed frame"
-    extended_summary: |
-      Function to compute the rotation matrix from inertial to body-fixed frame, using typical pole
-      right ascension :math:`\alpha`, pole declination :math:`\delta`, and prime meridian longitude
-      :math:`W` angles.
+      Function to compute the rotation matrix from TNW to inertial frame.
+      The TNW frame is defined by the state of a body w.r.t. to some
+      central body. The x-axis of the TNW frame points along the velocity
+      vector, and the y-axis lies in the orbital plane, and is positive
+      in the direction away from the central body (or positive **towards**
+      the central body if the ``n_axis_points_away_from_central_body``
+      variable is set to false, see below). The z-axis is perpendicular
+      to the orbital plane, and completes the right-handed coordinate
+      system.
 
     parameters:
-      - name: pole_declination # [py]
-        type: float # [py]
-        description: Declination of body pole in inertial frame # [py]
+      - name: inertial_cartesian_state                                     # [py]
+        type: numpy.ndarray                                                # [py]
+      - name: vehicleInertialState                                         # [cpp]
+        type: Eigen::Vector6d                                              # [cpp]
+        description: |
+          Cartesian state, in an inertial frame, for which the rotation
+          matrix is to be calculated. Note that the TNW frame is defined
+          w.r.t. some central body, and this Cartesian state must be
+          defined w.r.t. that central body (e.g. central body at the
+          origin).
 
-      - name: pole_right_ascension # [py]
-        type: float # [py]
-        description: Right ascension of body pole in inertial frame # [py]
-
-      - name: prime_meridian_longitude # [py]
-        type: float # [py]
-        description: Longitude of prime meridian w.r.t. intermediate frame # [py]
-
+      - name: n_axis_points_away_from_central_body                         # [py]
+        type: bool                                                         # [py]
+      - name: doesNaxisPointAwayFromCentralBody                            # [cpp]
+        type: bool                                                         # [cpp]
+        description: |
+          Boolean (default=``True``) defining whether the N axis of the
+          TNW frame points away from the central body (if ``True``) or
+          towards the central body (if ``False``).
 
     returns:
-        type: numpy.ndarray # [py]
-        description: Rotation matrix from inertial to body-fixed frame # [py]
+        type: numpy.ndarray                                                # [py]
+        description: Rotation matrix from TNW to inertial frame            # [py]
+
+  #######################################################################
+  - name: inertial_to_body_fixed_rotation_matrix                           # [py]
+  - name: getInertialToPlanetocentricFrameTransformationMatrix             # [cpp]
+    short_summary: |
+      Computes the rotation matrix from inertial to body-fixed frame.
+
+    extended_summary: |
+      Function to compute the rotation matrix from inertial to body-fixed
+      frame, using typical pole right ascension (:math:`\alpha`), pole
+      declination (:math:`\delta`), and prime meridian longitude
+      (:math:`W`) angles.
+
+    parameters:
+      - name: pole_declination                                             # [py]
+        type: float                                                        # [py]
+        description: |
+          Declination of body pole in inertial frame (:math:`\delta`).
+
+      - name: pole_right_ascension                                         # [py]
+        type: float                                                        # [py]
+        description: |
+          Right ascension of body pole in inertial frame (:math:`\alpha`).
+
+      - name: prime_meridian_longitude                                     # [py]
+        type: float                                                        # [py]
+        description: |
+          Longitude of prime meridian w.r.t. intermediate frame
+          (:math:`W`).
+
+    returns:
+        type: numpy.ndarray                                                # [py]
+        description: Rotation matrix from inertial to body-fixed frame     # [py]
 
     notes: |
       This definition of a body-fixed orientation is used by, for
       instance, the IAU Working Group on Cartographic Coordinates and
       Rotational Elements. Rotation is performed by a succesive z-x-z
-      Euler angle rotation (see Archinal et al. [1]_)
+      Euler angle rotation (see Archinal et al. [1]_).
 
-    references: |
-      .. [1] Archinal, B. A., et al. *Report of the IAU working group on
-             cartographic coordinates and rotational elements: 2015*.
-             Celestial Mechanics and Dynamical Astronomy 130.3 (2018):
-             1-46
+  #######################################################################
+  - name: body_fixed_to_inertial_rotation_matrix                           # [py]
+  - name: getRotatingPlanetocentricToInertialFrameTransformationMatrix     # [cpp]
+    short_summary: |
+      Computes the rotation matrix from body-fixed to inertial frame.
 
-
-  - name: body_fixed_to_inertial_rotation_matrix # [py]
-  - name: getRotatingPlanetocentricToInertialFrameTransformationMatrix # [cpp]
-    short_summary: "Function to compute the rotation matrix from body-fixed to inertial frame"
     extended_summary: |
-      Function to compute the rotation matrix from body-fixed to inertial frame, using typical pole
-      right ascension :math:`\alpha`, pole declination :math:`\delta`, and prime meridian longitude
-      :math:`W` angles. This definition of a body-fixed orientation is used by, for instance, the IAU
-      Working Group on Cartographic Coordinates and Rotational Elements. Rotation is performed by a
-      succesive z-x-z Euler angle rotation (see Archinal, B. A., et al. *Report of the IAU working
-      group on cartographic coordinates and rotational elements: 2015*. Celestial Mechanics and
-      Dynamical Astronomy 130.3 (2018): 1-46)
-    parameters: # [py]
-      - name: pole_declination # [py]
-        type: float # [py]
-        description: Declination of body pole in inertial frame # [py]
+      Function to compute the rotation matrix from body-fixed to inertial
+      frame, using typical pole right ascension (:math:`\alpha`), pole
+      declination (:math:`\delta`), and prime meridian longitude
+      (:math:`W`) angles.
 
-      - name: pole_right_ascension # [py]
-        type: float # [py]
-        description: Right ascension of body pole in inertial frame # [py]
+    notes: |
+      This definition of a body-fixed orientation is used by,
+      for instance, the IAU Working Group on Cartographic Coordinates
+      and Rotational Elements. Rotation is performed by a succesive z-x-z
+      Euler angle rotation (see Archinal et al. [1]_).
 
-      - name: prime_meridian_longitude # [py]
-        type: float # [py]
-        description: Longitude of prime meridian w.r.t. intermediate frame # [py]
+    parameters:                                                            # [py]
+      - name: pole_declination                                             # [py]
+        type: float                                                        # [py]
+        description: |
+          Declination of body pole in inertial frame (:math:`\delta`).
 
+      - name: pole_right_ascension                                         # [py]
+        type: float                                                        # [py]
+        description: |
+          Right ascension of body pole in inertial frame (:math:`\alpha`).
 
-    returns: # [py]
-        type: numpy.ndarray # [py]
-        description: Rotation matrix from body-fixed to inertial frame # [py]
+      - name: prime_meridian_longitude                                     # [py]
+        type: float                                                        # [py]
+        description: |
+          Longitude of prime meridian w.r.t. intermediate frame
+          (:math:`W`).
+
+    returns:                                                               # [py]
+        type: numpy.ndarray                                                # [py]
+        description: |
+          Rotation matrix from body-fixed to inertial frame.
