@@ -6,7 +6,7 @@ extended_summary: |
 
 
 
-classes:
+enums:
 
   ###### enums
 
@@ -39,7 +39,7 @@ classes:
       - name: custom_torque_type # [py]
 
   ######
-
+classes:
   # base
   - name: TorqueSettings
     short_summary: "Functional base class to define settings for torques."
