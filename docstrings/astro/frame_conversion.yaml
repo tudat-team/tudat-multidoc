@@ -28,13 +28,11 @@ notes: |
       primarily with conversions between different orientations.
 
   - Examples of and inertial origin include J2000 (a.k.a EME2000), as
-    well as the SPICE-defined ECLIPJ2000 frame (see `this description`_
+    well as the SPICE-defined ECLIPJ2000 frame (see `this description <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/use_of_reference_frames.html#predefined-orientations>`_
     on our user guide). The use of the ICRF frame (difference from J2000
     is <0.1 arcseconds) in Tudat is presently limited to the
     :ref:`\`\`numerical_simulation\`\`` model, see
     :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.gcrs_to_itrs`.
-
-  .. _`this description`: https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/use_of_reference_frames.html#predefined-orientations
 
   .. raw:: html
 
