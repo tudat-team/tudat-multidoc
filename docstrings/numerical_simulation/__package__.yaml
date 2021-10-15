@@ -94,7 +94,7 @@ classes:
 
       - name: integrator_settings # [py]
         type: IntegratorSettings  # [py]
-        description: |            # [py]
+        description: |
           Settings to create the numerical integrator that is to be used
           for the integration of the equations of motion
 

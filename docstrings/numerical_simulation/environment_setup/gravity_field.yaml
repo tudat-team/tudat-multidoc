@@ -17,9 +17,7 @@ enums:
     short_summary: "Enumeration of gravity field types."
     extended_summary: |
       Enumeration of gravity field types supported by tudat.
-
     members:
-
       - name: central # [cpp]
       - name: central_spice # [cpp]
       - name: spherical_harmonic # [cpp]
@@ -35,7 +33,6 @@ enums:
     short_summary: "Enumeration of spherical harmonics models."
     extended_summary: |
       Enumeration of spherical harmonics models supported by tudat.
-
     members:
       - name: customModel # [cpp]
       - name: custom_model # [py]

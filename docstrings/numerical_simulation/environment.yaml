@@ -159,7 +159,7 @@ classes:
           :py:class:`~AtmosphericFlightConditions` object, which defines
           the aerodynamic coefficients.
 
-    methods:
+    #methods:
       
 
   - name: Body
@@ -175,10 +175,10 @@ classes:
        properties, in as much as they are time-dependent, can be
        extracted from this object
 
-    properties:
+    properties: # [py]
       - name: state # [py]
         type: numpy.ndarray # [py]
-        description: |  # [py]
+        description: |
           The translational state of the Body, as set during the current
           step of the numerical propagation. The translational state
           stored here is always in Cartesian elements, w.r.t. the global
@@ -193,26 +193,26 @@ classes:
 
       - name: position # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           The translational position of the Body, as set during the
           current step of the numerical propagation
           (see :py:attr:`~state`).
 
       - name: airspeed # [py]
         type: float # [py]
-        description: | # [py]
+        description: |
           The airspeed of the body w.r.t. the atmosphere
 
       - name: velocity # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           The translational velocity of the Body, as set during the
           current step of the numerical propagation
           (see :py:attr:`~state`).
 
       - name: inertial_to_body_fixed_frame # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           The rotation from inertial frame (with global frame
           orientation) to this Body's body-fixed frame. The rotation is
           always returned here as a rotation matrix.  If the body's
@@ -228,33 +228,33 @@ classes:
 
       - name: body_fixed_to_inertial_frame # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           The rotation from this Body's body-fixed frame to inertial
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
 
       - name: inertial_to_body_fixed_frame_derivative # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           Time derivative of rotation matrix from inertial frame to this
           Body's body-fixed frame
           (see :py:attr:`~inertial_to_body_fixed_frame`).
 
       - name: body_fixed_to_inertial_frame_derivative # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           Time derivative of rotation matrix from this Body's body-fixed
           frame to inertial frame
           (see :py:attr:`~inertial_to_body_fixed_frame`).
 
       - name: inertial_angular_velocity # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           Angular velocity vector of the body, expressed in inertial
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
     
       - name: body_fixed_angular_velocity # [py]
         type: numpy.ndarray # [py]
-        description: | # [py]
+        description: |
           Angular velocity vector of the body, expressed in body-fixed
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
 

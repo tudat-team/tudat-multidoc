@@ -64,6 +64,7 @@ classes:
 
       - name: target_frame # [py] # readonly
         type: str # [py]
+        description: Target frame of rotation model. # [py]
 
     methods:
       #      - name: __init__ # [py]
