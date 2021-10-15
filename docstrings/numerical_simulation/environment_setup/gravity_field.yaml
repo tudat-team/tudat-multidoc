@@ -7,9 +7,8 @@ extended_summary: |
   gravitational potential models of celestial bodies in an environment.
 
 
-classes:
 
-###### enums
+enums:
 
   #    py::enum_<tss::GravityFieldType>
   #        enum tudat::simulation_setup::GravityFieldType
@@ -19,7 +18,7 @@ classes:
     extended_summary: |
       Enumeration of gravity field types supported by tudat.
 
-    attributes:
+    members:
 
       - name: central # [cpp]
       - name: central_spice # [cpp]
@@ -37,7 +36,7 @@ classes:
     extended_summary: |
       Enumeration of spherical harmonics models supported by tudat.
 
-    attributes:
+    members:
       - name: customModel # [cpp]
       - name: custom_model # [py]
       - name: egm96
@@ -47,8 +46,11 @@ classes:
       - name: lpe200
       - name: jgmro120d
 
-
 ######
+
+
+
+classes:
 
 
   # base class:

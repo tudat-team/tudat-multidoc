@@ -9,6 +9,7 @@ extended_summary: |
 # - thrustSettings.h
 
 enums:
+
   - name: AvailableAcceleration
     short_summary: "Enumeration of available acceleration types."
     extended_summary: |
@@ -108,17 +109,10 @@ enums:
       - name: custom_thrust_orientation_type
       - name: mee_costate_based_thrust_direction_type
 
+  ######
 
 
 classes:
-
-###### enums from all included headers
-
-  #    py::enum_<tba::AvailableAcceleration>
-  #        enum tudat::basic_astrodynamics::AvailableAcceleration
-
-
-  ######
 
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

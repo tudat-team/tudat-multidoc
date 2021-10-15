@@ -7,13 +7,14 @@ extended_summary: |
   ephemeris models of celestial bodies in an environment.
 
 
-classes:
-
 ###### enums
 
+  # no enums
 
 ######
 
+
+classes:
 
   - name: EphemerisSettings
     short_summary: "Base class for providing settings for ephemeris model."

@@ -7,13 +7,14 @@ extended_summary: |
   shape models of celestial bodies in an environment.
 
 
-classes:
-
 ###### enums
 
   #    no enums
 
 ######
+
+
+classes:
 
 
   - name: BodyShapeSettings

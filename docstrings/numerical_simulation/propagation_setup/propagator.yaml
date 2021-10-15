@@ -8,8 +8,6 @@ extended_summary: |
 
 enums:
 
-  ###### enums from all included headers
-
   #       py::enum_<tp::TranslationalPropagatorType>
   #        enum tudat::propagators::TranslationalPropagatorType
 
@@ -81,6 +79,7 @@ enums:
       - name: custom_stopping_condition # [py]
 
   ######
+
 
 classes:
 

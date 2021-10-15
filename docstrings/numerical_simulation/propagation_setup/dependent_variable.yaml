@@ -9,8 +9,6 @@ extended_summary: |
 
 enums:
 
-###### enums
-
   #    py::enum_<tp::PropagationDependentVariables>
   #        enum tudat::propagators::PropagationDependentVariables
 
@@ -117,8 +115,11 @@ enums:
     - name: current_body_mass_type # [py]
     - name: radiation_pressure_coefficient_type # [py]
 
+  ######
+
 
 classes:
+
   # base
   - name: VariableSettings
     short_summary: "Functional base class to define settings for variables."

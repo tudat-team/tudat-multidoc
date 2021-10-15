@@ -8,8 +8,6 @@ extended_summary: |
 
 enums:
 
-  ###### enums
-
   #       py::enum_<tba::AvailableTorque>
   #        enum tudat::basic_astrodynamics::AvailableTorque
 
@@ -18,7 +16,7 @@ enums:
     extended_summary: |
       Enumeration of torque types supported by tudat.
 
-    attributes:
+    members:
 
       - name: torque_free # [cpp]
       - name: underfined_torque # [cpp]
@@ -39,6 +37,8 @@ enums:
       - name: custom_torque_type # [py]
 
   ######
+
+
 classes:
   # base
   - name: TorqueSettings

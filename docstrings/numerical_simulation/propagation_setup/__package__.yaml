@@ -2,6 +2,14 @@ extended_summary: |
   This module consists of factory functions for setting up the
   propagation component of a simulation.
 
+
+###### enums
+
+  # no enums
+
+######
+
+
 modules:
   - acceleration
   - dependent_variable

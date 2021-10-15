@@ -7,10 +7,7 @@ extended_summary: |
   rotation models of celestial bodies in an environment.
 
 
-
-classes:
-
-###### enums
+enums:
 
   #    py::enum_<tss::RotationModelType>
   #        enum tudat::simulation_setup::RotationModelType
@@ -20,7 +17,7 @@ classes:
     extended_summary: |
       Enumeration of rotation model types supported by tudat.
 
-    attributes:
+    members:
       - name: simple_rotation_model
       - name: spice_rotation_model
       - name: gcrs_to_itrs_rotation_model
@@ -35,13 +32,16 @@ classes:
     extended_summary: |
       Enumeration of IAU conventions for Earth rotation supported by tudat.
 
-    methods:
+    members:
       - name: iau_2000_a
       - name: iau_2000_b
       - name: iau_2006
 
-
 ######
+
+
+
+classes:
 
 
   # base class:

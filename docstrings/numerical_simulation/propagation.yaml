@@ -22,16 +22,16 @@ classes:
        Object that provides information on the reason for the
        termination of the propagation.
 
-    properties:
+    properties: # [py]
       - name: termination_reason # [py]
         type: PropagationTerminationReason # [py]
-        description: |
+        description: | # [py]
           Enum defining the reason the propagation was terminated
 
       - name: terminated_on_exact_condition # [py]
         type: bool # [py]
-        description: |
-          Boolean defining whether the propagation was termined on an *exact* final condition, 
+        description: | # [py]
+          Boolean defining whether the propagation was termined on an *exact* final condition,
           or once the propagation went *past* the determined final condition. The choice of behaviour is
           defined by the termination settings provided as input to the Simulator object.
 

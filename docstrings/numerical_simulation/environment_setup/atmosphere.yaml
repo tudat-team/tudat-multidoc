@@ -7,13 +7,13 @@ extended_summary: |
   atmosphere models of celestial bodies in an environment.
 
 
-classes:
-
 ###### enums
 
   # no enums
 
 ######
+
+classes:
 
   - name: WindModelSettings
     short_summary: "Class for providing settings for wind model."

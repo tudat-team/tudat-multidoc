@@ -3,15 +3,14 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+###### enums
+
+  # no enums
+
+######
 
 
 classes:
-
-###### enums
-
-  #    no enums
-
-######
 
 
   - name: AerodynamicCoefficientSettings

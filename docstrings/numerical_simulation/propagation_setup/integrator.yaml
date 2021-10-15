@@ -8,8 +8,6 @@ extended_summary: |
 
 enums:
 
-  ###### enums
-
   #    py::enum_<tni::AvailableIntegrators>
   #        enum tudat::numerical_integrators::AvailableIntegrators
 
@@ -70,7 +68,9 @@ enums:
 
   ######
 
+
 classes:
+
   # base
   - name: IntegratorSettings
     short_summary: "Functional base class to define settings for integrators."

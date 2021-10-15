@@ -218,7 +218,7 @@ functions:
       declination (:math:`\delta`), and prime meridian longitude
       (:math:`W`) angles.
 
-    parameters:
+    parameters:                                                            # [py]
       - name: pole_declination                                             # [py]
         type: float                                                        # [py]
         description: |
