@@ -7,7 +7,7 @@ extended_summary: |
 
 
 
-classes:
+enums:
 
 ###### enums
 
@@ -19,7 +19,7 @@ classes:
     extended_summary: |
       Enumeration of propagation dependent variables supported by tudat.
 
-    attributes:
+    members:
 
     - name: mach_number_dependent_variable # [cpp]
     - name: altitude_dependent_variable # [cpp]
@@ -117,8 +117,8 @@ classes:
     - name: current_body_mass_type # [py]
     - name: radiation_pressure_coefficient_type # [py]
 
-  ######
 
+classes:
   # base
   - name: VariableSettings
     short_summary: "Functional base class to define settings for variables."

@@ -95,14 +95,10 @@ In order to make the link to the exposed tudatpy classes and functions, the docs
   ````
   py:class_<CppClass, CppPointerToClass, CppParentClass>(module, "ClassName", get_docstring("<ClassName>").c_str())
   ````
-- for class attributes, methods, and properties (generically "fields"):
+- for class methods and properties (generically "fields"):
   ````
   get_docstring("<ClassName.FieldName>").c_str()
   ````
-  - for class attributes: as last argument of `.def_readwrite()` (or `.def_readonly()` for `const` attributes), as in
-    ````
-    .def_readwrite("AttributeName", CppClassName::CppAttributeName, py::arg("ParameterName"), ..., get_docstring("<ClassName.AttributeName>").c_str())
-    ````
   - for class methods: as last argument of `.def()`, as in
     ````
     .def("MethodName", CppClassName::CppMethodName, py::arg("ParameterName"), ..., get_docstring("<ClassName.MethodName>").c_str())
@@ -126,6 +122,9 @@ In order to make the link to the exposed tudatpy classes and functions, the docs
   ````
   as last argument of `m.def("<function_name>", ... )` exposure function
 
+
+**Note**: class attributes do not need the get_docstring tag, because their docstring is automatically retrieved from
+the class exposure.
 
 ### Examples: TUDAT
 

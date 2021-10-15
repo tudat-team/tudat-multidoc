@@ -6,7 +6,7 @@ extended_summary: |
 
 
 
-classes:
+enums:
 
   ###### enums
 
@@ -30,7 +30,7 @@ classes:
 
   ######
 
-
+classes:
   # base
   - name: MassRateModelSettings
     short_summary: "Functional base class to define settings for mass rates."
