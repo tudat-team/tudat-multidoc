@@ -5,7 +5,9 @@ repository. This repository effectively contains a description of the Tudat
 API. To understand the content of this file, the reader should be familiar
 with the structure and content of the `tudat-bundle`, which is explained in the
 `tudat-bundle/README.md` (one level higher than the directory where the current
-README is located).
+README is located). If you want to know how to write API documentation, please
+make sure to read the README file located in the lower-level `tudat-multidoc/docstring` 
+directory.
 
 ## Structure of `tudat-multidoc`
 
@@ -174,5 +176,3 @@ This is expected given our current state of development. The possibilities (I'm 
 **Why does doxygen take so long to build?**
 
 Unfortunately, I've yet to design a configuration of the target source directories in the `Doxyfile.in` which list only those stated in the API docstrings.
-
-# Let's document a new feature of `tudat`/`tudatpy` 
