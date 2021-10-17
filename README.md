@@ -21,12 +21,12 @@ In the `tudat-multidoc` directory, there are two subdirectories:
 The branches used to write the documentation are the following (listed for each repo):
 
 - `tudat-bundle`: main
-- `tudat`: feature/api-docs
-- `tudatpy`: feature/api-docs
+- `tudat`: develop
+- `tudatpy`: develop
 - `tudat-multidoc`: main
 - `tudat-multidoc/multidoc`: develop
 
-These will be revised and merged in the future, but for now it is recommended to stick to these to avoid issues.
+If you are writing the API for a specific module/project, you are recommended to create a new branch and then open a pull request.
 
 ## How to generate documented versions of `tudat`/`tudatpy` 
 
