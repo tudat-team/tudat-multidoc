@@ -15,8 +15,8 @@ enums:
 
   - name: RadiationPressureType
     short_summary: "Enumeration of available radiation pressure types."
-    extended_summary: |
-      Enumeration of radiation pressure types supported by tudat.
+    #extended_summary: |
+      #Enumeration of radiation pressure types supported by tudat.
 
     members:
       - name: cannonball_radiation_pressure_interface

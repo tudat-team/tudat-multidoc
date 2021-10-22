@@ -4,6 +4,25 @@ extended_summary: |
   models that perform computations related to environment models of
   natural and artificial bodies.
 
+enums:
+
+  - name: AerodynamicsReferenceFrames
+    short_summary: "Enumeration of reference frame identifiers typical for aerodynamic calculations."
+    extended_summary: |
+      Enumeration of reference frame identifiers typical for aerodynamic calculations. Note that the frames are also defined
+      in the absence of any aerodynamic forces and/or atmosphere. They define frames of a body w.r.t. a central body, with
+      the details given by Mooij (1994). The chain of frames starts from the inertial frame, to the frame fixed to the
+      central body (corotating), to the vertical frame (defined by the body's relative position), the trajectory and aerodynamic frames
+      (defined by the body's relative velocity) and finally the body's own body-fixed frame.
+
+    members:
+      - name: inertial_frame
+      - name: corotating_frame
+      - name: vertical_frame
+      - name: trajectory_frame
+      - name: aerodynamic_frame
+      - name: body_frame
+
 classes:
   - name: FlightConditions
     short_summary: |
