@@ -145,7 +145,6 @@ functions:
         type: double # [cpp]
         description: "Equatorial radius specifying oblate spherical body shape."
 
-    parameters:
       - name: flattening # [py]
         type: float # [py]
       - name: flattening # [cpp]

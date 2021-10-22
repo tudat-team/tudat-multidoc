@@ -211,11 +211,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
       Note that *only* the initial orientation and rotation rate ( at the time defined by `initial_time` ) are extracted from Spice.
-      The distinction between the two target frame inputs is the following
-
-        - the ``target_frame`` parameter is the name of frame that Tudat assigns to the body-fixed frame
-        - the ``target_frame_spice`` is the name of the frame in Spice for which the initial orientation and rotation rate are extracted.
-
+      Note the distinction between the ``target_frame`` and ``target_frame_spice`` inputs.
       This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
 
     parameters:
@@ -229,13 +225,13 @@ functions:
         type: str # [py]
       - name: target_frame # [cpp]
         type: std::string # [cpp]
-        description: Target frame of rotation model.
+        description: Target frame of rotation model - name of frame that Tudat assigns to the body-fixed frame
 
       - name: target_frame_spice # [py]
         type: str # [py]
       - name: targetFrameSpice # [cpp]
         type: std::string # [cpp]
-        description: Spice reference of target frame.
+        description: Spice reference of target frame - name of the frame in Spice for which the initial orientation and rotation rate are extracted.
 
       - name: initial_time # [py]
         type: float # [py]
@@ -324,7 +320,7 @@ functions:
 
     parameters:
       - name: precession_nutation_theory # [py]
-        type: default=tba::iau_2006 # [py]
+        type: IAUConventions, default=tba::iau_2006 # [py]
       - name: nutationTheory # [cpp]
         type: basic_astrodynamics::IAUConventions default=basic_astrodynamics::iau_2006 # [cpp]
         description: |
@@ -392,8 +388,8 @@ functions:
       - name: initial_orientation # [py]
         type: numpy.ndarray # [py]
       - name: initialOrientation # [cpp]
-        type: Eigen::Quaterniond # [cpp]
-        description: Orientation of target frame in base frame at initial time (constant throughout).
+        type: Eigen::Matrix3d # [cpp]
+        description: Rotation matrix from inertial to body-fixed (base to targe) frame at initial time (constant throughout).
 
     returns:
         type: SimpleRotationModelSettings

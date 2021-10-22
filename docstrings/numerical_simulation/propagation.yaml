@@ -35,4 +35,68 @@ classes:
           or once the propagation went *past* the determined final condition. The choice of behaviour is
           defined by the termination settings provided as input to the Simulator object.
 
+functions:
+
+
+  - name: getInitialStatesOfBodies # [cpp]
+  - name: get_state_of_bodies # [py]
+    short_summary: "Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time."
+
+    extended_summary: |
+      Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time.
+
+    parameters:
+      - name: bodiesToIntegrate # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: list[str] # [py]
+        description: List of bodies to be propagated.
+
+      - name: centralBodies # [cpp]
+        type: std::vector<std::string> # [cpp]
+      - name: central_bodies # [py]
+        type: list[str] # [py]
+        description: List of central bodies, each referred to a body being propagated (in the same order).
+
+      - name: bodies # [cpp]
+        type: SystemOfBodies # [cpp]
+      - name: bodies_to_propagate # [py]
+        type: body_system # [py]
+        description: System of bodies used in the propagation.
+
+      - name: initialTime # [cpp]
+        type: double # [cpp]
+      - name: initial_time # [py]
+        type: float # [py]
+        description: Initial time of the propagation.
+
+    returns:
+        type: Eigen::Matrix # [cpp]
+        type: numpy.ndarray # [py]
+        description: Time at which the states should be retrieved.
+
+
+  # Free function
+  - name: createCombinedInitialState # [cpp]
+  - name: combine_initial_states # [py]
+    short_summary: "Function to retrieve the initial state for a list of propagator settings."
+    extended_summary: |
+      Function to retrieve the initial state for a list of propagator settings. This way, the initial state for
+      different quantities to be propagated (e.g., translational state, rotational state, mass) are retrieved and
+      organized in a single container.
+
+    parameters:
+      - name: propagatorSettingsList # [cpp]
+        type: map # [cpp]
+      - name: propagator_settings_per_type # [py]
+        type: dict # [py]
+        description: Propagator settings where the type of propagation is reported as key and the respective list of propagator settings as value.
+
+    returns:
+        type: Eigen::Matrix # [cpp]
+        type: numpy.ndarray # [py]
+        description: Vector of initial states, sorted in order of IntegratedStateType, and then in the order of the vector of SingleArcPropagatorSettings of given type.
+
+
+
       

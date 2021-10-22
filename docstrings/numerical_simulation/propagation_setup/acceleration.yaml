@@ -570,12 +570,13 @@ functions:
       it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
       The specific impulse is defined through a user-defined function of time.
 
+    # TODO correct interpolator inputs
     parameters:
       - name: dataInterpolationSettings # [cpp]
         type: DataInterpolationSettings<double, Eigen::Vector3d> # [cpp]
       - name: data_interpolation_settings # [py]
-        type: DataInterpolationSettings<float, numpy.ndarray> # [py]
-        description: Interpolator object that provides the thrust direction vector in the given thrust frame as a function of time.
+        type: DataInterpolationSettingsVector3d # [py]
+        description: Object defining settings for an interpolator providing the thrust as a function of time
 
       - name: specificImpulseFunction # [cpp]
         type: std::function<double(double)> # [cpp]
@@ -609,12 +610,13 @@ functions:
       direction and magnitude is defined through the related interpolator (which uses time as independent variable) and 
       it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
 
+# TODO correct interpolator inputs
     parameters:
       - name: dataInterpolationSettings # [cpp]
         type: DataInterpolationSettings<double, Eigen::Vector3d> # [cpp]
       - name: data_interpolation_settings # [py]
-        type: DataInterpolationSettings<float, numpy.ndarray> # [py]
-        description: Interpolator object that provides the thrust direction vector in the given thrust frame as a function of time.
+        type: DataInterpolationSettingsVector3d # [py]
+        description: Object defining settings for an interpolator providing the thrust as a function of time
 
       - name: constantSpecificImpulse # [cpp]
         type: double # [cpp]

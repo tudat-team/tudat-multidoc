@@ -346,7 +346,7 @@ functions:
       Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid.
       The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
       Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
-      (%!) The x-, y- and z-axis of the ... ABC (?).
+      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
       This function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.
 
     parameters:
