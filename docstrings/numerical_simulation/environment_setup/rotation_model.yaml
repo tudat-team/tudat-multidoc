@@ -127,11 +127,7 @@ functions:
 
   - name: simpleRotationModelSettings # [cpp]     # overload cpp
     short_summary: "Factory function for creating simple rotation model settings." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis. # [cpp]
-      Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix. # [cpp]
-      Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s). # [cpp]
-      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object. # [cpp]
+    extended_summary: "Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis. Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix. Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s). This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object."  # [cpp]
 
     parameters: # [cpp]
 
@@ -341,10 +337,7 @@ functions:
 
   - name: constantRotationModelSettings # [cpp]
     short_summary: "Factory function for creating simple rotation model settings for target-frames with constant orientation." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix. # [cpp]
-      These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation. # [cpp]
-      This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object. # [cpp]
+    extended_summary: " Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix. These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation. This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object." # [cpp]
 
     parameters: # [cpp]
 

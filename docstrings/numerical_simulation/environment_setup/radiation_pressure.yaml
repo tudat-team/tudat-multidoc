@@ -115,39 +115,31 @@ functions:
 
       - name: emissivities # [py]
         type: list[float] # [py]
-        description: | # [py]
-          List containing the panels' emissivities.
+        description: List containing the panels' emissivities. # [py]
       - name: emissivities # [cpp]
         type: std::vector< double > # [cpp]
-        description: | # [cpp]
-          Vector containing the panels' emissivities.
+        description: Vector containing the panels' emissivities. # [cpp]
 
       - name: areas # [py]
         type: list[float] # [py]
-        description: | # [py]
-          List containing the panels' areas.
+        description: List containing the panels' areas. # [py]
       - name: areas # [cpp]
         type: std::vector< double > # [cpp]
-        description: | # [cpp]
-          Vector containing the panels' areas.
+        description: Vector containing the panels' areas. # [cpp]
 
       - name: diffusion_coefficients # [py]
         type: list[float] # [py]
-        description: | # [py]
-          List containing diffuse reflection coefficients of the panels.
+        description: List containing diffuse reflection coefficients of the panels. # [py]
       - name: diffusionCoefficients # [cpp]
         type: std::vector< double > # [cpp]
-        description: | # [cpp]
-          Vector containing diffuse reflection coefficients of the panels.
+        description: Vector containing diffuse reflection coefficients of the panels. # [cpp]
 
       - name: surface_normals_in_body_fixed_frame # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
-        description: | # [py]
-          List containing the (constant) surface normals of the panels, expressed in the body-fixed frame.
+        description: List containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [py]
       - name: surfaceNormalsInBodyFixedFrame # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: | # [cpp]
-          Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame.
+        description: Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
 
       - name: occulting_bodies # [py]
         type: list[str], default = [''] # [py]

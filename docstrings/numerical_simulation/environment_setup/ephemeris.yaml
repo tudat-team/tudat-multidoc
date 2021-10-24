@@ -580,20 +580,16 @@ functions:
         description: "?"
 
     returns:
-      type: InterpolatedSpiceEphemerisSettings # [py]
-      description: Instance of InterpolatedSpiceEphemerisSettings class. # [py]
-      type: InterpolatedSpiceEphemerisSettings # [cpp]
-      description: # [cpp]
+      - type: InterpolatedSpiceEphemerisSettings # [py]
+        description: Instance of InterpolatedSpiceEphemerisSettings class. # [py]
+      - type: InterpolatedSpiceEphemerisSettings # [cpp]
+        description: # [cpp]
 
 
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
   - name: approximatePlanetPositionsSettings # [cpp] # (%! naming is misleading - Position vs Positions)
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining approximate ephemeris model for major planets.
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).
-      #(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used.
-      This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.
+    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object." # [cpp]
 
     parameters: # [cpp]
       - name: bodyIdentifier # [cpp]
