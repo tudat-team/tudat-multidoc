@@ -22,10 +22,11 @@ classes:
       Functional (base) class for settings of ephemeris models that require no information in addition to their type (and frame origin and orientation).
       Ephemeris model classes requiring additional information must be created using an object derived from this class.
 
-    attributes: # [py]
-      - name: ephemeris_type # [py] # readonly
+    properties: # [py]
+      - name: ephemeris_type # [py]
         type: EphemerisType # [py]
         description: Type of ephemeris that is to be created. # [py]
+        readonly: True # [py]
 
       - name: frame_origin # [py]
         type: str # [py]
@@ -157,18 +158,21 @@ classes:
     short_summary: "Class for defining settings of an ephemeris linked directly to Spice."
     extended_summary: "`EphemerisSettings` derived class for ephemeris which are directly linked to Spice."
 
-    attributes: # [py]
-      - name: correct_for_stellar_aberration # [py] # readonly
+    properties: # [py]
+      - name: correct_for_stellar_aberration # [py]
         type: bool # [py]
         description: Boolean defining whether to correct for stellar abberations in retrieved values (of observed state). # [py]
+        readonly: True # [py]
 
-      - name: correct_for_light_time_aberration # [py] # readonly
+      - name: correct_for_light_time_aberration # [py]
         type: bool # [py]
         description: Boolean defining whether to correct for light time in retrieved values (of observed state). # [py]
+        readonly: True # [py]
 
-      - name: converge_light_time_aberration # [py] # readonly
+      - name: converge_light_time_aberration # [py]
         type: bool # [py]
         description: Boolean defining whether to use single iteration or max. 3 iterations for calculating light time correction. # [py]
+        readonly: True # [py]
 
     methods:
       - name: ctor # [cpp]
@@ -214,18 +218,21 @@ classes:
     short_summary: "Class for defining settings of an ephemeris interpolated from Spice data."
     extended_summary: "`DirectSpiceEphemerisSettings` derived class for setting ephemerides to be created from interpolated Spice ephemeris data."
 
-    attributes: # [py]
-      - name: initial_time # [py] # readonly
+    properties: # [py]
+      - name: initial_time # [py]
         type: float # [py]
         description: "Initial time from which interpolated data from Spice should be created." # [py]
+        readonly: True # [py]
 
-      - name: final_time # [py] # readonly
+      - name: final_time # [py]
         type: float # [py]
         description: "Final time from which interpolated data from Spice should be created." # [py]
+        readonly: True # [py]
 
-      - name: time_step # [py] # readonly
+      - name: time_step # [py]
         type: float # [py]
         description: "Time step setting to be used for the state interpolation." # [py]
+        readonly: True # [py]
 
 
     methods:
@@ -296,10 +303,11 @@ classes:
     short_summary: "Class for defining settings of a custom ephemeris."
     extended_summary: "`EphemerisSettings` derived class for ephemerides producing a custom state (e.g. arbitrary state as a function of time)."
 
-    attributes: # [py]
-      - name: custom_state_function # [py] # readonly
-        # (%! unable to formulate that type in tudatpy) type: std::function< Eigen::Vector6d >
+    properties: # [py]
+      - name: custom_state_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[6, 1]]] # py
         description: "Function returning the state as a function of time." # [py]
+        readonly: True # [py]
 
     methods:
       - name: ctor # [cpp]
@@ -324,22 +332,27 @@ classes:
     short_summary: "Class for defining settings of an ideal Kepler orbit ephemeris." # [cpp]
     extended_summary: "`EphemerisSettings` derived class for ephemerides which represent an ideal Kepler orbit."
 
-    attributes: # [py]
-      - name: initial_state_in_keplerian_elements # [py] # readonly
+    properties: # [py]
+      - name: initial_state_in_keplerian_elements # [py]
         type: numpy.ndarray # [py]
         description: "Kepler elements at time epochOfInitialState." # [py]
-      - name: epoch_of_initial_state # [py] # readonly
+        readonly: True # [py]
+      - name: epoch_of_initial_state # [py]
         type: float # [py]
         description: "Time at which initialStateInKeplerianElements represents the Keplerian state." # [py]
-      - name: central_body_gravitational_parameter # [py] # readonly
+        readonly: True # [py]
+      - name: central_body_gravitational_parameter # [py]
         type: float # [py]
         description: "Gravitational parameter of the central body that is used in the computations." # [py]
-      - name: root_finder_absolute_tolerance # [py] # readonly
+        readonly: True # [py]
+      - name: root_finder_absolute_tolerance # [py]
         type: float # [py]
         description: "Convergence tolerance for root finder used to convert mean to eccentric anomaly on each call to getCartesianState." # [py]
-      - name: root_finder_maximum_number_of_iterations # [py] # readonly
+        readonly: True # [py]
+      - name: root_finder_maximum_number_of_iterations # [py]
         type: float # [py]
         description: "Maximum iteration for root finder used to convert mean to eccentric anomaly on each call to getCartesianState." # [py]
+        readonly: True # [py]
 
     methods:
 
@@ -401,13 +414,15 @@ classes:
     short_summary: "Class for defining settings of ephemeris to be created from tabulated data."
     extended_summary: "`EphemerisSettings` derived class for ephemeris created from tabulated data. The provided data is interpolated into ephemerides."
 
-    attributes: # [py]
-      - name: body_state_history # [py] # readonly
+    properties: # [py]
+      - name: body_state_history # [py]
         type: dict # [py]
         description: Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray). # [py]
+        readonly: True # [py]
       - name: use_long_double_states # [py]
         type: bool # [py]
         description: Boolean defining whether increased numerical precision (long double type) is to be used when creating the ephemeris. # [py]
+        readonly: True # [py]
 
     methods:
       - name: ctor # [cpp]
@@ -503,7 +518,7 @@ functions:
 
     returns:
         type: DirectSpiceEphemerisSettings  # [py]
-        description: # [py]
+        description: Instance of DirectSpiceEphemerisSettings class. # [py]
         type: DirectSpiceEphemerisSettings  # [cpp]
         description: # [cpp]
 
@@ -565,20 +580,16 @@ functions:
         description: "?"
 
     returns:
-      type: InterpolatedSpiceEphemerisSettings # [py]
-      description: # [py]
-      type: InterpolatedSpiceEphemerisSettings # [cpp]
-      description: # [cpp]
+      - type: InterpolatedSpiceEphemerisSettings # [py]
+        description: Instance of InterpolatedSpiceEphemerisSettings class. # [py]
+      - type: InterpolatedSpiceEphemerisSettings # [cpp]
+        description: # [cpp]
 
 
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
   - name: approximatePlanetPositionsSettings # [cpp] # (%! naming is misleading - Position vs Positions)
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining approximate ephemeris model for major planets. # [cpp]
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf). # [cpp]
-      #(%! only given in ctor, not FF) Three-dimensional and circular-coplanar approximation may be used. # [cpp]
-      This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object. # [cpp]
+    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object." # [cpp]
 
     parameters: # [cpp]
       - name: bodyIdentifier # [cpp]
@@ -899,10 +910,11 @@ functions:
       At the edges of the interpolation interval a cubic spline interpolator is used to suppres the influence of Runge's phenomenon.
       This function creates an instance of an `EphemerisSettings` derived `TabulatedEphemerisSettings` object.
 
-    parameters:
-      - name: body_state_history # [py] # readonly
+    properties:
+      - name: body_state_history # [py]
         type: dict # [py]
         description: Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray). # [py]
+        readonly: True # [py]
       - name: bodyStateHistory # [cpp]
         type: std::map< double, Eigen::Vector6d > # [cpp]
         description: Data map defining discrete data from which an ephemeris is to be created. Keys representing the time (double) and values representing Cartesian states (Eigen::Vector6d). # [cpp]
