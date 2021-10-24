@@ -30,14 +30,16 @@ classes:
       Class for defining settings for the creation of a system of bodies. This object is typicall created from default settings, and
       then adapted to the user's specific needs.
 
-    attributes: # [py]
-      - name: frame_origin # [py] # readonly
+    properties: # [py]
+      - name: frame_origin # [py]
         type: str # [py]
         description: Definition of the global frame origin for the bodies # [py]
+        readonly: True # [py]
 
-      - name: frame_orientation # [py] # readonly
+      - name: frame_orientation # [py]
         type: str # [py]
         description: Definition of the global frame orienation for the bodies # [py]
+        readonly: True # [py]
 
 
     methods:
@@ -63,41 +65,41 @@ classes:
     properties: # [py]
       - name: constant_mass # [py]
         type: float # [py]
-        description: |
-          Mass that gets assigned to the vehicle. Note that this mass does *not* automatically define a gravity field   # [py]
-          model, but is instead used for the calculation of non-conservative forces only. When creating a body with a gravity field,   # [py]
-          leave this entry empty.   # [py]
+        description: | # [py]
+          Mass that gets assigned to the vehicle. Note that this mass does *not* automatically define a gravity field
+          model, but is instead used for the calculation of non-conservative forces only. When creating a body with a gravity field,
+          leave this entry empty.
 
       - name: atmosphere_settings # [py]
         type: AtmosphereSettings # [py]
-        description: |
-          Object that defines the settings of the atmosphere model that is to be created. Note that wind model settings  # [py]
-          may be defined inside this object. A variable of this type is typically assigned by using a factory function from the  # [py]
-          :ref:`tudatpy.numerical_simulation.environment_setup.atmosphere` module.  # [py]
+        description: | # [py]
+          Object that defines the settings of the atmosphere model that is to be created. Note that wind model settings
+          may be defined inside this object. A variable of this type is typically assigned by using a factory function from the
+          :ref:`tudatpy.numerical_simulation.environment_setup.atmosphere` module.
 
       - name: ephemeris_settings # [py]
         type: EphemerisSettings # [py]
-        description: |
-          Object that defines the settings of the ephemeris model that is to be created. A variable of this type is typically  # [py]
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.ephemeris` module.  # [py]
+        description: | # [py]
+          Object that defines the settings of the ephemeris model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.ephemeris` module.
 
       - name: gravity_field_settings # [py]
         type: GravityFieldSettings # [py]
-        description: |
-          Object that defines the settings of the gravity field model that is to be created. A variable of this type is typically  # [py]
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.gravity_field` module.  # [py]
+        description: | # [py]
+          Object that defines the settings of the gravity field model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.gravity_field` module.
 
       - name: rotation_model_settings # [py]
         type: RotationModelSettings # [py]
-        description: |
-          Object that defines the settings of the rotation model that is to be created. A variable of this type is typically # [py]
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.rotation_model` module. # [py]
+        description: | # [py]
+          Object that defines the settings of the rotation model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.rotation_model` module.
 
       - name: shape_settings # [py]
         type: BodyShapeSettings # [py]
-        description: |
-          Object that defines the settings of the shape model that is to be created. A variable of this type is typically # [py]
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module. # [py]
+        description: | # [py]
+          Object that defines the settings of the shape model that is to be created. A variable of this type is typically
+          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module.
 
 functions:
 

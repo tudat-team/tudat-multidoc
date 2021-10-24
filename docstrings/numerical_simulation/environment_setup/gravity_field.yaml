@@ -58,10 +58,11 @@ classes:
       This class is a functional base class for settings of gravity field models that require no information in addition to their type.
       Gravity field model classes requiring additional information must be created using an object derived from this class.
 
-    attributes: # [py]
-      - name: gravity_field_type # [py] # readonly
+    properties: # [py]
+      - name: gravity_field_type # [py]
         type: GravityFieldType # [py]
         description: Type of gravity field model that is to be created. # [py]
+        readonly: True # [py]
 
     methods:
       - name: __init__ # [py]
@@ -85,7 +86,7 @@ classes:
     extended_summary: |
       Derived class of `GravityFieldSettings` for central gravity fields, which are defined by a single gravitational parameter.
 
-    attributes: # [py]
+    properties: # [py]
       - name: gravitational_parameter # [py]
         type: float # [py]
         description: Gravitational parameter of central gravity field. # [py]
@@ -121,14 +122,15 @@ classes:
     extended_summary: |
       Derived class of `GravityFieldSettings` for gravity fields, which are defined by a spherical harmonic gravity field representation.
 
-    attributes: # [py]
+    properties: # [py]
       - name: gravitational_parameter # [py]
         type: float # [py]
         description: Gravitational parameter of gravity field. # [py]
 
-      - name: reference_radius # [py] # readonly
+      - name: reference_radius # [py]
         type: float # [py]
         description: Reference radius of spherical harmonic field expansion. # [py]
+        readonly: True # [py]
 
       - name: normalized_cosine_coefficients # [py]
         type: numpy.ndarray # [py]

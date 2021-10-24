@@ -94,7 +94,7 @@ functions:
 
     returns:
         type: CannonBallRadiationPressureInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of CannonBallRadiationPressureInterfaceSettings class. # [py]
         type: CannonBallRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]
 
@@ -115,35 +115,39 @@ functions:
 
       - name: emissivities # [py]
         type: list[float] # [py]
+        description: | # [py]
+          List containing the panels' emissivities.
       - name: emissivities # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing the panels' emissivities. # [py]
-          Vector containing the panels' emissivities. # [cpp]
+        description: | # [cpp]
+          Vector containing the panels' emissivities.
 
       - name: areas # [py]
         type: list[float] # [py]
+        description: | # [py]
+          List containing the panels' areas.
       - name: areas # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing the panels' areas. # [py]
-          Vector containing the panels' areas. # [cpp]
+        description: | # [cpp]
+          Vector containing the panels' areas.
 
       - name: diffusion_coefficients # [py]
         type: list[float] # [py]
+        description: | # [py]
+          List containing diffuse reflection coefficients of the panels.
       - name: diffusionCoefficients # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing diffuse reflection coefficients of the panels. # [py]
-          Vector containing diffuse reflection coefficients of the panels. # [cpp]
+        description: | # [cpp]
+          Vector containing diffuse reflection coefficients of the panels.
 
       - name: surface_normals_in_body_fixed_frame # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: | # [py]
+          List containing the (constant) surface normals of the panels, expressed in the body-fixed frame.
       - name: surfaceNormalsInBodyFixedFrame # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: |
-          List containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [py]
-          Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
+        description: | # [cpp]
+          Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame.
 
       - name: occulting_bodies # [py]
         type: list[str], default = [''] # [py]
@@ -153,6 +157,6 @@ functions:
 
     returns:
         type: PanelledRadiationPressureInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of PanelledRadiationPressureInterfaceSettings class. # [py]
         type: PanelledRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]
