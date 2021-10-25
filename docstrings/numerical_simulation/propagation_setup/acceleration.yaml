@@ -228,6 +228,23 @@ functions:
         type: AccelerationSettings
         description: Acceleration settings object.
 
+    examples: |
+      In this example, we define the point mass gravity acceleration exerted by the Earth on the vehicle:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Create acceleration dict # [py]
+         accelerations_acting_on_vehicle = dict() # [py]
+         # Add aerodynamic acceleration exerted by Earth # [py]
+         accelerations_acting_on_vehicle["Earth"] = [propagation_setup.acceleration.point_mass_gravity()] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#
+#         // Declare the acceleration settings map # [cpp]
+#         SelectedAccelerationMap accelerationSettings; # [cpp]
+#         // Add the acceleration to the map # [cpp]
+#         accelerationSettings["Vehicle"]["Earth"].push_back(std::make_shared< AccelerationSettings >( central_gravity ) ); # [cpp]
+
 
   # Aerodynamic
   - name: aerodynamicAcceleration # [cpp]
@@ -240,6 +257,22 @@ functions:
     returns:
         type: AccelerationSettings
         description: Acceleration settings object.
+
+    examples: |
+      In this example, we define the aerodynamic acceleration exerted by the Earth on the vehicle:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Create acceleration dict # [py]
+         accelerations_acting_on_vehicle = dict() # [py]
+         # Add aerodynamic acceleration exerted by Earth # [py]
+         accelerations_acting_on_vehicle["Earth"] = [propagation_setup.acceleration.aerodynamic()] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#         // Declare the acceleration settings map # [cpp]
+#         SelectedAccelerationMap accelerationSettings; # [cpp]
+#         // Add the acceleration to the map # [cpp]
+#         accelerationSettings["Vehicle"]["Earth"].push_back(std::make_shared< AccelerationSettings >( aerodynamic ) ); # [cpp]
 
 
   # Cannonball radiation pressure
@@ -255,6 +288,22 @@ functions:
     returns:
         type: AccelerationSettings
         description: Acceleration settings object.
+
+    examples: |
+      In this example, we define the aerodynamic acceleration exerted by the Sun on the vehicle:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Create acceleration dict # [py]
+         accelerations_acting_on_vehicle = dict() # [py]
+         # Add aerodynamic acceleration exerted by Earth # [py]
+         accelerations_acting_on_vehicle["Sun"] = [propagation_setup.acceleration.cannonball_radiation_pressure()] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#         // Declare the acceleration settings map # [cpp]
+#         SelectedAccelerationMap accelerationSettings; # [cpp]
+#         // Add the acceleration to the map # [cpp]
+#         accelerationSettings["Vehicle"]["Sun"].push_back(std::make_shared< AccelerationSettings >( cannon_ball_radiation_pressure ) ); # [cpp]
 
 
   # Spherical harmonic gravity
@@ -282,6 +331,31 @@ functions:
     returns:
         type: SphericalHarmonicAccelerationSettings
         description: Spherical harmonic acceleration settings object.
+
+    examples: |
+      In this example, we define the spherical harmonic gravity acceleration (where the gravity field is expanded
+      up to degree 12 and order 6) exerted by the Earth on the vehicle:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define the maximum degree and order # [py]
+         maximum_degree = 12 # [py]
+         maximum_order = 6 # [py]
+         # Create acceleration dict # [py]
+         accelerations_acting_on_vehicle = dict() # [py]
+         # Add aerodynamic acceleration exerted by Earth # [py]
+         accelerations_acting_on_vehicle["Earth"] = [propagation_setup.acceleration.spherical_harmonic_gravity( # [py]
+              maximum_degree,  # [py]
+              maximum_order)] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#          // Declare the acceleration settings map # [cpp]
+#          SelectedAccelerationMap accelerationSettings; # [cpp]
+#          // Define the maximum degree and order # [cpp]
+#          int maximumDegree = 12; # [cpp]
+#          int maximumOrder = 6; # [cpp]
+#          // Add the acceleration to the map # [cpp]
+#          accelerationSettings[ "Vehicle" ][ "Earth" ].push_back(std::make_shared< SphericalHarmonicAccelerationSettings >( maximumDegree, maximumOrder ) ); # [cpp]
 
 
   # Mutual spherical harmonic gravity
@@ -336,6 +410,84 @@ functions:
         type: MutualSphericalHarmonicAccelerationSettings
         description: Spherical harmonic acceleration settings object.
 
+    examples: |
+      In this example, we define the spherical harmonic gravity accelerations exerted on Io by Jupiter and vice-versa.
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define the maximum degree and order for both bodies # [py]
+         maximum_degree_of_io = 12 # [py]
+         maximum_order_of_io = 12 # [py]
+         maximum_degree_of_jupiter = 4 # [py]
+         maximum_order_of_jupiter = 4 # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_io = dict() # [py]
+         # Add aerodynamic acceleration exerted by Earth # [py]
+         acceleration_settings_on_io["Jupiter"] = [propagation_setup.acceleration.mutual_spherical_harmonic_gravity( # [py]
+              maximum_degree_of_jupiter, # [py]
+              maximum_order_of_jupiter, # [py]
+              maximum_degree_of_io, # [py]
+              maximum_order_of_io)] # [py]
+
+      For the case where the mutual spherical harmonic acceleration is a third-body acceleration,
+      additional parameters have to be provided to denote the expansion of the spherical harmonics of the central body.
+      In the following example, we consider the spherical harmonic gravity acceleration mutually exerted between
+      Ganymede and Io when propagating w.r.t. Jupiter:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define the maximum degree and order for both bodies # [py]
+         maximum_degree_of_jupiter = 4 # [py]
+         maximum_order_of_jupiter = 4 # [py]
+         maximum_degree_of_ganymede = 4 # [py]
+         maximum_order_of_ganymede = 4 # [py]
+         maximum_degree_of_io = 12 # [py]
+         maximum_order_of_io = 12 # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_io = dict() # [py]
+         # Add the acceleration to the dict # [py]
+         acceleration_settings_on_io["Jupiter"] = [propagation_setup.acceleration.mutual_spherical_harmonic_gravity( # [py]
+              maximum_degree_of_jupiter, # [py]
+              maximum_order_of_jupiter, # [py]
+              maximum_degree_of_ganymede, # [py]
+              maximum_order_of_ganymede, # [py]
+              maximum_degree_of_io, # [py]
+              maximum_order_of_io)] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#          // Declare the acceleration settings map # [cpp]
+#          SelectedAccelerationMap accelerationSettings; # [cpp]
+#          // Define the maximum degree and order for both bodies # [cpp]
+#          int maximumDegreeOfIo = 12; # [cpp]
+#          int maximumOrderOfIo = 12; # [cpp]
+#          int maximumDegreeOfJupiter = 4; # [cpp]
+#          int maximumOrderOfJupiter = 4; # [cpp]
+#          // Add the acceleration to the map # [cpp]
+#          accelerationSettings[ "Io" ][ "Jupiter" ].push_back( std::make_shared< MutualSphericalHarmonicAccelerationSettings >(
+#          maximumDegreeOfJupiter, # [cpp]
+#          maximumOrderOfJupiter, # [cpp]
+#          maximumDegreeOfIo, # [cpp]
+#          maximumOrderOfIo ) ); # [cpp]
+
+#          .. code-block:: cpp # [cpp]
+#          // Declare the acceleration settings map # [cpp]
+#          SelectedAccelerationMap accelerationSettings; # [cpp]
+#          // Define the maximum degree and order for both bodies # [cpp]
+#          int maximumDegreeOfIo = 12; # [cpp]
+#          int maximumOrderOfIo = 12; # [cpp]
+#          int maximumDegreeOfGanymede = 4; # [cpp]
+#          int maximumOrderOfGanymede = 4; # [cpp]
+#          int maximumDegreeOfJupiter = 4; # [cpp]
+#          int maximumOrderOfJupiter = 4; # [cpp]
+#          // Add the acceleration to the map # [cpp]
+#          accelerationSettings[ "Io" ][ "Jupiter" ].push_back( std::make_shared< MutualSphericalHarmonicAccelerationSettings >(
+#          maximumDegreeOfJupiter,  # [cpp]
+#          maximumOrderOfJupiter,  # [cpp]
+#          maximumDegreeOfGanymede,  # [cpp]
+#          maximumOrderOfGanymede,  # [cpp]
+#          maximumDegreeOfIo,  # [cpp]
+#          maximumOrderOfIo ) ); # [cpp]
+
 
   # Relativistic correction
   - name: relativisticAccelerationCorrection # [cpp]
@@ -343,7 +495,7 @@ functions:
     short_summary: "Creates settings for the relativistic acceleration correction."
     extended_summary: |
       Creates settings for typical relativistic acceleration corrections: the Schwarzschild, Lense-Thirring and de
-      Sitter terms (see 'General relativity and Space Geodesy' by L. Combrinck, 2012). It implements the model of
+      Sitter terms, where each of the three terms can be toggled on or of (see 'General relativity and Space Geodesy' by L. Combrinck, 2012). It implements the model of
       2010 Conventions (chapter 10, section 3). Here, the ‘primary body’ for a planetary orbiter should always be set
       as the Sun (only relevant for de Sitter correction). The angular momentum vector of the orbited body is only
       relevant for Lense-Thirring correction.
@@ -383,6 +535,49 @@ functions:
         type: RelativisticAccelerationCorrectionSettings
         description: Relativistic acceleration correction settings object.
 
+    examples: |
+      In this example, we define the relativistic correction acceleration for a Mars orbiter:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Select terms to be used # [py]
+         use_schwarzschild = True # [py]
+         use_lense_thirring = True # [py]
+         use_de_sitter = True # [py]
+         # Define central body for De-Sitter term # [py]
+         de_sitter_central_body = "Sun" # [py]
+         # Define angular momentum for the Lense-Thirring term # [py]
+         lense_thirring_angular_momentum = ... # numpy.ndarray 3D vector # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_vehicle = dict() # [py]
+         # Add the acceleration to the dict # [py]
+         acceleration_settings_on_vehicle["Mars"] = [propagation_setup.acceleration.relativistic_correction( # [py]
+            use_schwarzschild, # [py]
+            use_lense_thirring,  # [py]
+            use_de_sitter,  # [py]
+            de_sitter_central_body,  # [py]
+            lense_thirring_angular_momentum)] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#
+#          // Declare the acceleration settings map # [cpp]
+#          SelectedAccelerationMap accelerationSettings;
+#          // Select terms to be used # [cpp]
+#          bool calculateSchwarzschildCorrection = true; # [cpp]
+#          bool calculateLenseThirringCorrection = true; # [cpp]
+#          bool calculateDeSitterCorrection = true; # [cpp]
+#          // Define central body for De-Sitter term # [cpp]
+#          std::string primaryBody = "Sun"; # [cpp]
+#          // Define angular momentum for the Lense-Thirring term # [cpp]
+#          const Eigen::Vector3d centralBodyAngularMomentum = ...  // Eigen 3D vector # [cpp]
+#          // Add the acceleration to the dict # [cpp]
+#          accelerationSettings[ "Vehicle" ][ "Mars" ] = std::make_shared< RelativisticAccelerationCorrectionSettings >( # [cpp]
+#              calculateSchwarzschildCorrection,  # [cpp]
+#              calculateLenseThirringCorrection,   # [cpp]
+#              calculateDeSitterCorrection,  # [cpp]
+#              primaryBody,  # [cpp]
+#              centralBodyAngularMomentum ) # [cpp]
+
 
   # Empirical
   - name: empiricalAcceleration # [cpp]
@@ -393,7 +588,17 @@ functions:
       RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
       The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
       a constant, sine and cosine term (with true anomaly as argument) for each of the three independent directions of
-      the RSW frame.
+      the RSW frame. The empirical acceleration is calculated as:
+
+       .. math::
+
+          \mathbf{a}=R^{I/RSW}\left(\mathbf{a}_{\text{const.}}+\mathbf{a}_{\sin}\sin\theta+\mathbf{a}_{\cos}\cos\theta \right)
+
+      Here, :math:`R^{I/RSW}` is the rotation matrix from the RSW frame (of the body undergoing the acceleration w.r.t. the
+      body exerting the acceleration), :math:`theta` is the true anomaly, and the three constituent acceleration vectors are
+      the inputs provided in the above code block. The body 'exerting' the acceleration is considered to be the
+      central body, w.r.t. which the true anomaly is calculated.
+
 
     parameters:
       - name: constantAcceleration # [cpp]
@@ -417,6 +622,36 @@ functions:
     returns:
         type: EmpiricalAccelerationSettings
         description: Empirical acceleration settings object.
+
+    examples: |
+      In this example, we define the empirical acceleration acting on the vehicle. Note how the empirical acceleration
+      is self-exerted by the vehicle on itself:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define the nine terms (constant, sine and cosine) # [py]
+         constant_acceleration = ... # 3D numpy.ndarray vector # [py]
+         sine_acceleration = ... # 3D numpy.ndarray vector # [py]
+         cosine_acceleration = ... # 3D numpy.ndarray vector # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_vehicle = dict() # [py]
+         # Add the acceleration to the dict # [py]
+         acceleration_settings_on_vehicle["Vehicle"] = [propagation_setup.acceleration.empirical( # [py]
+             constant_acceleration,  # [py]
+             sine_acceleration,  # [py]
+             cosine_acceleration)] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#
+#         // Declare the acceleration settings map # [cpp]
+#          SelectedAccelerationMap accelerationSettings; # [cpp]
+#          // Define the nine terms (constant, sine and cosine) # [cpp]
+#          Eigen::Vector3d constantAcceleration = ( Eigen::Vector3d( ) << 0.4, -0.1, 0.05 ).finished( ); # [cpp]
+#          Eigen::Vector3d sineAcceleration = ( Eigen::Vector3d( ) << 0.0, 0.02, 0.0 ).finished( ); # [cpp]
+#          Eigen::Vector3d cosineAcceleration = ( Eigen::Vector3d( ) << -0.01, 0.0, 0.0 ).finished( ); # [cpp]
+#          // Add the acceleration to the map # [cpp]
+#          accelerationSettings[ "Orbiter" ][ "Mars" ] = std::make_shared< EmpiricalAccelerationSettings >( # [cpp]
+#             constantAcceleration, sineAcceleration, cosineAcceleration ); # [cpp]
 
 
   # Custom
@@ -447,6 +682,7 @@ functions:
         type: CustomAccelerationSettings
         description: Custom acceleration settings object.
 
+    # TODO: add example of custom acceleration
 
   # Direct tidal dissipation
   - name: directTidalDissipationAcceleration # [cpp]
@@ -488,6 +724,34 @@ functions:
     returns:
         type: DirectTidalDissipationAccelerationSettings
         description: Direct tidal dissipation acceleration settings object.
+
+    examples: |
+      In this example, we define the tidal dissipation exerted by Jupiter on Io directly, instead of computing it
+      through the spherical harmonic gravity:
+
+      .. code-block: python # [py]
+         # [py]
+         # Define parameters # [py]
+         love_number = 0.1 # [py]
+         time_lag = 100.0 # [py]
+         # Add entry to acceleration settings dict # [py]
+         acceleration_settings_on_io["Jupiter"] = [propagation_setup.acceleration.direct_tidal_dissipation( # [py]
+            love_number,  # [py]
+            time_lag,  # [py]
+            False,  # [py]
+            False)] # [py]
+
+#      .. code-block:: cpp # [cpp]
+#
+#      // Define parameters # [cpp]
+#      double loveNumber = 0.1; # [cpp]
+#      double timeLag = 100.0; # [cpp]
+#      // Declare the acceleration settings map # [cpp]
+#      SelectedAccelerationMap accelerationSettings; # [cpp]
+#      // Add entry to the acceleration settings map # [cpp]
+#      accelerationSettings[ "Io" ][ "Jupiter" ] = std::make_shared< DirectTidalDissipationAccelerationSettings >( # [cpp]
+#         loveNumber, timeLag, false, false ); # [cpp]
+
 
   # Momentum wheel desaturation
   - name: momentumWheelDesaturationAcceleration # [cpp]
@@ -533,6 +797,7 @@ functions:
         type: MomentumWheelDesaturationAccelerationSettings
         description: Momentum wheel desaturation acceleration settings object.
 
+    # TODO: add example of momentum wheel desaturation acceleration
 
   # Thrust acceleration (overload 1)
   - name: thrustAcceleration # [cpp]
