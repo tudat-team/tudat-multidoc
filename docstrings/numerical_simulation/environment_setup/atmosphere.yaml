@@ -7,13 +7,13 @@ extended_summary: |
   atmosphere models of celestial bodies in an environment.
 
 
-classes:
-
 ###### enums
 
   # no enums
 
 ######
+
+classes:
 
   - name: WindModelSettings
     short_summary: "Class for providing settings for wind model."
@@ -27,10 +27,11 @@ classes:
       Functional (base) class for settings of atmosphere models that require no information in addition to their type.
       Atmosphere model classes requiring additional information must be created using an object derived from this class.
 
-    attributes: # [py]
-      - name: wind_settings # [py] # readonly
+    properties: # [py]
+      - name: wind_settings # [py]
         type: WindModelSettings # [py]
         description: Wind model settings for the atmosphere model settings object. # [py]
+        readonly: True # [py]
 
     methods:
       - name: ctor # [cpp]
@@ -108,7 +109,7 @@ functions:
 
     returns:
         type: ConstantWindModelSettings  # [py]
-        description: # [py]
+        description: Instance of ConstantWindModelSettings class. # [py]
         type: ConstantWindModelSettings  # [cpp]
         description: # [cpp]
 
@@ -138,7 +139,7 @@ functions:
 
     returns:
         type: CustomWindModelSettings  # [py]
-        description: # [py]
+        description: Instance of CustomWindModelSettings class. # [py]
         type: CustomWindModelSettings  # [cpp]
         description: # [cpp]
 
@@ -163,7 +164,7 @@ functions:
 
     returns:
         type: ExponentialAtmosphereSettings  # [py]
-        description: # [py]
+        description: Instance of ExponentialAtmosphereSettings class. # [py]
         type: ExponentialAtmosphereSettings  # [cpp]
         description: # [cpp]
 
@@ -210,7 +211,7 @@ functions:
 
     returns:
         type: ExponentialAtmosphereSettings # [py]
-        description: # [py]
+        description: Instance of ExponentialAtmosphereSettings class. # [py]
         type: ExponentialAtmosphereSettings # [cpp]
         description: # [cpp]
 
@@ -226,9 +227,9 @@ functions:
 
     returns:
         type: AtmosphereSettings # [py]
-        description:  # [py]
+        description: Instance of AtmosphereSettings class. # [py]
         type: AtmosphereSettings # [cpp]
-        description: AtmosphereSettings object of athmosphereType nrlmsise00.# [cpp]
+        description: AtmosphereSettings object of athmosphereType nrlmsise00. # [cpp]
 
 
   - name: custom_constant_temperature # [py]

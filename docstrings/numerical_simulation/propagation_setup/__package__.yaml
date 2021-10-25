@@ -2,6 +2,14 @@ extended_summary: |
   This module consists of factory functions for setting up the
   propagation component of a simulation.
 
+
+###### enums
+
+  # no enums
+
+######
+
+
 modules:
   - acceleration
   - dependent_variable
@@ -9,7 +17,7 @@ modules:
   - mass_rate
   - propagator
   - torque
-
+  - thrust
 
 functions:
 
@@ -32,8 +40,10 @@ functions:
       - name: selectedAccelerationPerBody # [cpp]
         type: SelectedAccelerationMap # [cpp]
       - name: selected_acceleration_per_body # [py]
-        type: SelectedAccelerationMap # [py]
-        description: Key-value container indicating the acceleration type(s) as value and the body undergoing such acceleration(s) as key.
+        type: Dict[str, Dict[str, List[AccelerationSettings]]] # [py]
+        description: Key-value container, with key denoting the body undergoing the acceleration, and the value containing an
+                     additional key-value container, with the body exerting acceleration, and list of acceleration settings
+                     exerted by this body.
 
       - name: propagatedBodies # [cpp]
         type: std::vector # [cpp]
@@ -50,7 +60,8 @@ functions:
     returns:
         type: AccelerationMap # [cpp]
         type: AccelerationMap # [py]
-        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+        description: Set of accelerations acting on the bodies to propagate, provided as dual key-value container, similar
+                     to the acceleration settings input, but now with ``AccelerationModel`` lists as inner value
 
 
   - name: createTorqueModelsMap # [cpp]
@@ -71,8 +82,10 @@ functions:
       - name: selectedTorquePerBody # [cpp]
         type: SelectedTorqueMap # [cpp]
       - name: selected_torque_per_body # [py]
-        type: SelectedTorqueMap # [py]
-        description: Key-value container indicating the acceleration type(s) as value and the body undergoing such acceleration(s) as key.
+        type: Dict[str, Dict[str, List[TorqueSettings]]] # [py]
+        description: Key-value container, with key denoting the body undergoing the torque, and the value containing an
+                   additional key-value container, with the body exerting torque, and list of torque settings
+                   exerted by this body.
 
       - name: propagatedBodies # [cpp]
         type: std::vector # [cpp]
@@ -83,42 +96,5 @@ functions:
     returns:
         type: TorqueModelMap # [cpp]
         type: TorqueModelMap # [py]
-        description: Set of torques acting on the bodies to propagate, provided as torque models.
-
-
-  - name: getInitialStatesOfBodies # [cpp]
-  - name: get_initial_state_of_bodies # [py]
-    short_summary: "Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time."
-
-    extended_summary: |
-      Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time.
-
-    parameters:
-      - name: bodiesToIntegrate # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: bodies_to_propagate # [py]
-        type: list[str] # [py]
-        description: List of bodies to be propagated.
-
-      - name: centralBodies # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: central_bodies # [py]
-        type: list[str] # [py]
-        description: List of central bodies, each referred to a body being propagated (in the same order).
-
-      - name: bodies # [cpp]
-        type: SystemOfBodies # [cpp]
-      - name: bodies_to_propagate # [py]
-        type: body_system # [py]
-        description: System of bodies used in the propagation.
-
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-      - name: initial_time # [py]
-        type: float # [py]
-        description: Initial time of the propagation.
-
-    returns:
-        type: Eigen::Matrix # [cpp]
-        type: numpy.ndarray # [py]
-        description: Time at which the states should be retrieved.
+        description: Set of torques acting on the bodies to propagate, provided as dual key-value container, similar
+                     to the torque settings input, but now with ``TorqueModel`` lists as inner value

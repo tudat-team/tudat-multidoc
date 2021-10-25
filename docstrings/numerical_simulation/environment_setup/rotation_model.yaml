@@ -7,10 +7,7 @@ extended_summary: |
   rotation models of celestial bodies in an environment.
 
 
-
-classes:
-
-###### enums
+enums:
 
   #    py::enum_<tss::RotationModelType>
   #        enum tudat::simulation_setup::RotationModelType
@@ -20,7 +17,7 @@ classes:
     extended_summary: |
       Enumeration of rotation model types supported by tudat.
 
-    attributes:
+    members:
       - name: simple_rotation_model
       - name: spice_rotation_model
       - name: gcrs_to_itrs_rotation_model
@@ -35,13 +32,16 @@ classes:
     extended_summary: |
       Enumeration of IAU conventions for Earth rotation supported by tudat.
 
-    methods:
+    members:
       - name: iau_2000_a
       - name: iau_2000_b
       - name: iau_2006
 
-
 ######
+
+
+
+classes:
 
 
   # base class:
@@ -53,17 +53,20 @@ classes:
       Basic rotation model has constant orientation of the rotation axis (body-fixed z-axis) and constant rotation rate about this axis.
       Rotation models requiring additional information must be created using the factory functions which create the specific object derived from this base class.
 
-    attributes: # [py]
-      - name: rotation_type # [py] # readonly
+    properties: # [py]
+      - name: rotation_type # [py]
         type: RotationModelType # [py]
         description: Type of rotation model that is to be created. # [py]
+        readonly: True # [py]
 
       - name: base_frame # [py]
         type: str # [py]
         description: Base frame of rotation model. # [py]
 
-      - name: target_frame # [py] # readonly
+      - name: target_frame # [py]
         type: str # [py]
+        description: Target frame of rotation model. # [py]
+        readonly: True # [py]
 
     methods:
       #      - name: __init__ # [py]
@@ -124,11 +127,7 @@ functions:
 
   - name: simpleRotationModelSettings # [cpp]     # overload cpp
     short_summary: "Factory function for creating simple rotation model settings." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis. # [cpp]
-      Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix. # [cpp]
-      Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s). # [cpp]
-      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object. # [cpp]
+    extended_summary: "Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis. Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix. Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s). This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object."  # [cpp]
 
     parameters: # [cpp]
 
@@ -210,11 +209,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
       Note that *only* the initial orientation and rotation rate ( at the time defined by `initial_time` ) are extracted from Spice.
-      The distinction between the two target frame inputs is the following
-
-        - the ``target_frame`` parameter is the name of frame that Tudat assigns to the body-fixed frame
-        - the ``target_frame_spice`` is the name of the frame in Spice for which the initial orientation and rotation rate are extracted.
-
+      Note the distinction between the ``target_frame`` and ``target_frame_spice`` inputs.
       This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
 
     parameters:
@@ -228,13 +223,13 @@ functions:
         type: str # [py]
       - name: target_frame # [cpp]
         type: std::string # [cpp]
-        description: Target frame of rotation model.
+        description: Target frame of rotation model - name of frame that Tudat assigns to the body-fixed frame
 
       - name: target_frame_spice # [py]
         type: str # [py]
       - name: targetFrameSpice # [cpp]
         type: std::string # [cpp]
-        description: Spice reference of target frame.
+        description: Spice reference of target frame - name of the frame in Spice for which the initial orientation and rotation rate are extracted.
 
       - name: initial_time # [py]
         type: float # [py]
@@ -323,7 +318,7 @@ functions:
 
     parameters:
       - name: precession_nutation_theory # [py]
-        type: default=tba::iau_2006 # [py]
+        type: IAUConventions, default=tba::iau_2006 # [py]
       - name: nutationTheory # [cpp]
         type: basic_astrodynamics::IAUConventions default=basic_astrodynamics::iau_2006 # [cpp]
         description: |
@@ -342,10 +337,7 @@ functions:
 
   - name: constantRotationModelSettings # [cpp]
     short_summary: "Factory function for creating simple rotation model settings for target-frames with constant orientation." # [cpp]
-    extended_summary: | # [cpp]
-      Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix. # [cpp]
-      These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation. # [cpp]
-      This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object. # [cpp]
+    extended_summary: " Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix. These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation. This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object." # [cpp]
 
     parameters: # [cpp]
 
@@ -391,8 +383,8 @@ functions:
       - name: initial_orientation # [py]
         type: numpy.ndarray # [py]
       - name: initialOrientation # [cpp]
-        type: Eigen::Quaterniond # [cpp]
-        description: Orientation of target frame in base frame at initial time (constant throughout).
+        type: Eigen::Matrix3d # [cpp]
+        description: Rotation matrix from inertial to body-fixed (base to targe) frame at initial time (constant throughout).
 
     returns:
         type: SimpleRotationModelSettings

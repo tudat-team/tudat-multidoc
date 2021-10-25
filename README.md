@@ -5,7 +5,9 @@ repository. This repository effectively contains a description of the Tudat
 API. To understand the content of this file, the reader should be familiar
 with the structure and content of the `tudat-bundle`, which is explained in the
 `tudat-bundle/README.md` (one level higher than the directory where the current
-README is located).
+README is located). If you want to know how to write API documentation, please
+make sure to read the README file located in the lower-level `tudat-multidoc/docstring` 
+directory.
 
 ## Structure of `tudat-multidoc`
 
@@ -21,12 +23,12 @@ In the `tudat-multidoc` directory, there are two subdirectories:
 The branches used to write the documentation are the following (listed for each repo):
 
 - `tudat-bundle`: main
-- `tudat`: feature/api-docs
-- `tudatpy`: feature/api-docs
+- `tudat`: develop
+- `tudatpy`: develop
 - `tudat-multidoc`: main
 - `tudat-multidoc/multidoc`: develop
 
-These will be revised and merged in the future, but for now it is recommended to stick to these to avoid issues.
+If you are writing the API for a specific module/project, you are recommended to create a new branch and then open a pull request.
 
 ## How to generate documented versions of `tudat`/`tudatpy` 
 
@@ -153,6 +155,134 @@ Check if the `environment.yaml` file inside `tudat-bundle` contains the missing 
 
 Please see the section below on **Some Notes/FAQ**. If your issue is not mentioned there, **or** the templates are not as they should be yet, please post an issue on the `multidoc` [repository here](https://github.com/ggarrett13/multidoc/issues).
 
+
+## Troubleshooting Docstrings
+As a developer contributing to the `yaml` source files in `tudat-multidoc/docstrings`, you are likely to encounter issues during execution of `CLI document`.
+Typically, the issues are one of the following two kinds:
+
+### Syntax issues during parsing of "filtered" yaml files
+In the filtering process, the parser separates the cpp and python specific information of the `yaml` source. 
+It does so by parsing only `# [cpp]` and `# [py]` tagged lines, respectively, along with the agnostic (untagged) lines of the source.
+This means that the `yaml` source has to match the syntax expected by the parser, when only considering these subsets of lines. 
+It is difficult to keep track of the syntax of the filtered `yaml`, therefore errors like the following will arise frequently:
+
+```bash
+5897-INFO-Parsing yaml file: ./tudat-multidoc/docstrings/numerical_simulation/environment_setup/ephemeris.yaml with kwargs: {'py': True}
+5897-ERROR-Broken .yaml file ./tudat-multidoc/docstrings/numerical_simulation/environment_setup/ephemeris.yaml dumped as BROKEN-{'py': True}-ephemeris.yaml.
+
+[...]
+
+  in "<unicode string>", line 46, column 9:
+            extended_summary: "Instances of  ... 
+            ^
+expected <block end>, but found '<scalar>'
+  in "<unicode string>", line 58, column 21:
+        short_summary: "Class for defining settings from ... 
+                        ^
+```
+#### Interpreting error message
+The first line
+```bash
+5897-INFO-Parsing yaml file: ./tudat-multidoc/docstrings/numerical_simulation/environment_setup/ephemeris.yaml with kwargs: {'py': True}
+```
+indicates the `yaml` source file (`ephemeris.yaml`) and filtering settings (`kwargs: {'py': True}`) during which the error occured.
+The second line is key to troubleshooting this issue:
+
+```bash
+5897-ERROR-Broken .yaml file ./tudat-multidoc/docstrings/numerical_simulation/environment_setup/ephemeris.yaml dumped as BROKEN-{'py': True}-ephemeris.yaml.
+```
+
+It states that an auxiliary file `BROKEN-{'py': True}-ephemeris.yaml` has been dumped in `./` (i.e. on the same level as `tudat-multidoc`). 
+This file shows what the parser "sees" under the current filtering settings (`kwargs: {'py': True}`). 
+The syntax issue can be found in the line that is indicated by the traceback in 
+
+```bash
+yaml.parser.ParserError: while parsing a block mapping
+  in "<unicode string>", line 46, column 9:
+            extended_summary: "Instances of  ... 
+            ^
+```
+where the line count does not refer to the `yaml` source, but only includes the lines that pass the filter, therefore matching the 
+line count of the auxiliary file.
+Following this trace in the auxiliary file, the syntax issue should become apparent. 
+Note that in many cases, the second error is due to the same issue as the first error and will be disappear after resolution of the first one. 
+
+#### Resolving the issue
+In most cases the underlying issue that a missing or erroneous `# [py]` / `# [cpp]` tag. 
+Consequently, the affected line or block of text passes the filter, mistakenly appearing in the filtered `yaml`.
+The erroneous line or block then often does not relate well to the rest of the `yaml`, raising a parser error of some kind.
+
+> **IMPORTANT**: Since the auxiliary file is used to inspect the error, one may accidentally perform the corrections on 
+> the auxiliary file, leaving the source unchanged and not resolving the issue. In order to avoid frustration, ensure 
+> to implement in the corresponding section(s) of the *source* file.
+
+
+### Pydantic issues
+
+In `tudat-multidoc/multidoc/multidoc/parsing/models.py` the pydantic python module is used in order to define data models 
+for formatting the information that is eventually assembled in the API reference. Every key in the `yaml` source, such as `classes`
+`functions`, `methods`, `properties`, etc refers to such a data model and/or an attribute thereof.
+In order to be formatted correctly, the information grouped under each key has to be compatible with the data model 
+the key refers to, else pydantic raises `validation errors`. 
+An example of such an error is given below:
+
+```bash
+
+58600-INFO-Parsing yaml file: ./tudat-multidoc/docstrings/simulation/environment_setup/ephemeris.yaml with kwargs: {'py': True}
+
+[...]
+
+File "pydantic/main.py", line 406, in pydantic.main.BaseModel.__init__
+pydantic.error_wrappers.ValidationError: 2 validation errors for Module
+classes -> 0 -> methods -> 1 -> returns -> description
+  field required (type=value_error.missing)
+functions -> 2 -> returns -> type
+  field required (type=value_error.missing)
+
+```
+#### Interpreting error message
+The first line 
+```bash
+58600-INFO-Parsing yaml file: ./tudat-multidoc/docstrings/simulation/environment_setup/ephemeris.yaml with kwargs: {'py': True}
+```
+indicates the file in which the pydantic issue occurred, i.e. ```ephemeris.yaml```.
+The next lines
+```bash
+File "pydantic/main.py", line 406, in pydantic.main.BaseModel.__init__
+pydantic.error_wrappers.ValidationError: 2 validation errors for Module
+```
+state the kind of error (```validation error```) as well as the amount of errors encountered.
+Next, the problematic instances of data classes are stated
+```bash
+classes -> 0 -> methods -> 1 -> returns -> description
+  field required (type=value_error.missing)
+```
+This reads as "in fist instance (index 0) of a `class` data model, second (index 1) instance of a `method` data model,
+the `return` entry is missing a data field (named `description`), which is required by the `return` data model."
+The count of instances at the highest level (i.e. in this case `classes -> 0`) refers to the counts of `class`
+data structures within the aforementioned file ```ephemeris.yaml```.
+Analogously the other validation error 
+
+```bash
+functions -> 2 -> returns -> type
+  field required (type=value_error.missing)
+```
+
+can be read as "in third instance (index 2) of a `function` data model, the `return` entry is missing a data field 
+(named `type`), which is required by the `return` data model."
+
+
+> **NOTE**: In a continuous effort to make the pydantic data models more lenient, the data fields `description` and `type` 
+> have been declared to be *optional* fields in the `return` data model. Therefore, the specific errors above may not
+> arise in this exact form anymore, but serve a demonstrative purpose.
+
+#### Resolving the issue
+Pydantic validation errors can easily be resolved by providing the missing data field to the data structure in the `yaml` source.
+In selected cases it may be a better solution to change the troubling pydantic data model to be more lenient, i.e. making the missing data field 
+an *optional* member of the data model.
+
+
+
 ## Some Notes/ FAQ
 
 **Will my build be overwritten?**
@@ -174,5 +304,3 @@ This is expected given our current state of development. The possibilities (I'm 
 **Why does doxygen take so long to build?**
 
 Unfortunately, I've yet to design a configuration of the target source directories in the `Doxyfile.in` which list only those stated in the API docstrings.
-
-# Let's document a new feature of `tudat`/`tudatpy` 

@@ -7,9 +7,8 @@ extended_summary: |
   gravitational potential models of celestial bodies in an environment.
 
 
-classes:
 
-###### enums
+enums:
 
   #    py::enum_<tss::GravityFieldType>
   #        enum tudat::simulation_setup::GravityFieldType
@@ -18,9 +17,7 @@ classes:
     short_summary: "Enumeration of gravity field types."
     extended_summary: |
       Enumeration of gravity field types supported by tudat.
-
-    attributes:
-
+    members:
       - name: central # [cpp]
       - name: central_spice # [cpp]
       - name: spherical_harmonic # [cpp]
@@ -36,8 +33,7 @@ classes:
     short_summary: "Enumeration of spherical harmonics models."
     extended_summary: |
       Enumeration of spherical harmonics models supported by tudat.
-
-    attributes:
+    members:
       - name: customModel # [cpp]
       - name: custom_model # [py]
       - name: egm96
@@ -47,8 +43,11 @@ classes:
       - name: lpe200
       - name: jgmro120d
 
-
 ######
+
+
+
+classes:
 
 
   # base class:
@@ -59,10 +58,11 @@ classes:
       This class is a functional base class for settings of gravity field models that require no information in addition to their type.
       Gravity field model classes requiring additional information must be created using an object derived from this class.
 
-    attributes: # [py]
-      - name: gravity_field_type # [py] # readonly
+    properties: # [py]
+      - name: gravity_field_type # [py]
         type: GravityFieldType # [py]
         description: Type of gravity field model that is to be created. # [py]
+        readonly: True # [py]
 
     methods:
       - name: __init__ # [py]
@@ -86,7 +86,7 @@ classes:
     extended_summary: |
       Derived class of `GravityFieldSettings` for central gravity fields, which are defined by a single gravitational parameter.
 
-    attributes: # [py]
+    properties: # [py]
       - name: gravitational_parameter # [py]
         type: float # [py]
         description: Gravitational parameter of central gravity field. # [py]
@@ -122,14 +122,15 @@ classes:
     extended_summary: |
       Derived class of `GravityFieldSettings` for gravity fields, which are defined by a spherical harmonic gravity field representation.
 
-    attributes: # [py]
+    properties: # [py]
       - name: gravitational_parameter # [py]
         type: float # [py]
         description: Gravitational parameter of gravity field. # [py]
 
-      - name: reference_radius # [py] # readonly
+      - name: reference_radius # [py]
         type: float # [py]
         description: Reference radius of spherical harmonic field expansion. # [py]
+        readonly: True # [py]
 
       - name: normalized_cosine_coefficients # [py]
         type: numpy.ndarray # [py]
@@ -347,7 +348,7 @@ functions:
       Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid.
       The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
       Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
-      (%!) The x-, y- and z-axis of the ... ABC (?).
+      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
       This function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.
 
     parameters:

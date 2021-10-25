@@ -7,24 +7,26 @@ extended_summary: |
   radiation pressure models of celestial bodies in an environment.
 
 
-classes:
 
-###### enums
+enums:
 
   #    py::enum_<tss::RadiationPressureType>
   #        enum tudat::simulation_setup::RadiationPressureType
 
   - name: RadiationPressureType
     short_summary: "Enumeration of available radiation pressure types."
-    extended_summary: |
-      Enumeration of radiation pressure types supported by tudat.
+    #extended_summary: |
+      #Enumeration of radiation pressure types supported by tudat.
 
-    attributes:
+    members:
       - name: cannonball_radiation_pressure_interface
       - name: panelled_radiation_pressure_interface
       - name: solar_sailing_radiation_pressure_interface
 
 ######
+
+
+classes:
 
 
   - name: RadiationPressureInterfaceSettings
@@ -92,7 +94,7 @@ functions:
 
     returns:
         type: CannonBallRadiationPressureInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of CannonBallRadiationPressureInterfaceSettings class. # [py]
         type: CannonBallRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]
 
@@ -113,35 +115,31 @@ functions:
 
       - name: emissivities # [py]
         type: list[float] # [py]
+        description: List containing the panels' emissivities. # [py]
       - name: emissivities # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing the panels' emissivities. # [py]
-          Vector containing the panels' emissivities. # [cpp]
+        description: Vector containing the panels' emissivities. # [cpp]
 
       - name: areas # [py]
         type: list[float] # [py]
+        description: List containing the panels' areas. # [py]
       - name: areas # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing the panels' areas. # [py]
-          Vector containing the panels' areas. # [cpp]
+        description: Vector containing the panels' areas. # [cpp]
 
       - name: diffusion_coefficients # [py]
         type: list[float] # [py]
+        description: List containing diffuse reflection coefficients of the panels. # [py]
       - name: diffusionCoefficients # [cpp]
         type: std::vector< double > # [cpp]
-        description: |
-          List containing diffuse reflection coefficients of the panels. # [py]
-          Vector containing diffuse reflection coefficients of the panels. # [cpp]
+        description: Vector containing diffuse reflection coefficients of the panels. # [cpp]
 
       - name: surface_normals_in_body_fixed_frame # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: List containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [py]
       - name: surfaceNormalsInBodyFixedFrame # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: |
-          List containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [py]
-          Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
+        description: Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
 
       - name: occulting_bodies # [py]
         type: list[str], default = [''] # [py]
@@ -151,6 +149,6 @@ functions:
 
     returns:
         type: PanelledRadiationPressureInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of PanelledRadiationPressureInterfaceSettings class. # [py]
         type: PanelledRadiationPressureInterfaceSettings  # [cpp]
         description: # [cpp]

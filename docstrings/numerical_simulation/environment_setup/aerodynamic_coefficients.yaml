@@ -3,15 +3,14 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+###### enums
+
+  # no enums
+
+######
 
 
 classes:
-
-###### enums
-
-  #    no enums
-
-######
 
 
   - name: AerodynamicCoefficientSettings
@@ -84,17 +83,17 @@ functions:
 
       - name: are_coefficients_in_negative_axis_direction # [py]
         type: bool, default = true # [py]
+        description: | # [py]
+          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or
+          aerodynamic frame (see arg are_coefficients_in_aerodynamic_frame).
+          Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
       - name: areCoefficientsInNegativeAxisDirection # [cpp]
         type: bool, default = true # [cpp]
-        description: |
-          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or
-          aerodynamic frame (see arg areCoefficientsInAerodynamicFrame).  # [cpp]
-          aerodynamic frame (see arg are_coefficients_in_aerodynamic_frame).  # [py]
-          Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
+        description: "Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or aerodynamic frame (see arg areCoefficientsInAerodynamicFrame). Note that for drag, side and lift force, the coefficients are typically defined in negative direction." # [cpp]
 
     returns:
         type: ConstantAerodynamicCoefficientSettings  # [py]
-        description: # [py]
+        description: Instance of ConstantAerodynamicCoefficientSettings class. # [py]
         type: ConstantAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
@@ -110,11 +109,10 @@ functions:
     parameters:
       - name: force_coefficient_function # [py]
         type: callable[[list[float]], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Function that is defining the aerodynamic coefficients as function of an independent variable (see arg independent_variable_names). # [py]
       - name: forceCoefficientFunction # [cpp]
         type: std::function<Eigen::Vector3d(const std::vector<double> &)> # [cpp]
-        description: |
-          Function that is defining the aerodynamic coefficients as function of an independent variable (see arg independentVariableNames). # [cpp]
-          Function that is defining the aerodynamic coefficients as function of an independent variable (see arg independent_variable_names). # [py]
+        description: Function that is defining the aerodynamic coefficients as function of an independent variable (see arg independentVariableNames). # [cpp]
 
       - name: reference_area # [py]
         type: float # [py]
@@ -148,7 +146,7 @@ functions:
 
     returns:
         type: CustomAerodynamicCoefficientSettings  # [py]
-        description: # [py]
+        description: Instance of CustomAerodynamicCoefficientSettings class. # [py]
         type: CustomAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
@@ -172,19 +170,17 @@ functions:
 
       - name: force_coefficients # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Values of force coefficients at independent variables defined by independent_variables. # [py]
       - name: forceCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: |
-          Values of force coefficients at independent variables defined by independent_variables. # [py]
-          Values of force coefficients at independent variables defined by independentVariables. # [cpp]
+        description: Values of force coefficients at independent variables defined by independentVariables. # [cpp]
 
       - name: moment_coefficients # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Values of moment coefficients at independent variables defined by independent_variables. # [py]
       - name: momentCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: |
-          Values of moment coefficients at independent variables defined by independent_variables. # [py]
-          Values of moment coefficients at independent variables defined by independentVariables. # [cpp]
+        description: Values of moment coefficients at independent variables defined by independentVariables. # [cpp]
 
       - name: reference_area # [py]
         type: float # [py]
@@ -235,17 +231,15 @@ functions:
 
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings # [py]
+        description: Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved. # [py]
       - name: interpolatorSettings # [cpp]
         type: std::shared_ptr< interpolators::InterpolatorSettings >, default = nullptr # [cpp]
-        description: |
-          Pointer to an interpolator settings object, # [cpp]
-          Interpolator settings object, # [py]
-          where the conditions for interpolation of tabulated inputs are saved.
+        description: Pointer to an interpolator settings object, where the conditions for interpolation of tabulated inputs are saved. # [cpp]
 
 
     returns:
         type: TabulatedAerodynamicCoefficientSettings  # [py]
-        description: # [py]
+        description: Instance of CustomAerodynamicCoefficientSettings class. # [py]
         type: TabulatedAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
@@ -268,11 +262,10 @@ functions:
 
       - name: force_coefficients # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Values of force coefficients at independent variables defined by independent_variables. # [py]
       - name: forceCoefficients # [cpp]
         type: std::vector< Eigen::Vector3d > # [cpp]
-        description: |
-          Values of force coefficients at independent variables defined by independent_variables. # [py]
-          Values of force coefficients at independent variables defined by independentVariables. # [cpp]
+        description: Values of force coefficients at independent variables defined by independentVariables. # [cpp]
 
       - name: reference_area # [py]
         type: float # [py]
@@ -305,16 +298,16 @@ functions:
 
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings # [py]
+        description: |  # [py]
+          Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved.
       - name: interpolatorSettings # [cpp]
         type: std::shared_ptr< interpolators::InterpolatorSettings >, default = nullptr # [cpp]
-        description: |
-          Pointer to an interpolator settings object, # [cpp]
-          Interpolator settings object, # [py]
-          where the conditions for interpolation of tabulated inputs are saved.
+        description: | # [cpp]
+          Pointer to an interpolator settings object where the conditions for interpolation of tabulated inputs are saved.
 
     returns:
         type: TabulatedAerodynamicCoefficientSettings  # [py]
-        description: # [py]
+        description: Instance of TabulatedAerodynamicCoefficientSettings class. # [py]
         type: TabulatedAerodynamicCoefficientSettings  # [cpp]
         description: # [cpp]
 
@@ -360,20 +353,20 @@ functions:
 
     returns:
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of ScaledAerodynamicCoefficientInterfaceSettings. # [py]
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 
 
   - name: scaled_by_vector # [py]
-  - name: scaledAerodynamicCoefficientSettings # [cpp]
-    short_summary: "Factory function for creating aerodynamic interface model settings by applying constant scaling factors/values to the coefficients of an existing model settings object."
-    extended_summary: |
+    short_summary: "Factory function for creating aerodynamic interface model settings by applying constant scaling factors/values to the coefficients of an existing model settings object." # [py]
+    extended_summary: | # [py]
       Factory function for settings object, defining aerodynamic interface based on scaling the coefficients of an existing model settings object by constant factors or values.
-      Via the `is_scaling_absolute` # [py]
-      Via the `isScalingAbsolute` # [cpp]
-      boolean, the user can apply one constant scaling factor or an absolute value to each resulting force and moment coefficient (for instance for an uncertainty analysis).
+      Via the `is_scaling_absolute` boolean, the user can apply one constant scaling factor or an absolute value to each resulting force and moment coefficient (for instance for an uncertainty analysis).
       This function creates an instance of an `AerodynamicCoefficientSettings` derived `ScaledAerodynamicCoefficientInterfaceSettings` object.
+  - name: scaledAerodynamicCoefficientSettings # [cpp]
+    short_summary: "Factory function for creating aerodynamic interface model settings by applying constant scaling factors/values to the coefficients of an existing model settings object." # [cpp]
+    extended_summary: "Factory function for settings object, defining aerodynamic interface based on scaling the coefficients of an existing model settings object by constant factors or values. Via the `isScalingAbsolute` boolean, the user can apply one constant scaling factor or an absolute value to each resulting force and moment coefficient (for instance for an uncertainty analysis). This function creates an instance of an `AerodynamicCoefficientSettings` derived `ScaledAerodynamicCoefficientInterfaceSettings` object." # [cpp]
 
     parameters:
 
@@ -407,20 +400,22 @@ functions:
 
     returns:
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of ScaledAerodynamicCoefficientInterfaceSettings. # [py]
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 
 
   - name: scaled_by_vector_function # [py]
-  - name: scaledAerodynamicCoefficientSettings # [cpp]
-    short_summary: "Factory function for creating aerodynamic interface model settings by applying custom scaling factors/values to the coefficients of an existing model settings object."
-    extended_summary: |
+    short_summary: "Factory function for creating aerodynamic interface model settings by applying custom scaling factors/values to the coefficients of an existing model settings object." # [py]
+    extended_summary: |  # [py]
       Factory function for settings object, defining aerodynamic interface based on scaling the coefficients of an existing model settings object by custom factors or values.
-      Via the `is_scaling_absolute` # [py]
-      Via the `isScalingAbsolute` # [cpp]
-      boolean, the user can apply the scaling factors or absolute values to each resulting force and moment coefficient (for instance for an uncertainty analysis).
+      Via the `is_scaling_absolute` boolean, the user can apply the scaling factors or absolute values to each resulting force and moment coefficient (for instance for an uncertainty analysis).
       This function creates an instance of an `AerodynamicCoefficientSettings` derived `ScaledAerodynamicCoefficientInterfaceSettings` object.
+
+  - name: scaledAerodynamicCoefficientSettings # [cpp]
+      short_summary: "Factory function for creating aerodynamic interface model settings by applying custom scaling factors/values to the coefficients of an existing model settings object." # [cpp]
+      extended_summary: "Factory function for settings object, defining aerodynamic interface based on scaling the coefficients of an existing model settings object by custom factors or values. Via the `isScalingAbsolute` boolean, the user can apply the scaling factors or absolute values to each resulting force and moment coefficient (for instance for an uncertainty analysis). This function creates an instance of an `AerodynamicCoefficientSettings` derived `ScaledAerodynamicCoefficientInterfaceSettings` object." # [cpp]
+
 
     parameters:
 
@@ -454,7 +449,7 @@ functions:
 
     returns:
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [py]
-        description: # [py]
+        description: Instance of ScaledAerodynamicCoefficientInterfaceSettings. # [py]
         type: ScaledAerodynamicCoefficientInterfaceSettings  # [cpp]
         description: # [cpp]
 

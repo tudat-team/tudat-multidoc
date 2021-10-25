@@ -93,7 +93,7 @@ classes:
           #different return types.
 
       - name: integrator_settings # [py]
-        type: IntegratorSettings # [py]
+        type: IntegratorSettings  # [py]
         description: |
           Settings to create the numerical integrator that is to be used
           for the integration of the equations of motion
@@ -101,7 +101,7 @@ classes:
       - name: stateDerivativeFunction_ # [cpp]
         type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
       - name: state_derivative_function # [py]
-        type: callable[[float, numpy.ndarray], numpy.ndarray]
+        type: callable[[float, numpy.ndarray], numpy.ndarray] # [py]
         description: |
           Function that performs a single state derivative function evaluation. This function takes the numerically propagated
           state, and current independent variable (time) as input, and returns the derivative of the state that is then used
@@ -158,7 +158,7 @@ classes:
 
       - name: integration_completed_successfully # [py]
         type: bool # [py]
-        description: |
+        description: |  # [py]
           Boolean defining whether the last propagation was finished
           succesfully, as defined by the termination conditions, or if
           it was terminated prematurely (for instance due to an
@@ -199,14 +199,14 @@ classes:
               properties of artificial and natural bodies.
 
           - name: integrator_settings # [py]
-            type: IntegratorSettings # [py]
-            description: |
+            type: IntegratorSettings  # [py]
+            description: |            # [py]
               Settings to create the numerical integrator that is to be
               used for the integration of the equations of motion
 
           - name: are_equations_of_motion_to_be_integrated # [py]
             type: Bool, default = True # [py]
-            description: |
+            description: |             # [py]
               Boolean defining whether the propagation should be
               performed immediately (default), or at a later time when
               calling the :py:attr:`~integrate_equations_of_motion`
@@ -214,7 +214,7 @@ classes:
 
           - name: clear_numerical_solutions # [py]
             type: Bool, default = False # [py]
-            description: |
+            description: |    # [py]
               Boolean defining whether the propagation results should be
               deleted after the propagation is terminated. If this is
               done, the :py:attr:`~state_history`,
@@ -230,7 +230,7 @@ classes:
 
           - name: set_integrated_result # [py]
             type: Bool, default = False # [py]
-            description: |
+            description: |  # [py]
               Boolean defining whether the propagation results are to
               be used to update the environment. If this variable is set
               to False, the numerical propagation results can be
@@ -260,7 +260,7 @@ classes:
 
           - name: print_dependent_variable_data # [py]
             type: bool, default = True # [py]
-            description: |
+            description: |    # [py]
               Boolean defining whether the meaning and indices of the
               entries of the dependent variable data are to be printed to
               the console.

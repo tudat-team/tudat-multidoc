@@ -7,13 +7,14 @@ extended_summary: |
   shape models of celestial bodies in an environment.
 
 
-classes:
-
 ###### enums
 
   #    no enums
 
 ######
+
+
+classes:
 
 
   - name: BodyShapeSettings
@@ -36,10 +37,11 @@ classes:
     short_summary: "Class for defining model settings of a strictly spherical body shape."
     extended_summary: "`BodyShapeSettings` derived class for strictly spherical body shape model settings."
 
-    attributes: # [py]
-      - name: radius # [py] # readonly
+    properties: # [py]
+      - name: radius # [py]
         type: float # [py]
         description: 'Radius specifying spherical body shape.' # [py]
+        readonly: True # [py]
 
     methods:       # [cpp]
     #methods:      # [py]
@@ -61,13 +63,15 @@ classes:
     short_summary: "Class for defining model settings of a oblate spherical body shape."
     extended_summary: "`BodyShapeSettings` derived class for oblate spherical body shape model settings."
 
-    attributes: # [py]
-      - name: equatorial_radius # [py] # readonly
+    properties: # [py]
+      - name: equatorial_radius # [py]
         type: float # [py]
         description: 'Equatorial radius of the oblate spherical body shape.' # [py]
-      - name: flattening # [py] # readonly
+        readonly: True # [py]
+      - name: flattening # [py]
         type: float # [py]
         description: 'Flattening of spheroid shape model.' # [py]
+        readonly: True # [py]
 
     methods:       # [cpp]
     #methods:      # [py]
@@ -111,7 +115,7 @@ functions:
 
     returns:
         type: SphericalBodyShapeSettings  # [py]
-        description: # [py]
+        description: Instance of SphericalBodyShapeSettings class. # [py]
         type: SphericalBodyShapeSettings  # [cpp]
         description: # [cpp]
 
@@ -125,7 +129,7 @@ functions:
 
     returns:
         type: BodyShapeSettings  # [py]
-        description: # [py]
+        description: Instance of BodyShapeSettings class. # [py]
         type: BodyShapeSettings  # [cpp]
         description: # [cpp]
 
@@ -144,7 +148,6 @@ functions:
         type: double # [cpp]
         description: "Equatorial radius specifying oblate spherical body shape."
 
-    parameters:
       - name: flattening # [py]
         type: float # [py]
       - name: flattening # [cpp]
@@ -154,6 +157,6 @@ functions:
 
     returns:
         type: OblateSphericalBodyShapeSettings  # [py]
-        description: # [py]
+        description: Instance of OblateSphericalBodyShapeSettings class. # [py]
         type: OblateSphericalBodyShapeSettings  # [cpp]
         description: # [cpp]

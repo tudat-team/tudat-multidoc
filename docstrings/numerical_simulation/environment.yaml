@@ -4,6 +4,25 @@ extended_summary: |
   models that perform computations related to environment models of
   natural and artificial bodies.
 
+enums:
+
+  - name: AerodynamicsReferenceFrames
+    short_summary: "Enumeration of reference frame identifiers typical for aerodynamic calculations."
+    extended_summary: |
+      Enumeration of reference frame identifiers typical for aerodynamic calculations. Note that the frames are also defined
+      in the absence of any aerodynamic forces and/or atmosphere. They define frames of a body w.r.t. a central body, with
+      the details given by Mooij (1994). The chain of frames starts from the inertial frame, to the frame fixed to the
+      central body (corotating), to the vertical frame (defined by the body's relative position), the trajectory and aerodynamic frames
+      (defined by the body's relative velocity) and finally the body's own body-fixed frame.
+
+    members:
+      - name: inertial_frame
+      - name: corotating_frame
+      - name: vertical_frame
+      - name: trajectory_frame
+      - name: aerodynamic_frame
+      - name: body_frame
+
 classes:
   - name: FlightConditions
     short_summary: |
@@ -21,27 +40,27 @@ classes:
        stored inside a Body object, and represents the flight conditions
        of a single body w.r.t. a single central body.
 
-    properties:
+    properties: # [py]
       - name: aerodynamic_angle_calculator # [py]
         type: AerodynamicAngleCalculator # [py]
-        description: |
+        description: |  # [py]
           The object that is responsible for computing various relevant
           flight dynamics angles and frame rotations.
 
       - name: longitude # [py]
         type: float # [py]
-        description: |
+        description: |  # [py]
           The body-fixed longitude of the body w.r.t. its central body.
 
       - name: latitude # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The body-fixed geographic latitude of the body w.r.t. its
           central body.
 
       - name: geodetic_latitude # [py]
         type: float # [py]
-        description: |
+        description: |  # [py]
           The body-fixed geodetic latitude of the body w.r.t. its central
           body, using an :py:class:`~OblateSpheroidBodyShapeModel` of the
           central body. If no such model is defined in the central body,
@@ -49,25 +68,25 @@ classes:
 
       - name: altitude # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The altitude of this body w.r.t. the central body (using the
           :py:class:`~ShapeModel` of the central body).
 
       - name: time # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The current time, at which this object was last updated
 
       - name: body_centered_body_fixed_state # [py]
         type: numpy.ndarray # [py]
-        description:  |
+        description:  | # [py]
           Cartesian translational state, expressed in a frame centered
           at, and fixed to, the central body. Note that, due to the
           rotation of the central body, the norm of the body-fixed,
           body-centered, velocity differs from the norm of the inertial
-          body-centered velocity.
+          body-centered velocity. # [py]
 
-    methods:
+    #methods:
       
 
   - name: AtmosphericFlightConditions
@@ -85,56 +104,56 @@ classes:
        object, and represents the flight conditions of a single body
        w.r.t. a single central body.
 
-    properties:
+    properties: # [py]
       - name: density # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The freestream atmospheric density at the body's current
           location.
 
       - name: temperature # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The freestream atmospheric temperature at the body's current
           location.
 
       - name: dynamic_pressure # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The freestream atmospheric dynamic pressure at the body's
           current location.
 
       - name: pressure # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The freestream atmospheric static pressure at the body's
           current location.
 
       - name: speed_of_sound # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The freestream atmospheric speed of sound at the body's current
           location.
 
       - name: airspeed # [py]
         type: float # [py]
-        description: |
+        description: | # [py]
           The airspeed of the body w.r.t. the atmosphere.
 
       - name: airspeed_velocity # [py]
         type: numpy.ndarray # [py]
-        description: |
+        description: | # [py]
           The velocity vector of the body w.r.t. the freestream
           atmosphere (e.g. vectorial counterpart of airspeed).
 
       - name: mach_number # [py]
         type: float # [py]
-        description: 
+        description: | # [py]
           The freestream Mach number of the body
 
       - name: aero_coefficient_independent_variables # [py]
         type: numpy.ndarray # [py]
-        description: |
+        description: | # [py]
           List of current values of independent variables of aerodynamic
           coefficients. This list is only defined if the body has an
           :py:class:`~AerodynamicCoefficientInterface` that has
@@ -143,7 +162,7 @@ classes:
 
       - name: control_surface_aero_coefficient_independent_variables # [py]
         type: numpy.ndarray # [py]
-        description: |
+        description: | # [py]
           List of lists current values of independent variables of
           aerodynamic coefficients for control surfaces. The outer list
           defines the control surface, the inner list the values of the
@@ -154,12 +173,12 @@ classes:
 
       - name: aerodynamic_coefficient_interface # [py]
         type: AerodynamicCoefficientInterface # [py]
-        description: |
+        description: | # [py]
           Object extracted from the same Body object as this
           :py:class:`~AtmosphericFlightConditions` object, which defines
           the aerodynamic coefficients.
 
-    methods:
+    #methods:
       
 
   - name: Body
@@ -175,7 +194,7 @@ classes:
        properties, in as much as they are time-dependent, can be
        extracted from this object
 
-    properties:
+    properties: # [py]
       - name: state # [py]
         type: numpy.ndarray # [py]
         description: |
@@ -200,7 +219,7 @@ classes:
 
       - name: airspeed # [py]
         type: float # [py]
-        description: 
+        description: |
           The airspeed of the body w.r.t. the atmosphere
 
       - name: velocity # [py]
@@ -268,7 +287,7 @@ classes:
        typical Tudat numerical simulation, and is fundamental for the
        overall Tudat architecture.
 
-    attributes:
+    # attributes:
 
     methods:
       - name: getBody # [cpp]
@@ -403,6 +422,3 @@ classes:
           type: numpy.ndarray # [py]
           description: |
             Name of the Body that is to be removed.
-
-
-      
