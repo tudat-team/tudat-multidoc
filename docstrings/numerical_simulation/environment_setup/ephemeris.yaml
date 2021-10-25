@@ -487,7 +487,7 @@ functions:
 
     returns: # [cpp]
         type: DirectSpiceEphemerisSettings # [cpp]
-        description: # [cpp]
+        description: Instance of DirectSpiceEphemerisSettings class # [cpp]
 
   - name: direct_spice # [py]
   - name: directSpiceEphemerisSettings # [cpp] # overload 1
@@ -517,10 +517,9 @@ functions:
         description: "?"
 
     returns:
-        type: DirectSpiceEphemerisSettings  # [py]
-        description: Instance of DirectSpiceEphemerisSettings class. # [py]
-        type: DirectSpiceEphemerisSettings  # [cpp]
-        description: # [cpp]
+      - type: DirectSpiceEphemerisSettings  # [py]
+      - type: DirectSpiceEphemerisSettings  # [cpp]
+        description: Instance of DirectSpiceEphemerisSettings class
 
 
   - name: interpolated_spice # [py]
@@ -581,9 +580,9 @@ functions:
 
     returns:
       - type: InterpolatedSpiceEphemerisSettings # [py]
-        description: Instance of InterpolatedSpiceEphemerisSettings class. # [py]
       - type: InterpolatedSpiceEphemerisSettings # [cpp]
-        description: # [cpp]
+        description: Instance of InterpolatedSpiceEphemerisSettings class
+
 
 
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
@@ -605,7 +604,7 @@ functions:
 
     returns: # [cpp]
         type: ApproximateJplEphemerisSettings # [cpp]
-        description: # [cpp]
+        description: Instance of ApproximateJplEphemerisSettings class # [cpp]
 
 
   - name: approximate_jpl_model # [py]
@@ -625,7 +624,7 @@ functions:
 
     returns:
         type: ApproximateJplEphemerisSettings
-        description:
+        description: Instance of ApproximateJplEphemerisSettings class.
 
 
   - name: constant # [py]
@@ -656,7 +655,7 @@ functions:
 
     returns:
         type: ConstantEphemerisSettings
-        description: ""
+        description: Instance of ConstantEphemerisSettings class.
 
 
   - name: custom # [py]
@@ -689,7 +688,7 @@ functions:
 
     returns:
         type: CustomEphemerisSettings
-        description: ""
+        description: Instance of CustomEphemerisSettings class
 
   - name: keplerian # [py]
   - name: keplerEphemerisSettings # [cpp]
@@ -747,7 +746,7 @@ functions:
 
     returns:
         type: KeplerEphemerisSettings
-        description: ""
+        description: Instance of KeplerEphemerisSettings class
 
 
   - name: keplerian_from_spice # [py]
@@ -804,7 +803,7 @@ functions:
 
     returns:
         type: KeplerEphemerisSettings
-        description: ""
+        description: Instance of KeplerEphemerisSettings class
 
 
   - name: scaled_by_constant # [py]
@@ -836,7 +835,7 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: ""
+        description: Instance of ScaledEphemerisSettings class
 
 
   - name: scaled_by_vector # [py]
@@ -868,7 +867,7 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: ""
+        description: Instance of ScaledEphemerisSettings class.
 
   - name: scaled_by_vector_function # [py]
   - name: scaledEphemerisSettings # [cpp]
@@ -899,7 +898,7 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: ""
+        description: Instance of ScaledEphemerisSettings class.
 
   - name: tabulated # [py]
   - name: tabulatedEphemerisSettings # [cpp]
@@ -933,4 +932,4 @@ functions:
 
     returns:
         type: TabulatedEphemerisSettings
-        description: ""
+        description: Instance of TabulatedEphemerisSettings class
