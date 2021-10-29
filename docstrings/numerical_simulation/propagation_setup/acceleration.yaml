@@ -667,8 +667,8 @@ functions:
         type: std::function<Eigen::Vector3d(const double)> # [cpp]
       - name: acceleration_function # [py]
         type: callable[[float], list] # [py]
-        description: Custom acceleration function with time as an independent variable, returning the acceleration as
-          a function of time.
+        description: Custom acceleration function with time as an independent variable, returning the acceleration
+          in an inertial frame (*e.g.* with global frame orientation) as a function of time.
 
       #- name: scalingFunction # [cpp]
         #type: std::function<double(const double)>, default=nullptr # [cpp]
@@ -680,7 +680,31 @@ functions:
         type: CustomAccelerationSettings
         description: Custom acceleration settings object.
 
-    # TODO: add example of custom acceleration
+    examples: |
+      In this example, we define a simple, standalone, custom acceleration (depending only on time),
+      with the following (arbitrary, for the sake of example) mathematical definition:
+
+       .. math::
+
+          \mathbf{a}=\begin{pmatrix}C\\0\\0 \end{pmatrix}\sin\left(\frac{t-t_{0}}{T}\right)
+
+      with :math:`C=10^{-8}`, :math:`t_{0}=0` and :math:`T=86400`.
+      More complex custom acceleration functions can be created by, for instance, extracting the
+      custom function from a user-defined class, which may in turn have other simulation objects
+      (*e.g.* :class:`SystemOfBodies`) as members, allowing the custom acceleration to depend on
+      the current simulation state/environment
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define custom functiton # [py]
+         def custom_function( current_time ): # [py]
+             period = 86400.0 # [py]
+             reference_time = 0.0 # [py]
+             phase = np.pi * ( current_time - reference_time ) / period # [py]
+             return np.array([1.0E-8, 0.0, 0.0]) * np.sin(phase) # [py]
+         # [py]
+         acceleration_settings_on_vehicle["Vehicle"] = [propagation_setup.acceleration.custom( # [py]
+             custom_function)] # [py]
 
   # Direct tidal dissipation
   - name: directTidalDissipationAcceleration # [cpp]
@@ -795,7 +819,30 @@ functions:
         type: MomentumWheelDesaturationAccelerationSettings
         description: Momentum wheel desaturation acceleration settings object.
 
-    # TODO: add example of momentum wheel desaturation acceleration
+    examples: |
+      In this example, we define an acceleration model to represent two quasi-impulsive shots, with a total duration of
+      30 seconds, and a rise time of 5 seconds. The maneuvers are to be done at :math:`t=86400` and :math:`t=2*86400`.
+      The first maneuver is exclusively in :math:`x-`direction, and the second one exclusively in :math:`y-`direction,
+      with both maneuvers having a magnitude of 1 mm/s
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define the quasio-impulsive shot settings # [py]
+         mid_times = [ 86400.0, 2.0 * 86400.0] # [py]
+         delta_v_values = [ np.array([1.0E-3, 0.0, 0.0]), np.array([0.0, 1.0E-3, 0.0]) ] # [py]
+         maneuver_duration = 30 # [py]
+         maneuver_duration = 5 # [py]
+         # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_spacecraft = dict() # [py]
+         # [py]
+         # Add quasi-impulsive acceleration exerted by Spacecraft itself (!) # [py]
+         acceleration_settings_on_spacecraft["Spacecraft"] = [propagation_setup.acceleration.quasi_impulsive_shots_acceleration( # [py]
+              mid_times, # [py]
+              delta_v_values, # [py]
+              maneuver_duration, # [py]
+              maneuver_duration)] # [py]
+
 
   # Thrust acceleration (overload 1)
   - name: thrustAcceleration # [cpp]
@@ -803,8 +850,10 @@ functions:
     short_summary: "Creates settings for thrust acceleration from thrust guidance settings."
     extended_summary: |
       Creates settings for thrust acceleration from thrust guidance settings. The thrust direction and magnitude are
-      supplied  separately in the form of dedicated settings objects (see the API for the respective classes).
+      supplied  separately in the form of dedicated settings objects (see the API for the respective classes in the
+      :ref:`\`\`thrust\`\`` module).
 
+    # TODO add example
     parameters:
       - name: ThrustDirectionSettings # [cpp]
         type: ThrustDirectionSettings # [cpp]
@@ -822,6 +871,33 @@ functions:
         type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
 
+    examples: |
+      In this example, we define thrust along the velocity vector (w.r.t. Earth), with a constant magnitude of 10 N and :math:`I_{sp}` of 300 s
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define thrust direction and magnitude # [py]
+         thrust_direction_settings = (  # [py]
+             propagation_setup.thrust.thrust_direction_from_state_guidance(  # [py]
+                 central_body="Earth",  # [py]
+                 is_colinear_with_velocity=True, # [py]
+                 direction_is_opposite_to_vector=False ) ) # [py]
+          # [py]
+         thrust_magnitude_settings = ( # [py]
+             propagation_setup.thrust.constant_thrust_magnitude( # [py]
+                 thrust_magnitude=10, specific_impulse=300 ) ) # [py]
+
+         # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_spacecraft = dict() # [py]
+         # [py]
+         # Add thrust exerted by Spacecraft itself (!) # [py]
+         acceleration_settings_on_spacecraft ["Spacecraft" ] =[
+           propagation_setup.acceleration.thrust_from_direction_and_magnitude(
+             thrust_direction_settings=thrust_direction_settings,
+             thrust_magnitude_settings=thrust_magnitude_settings,
+         )
+         ]
 
   # Thrust acceleration (overload 2)
   - name: thrustAcceleration # [cpp]

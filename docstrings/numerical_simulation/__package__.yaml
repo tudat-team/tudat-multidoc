@@ -34,6 +34,7 @@ classes:
         type: std::map<double, Eigen::Matrix> # [cpp]
       - name: unprocessed_state_history # [py]
         type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
         description: |
           Raw numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
           numerically calculated state at this epoch. This attribute contains the states of the propagated bodies expressed in the
@@ -44,6 +45,7 @@ classes:
         type: std::map<double, Eigen::Vector> # [cpp]
       - name: dependent_variable_history # [py]
         type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
         description: |
           Dependent variables computed during the propagation as key-value pairs.
           They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
@@ -53,6 +55,7 @@ classes:
         type: std::map<double, double> # [cpp]
       - name: cumulative_computation_time_history # [py]
         type: dict[float, float] # [py]
+        readonly: Yes
         description: |
           History of cumulative computation time in seconds needed during the propagation as key-value
           pairs. At each epoch (key) the computation time (value) in seconds is the total computation time
@@ -62,6 +65,7 @@ classes:
         type: std::map<double, int> # [cpp]
       - name: cumulative_number_of_function_evaluations # [py]
         type: dict[float, int] # [py]
+        readonly: Yes
         description: |
           This function returns the history of cumulative number of function evaluations taken during the propagation as key-value
           pairs. At each epoch (key), the number of computed function evaluations (value) are given up to and including that time step.
@@ -101,7 +105,8 @@ classes:
       - name: stateDerivativeFunction_ # [cpp]
         type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
       - name: state_derivative_function # [py]
-        type: callable[[float, numpy.ndarray], numpy.ndarray] # [py]
+        type: Callable[[float, numpy.ndarray], numpy.ndarray] # [py]
+        readonly: Yes
         description: |
           Function that performs a single state derivative function evaluation. This function takes the numerically propagated
           state, and current independent variable (time) as input, and returns the derivative of the state that is then used
@@ -118,6 +123,7 @@ classes:
       - name: environmentUpdater_ # [cpp]
       - name: environment_updater # [py]
         type: EnvironmentUpdater
+        readonly: Yes
         description: |
           Object used in the propagation to update the enviroment, it uses the current time and numerically calulcated state
           to update the translational state, rotational state, flight conditions, etc. of all bodies in the simulation to be
@@ -139,6 +145,7 @@ classes:
       - name: propagationTerminationReason_ # [cpp]
       - name: propagation_termination_details # [py]
         type: PropagationTerminationDetails
+        readonly: Yes
         description: |
           Object describing the details of the event that triggered the termination of the last propagation.
 
@@ -153,11 +160,13 @@ classes:
         type: std::map< int, std::string > # [cpp]
       - name: dependent_variable_ids # [py]
         type: dict[int, str] # [py]
+        readonly: Yes
         description: |
           Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
 
       - name: integration_completed_successfully # [py]
         type: bool # [py]
+        readonly: Yes
         description: |  # [py]
           Boolean defining whether the last propagation was finished
           succesfully, as defined by the termination conditions, or if
@@ -259,7 +268,7 @@ classes:
                    will be updated.
 
           - name: print_number_of_function_evaluaions # [py]
-            type: bool, default = True # [py]
+            type: bool, default = False # [py]
             description: |    # [py]
               Boolean defining whether the number of function evaluations that
               were performed is to be printed to the console after propagation.
