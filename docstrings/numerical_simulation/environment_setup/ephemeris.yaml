@@ -119,7 +119,7 @@ classes:
     methods:
       - name: ctor # [cpp]
         short_summary: "Constructor." # [cpp]
-        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaledEphemerisSettings` factory function." # [cpp]
+        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the scaledEphemerisSettings` factory function." # [cpp]
       #      - name: __init__ # [py]
       #        short_summary: "Constructor."
       #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory function." # [py]
@@ -273,7 +273,7 @@ classes:
 
   - name: ApproximateJplEphemerisSettings
     short_summary: "Class for creating settings of approximate ephemeris for major planets."
-    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf)."
+    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described in `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_)."
 
 
   - name: ConstantEphemerisSettings
@@ -334,7 +334,7 @@ classes:
 
     properties: # [py]
       - name: initial_state_in_keplerian_elements # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[6, 1]] # [py]
         description: "Kepler elements at time epochOfInitialState." # [py]
         readonly: True # [py]
       - name: epoch_of_initial_state # [py]
@@ -416,8 +416,8 @@ classes:
 
     properties: # [py]
       - name: body_state_history # [py]
-        type: dict # [py]
-        description: Dictionary of the discrete state history data from which ephemeris is to be created. Keys representing the time (float) and values representing Cartesian states (numpy.ndarray). # [py]
+        type: Dict[[float], numpy.ndarray[numpy.float64[6, 1]]] # [py] (%! better here)
+        description: Dictionary of the discrete state history data from which ephemeris is to be created. # [py]
         readonly: True # [py]
       - name: use_long_double_states # [py]
         type: bool # [py]
@@ -461,16 +461,16 @@ functions:
     extended_summary: | # [cpp]
       Factory function for settings object, defining ephemeris model directly and entirely from Spice. # [cpp]
       Requires an appropriate Spice kernel to be loaded. # [cpp]
-      This function creates an instance of an `EphemerisSettings` derived `DirectSpiceEphemerisSettings` object. # [cpp]
+      This function creates an instance of an EphemerisSettings` derived `DirectSpiceEphemerisSettings` class. # [cpp]
 
     parameters: # [cpp]
 
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined." # [cpp]
 
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined." # [cpp]
 
       - name: correctForStellarAberration # [cpp]
@@ -495,31 +495,64 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model directly and entirely from Spice.
       Requires an appropriate Spice kernel to be loaded.
-      This function creates an instance of an `EphemerisSettings` derived `DirectSpiceEphemerisSettings` object.
 
     parameters:
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
       - name: body_name_to_use # [py]
         type: str, default = "" # [py]
       - name: bodyNameOverride # [cpp]
         type: std::string, default = "" # [cpp]
-        description: "?"
+        description: "Body from which Spice ephemeris is to be created."
 
     returns:
-      - type: DirectSpiceEphemerisSettings  # [py]
-      - type: DirectSpiceEphemerisSettings  # [cpp]
-        description: Instance of DirectSpiceEphemerisSettings class
+        type: DirectSpiceEphemerisSettings
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.DirectSpiceEphemerisSettings` class
+
+
+    examples: |
+      In this example, we create barycentric (origin: SSB) :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` with axes along J2000, using data directly from spice:
+
+      .. code-block:: python # [py]
+         # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.direct_spice( # [py]
+         	frame_origin, frame_orientation) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         std::string frameOrigin = "SSB"; # [cpp]
+         std::string frameOrientation = "J2000"; # [cpp]
+         bodySettings[ "Jupiter" ]->ephemerisSettings = std::make_shared< DirectSpiceEphemerisSettings >( frameOrigin, frameOrientation ); # [cpp]
+
+      Alternatively, we can assign the DirectSpiceEphemerisSettings of Jupiter (or any other body for which a direct Spice ephemeris is available) to any custom body:
+
+      .. code-block:: python # [py]
+         # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         body_name_to_use =  "Jupiter" # [py]
+         body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.direct_spice( # [py]
+         	frame_origin, frame_orientation, body_name_to_use ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         std::string frameOrigin = "SSB"; # [cpp]
+         std::string frameOrientation = "J2000"; # [cpp]
+         std::string bodyNameToUse = "Jupiter"; # [cpp]
+         bodySettings[ "CustomBody" ]->ephemerisSettings = std::make_shared< DirectSpiceEphemerisSettings >( frameOrigin, frameOrientation, bodyNameToUse); # [cpp]
+
 
 
   - name: interpolated_spice # [py]
@@ -531,8 +564,7 @@ functions:
       These data are then used to create an interpolator, which is put into the environment, and called during the propagation.
       This has the advantage of only requiring calls to Spice outside of the propagation inner loop, reducing computation time in many cases (a single call to the interpolator is significantly faster that a single call to Spice).
       However, it has the downside of being applicable only during a limited time interval, and requiring the tabulated data to be stored in RAM.
-      For many numerical integration scenarios, this approach may be faster than using `DirectSpiceEphemerisSettings`, with negligible influence on accuracy.
-      This function creates an instance of a `DirectSpiceEphemerisSettings` derived `InterpolatedSpiceEphemerisSettings` object.
+      For many numerical integration scenarios, this approach may be faster than using :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.DirectSpiceEphemerisSettings`, with negligible influence on accuracy.
 
     parameters:
 
@@ -555,15 +587,15 @@ functions:
         description: "Time step with which interpolated data from Spice should be created."
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
       - name: interpolator_settings # [py]
@@ -576,19 +608,41 @@ functions:
         type: str, default = "" # [py]
       - name: bodyNameOverride # [cpp]
         type: std::string, default = "" # [cpp]
-        description: "?"
+        description: "Body from which Spice ephemeris is to be created."
 
     returns:
-      - type: InterpolatedSpiceEphemerisSettings # [py]
-      - type: InterpolatedSpiceEphemerisSettings # [cpp]
-        description: Instance of InterpolatedSpiceEphemerisSettings class
+        type: InterpolatedSpiceEphemerisSettings
+        description: Instance of a :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.DirectSpiceEphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.InterpolatedSpiceEphemerisSettings` class
+
+
+    examples: |
+      In this example, we define :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Jupiter by retrieving ephemeris data from Spice at 3600 s intervals between t=0 and t=1.0E8:
+
+      .. code-block:: python # [py]
+        # [py]
+        # define variables for interpolation settings
+        initial_time = 0.0 # [py]
+        final_time = 1.0E8 # [py]
+        time_step = 3600.0 # [py]
+        # define variables for frame settings
+        frame_origin = "SSB" # [py]
+        frame_orientation = "J2000" # [py]
+        # make ephemeris settings object
+        body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.interpolated_spice( # [py]
+          initial_time, final_time, time_step, frame_origin, frame_orientation ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
+
+      By default, a 6th order Lagrange interpolator is used (NOTE: the Lagrange interpolator is not reliable at the edges of the interpolation interval, as discussed `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/mathematics.html#lagrange-interpolator-issues>`_).
+      Settings for an alternative interpolator can be use by specifying the optional input argument.
+      Additionally, as is the case for the :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice` and :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.approximate_jpl_model` functions, an optional input argument ``body_name_to_use`` allows to use an ephemeris model from Spice for some body and assign it to a custom body.
 
 
 
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
   - name: approximatePlanetPositionsSettings # [cpp] # (%! naming is misleading - Position vs Positions)
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets." # [cpp]
-    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object." # [cpp]
+    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described in `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` class." # [cpp]
 
     parameters: # [cpp]
       - name: bodyIdentifier # [cpp]
@@ -612,8 +666,8 @@ functions:
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets."
     extended_summary: |
       Factory function for settings object, defining approximate ephemeris model for major planets.
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described on http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf).
-      This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` object.
+      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_).
+      Note that this option is only available for solar system planets. For the case of the Earth the approximate ephemeris of the Earth-Moon barycenter is returned.
 
     parameters:
       - name: body_name # [py]
@@ -624,7 +678,35 @@ functions:
 
     returns:
         type: ApproximateJplEphemerisSettings
-        description: Instance of ApproximateJplEphemerisSettings class.
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ApproximateJPLEphemerisSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Jupiter using JPL's approximate planet position model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # Create ephemeris settings # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.approximate_planet_positions( ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         # Create ephemeris settings # [cpp]
+         bodySettings[ "Jupiter" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >(   # [cpp]
+         							ephemerides::ApproximatePlanetPositionsBase::jupiter, false );                             # [cpp]
+
+      Alternatively, we can assign the ApproximateJplEphemerisSettings of Jupiter (or any other body for which an approximate JPL ephemeris is available) to any custom body:
+
+      .. code-block:: python # [py]
+         # Create ephemeris settings for 'CustomBody' from Jupiter's ApproximateJplEphemeris  # [py]
+         body_name_to_use =  "Jupiter" # [py]
+         body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.approximate_planet_positions( body_name_to_use ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         # Create ephemeris settings # [cpp]
+         bodySettings[ "CustomBody" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >( # [cpp]
+                       ephemerides::ApproximatePlanetPositionsBase::jupiter, false );                             # [cpp]
+
 
 
   - name: constant # [py]
@@ -632,30 +714,46 @@ functions:
     short_summary: "Factory function for creating constant ephemeris model settings."
     extended_summary: |
       Factory function for settings object, defining ephemeris model with a constant, time-independent state.
-      This function creates an instance of an `EphemerisSettings` derived `constantEphemerisSettings` object.
 
     parameters:
       - name: constant_state # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[6, 1]] # [py]
       - name: constantState # [cpp]
         type: Eigen::Vector6d # [cpp]
         description: "Constant state that will be provided as output of the ephemeris at all times."
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
         type: ConstantEphemerisSettings
-        description: Instance of ConstantEphemerisSettings class.
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.constantEphemerisSettings` class
+
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for a time-independent, constant state of Jupiter:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable describing the constant cartesian state # [py]
+         constant_cartesian_state = ... # [py]
+         # define variables for ephemeris frame # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         # make ephemeris settings # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.constant(constant_cartesian_state, # [py]
+           frame_origin, frame_orientation) # [py]
+
+      # cpp code snippet unavailable # [cpp]
 
 
   - name: custom # [py]
@@ -664,31 +762,49 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model with a custom state.
       This allows the user to provide an custom state function as ephemeris model.
-      The state function (pointer) must be taking a time (float) as input and returning the Cartesian state (numpy.ndarray).
-      This function creates an instance of an `EphemerisSettings` derived `customEphemerisSettings` object.
 
     parameters:
       - name: custom_state_function # [py]
-        type: # [py] # (%! py type for function)
+        type: Callable[[float], numpy.ndarray[numpy.float64[6, 1]]] # [py]
       - name: customStateFunction # [cpp]
         type: std::function< Eigen::Vector6d > # [cpp]
         description: "Function returning the state as a function of time."
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
         type: CustomEphemerisSettings
-        description: Instance of CustomEphemerisSettings class
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.CustomEphemerisSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings`s for Earth from a custom state history function:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable containing the custom state function for Earth # [py]
+         custom_state_function = ...  # [py]
+         # define variables for ephemeris frame # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         # make ephemeris settings # [py]
+         body_settings.get("Earth").ephemeris_settings = environment_setup.ephemeris.custom(
+           custom_state_function, frame_origin, frame_orientation)
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         std::shared_ptr< EphemerisSettings > customEphemerisSettings = # [cpp]
+                      std::make_shared< CustomEphemerisSettings >(      # [cpp]
+                         customBoostFunction, frameOrigin, frameOrientation ); # [cpp]
 
   - name: keplerian # [py]
   - name: keplerEphemerisSettings # [cpp]
@@ -696,12 +812,11 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from the given Kepler elements.
       These are taken as the elements at the ``initial_state_epoch`` and propagated to any other time using the provided ``central_body_gravitational_parameter``.
-      See Frame/State Transformations (`link`) for more details on orbital elements in Tudat.
-      This function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.
+      See `Frame/State Transformations <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/astrodynamics/transformations.html#frame-state-transformations>`_ and the :ref:`\`\`astro\`\`` for more details on orbital elements in tudat.
 
     parameters:
       - name: initial_state_in_keplerian_elements # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[6, 1]] # [py]
       - name: initialStateInKeplerianElements # [cpp]
         type: Eigen::Vector6d # [cpp]
         description: "Kepler elements at time epochOfInitialState."
@@ -716,20 +831,21 @@ functions:
         type: float # [py]
       - name: centralBodyGravitationalParameter # [cpp]
         type: double # [cpp]
-        description: "Effective gravitational parameter of the central body that is used in the computations. Note that when
+        description: |
+         Effective gravitational parameter of the central body that is used in the computations. Note that when
          the Keplerian orbit is to represent the relative state of two massive bodies, with one of these bodies as the origin
-         this values should be the *sum* of the two bodies' gravitational parameters"
+         this values should be the *sum* of the two bodies' gravitational parameters
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: referenceFrameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: referenceFrameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
       - name: root_finder_absolute_tolerance # [py]
@@ -746,7 +862,25 @@ functions:
 
     returns:
         type: KeplerEphemerisSettings
-        description: Instance of KeplerEphemerisSettings class
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.KeplerEphemerisSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for a simple, barycentric (SSB) Kepler orbit of Jupiter:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variables for computation of Kepler orbit ephemeris # [py]
+         initial_state_in_keplerian_elements = ... # [py]
+         initial_state_epoch = ... # [py]
+         central_body_gravitational_parameter = ... # [py]
+         # define variables for ephemeris frame # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         # make ephemeris settings object # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian( initial_state_in_keplerian_elements, # [py]
+           initial_state_epoch, central_body_gravitational_parameter, frame_origin, frame_orientation ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
 
 
   - name: keplerian_from_spice # [py]
@@ -755,8 +889,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from an initial state from Spice.
       The Kepler elements inferred from the initial state are propagated to any other time using the provided ``central_body_gravitational_parameter``.
-      See Frame/State Transformations (`link`) for more details on orbital elements in Tudat.
-      This function creates an instance of an `EphemerisSettings` derived `KeplerEphemerisSettings` object.
+      See `Frame/State Transformations <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/astrodynamics/transformations.html#frame-state-transformations>`_ and the :ref:`\`\`astro\`\`` module for more details on orbital elements in tudat.
 
     parameters:
       - name: body # [py]
@@ -778,15 +911,15 @@ functions:
         description: "Gravitational parameter of the central body that is used in the computations."
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: referenceFrameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: referenceFrameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
       - name: root_finder_absolute_tolerance # [py]
@@ -803,7 +936,30 @@ functions:
 
     returns:
         type: KeplerEphemerisSettings
-        description: Instance of KeplerEphemerisSettings class
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.KeplerEphemerisSettings` class
+
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for a simple, barycentric (SSB) Kepler orbit of Jupiter.
+      The initial keplerian state is extracted from Spice as the state of ``body_name`` w.r.t. ``frame_origin``
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variables for retreiving initial Kepler orbit elements from spice # [py]
+         body_name = "Jupiter" # [py]
+         initial_state_epoch = ... # [py]
+         central_body_gravitational_parameter = ... # [py]
+         # define variables for ephemeris frame # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = 'J2000' # [py]
+         # make ephemeris settings
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian_from_spice(  # [py]
+           body_name, initial_state_epoch, central_body_gravitational_parameter, frame_origin, frame_orientation ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
+
+      Additionally, as is the case for the :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`, :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.approximate_jpl_model` and :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.interpolated_spice` functions, the ephemeris model from Spice can be retreived for some body and assigned to a custom body.
+
 
 
   - name: scaled_by_constant # [py]
@@ -812,7 +968,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
       The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
-      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
 
     parameters:
       - name: unscaled_ephemeris_settings # [py]
@@ -835,7 +990,27 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: Instance of ScaledEphemerisSettings class
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
+
+
+    examples: |
+      In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettingsObject` with a constant factor:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable for scaling factor
+         scaling_constant = 1.001
+         # define variables containing the existing ephemeris settings
+         unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
+         # make new ephemeris settings
+         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
+                unscaled_ephemeris_settings, scaling_constant )
+      
+      In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by a factor 1.001.
+
+
+      # cpp code snippet unavailable # [cpp]
+
 
 
   - name: scaled_by_vector # [py]
@@ -844,7 +1019,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
       The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
-      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
 
     parameters:
       - name: unscaled_ephemeris_settings # [py]
@@ -867,7 +1041,26 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: Instance of ScaledEphemerisSettings class.
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
+       
+        
+    examples: |
+      In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettingsObject` with a the constant elements of a vector:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable for scaling vector
+         scaling_vector = ...
+         # define variables containing the existing ephemeris settings
+         unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
+         # make new ephemeris settings
+         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
+                unscaled_ephemeris_settings, scaling_vector )
+      
+      In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by the corresponding scaling factor in ``scaling_vector``.
+
+      # cpp code snippet unavailable # [cpp]
+      
 
   - name: scaled_by_vector_function # [py]
   - name: scaledEphemerisSettings # [cpp]
@@ -875,7 +1068,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model based on an scaling of an existing ephemeris settings object.
       The user can apply a scaling factor (or an absolute value) to the resulting Cartesian states (for instance for an uncertainty analysis).
-      This function creates an instance of an `EphemerisSettings` derived `ScaledEphemerisSettings` object.
 
     parameters:
       - name: unscaled_ephemeris_settings # [py]
@@ -898,7 +1090,24 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: Instance of ScaledEphemerisSettings class.
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ExponentialAtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
+
+    examples: |
+      In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` object with factors from a custom function:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable for scaling vector function
+         scaling_vector_function = ...
+         # define variables containing the existing ephemeris settings
+         unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
+         # make new ephemeris settings
+         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
+                unscaled_ephemeris_settings, scaling_vector_function )
+
+      In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by the corresponding scaling factor in the vector returned by ``vector_scaling_function``.
+
+      # cpp code snippet unavailable # [cpp]
 
   - name: tabulated # [py]
   - name: tabulatedEphemerisSettings # [cpp]
@@ -907,7 +1116,6 @@ functions:
       Factory function for settings object, defining ephemeris model to be created from tabulated data.
       Currently the data that is provided gets interpolated by a 6th order Lagrange interpolator (hardcoded).
       At the edges of the interpolation interval a cubic spline interpolator is used to suppres the influence of Runge's phenomenon.
-      This function creates an instance of an `EphemerisSettings` derived `TabulatedEphemerisSettings` object.
 
     properties:
       - name: body_state_history # [py]
@@ -919,17 +1127,34 @@ functions:
         description: Data map defining discrete data from which an ephemeris is to be created. Keys representing the time (double) and values representing Cartesian states (Eigen::Vector6d). # [cpp]
 
       - name: frame_origin # [py]
-        type: str, default='SSB' # [py]
+        type: str, default="SSB" # [py]
       - name: frameOrigin # [cpp]
-        type: std::string, default='SSB' # [cpp]
+        type: std::string, default="SSB" # [cpp]
         description: "Origin of frame in which ephemeris data is defined."
 
       - name: frame_orientation # [py]
-        type: str, default='ECLIPJ2000' # [py]
+        type: str, default="ECLIPJ2000" # [py]
       - name: frameOrientation # [cpp]
-        type: std::string, default='ECLIPJ2000' # [cpp]
+        type: std::string, default="ECLIPJ2000" # [cpp]
         description: "Orientation of frame in which ephemeris data is defined."
 
     returns:
         type: TabulatedEphemerisSettings
-        description: Instance of TabulatedEphemerisSettings class
+        description: Instance of an :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.TabulatedEphemerisSettings` class
+
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Jupiter from tabulated state history data:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable containing the Jupiter's tabulated state history # [py]
+         body_state_history = ... # [py]
+         # define variables for ephemeris frame # [py]
+         frame_origin = "SSB" # [py]
+         frame_orientation = "J2000" # [py]
+         # make ephemers settings # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.tabulated( body_state_history, # [py]
+           frame_origin, frame_orientation ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
