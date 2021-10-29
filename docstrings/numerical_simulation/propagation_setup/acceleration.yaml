@@ -52,7 +52,7 @@ enums:
       - name: direct_tidal_dissipation_in_central_body_acceleration_type # [py]
       - name: direct_tidal_dissipation_in_orbiting_body_acceleration_type # [py]
       - name: panelled_radiation_pressure_acceleration_type # [py]
-      - name: momentum_wheel_desaturation_acceleration_type # [py]
+      - name: quasi_impulsive_shots_acceleration_type # [py]
       - name: solar_sail_acceleration_type # [py]
       - name: custom_acceleration_type # [py]
 
@@ -659,24 +659,22 @@ functions:
   - name: custom # [py]
     short_summary: "Creates settings for custom acceleration."
     extended_summary: |
-      Creates settings for empirical accelerations. These are expressed in the
-      RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
-      The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
-      a constant, sine and cosine term (with true anomaly as argument) for each of the three independent directions of
-      the RSW frame.
+      Creates settings for a custom accelerations, this acceleration must be parameterized as a function of time,
+      and expressed with an inertial orientation.
 
     parameters:
       - name: accelerationFunction # [cpp]
         type: std::function<Eigen::Vector3d(const double)> # [cpp]
       - name: acceleration_function # [py]
         type: callable[[float], list] # [py]
-        description: Custom acceleration function with time as an independent variable.
+        description: Custom acceleration function with time as an independent variable, returning the acceleration as
+          a function of time.
 
-      - name: scalingFunction # [cpp]
-        type: std::function<double(const double)>, default=nullptr # [cpp]
-      - name: scaling_function # [py]
-        type: callable[[float], float], default=None # [py]
-        description: Scaling function with time as an independent variable to be multiplied by the custom acceleration function.
+      #- name: scalingFunction # [cpp]
+        #type: std::function<double(const double)>, default=nullptr # [cpp]
+      #- name: scaling_function # [py]
+        #type: callable[[float], float], default=None # [py]
+        #description: Scaling function with time as an independent variable to be multiplied by the custom acceleration function.
 
     returns:
         type: CustomAccelerationSettings
@@ -755,8 +753,8 @@ functions:
 
   # Momentum wheel desaturation
   - name: momentumWheelDesaturationAcceleration # [cpp]
-  - name: momentum_wheel_desaturation_acceleration # [py]
-    short_summary: "Creates settings for momentum wheel desaturation acceleration."
+  - name: quasi_impulsive_shots_acceleration # [py]
+    short_summary: "Creates settings for incorporating quasi-impulsive shots into the acceleration."
     extended_summary: |
       The acceleration model is purpose-built to represent short bursts of thrust, such as a momentum wheel desaturation.
       A typical use case is precise orbit determination, but the functionality can be used just as well in propagation

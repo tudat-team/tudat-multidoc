@@ -17,13 +17,11 @@ enums:
       Enumeration of integrators supported by tudat.
 
     members:
-
-      - name: euler # [cpp]
-      - name: rungeKutta4 # [cpp]
-      - name: rungeKuttaVariableStepSize # [cpp]
-      - name: bulirschStoer # [cpp]
-      - name: adamsBashforthMoulton # [cpp]
-
+      #- name: euler # [cpp]
+      #- name: rungeKutta4 # [cpp]
+      #- name: rungeKuttaVariableStepSize # [cpp]
+      #- name: bulirschStoer # [cpp]
+      #- name: adamsBashforthMoulton # [cpp]
       - name: euler_type # [py]
       - name: runge_kutta_4_type # [py]
       - name: runge_kutta_variable_step_size_type # [py]
@@ -34,19 +32,17 @@ enums:
   #    py::enum_<tni::RungeKuttaCoefficients::CoefficientSets>
   #        enum tudat::numerical_integrators::RungeKuttaCoefficients::CoefficientSets
 
-  - name: CoefficientSets
+  - name: RKCoefficientSets
     short_summary: "Coefficient sets for Runge-Kutta integrators."
-    extended_summary: |
-      Coefficient sets for Runge-Kutta integrators.
+    #extended_summary: |
+      #Coefficient sets for Runge-Kutta integrators.
 
     members:
-
-      - name: undefinedCoefficientSet # [cpp]
-      - name: rungeKuttaFehlberg45 # [cpp]
-      - name: rungeKuttaFehlberg56 # [cpp]
-      - name: rungeKuttaFehlberg78 # [cpp]
-      - name: rungeKutta87DormandPrince # [cpp]
-
+      #- name: undefinedCoefficientSet # [cpp]
+      #- name: rungeKuttaFehlberg45 # [cpp]
+      #- name: rungeKuttaFehlberg56 # [cpp]
+      #- name: rungeKuttaFehlberg78 # [cpp]
+      #- name: rungeKutta87DormandPrince # [cpp]
       - name: rkf_45 # [py]
       - name: rkf_56 # [py]
       - name: rkf_78 # [py]
@@ -58,11 +54,10 @@ enums:
 
   - name: ExtrapolationMethodStepSequences
     short_summary: "Enumeration of available extrapolation method step sequences."
-    extended_summary: |
-      Enumeration of extrapolation method step sequences supported by tudat.
+    #extended_summary: |
+      #Enumeration of extrapolation method step sequences supported by tudat.
 
     members:
-
       - name: bulirsch_stoer_sequence
       - name: deufelhard_sequence
 

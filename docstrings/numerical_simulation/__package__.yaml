@@ -258,6 +258,12 @@ classes:
                  - **Mass**: The mass function of the propagated body
                    will be updated.
 
+          - name: print_number_of_function_evaluaions # [py]
+            type: bool, default = True # [py]
+            description: |    # [py]
+              Boolean defining whether the number of function evaluations that
+              were performed is to be printed to the console after propagation.
+
           - name: print_dependent_variable_data # [py]
             type: bool, default = True # [py]
             description: |    # [py]
