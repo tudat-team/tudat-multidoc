@@ -145,8 +145,8 @@ functions:
       using a constant wind-velocity vector defined in an Earth-fixed reference frame:
 
       .. code-block:: python # [py]
-      # [py]
-      # (%!) example code snippet in the making
+        # [py]
+        # (%!) example code snippet in the making
 
   #######################################################################
 
@@ -485,7 +485,7 @@ functions:
 
     parameters:
       - name: unscaled_atmosphere_settings # [py]
-        type: AtmosphereSettings # [py] # (%! correct type?)
+        type: AtmosphereSettings # [py]
       - name: baseSettings # [cpp]
         type: std::shared_ptr< AtmosphereSettings > # [cpp]
         description: "Sets base settings of atmosphere model to be scaled."
@@ -539,7 +539,7 @@ functions:
 
     parameters:
       - name: unscaled_atmosphere_settings # [py]
-        type: AtmosphereSettings # [py] # (%! correct type?)
+        type: AtmosphereSettings # [py]
       - name: baseSettings # [cpp]
         type: std::shared_ptr< AtmosphereSettings > # [cpp]
         description: "Sets base settings of atmosphere model to be scaled."

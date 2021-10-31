@@ -315,7 +315,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a synchronous rotation model where rotation of a body is defined from its relative orbit w.r.t. some central body. Specifically
       - the body-fixed x-axis is *always* pointing towards the central body
-      - the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of :math:`\mathbf{x}\cross\mathbf{v}` )
+      - the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of :math:`\mathbf{x}\times\mathbf{v}` )
       - the body-fixed y-axis completes the right-handed reference frame
 
       Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.
@@ -368,7 +368,6 @@ functions:
     short_summary: "Factory function for creating rotation model settings from the Spice interface."
     extended_summary: |
       Factory function for settings object, defining a rotation model directly (and entirely) from Spice interface.
-      This function creates an instance of a `RotationModelSettings` object.
 
     parameters:
       - name: base_frame # [py]
@@ -419,7 +418,7 @@ functions:
       Factory function for settings object, defining high-accuracy Earth rotation model according to the IERS 2010 Conventions.
       This settings class has various options to deviate from the default settings, typical applications will use default.
       Note that for this model the original frame must be J2000 or GCRS (in the case of the former, the frame bias between GCRS and J2000 is automatically corrected for). The target frame (e.g. body-fixed frame) name is ITRS.
-      The precession-nutation theory may be any member of :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.IAUConventions` (``iau_2000a`` / ``iau_2000b`` or ``iau_2006``), as implemented in the SOFA toolbox.
+      The precession-nutation theory may be any member of :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.IAUConventions` (``iau_2000a`` / ``iau_2000b`` or ``iau_2006``).
       Alternative options to modify the input (not shown here) include the EOP correction file, input time scale, short period UT1 and polar motion variations.
       The target frame (e.g. body-fixed frame) name is ITRS.
 
@@ -459,7 +458,7 @@ functions:
          // define parameters describing the rotation between frames # [cpp]
          IAUConventions precessionNutationTheory = iau_2006; # [cpp]
          std::string originalFrame = "J2000"; # [cpp]
-         // create rotation model settings and assign to body settings of "Earth" # [py]
+         // create rotation model settings and assign to body settings of "Earth" # [cpp]
          bodySettings[ "Earth" ]->rotationModelSettings = boost::make_shared< GcrsToItrsRotationModelSettings >( # [cpp]
          precessionNutationTheory, originalFrame ); # [cpp]
 
