@@ -1,12 +1,23 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-################## Gravity Field Setup ( createGravityField.h ) #####################################################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Gravity Field Setup ( createGravityField.h )
 
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   gravitational potential models of celestial bodies in an environment.
 
-
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
 
 enums:
 
@@ -43,14 +54,18 @@ enums:
       - name: lpe200
       - name: jgmro120d
 
-######
 
-
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
-
-
   # base class:
+  #######################################################################
 
   - name: GravityFieldSettings
     short_summary: "Base class for providing settings for automatic gravity field model creation."
@@ -74,12 +89,13 @@ classes:
         short_summary: "Retrieve gravity field type." # [cpp]
         extended_summary: "Function to retrieve the type of gravity field that is to be created through the settings object." # [cpp]
         parameters: # [cpp]
-          - name: None # [cpp]
         returns: # [cpp]
           - name: gravityFieldType # [cpp]
             type: GravityFieldType # [cpp]
 
+
   # derived classes:
+  #######################################################################
 
   - name: CentralGravityFieldSettings
     short_summary: "`GravityFieldSettings` derived class defining settings of point mass gravity field."
@@ -116,6 +132,7 @@ classes:
             type: double # [cpp]
             description: Gravitational parameter of central gravity field that is to be defined by the settings object. # [cpp]
 
+  #######################################################################
 
   - name: SphericalHarmonicsGravityFieldSettings
     short_summary: "`GravityFieldSettings` derived class defining settings of spherical harmonic gravity field representation."
@@ -251,6 +268,7 @@ classes:
             type: bool # [cpp]
             description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
 
+  #######################################################################
 
   # skip for now
   #  - name: FromFileSphericalHarmonicsGravityFieldSettings
@@ -258,50 +276,87 @@ classes:
 
 
 
+
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
+
 functions:
-
-
   # factory functions:
+  #######################################################################
 
   - name: central # [py]
   - name: centralGravitySettings # [cpp]
     short_summary: "Factory function for central gravity field settings object."
     extended_summary: |
       Factory function for settings object, defining a point-mass gravity field model with user-defined gravitational parameter.
-      This function returns a `GravityFieldSettings` derived `CentralGravityFieldSettings` object.
     parameters:
       - name: gravitational_parameter # [py]
         type: float # [py]
       - name: gravitationalParameter # [cpp]
         type: double # [cpp]
+        description: Gravitational parameter defining the point-mass gravity field.
     returns:
         type: CentralGravityFieldSettings
-        description: "`CentralGravityFieldSettings` object defined by the provided gravitational parameter."
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.CentralGravityFieldSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using a simple central gravity field model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing central gravity model # [py]
+         gravitational_parameter = ... # [py]
+         # create gravity field settings # [py]
+         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.central( gravitational_parameter ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing central gravity model # [cpp]
+         double gravitationalParameter = ... # [cpp]
+         // create gravity field settings # [cpp]
+         bodySettings[ "Earth" ]->gravityFieldSettings = std::make_shared< CentralGravityFieldSettings >( gravitationalParameter ); # [cpp]
+
+  #######################################################################
 
   - name: central_spice # [py]
   - name: centralGravityFromSpiceSettings # [cpp]
     short_summary: "Factory function to create central gravity field settings from Spice settings."
     extended_summary: |
       Factory function for settings object, defining a point-mass gravity field model with gravitational parameter from Spice.
-      This function returns a `GravityFieldSettings` object of gravity field type ``central_spice``.
     parameters:
-      - name: None
     returns:
         type: GravityFieldSettings
-        description: "`GravityFieldSettings` object defined by gravitational parameters from Spice settings."
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` class of gravity field type ``central_spice``"
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using a simple central gravity field model and data from Spice:
+
+      .. code-block:: python # [py]
+         # [py]
+         # create gravity field settings # [py]
+         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.central_spice( )
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // create gravity field settings # [cpp]
+         bodySettings[ "Earth" ]->gravityFieldSettings = std::make_shared< GravityFieldSettings >( central_spice ); # [cpp]
+
+  #######################################################################
 
   - name: spherical_harmonic # [py]
   - name: sphericalHarmonicsGravitySettings # [cpp]
     short_summary: "Factory function for creating a spherical harmonics gravity field settings object."
     extended_summary: |
       Factory function for settings object, defining a gravity field model through spherical harmonic expansion.
-      The associated reference frame must presently be the same frame ID as the target frame of the body’s rotation model.
+      The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
       It represents the frame in which the spherical harmonic field is defined.
       Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
-      To normalize unnormalized spherical harmonic coefficients, see `spherical_harmonics_normalization`.
-      This function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.
+      To normalize unnormalized spherical harmonic coefficients, see ``spherical_harmonics_normalization``. (%!)
 
     parameters:
       - name: gravitational_parameter # [py]
@@ -338,8 +393,36 @@ functions:
 
     returns:
         type: SphericalHarmonicsGravityFieldSettings
-        description: "`SphericalHarmonicsGravityFieldSettings` object defined by the provided parameters."
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using a spherical harmonics gravity model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing spherical harmonics gravity model # [py]
+         gravitational_parameter = ... # [py]
+         reference_radius = ... # [py]
+         normalized_cosine_coefficients = ... # [py]
+         normalized_sine_coefficients = ...   # [py]
+         associated_reference_frame = ... # [py]
+         # create gravity field settings  # [py]
+         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic( gravitational_parameter, # [py]
+         reference_radius, normalized_cosine_coefficients, normalized_sine_coefficients, associated_reference_frame ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing spherical harmonics gravity model  # [cpp]
+         double gravitationalParameter = ... # [cpp]
+         double referenceRadius = ... # [cpp]
+         Eigen::MatrixXd normalizedCosineCoefficients = ...  # [cpp]
+         Eigen::MatrixXd normalizedSineCoefficients =  ...   # [cpp]
+         std::string associatedReferenceFrame = ...     # [cpp]
+         // create gravity field settings # [cpp]
+         bodySettings[ "Earth" ]->gravityFieldSettings = std::make_shared< SphericalHarmonicsGravityFieldSettings >( # [cpp]
+         gravitationalParameter, referenceRadius, normalizedCosineCoefficients, normalizedSineCoefficients, associatedReferenceFrame ); # [cpp]
+
+  #######################################################################
 
   - name: spherical_harmonic_triaxial_body # [py]
   - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
@@ -349,7 +432,6 @@ functions:
       The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
       Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
       The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
-      This function returns a `GravityFieldSettings` derived `SphericalHarmonicsGravityFieldSettings` object.
 
     parameters:
       - name: axis_a # [py]
@@ -396,4 +478,26 @@ functions:
 
     returns:
         type: SphericalHarmonicsGravityFieldSettings
-        description: "`SphericalHarmonicsGravityFieldSettings` object defined by expansion of homogeneous triaxial ellipsoid."
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using the expansion of a homogeneous triaxial ellipsoid into a spherical harmonics gravity model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing the ellipsoid, homogeneous mass # [py]
+         axis_a = ... # [py]
+         axis_b = ... # [py]
+         axis_c = ... # [py]
+         density = ... # [py]
+         # define parameters for the expansion # [py]
+         maximum_degree = ... # [py]
+         maximum_order = ... # [py]
+         associated_reference_frame = ... # [py]
+         # create gravity field settings  # [py]
+         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic( gravitational_parameter, # [py]
+         reference_radius, normalized_cosine_coefficients, normalized_sine_coefficients, associated_reference_frame ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
+
+  #######################################################################

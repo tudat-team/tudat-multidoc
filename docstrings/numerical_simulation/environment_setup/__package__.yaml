@@ -1,5 +1,14 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Environment Setup
+
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   environment models in a simulation.
 
 
@@ -14,15 +23,28 @@ modules:
   - shape
 
 
-###### enums
+  #########################################################################
+  #  ███████ ███   ██ ██    ██ ███    ███  ██████
+  #  ██      ████  ██ ██    ██ ████  ████ █
+  #  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+  #  ██      ██  ████ ██    ██ ██  ██  ██       █
+  #  ███████ ██    ██  ██████  ██      ██ ██████
+  #########################################################################
 
   # no enums
 
-######
 
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
 
+  #########################################################################
 
   - name: BodyListSettings
     short_summary: "Class for defining settings for the creation of a system of bodies."
@@ -55,6 +77,7 @@ classes:
           description: |
             Name of the body for which settings are to be retrieved
 
+  #########################################################################
 
   - name: BodySettings
     short_summary: "Class for defining settings for the creation of a single body."
@@ -101,6 +124,15 @@ classes:
           Object that defines the settings of the shape model that is to be created. A variable of this type is typically
           assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module.
 
+
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
+
 functions:
 
   - name: get_default_body_settings # [py]
@@ -128,6 +160,7 @@ functions:
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
 
+  #########################################################################
 
   - name: get_default_body_settings_time_limited # [py]
   - name: getDefaultBodySettings # [cpp]

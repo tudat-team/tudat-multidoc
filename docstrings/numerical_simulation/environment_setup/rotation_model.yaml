@@ -1,11 +1,24 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-################## Rotation Model Setup ( createRotationalModel.h ) #################################################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Rotation Model Setup ( createRotationalModel.h )
 
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   rotation models of celestial bodies in an environment.
 
+
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
 
 enums:
 
@@ -37,14 +50,18 @@ enums:
       - name: iau_2000_b
       - name: iau_2006
 
-######
 
-
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
-
-
   # base class:
+  #######################################################################
 
   - name: RotationModelSettings
     short_summary: "Base class for providing settings for automatic rotation model creation."
@@ -111,19 +128,17 @@ classes:
 
 
 
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
+
 functions:
-
-
-  # functions:
-
-  #      (what to do with this one? - not exposed in tudatpy)
-  #      std::shared_ptr< ephemerides::RotationalEphemeris > createRotationModel(
-  #             const std::shared_ptr< RotationModelSettings > rotationModelSettings,
-  #             const std::string& body,
-  #             const SystemOfBodies& bodies = SystemOfBodies( ) );
-
-
   # factory functions:
+  #######################################################################
 
   - name: simpleRotationModelSettings # [cpp]     # overload cpp
     short_summary: "Factory function for creating simple rotation model settings." # [cpp]
@@ -157,6 +172,7 @@ functions:
         type: SimpleRotationModelSettings # [cpp]
         description: Simple rotation model settings object (derived from `RotationModelSettings` base class). # [cpp]
 
+  #######################################################################
 
   - name: simple # [py]
   - name: simpleRotationModelSettings # [cpp]     # overload 1, cpp only
@@ -165,7 +181,6 @@ functions:
       Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.
       Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix.
       Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s).
-      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
 
     parameters:
       - name: base_frame # [py]
@@ -181,7 +196,7 @@ functions:
         description: Target frame of rotation model.
 
       - name: initial_orientation # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[3, 3]] # [py]
       - name: initialOrientation # [cpp]
         type: Eigen::Matrix3d # [cpp]
         description: Orientation of target frame in base frame at initial time.
@@ -200,17 +215,47 @@ functions:
 
     returns:
         type: SimpleRotationModelSettings
-        description: Simple rotation model settings object (derived from `RotationModelSettings` base class).
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
+      using a simple rotation model with constant orientation of the rotation axis (body-fixed z-axis), and constant rotation rate about this axis:
+
+      .. code-block:: python # [py]
+         # [py]
+         # set parameters describing the rotation between two frames
+         initial_orientation = ... # [py]
+         initial_time = ... # [py]
+         rotation_rate = ... # [py]
+         original_frame = "J2000" # [py]
+         target_frame = "Earth_Fixed_Simplified" # [py]
+         # create rotation model settings and assign to body settings of "Earth" # [py]
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple(
+         original_frame, target_frame, initial_orientation, initial_time, rotation_rate)
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // set parameters describing the rotation between two frames # [cpp]
+         Eigen::Quaterniond initialOrientation = ... # [cpp]
+         double initialTime = ... # [cpp]
+         double rotationRate = ... # [cpp]
+         std::string originalFrame = "J2000"; # [cpp]
+         std::string targetFrame = "IAU_Earth"; # [cpp]
+         // create rotation model settings and assign to body settings of "Earth"  # [cpp]
+         bodySettings[ "Earth" ]->rotationModelSettings = std::make_shared< SimpleRotationModelSettings >( # [cpp]
+         originalFrame, targetFrame , initialOrientation, initialTime, rotationRate ); # [cpp]
+
+
+  #######################################################################
 
   - name: simple_from_spice # [py]
   - name: simpleRotationModelFromSpiceSettings # [cpp]
     short_summary: "Factory function for creating simple rotation model settings using initial orientation and rotaton rates from Spice."
     extended_summary: |
       Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
-      Note that *only* the initial orientation and rotation rate ( at the time defined by `initial_time` ) are extracted from Spice.
-      Note the distinction between the ``target_frame`` and ``target_frame_spice`` inputs.
-      This function creates an instance of a `RotationModelSettings` derived `simpleRotationModelSettings` object.
+      Note that `only` the initial orientation and rotation rate ( at the time defined by ``initial_time`` ) are extracted from Spice - for
+      the full Spice rotation model see :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.spice`.
+      Also note the distinction between the ``target_frame`` and ``target_frame_spice`` parameters.
 
     parameters:
       - name: base_frame # [py]
@@ -239,8 +284,30 @@ functions:
 
     returns:
         type: SimpleRotationModelSettings
-        description: Simple rotation model settings object (derived from RotationModelSettings base class) with target frame info inferred from Spice.
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
+      using a simple rotation model with constant orientation of the rotation axis (body-fixed z-axis), and constant rotation rate about this axis.
+      The initial orientation and rotation rate are extracted from Spice at the time defined by ``initial_time``:
+
+      .. code-block:: python # [py]
+         # [py]
+         # set parameters for time at which initial data is extracted from spice
+         initial_time = ...
+         # set parameters for defining the rotation between frames
+         original_frame = "J2000"
+         target_frame = "IAU_Earth_Simplified"
+         target_frame_spice = "IAU_Earth"
+         # create rotation model settings and assign to body settings of "Earth" # [py]
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple_from_spice(
+         original_frame, target_frame, target_frame_spice, initial_time)
+
+      # [cpp] cpp code snippet unavailable
+
+
+
+  #######################################################################
 
   - name: synchronous # [py]
   - name: synchronousRotationModelSettings # [cpp]
@@ -248,12 +315,10 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a synchronous rotation model where rotation of a body is defined from its relative orbit w.r.t. some central body. Specifically
       - the body-fixed x-axis is *always* pointing towards the central body
-      - the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of
-      .. math:: \mathbf{x} \cross \mathbf{v} )
+      - the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of :math:`\mathbf{x}\cross\mathbf{v}` )
       - the body-fixed y-axis completes the right-handed reference frame
 
       Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.
-      This function creates an instance of a `RotationModelSettings` derived `SynchronousRotationModelSettings` object.
 
     parameters:
       - name: central_body_name # [py]
@@ -274,11 +339,29 @@ functions:
         type: std::string # [cpp]
         description: Spice reference of target frame.
 
-
     returns:
         type: SynchronousRotationModelSettings
-        description: Synchonous rotation model settings object (derived from RotationModelSettings base class).
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SynchronousRotationModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for the martian moon Phobos,
+      effectively creating a frame ``"Phobos_Fixed"``, which (rotating in the ``"ECLIPJ2000"`` base frame) is fully synchronous w.r.t. Mars.
+      The rotation model of ``"Phobos_Fixed"`` is then assigned to the body settings of the body ``"Phobos"``:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing the synchronous rotation model
+         original_frame = "ECLIPJ2000"
+         target_frame = "Phobos_Fixed"
+         central_body_name = "Mars"
+         target_frame_spice = "IAU_Earth"
+         # create rotation model settings for target frame and assign to body settings of "Phobos" # [py]
+         body_settings.get( "Phobos" ).rotation_model_settings = environment_setup.rotation_model.synchronous(
+         original_frame, target_frame, central_body_name)
+
+      # [cpp] cpp code snippet unavailable
+
+  #######################################################################
 
   - name: spice # [py]
   - name: spiceRotationModelSettings # [cpp]
@@ -302,8 +385,32 @@ functions:
 
     returns:
         type: RotationModelSettings
-        description: Rotation model settings object inferred from Spice rotational model.
+        description: Instance of :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` class.
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
+      using full rotation model data from Spice:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing the rotation between frames # [py]
+         original_frame = "J2000" # [py]
+         target_frame = "IAU_Earth" # [py]
+         # create rotation model settings and assign to body settings of "Earth" # [py]
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.spice( # [py]
+         original_frame, target_frame) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing the rotation between frames # [cpp]
+         std::string originalFrame = "J2000"; # [cpp]
+         std::string targetFrame = "IAU_Earth"; # [cpp]
+         // create rotation model settings and assign to body settings of "Earth" # [cpp]
+         bodySettings[ "Earth" ]->rotationModelSettings = std::make_shared< RotationModelSettings >( spice_rotation_model, # [cpp]
+         	originalFrame, targetFrame ); # [cpp]
+
+
+  #######################################################################
 
   - name: gcrs_to_itrs # [py]
   - name: gcrsToItrsRotationModelSettings # [cpp]
@@ -312,17 +419,16 @@ functions:
       Factory function for settings object, defining high-accuracy Earth rotation model according to the IERS 2010 Conventions.
       This settings class has various options to deviate from the default settings, typical applications will use default.
       Note that for this model the original frame must be J2000 or GCRS (in the case of the former, the frame bias between GCRS and J2000 is automatically corrected for). The target frame (e.g. body-fixed frame) name is ITRS.
-      The precession-nutation theory may be `iau_2000a` / `iau_2000b` or `iau_2006`, as implemented in the SOFA toolbox. Alternative options to modify the input (not shown above) include the EOP correction file, input time scale, short period UT1 and polar motion variations.
+      The precession-nutation theory may be any member of :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.IAUConventions` (``iau_2000a`` / ``iau_2000b`` or ``iau_2006``), as implemented in the SOFA toolbox.
+      Alternative options to modify the input (not shown here) include the EOP correction file, input time scale, short period UT1 and polar motion variations.
       The target frame (e.g. body-fixed frame) name is ITRS.
-      This function creates an instance of a `RotationModelSettings` derived `gcrsToItrsRotationModelSettings` object.
 
     parameters:
       - name: precession_nutation_theory # [py]
         type: IAUConventions, default=tba::iau_2006 # [py]
       - name: nutationTheory # [cpp]
         type: basic_astrodynamics::IAUConventions default=basic_astrodynamics::iau_2006 # [cpp]
-        description: |
-          Setting theory for modelling Earth nutation.
+        description: Setting theory for modelling Earth nutation.
 
       - name: base_frame # [py]
         type: str, default='GCRS' # [py]
@@ -332,8 +438,34 @@ functions:
 
     returns:
         type: GcrsToItrsRotationModelSettings
-        description: High-accuracy Earth rotation model settings object (derived from RotationModelSettings base class).
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.GcrsToItrsRotationModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
+      using a high-accuracy Earth rotation model as defined by IERS 2010 conventions:
+
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing the rotation between frames # [py]
+         precession_nutation_theory = environment_setup.rotation_model.IAUConventions.iau_2006 # [py]
+         original_frame = "J2000" # [py]
+         # create rotation model settings and assign to body settings of "Earth" # [py]
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.gcrs_to_itrs( # [py]
+         precession_nutation_theory, original_frame) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing the rotation between frames # [cpp]
+         IAUConventions precessionNutationTheory = iau_2006; # [cpp]
+         std::string originalFrame = "J2000"; # [cpp]
+         // create rotation model settings and assign to body settings of "Earth" # [py]
+         bodySettings[ "Earth" ]->rotationModelSettings = boost::make_shared< GcrsToItrsRotationModelSettings >( # [cpp]
+         precessionNutationTheory, originalFrame ); # [cpp]
+
+
+
+  #######################################################################
 
   - name: constantRotationModelSettings # [cpp]
     short_summary: "Factory function for creating simple rotation model settings for target-frames with constant orientation." # [cpp]
@@ -357,7 +489,7 @@ functions:
         type: SimpleRotationModelSettings # [cpp]
         description: Simple rotation model settings object (derived from RotationModelSettings base class) with constant orientation of target in base frame. # [cpp]
 
-
+  #######################################################################
 
   - name: constant # [py]
   - name: constantRotationModelSettings # [cpp] # overload cpp
@@ -365,7 +497,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining simple rotation model setting objects with constant rotation matrix.
       These model settings are for target frames which do not have a rotational rate in the base frame and are fully defined by their initial orientation.
-      This function creates an instance of a `RotationModelSettings` derived `SimpleRotationModelSettings` object.
 
     parameters:
       - name: base_frame # [py]
@@ -381,18 +512,31 @@ functions:
         description: Target frame of rotation model.
 
       - name: initial_orientation # [py]
-        type: numpy.ndarray # [py]
+        type: numpy.ndarray[numpy.float64[3, 3]] # [py]
       - name: initialOrientation # [cpp]
         type: Eigen::Matrix3d # [cpp]
-        description: Rotation matrix from inertial to body-fixed (base to targe) frame at initial time (constant throughout).
+        description: Rotation matrix from inertial to body-fixed (base to target) frame at initial time (constant throughout).
 
     returns:
         type: SimpleRotationModelSettings
-        description: Simple rotation model settings object (derived from RotationModelSettings base class) with constant orientation of target in base frame.
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` class.
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
+      using a constant rotation matrix between Earth-fixed and inertial frame:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing the constant orientation between frames # [py]
+         original_frame = "ECLIPJ2000"  # [py]
+         target_frame = "Earth_fixed"  # [py]
+         constant_orientation = ...  # [py]
+         # create rotation model settings and assign to body settings of "Earth" # [py]
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.constant( # [py]
+         original_frame, target_frame, constant_orientation ) # [py]
 
 
-  #      (what to do with this one? - not exposed in tudatpy)
-  #      std::shared_ptr< ephemerides::RotationalEphemeris > createRotationModel(
-  #             const std::shared_ptr< RotationModelSettings > rotationModelSettings,
-  #             const std::string& body,
-  #             const SystemOfBodies& bodies = SystemOfBodies( ) );
+      # [cpp] cpp code snippet unavailable
+
+  #######################################################################
+
