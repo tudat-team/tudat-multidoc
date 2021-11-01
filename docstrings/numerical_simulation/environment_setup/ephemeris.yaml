@@ -602,7 +602,7 @@ functions:
   - name: interpolated_spice # [py]
   - name: interpolatedSpiceEphemerisSettings # [cpp]
     short_summary: "Factory function for creating ephemeris model settings using interpolated Spice data."
-    extended summary: |
+    extended_summary: |
       Factory function for settings object defining an ephemeris model from interpolated Spice data.
       Using this option the state of the body is retrieved from Spice at regular intervals `before` the environment propagation (as opposed to during the propagation).
       These data are then used to create an interpolator, which is put into the environment, and called during the propagation.

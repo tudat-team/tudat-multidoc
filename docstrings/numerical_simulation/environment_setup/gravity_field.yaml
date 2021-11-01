@@ -356,7 +356,7 @@ functions:
       The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
       It represents the frame in which the spherical harmonic field is defined.
       Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
-      To normalize unnormalized spherical harmonic coefficients, see ``spherical_harmonics_normalization``. (%!)
+      To normalize unnormalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
 
     parameters:
       - name: gravitational_parameter # [py]
