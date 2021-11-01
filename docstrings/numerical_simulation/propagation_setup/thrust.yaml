@@ -15,16 +15,19 @@ enums:
   - name: ThrustFrames
     short_summary: "Enumeration of available thrust frame types."
     extended_summary: |
-      Enumeration of thrust frame types supported by tudat.
+      Enumeration of thrust frame types supported by tudat. The inertial frame has axes along the global orientation (as
+      defined in the :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. The TNW is determined
+      w.r.t. a central body as described here :func:`astro.frame_conversion.tnw_to_inertial_rotation_matrix`
+      (with the N-axis pointing away from the cenral body).
 
     members:
       - name: unspecified_thrust_frame # [cpp]
       - name: inertial_thrust_frame # [cpp]
-      - name: lvlh_thrust_frame # [cpp]
+      - name: tnw_thrust_frame # [cpp]
 
       - name: unspecified_thrust_frame_type # [py]
       - name: inertial_thrust_frame_type # [py]
-      - name: lvlh_thrust_frame_type # [py]
+      - name: tnw_thrust_frame_type # [py]
 
 
   #    py::enum_<tss::ThrustMagnitudeTypes>

@@ -166,7 +166,7 @@ functions:
   - name: getDefaultBodySettings # [cpp]
     short_summary: "Function that retrieves the default settings for the given set of input bodies, with a limited valid time interval."
     extended_summary: |
-      Same as :ref:`get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
+      Same as :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
       the extraction of states from ephemerides more computationally efficient, at the expense of more RAM usage, and a
       constrained time interval over which the ephemerides are valid. See `this page <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/valid_time_range.html>`_ for more details.
 

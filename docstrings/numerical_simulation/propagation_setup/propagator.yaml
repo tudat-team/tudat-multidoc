@@ -388,70 +388,70 @@ classes:
 
 functions:
 
-  # Translational propagator (overload 6)
-  - name: translationalStatePropagatorSettings # [cpp]
-  - name: translational_with_time_termination # [py]
-    short_summary: "Factory function to create translational state propagator settings with stopping condition at given final time."
-    extended_summary: |
-      Factory function to create translational state propagator settings for N bodies.
-      The propagated state vector is defined by the combination of integrated bodies, and their central body, the combination
-      of which define the relative translational states for which a differential equation is to be solved. The propagator
-      input defines the formulation in which the differential equations are set up
-      The dynamical models are defined by an ``AccelerationMap``, as created by ``create_acceleration_models`` function.
+  ## Translational propagator (overload 6)
+  #- name: translationalStatePropagatorSettings # [cpp]
+  #- name: translational_with_time_termination # [py]
+    #short_summary: "Factory function to create translational state propagator settings with stopping condition at given final time."
+    #extended_summary: |
+      #Factory function to create translational state propagator settings for N bodies.
+      #The propagated state vector is defined by the combination of integrated bodies, and their central body, the combination
+      #of which define the relative translational states for which a differential equation is to be solved. The propagator
+      #input defines the formulation in which the differential equations are set up
+      #The dynamical models are defined by an ``AccelerationMap``, as created by :func:`~create_acceleration_models` function.
 
 
-    parameters:
-      - name: centralBodies # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: central_bodies # [py]
-        type: list[str] # [py]
-        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+    #parameters:
+      #- name: centralBodies # [cpp]
+        #type: std::vector<std::string> # [cpp]
+      #- name: central_bodies # [py]
+        #type: list[str] # [py]
+        #description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
-      - name: accelerationsMap # [cpp]
-        type: AccelerationMap # [cpp]
-      - name: acceleration_models # [py]
-        type: AccelerationMap # [py]
-        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+      #- name: accelerationsMap # [cpp]
+        #type: AccelerationMap # [cpp]
+      #- name: acceleration_models # [py]
+        #type: AccelerationMap # [py]
+        #description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
 
-      - name: bodiesToIntegrate # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: bodies_to_integrate # [py]
-        type: list[str] # [py]
-        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+      #- name: bodiesToIntegrate # [cpp]
+        #type: std::vector<std::string> # [cpp]
+      #- name: bodies_to_integrate # [py]
+        #type: list[str] # [py]
+        #description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
-      - name: initialBodyStates # [cpp]
-        type: Eigen::Matrix # [cpp]
-      - name: initial_states # [py]
-        type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+      #- name: initialBodyStates # [cpp]
+        #type: Eigen::Matrix # [cpp]
+      #- name: initial_states # [py]
+        #type: numpy.ndarray # [py]
+        #description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
 
-      - name: endTime # [cpp]
-        type: double # [cpp]
-      - name: termination_time # [py]
-        type: float # [py]
-        description: Final time of the propagation to be used as termination criterion.
+      #- name: endTime # [cpp]
+        #type: double # [cpp]
+      #- name: termination_time # [py]
+        #type: float # [py]
+        #description: Final time of the propagation to be used as termination criterion.
 
-      - name: propagator # [cpp]
-        type: TranslationalPropagatorType, default=cowell # [cpp]
-      - name: propagator # [py]
-        type: TranslationalPropagatorType, default=cowell # [py]
-        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+      #- name: propagator # [cpp]
+        #type: TranslationalPropagatorType, default=cowell # [cpp]
+      #- name: propagator # [py]
+        #type: TranslationalPropagatorType, default=cowell # [py]
+        #description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
 
-      - name: dependentVariablesToSave # [cpp]
-        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
-      - name: output_variables # [py]
-        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
-        description: List of dependent variables to be saved (by default, no dependent variables are saved).
+      #- name: dependentVariablesToSave # [cpp]
+        #type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      #- name: output_variables # [py]
+        #type: list[SingleDependentVariableSaveSettings], default=[] # [py]
+        #description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
-      - name: printInterval # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
-      - name: print_interval # [py]
-        type: float, default=TUDAT_NAN # [py]
-        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+      #- name: printInterval # [cpp]
+        #type: double, default=TUDAT_NAN # [cpp]
+      #- name: print_interval # [py]
+        #type: float, default=TUDAT_NAN # [py]
+        #description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
-    returns:
-        type: TranslationalStatePropagatorSettings
-        description: Translational state propagator settings object.
+    #returns:
+        #type: TranslationalStatePropagatorSettings
+        #description: Translational state propagator settings object.
 
 
   ## Translational propagator (overload 7)

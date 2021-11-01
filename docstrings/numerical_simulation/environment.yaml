@@ -208,7 +208,7 @@ classes:
        of a single celestial body (natural or artificial). Each separate
        environment model (gravity field, ephemeris, etc.) is stored as a
        member object in this class. During each time step, the Body gets
-       updated to teh current time/propagated state, and the current
+       updated to the current time/propagated state, and the current
        properties, in as much as they are time-dependent, can be
        extracted from this object
 
