@@ -141,13 +141,13 @@ functions:
       independent variable input data.
 
     parameters:
-      - name: lookup_scheme = huntingAlgorithm # [py]
-        type: AvailableLookupScheme # [py]
+      - name: lookup_scheme # [py]
+        type: AvailableLookupScheme, default=huntingAlgorithm # [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
-      - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
-        type: BoundaryInterpolationType =  # [py]
+      - name: boundary_interpolation  # [py]
+        type: BoundaryInterpolationType, default=extrapolate_at_boundary_with_warning  # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -164,13 +164,13 @@ functions:
       returns :math:`\mathbf{x}_{i}`
 
     parameters:
-      - name: lookup_scheme = huntingAlgorithm # [py]
-        type: AvailableLookupScheme # [py]
+      - name: lookup_scheme # [py]
+        type: AvailableLookupScheme, default = huntingalgorithm# [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
-      - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
-        type: BoundaryInterpolationType =  # [py]
+      - name: boundary_interpolation # [py]
+        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -189,13 +189,13 @@ functions:
       domain.
 
     parameters:
-      - name: lookup_scheme = huntingAlgorithm # [py]
-        type: AvailableLookupScheme # [py]
+      - name: lookup_scheme # [py]
+        type: AvailableLookupScheme, default = huntingalgorithm# [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
-      - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
-        type: BoundaryInterpolationType =  # [py]
+      - name: boundary_interpolation # [py]
+        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -215,13 +215,13 @@ functions:
       a cubic polynomial between each two subsequent nodes. The resulting spline has constant values and first derivatives
 
     parameters:
-      - name: lookup_scheme = huntingAlgorithm # [py]
-        type: AvailableLookupScheme # [py]
+      - name: lookup_scheme # [py]
+        type: AvailableLookupScheme, default = huntingalgorithm# [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
-      - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
-        type: BoundaryInterpolationType =  # [py]
+      - name: boundary_interpolation # [py]
+        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -265,18 +265,18 @@ functions:
         type: int # [py]
         description: Number of consecutive data points that are used to construct a single interpolating polynomial.
 
-      - name: lookup_scheme = huntingAlgorithm # [py]
-        type: AvailableLookupScheme # [py]
+      - name: lookup_scheme # [py]
+        type: AvailableLookupScheme, default = huntingalgorithm# [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
-      - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
-        type: BoundaryInterpolationType =  # [py]
+      - name: boundary_interpolation # [py]
+        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
-      - name: lagrange_boundary_handling = lagrange_cubic_spline_boundary_interpolation # [py]
-        type: LagrangeInterpolatorBoundaryHandling =  # [py]
+      - name: lagrange_boundary_handling # [py]
+        type: LagrangeInterpolatorBoundaryHandling = lagrange_cubic_spline_boundary_interpolation # [py]
         description: Interpolator behaviour that is to be used at the boundaries of the domain, where the
           regular algorithm cannot be executed.
 
