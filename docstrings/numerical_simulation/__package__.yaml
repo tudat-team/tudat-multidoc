@@ -10,7 +10,7 @@ classes:
 
   - name: SingleArcSimulator
     short_summary: "Base class to define single arc dynamics simulator settings."
-    extendend_summary: |
+    extended_summary: |
        Functional base class to define settings for single arc dynamics simulation.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
         special_members: __init__

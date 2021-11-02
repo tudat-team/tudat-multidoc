@@ -68,7 +68,7 @@ classes:
   # base
   - name: AccelerationSettings
     short_summary: "Functional base class to define settings for accelerations."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for acceleration model. This class is a functional (base) class for
       settings of acceleration models that  require no information in addition to their type.
       Classes defining settings for acceleration models requiring additional information must be derived from this class.
@@ -86,7 +86,7 @@ classes:
   # derived (1)
   - name: SphericalHarmonicAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the spherical harmonic acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for spherical harmonics acceleration model,
       including the maximum degree and order up to which the field is to be expanded. Note that
       the minimum degree and order are currently always set to zero.
@@ -100,7 +100,7 @@ classes:
   # derived (2)
   - name: MutualSphericalHarmonicAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the mutual spherical harmonic acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for the mutual spherical harmonics acceleration model,
       including the maximum degree and order up to which the fields of the bodies are to be expanded. Note that
       the minimum degree and order are currently always set to zero.
@@ -114,7 +114,7 @@ classes:
   # derived (3)
   - name: RelativisticAccelerationCorrectionSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the relativistic acceleration correction."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for typical relativistic corrections to the dynamics of an orbiter: the
       Schwarzschild, Lense-Thirring and de Sitter terms (see 'General relativity and Space Geodesy' by L. Combrinck,
       2012).
@@ -128,7 +128,7 @@ classes:
   # derived (4)
   - name: EmpiricalAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the empirical acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for empirical accelerations. These are expressed in the
       RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
       The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
@@ -144,7 +144,7 @@ classes:
   # derived (5)
   - name: CustomAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for custom acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for custom accelerations. This is done by means of a function and, if necessary,
       an associated scaling function.
 
@@ -157,7 +157,7 @@ classes:
   # derived (6)
   - name: DirectTidalDissipationAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for direct tidal dissipation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for direct tidal dissipation accelerations. Creates settings for tidal accelerations.
       The direct of tidal effects in a satellite system is applied directly as an acceleration
       (as opposed to a modification of spherical harmonic coefficients).
@@ -171,7 +171,7 @@ classes:
   # derived (7)
   - name: ThrustAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for direct tidal dissipation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for thrust acceleration. Settings for the direction and magnitude of the thrust
       are included.
 
@@ -197,7 +197,7 @@ classes:
   # derived (8)
   - name: MomentumWheelDesaturationAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for momentum wheel desaturation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for momentum wheel desaturation acceleration. Settings for the direction and magnitude
       of the thrust are included.
 

@@ -142,5 +142,38 @@ functions:
         type: numpy.ndarray # [py]
         description: Keplerian elements, as computed from Cartesian element input. 
 
+  - name: quaterion_entries_to_rotation_matrix # [py]
+  - name: convertVectorQuaternionToMatrixFormat # [cpp]
+    short_summary: "Converts an array of four quaternion elements to the equivalent rotation matrix."
+    extended_summary: |
+      Function to convert an array of four quaternion elements to the equivalent rotation matrix. These quaternion elements
+      are for instance used when propagating rotational dynamics in Tudat, and this function can be used to convert the
+      numerical results to a usable rotation matrix. See `our user guide <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_ for more details.
 
+    parameters:
+      - name: quaterion_entries # [py]
+        type: numpy.ndarray # [py]
+      - name: vector # [cpp]
+        type: Eigen::Vector4d # [cpp]
+        description: Quaternion elements, as per the convention used in the `Eigen library <https://eigen.tuxfamily.org/dox/classEigen_1_1Quaternion.html>`_
 
+    returns:
+        type: numpy.ndarray # [py]
+        description: Rotation matrix defining the equivalent rotation.
+
+  - name: rotation_matrix_to_quaternion_entries # [py]
+  - name: convertMatrixToVectorQuaternionFormat # [cpp]
+    short_summary: "Converts a rotation matrix to the equivalent array of four quaternion elements."
+    extended_summary: |
+      Inverse function of :func:`quaterion_entries_to_rotation_matrix`
+
+    parameters:
+      - name: rotation_matrix # [py]
+        type: numpy.ndarray # [py]
+      - name: matrix # [cpp]
+        type: Eigen::Matrix3d # [cpp]
+        description: Rotation matrix
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Equivalent quaternion elements, as per the convention used in the `Eigen library <https://eigen.tuxfamily.org/dox/classEigen_1_1Quaternion.html>`_

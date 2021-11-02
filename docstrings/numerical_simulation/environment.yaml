@@ -28,7 +28,7 @@ classes:
     short_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics.
-    extendend_summary: |
+    extended_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, such as latitude, longitude,
        altitude, etc. It also contains an
@@ -100,7 +100,7 @@ classes:
     short_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, for flight in an atmosphere.
-    extendend_summary: |
+    extended_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, for flight in an atmosphere, such
        as latitude,  longitude, altitude, density, Mach number etc. It
@@ -203,7 +203,7 @@ classes:
     short_summary: |
        Object that stores the environment properties and current state of
        a single body.
-    extendend_summary: |
+    extended_summary: |
        Object that stores the environment properties and current state
        of a single celestial body (natural or artificial). Each separate
        environment model (gravity field, ephemeris, etc.) is stored as a
@@ -363,7 +363,7 @@ classes:
     short_summary: |
        Object that contains a set of Body objects and associated frame
        information.
-    extendend_summary: |
+    extended_summary: |
        Object that contains a set of Body objects and associated frame
        information. This object stored the entire environment for a
        typical Tudat numerical simulation, and is fundamental for the

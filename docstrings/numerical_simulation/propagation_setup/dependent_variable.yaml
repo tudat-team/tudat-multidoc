@@ -123,7 +123,7 @@ classes:
   # base
   - name: VariableSettings
     short_summary: "Functional base class to define settings for variables."
-    extendend_summary: |
+    extended_summary: |
       This class is a functional base class for defining settings for variables.
       Any variable that requires additional information in addition to what can be provided here, should be defined by a
       dedicated derived class.
@@ -137,7 +137,7 @@ classes:
   # derived (level 1)
   - name: SingleDependentVariableSaveSettings
     short_summary: "`VariableSettings`-derived class to define settings for dependent variables that are to be saved during propagation."
-    extendend_summary: |
+    extended_summary: |
       Functional base class for defining settings for dependent variables that are to be computed and saved during propagation.
       Any dependent variable that requires additional information in addition to what can be provided here, should be
       defined by a dedicated derived class.
@@ -151,7 +151,7 @@ classes:
   # derived (level 2)
   - name: SingleAccelerationDependentVariableSaveSettings
     short_summary: "`SingleDependentVariableSaveSettings`-derived class to save a single acceleration (norm or vector) during propagation."
-    extendend_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
+    extended_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
 
     methods:
       - name: ctor # [cpp]

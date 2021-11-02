@@ -86,7 +86,7 @@ classes:
   # base: dependent variables
   - name: DependentVariableSaveSettings
     short_summary: "Functional class to define settings for dependent variable to save."
-    extendend_summary: |
+    extended_summary: |
       Class to define settings for dependent variable to save.
 
     methods:
@@ -99,7 +99,7 @@ classes:
   # base: propagator
   - name: PropagatorSettings
     short_summary: "Functional base class to define settings for propagators."
-    extendend_summary: |
+    extended_summary: |
       Base class to define settings for propagators. Derived classes are split into settings for single- and multi-arc dynamics.
 
     methods:
@@ -124,7 +124,7 @@ classes:
   # derived: propagator (1)
   - name: MultiArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for multi-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for multi-arc dynamics.
 
     methods:
@@ -138,7 +138,7 @@ classes:
   # derived: propagator (2)
   - name: HybridArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for hybrid-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for hybrid-arc dynamics.
 
     methods:
@@ -152,7 +152,7 @@ classes:
   # derived: propagator (3)
   - name: SingleArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for single-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for single-arc dynamics.
 
     attributes:
@@ -172,7 +172,7 @@ classes:
   # derived, level 2: translational propagator
   - name: TranslationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics.
 
     attributes:
@@ -231,7 +231,7 @@ classes:
   # derived, level 2: rotational state propagator
   - name: RotationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation.
 
     methods:
@@ -245,7 +245,7 @@ classes:
   # derived, level 2: multitype propagator
   - name: MultiTypePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
 
     attributes:
@@ -305,7 +305,7 @@ classes:
   # base: termination settings
   - name: PropagationTerminationSettings
     short_summary: "Functional base class to define termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        Functional base classclass to define termination settings for the propagation.
 
     methods:
@@ -318,7 +318,7 @@ classes:
   # derived (1): dependent variable termination settings
   - name: PropagationDependentVariableTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables.
 
     methods:
@@ -332,7 +332,7 @@ classes:
   # derived (2): time termination settings
   - name: PropagationTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time.
 
     methods:
@@ -346,7 +346,7 @@ classes:
   # derived (3): CPU time termination settings
   - name: PropagationCPUTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time.
 
     methods:
@@ -360,7 +360,7 @@ classes:
   # derived (4): custom termination settings
   - name: PropagationCustomTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define custom termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define custom termination settings for the propagation.
 
     methods:
@@ -374,7 +374,7 @@ classes:
   # derived (5): hybrid termination settings
   - name: PropagationHybridTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation.
 
     methods:
