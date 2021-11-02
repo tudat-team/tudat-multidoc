@@ -751,7 +751,7 @@ functions:
       In this example, we define the tidal dissipation exerted by Jupiter on Io directly, instead of computing it
       through the spherical harmonic gravity:
 
-      .. code-block: python # [py]
+      .. code-block:: python # [py]
          # [py]
          # Define parameters # [py]
          love_number = 0.1 # [py]
