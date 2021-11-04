@@ -86,7 +86,7 @@ classes:
   # base: dependent variables
   - name: DependentVariableSaveSettings
     short_summary: "Functional class to define settings for dependent variable to save."
-    extendend_summary: |
+    extended_summary: |
       Class to define settings for dependent variable to save.
 
     methods:
@@ -99,7 +99,7 @@ classes:
   # base: propagator
   - name: PropagatorSettings
     short_summary: "Functional base class to define settings for propagators."
-    extendend_summary: |
+    extended_summary: |
       Base class to define settings for propagators. Derived classes are split into settings for single- and multi-arc dynamics.
 
     methods:
@@ -124,7 +124,7 @@ classes:
   # derived: propagator (1)
   - name: MultiArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for multi-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for multi-arc dynamics.
 
     methods:
@@ -138,7 +138,7 @@ classes:
   # derived: propagator (2)
   - name: HybridArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for hybrid-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for hybrid-arc dynamics.
 
     methods:
@@ -152,7 +152,7 @@ classes:
   # derived: propagator (3)
   - name: SingleArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for single-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for single-arc dynamics.
 
     attributes:
@@ -172,7 +172,7 @@ classes:
   # derived, level 2: translational propagator
   - name: TranslationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics.
 
     attributes:
@@ -231,7 +231,7 @@ classes:
   # derived, level 2: rotational state propagator
   - name: RotationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation.
 
     methods:
@@ -245,7 +245,7 @@ classes:
   # derived, level 2: multitype propagator
   - name: MultiTypePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
 
     attributes:
@@ -305,7 +305,7 @@ classes:
   # base: termination settings
   - name: PropagationTerminationSettings
     short_summary: "Functional base class to define termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        Functional base classclass to define termination settings for the propagation.
 
     methods:
@@ -318,7 +318,7 @@ classes:
   # derived (1): dependent variable termination settings
   - name: PropagationDependentVariableTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables.
 
     methods:
@@ -332,7 +332,7 @@ classes:
   # derived (2): time termination settings
   - name: PropagationTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time.
 
     methods:
@@ -346,7 +346,7 @@ classes:
   # derived (3): CPU time termination settings
   - name: PropagationCPUTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time.
 
     methods:
@@ -360,7 +360,7 @@ classes:
   # derived (4): custom termination settings
   - name: PropagationCustomTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define custom termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define custom termination settings for the propagation.
 
     methods:
@@ -374,7 +374,7 @@ classes:
   # derived (5): hybrid termination settings
   - name: PropagationHybridTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation.
 
     methods:
@@ -388,70 +388,70 @@ classes:
 
 functions:
 
-  # Translational propagator (overload 6)
-  - name: translationalStatePropagatorSettings # [cpp]
-  - name: translational_with_time_termination # [py]
-    short_summary: "Factory function to create translational state propagator settings with stopping condition at given final time."
-    extended_summary: |
-      Factory function to create translational state propagator settings for N bodies.
-      The propagated state vector is defined by the combination of integrated bodies, and their central body, the combination
-      of which define the relative translational states for which a differential equation is to be solved. The propagator
-      input defines the formulation in which the differential equations are set up
-      The dynamical models are defined by an ``AccelerationMap``, as created by ``create_acceleration_models`` function.
+  ## Translational propagator (overload 6)
+  #- name: translationalStatePropagatorSettings # [cpp]
+  #- name: translational_with_time_termination # [py]
+    #short_summary: "Factory function to create translational state propagator settings with stopping condition at given final time."
+    #extended_summary: |
+      #Factory function to create translational state propagator settings for N bodies.
+      #The propagated state vector is defined by the combination of integrated bodies, and their central body, the combination
+      #of which define the relative translational states for which a differential equation is to be solved. The propagator
+      #input defines the formulation in which the differential equations are set up
+      #The dynamical models are defined by an ``AccelerationMap``, as created by :func:`~create_acceleration_models` function.
 
 
-    parameters:
-      - name: centralBodies # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: central_bodies # [py]
-        type: list[str] # [py]
-        description: List of central bodies with respect to which the bodies to be integrated are propagated.
+    #parameters:
+      #- name: centralBodies # [cpp]
+        #type: std::vector<std::string> # [cpp]
+      #- name: central_bodies # [py]
+        #type: list[str] # [py]
+        #description: List of central bodies with respect to which the bodies to be integrated are propagated.
 
-      - name: accelerationsMap # [cpp]
-        type: AccelerationMap # [cpp]
-      - name: acceleration_models # [py]
-        type: AccelerationMap # [py]
-        description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
+      #- name: accelerationsMap # [cpp]
+        #type: AccelerationMap # [cpp]
+      #- name: acceleration_models # [py]
+        #type: AccelerationMap # [py]
+        #description: Set of accelerations acting on the bodies to propagate, provided as acceleration models.
 
-      - name: bodiesToIntegrate # [cpp]
-        type: std::vector<std::string> # [cpp]
-      - name: bodies_to_integrate # [py]
-        type: list[str] # [py]
-        description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
+      #- name: bodiesToIntegrate # [cpp]
+        #type: std::vector<std::string> # [cpp]
+      #- name: bodies_to_integrate # [py]
+        #type: list[str] # [py]
+        #description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
 
-      - name: initialBodyStates # [cpp]
-        type: Eigen::Matrix # [cpp]
-      - name: initial_states # [py]
-        type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+      #- name: initialBodyStates # [cpp]
+        #type: Eigen::Matrix # [cpp]
+      #- name: initial_states # [py]
+        #type: numpy.ndarray # [py]
+        #description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
 
-      - name: endTime # [cpp]
-        type: double # [cpp]
-      - name: termination_time # [py]
-        type: float # [py]
-        description: Final time of the propagation to be used as termination criterion.
+      #- name: endTime # [cpp]
+        #type: double # [cpp]
+      #- name: termination_time # [py]
+        #type: float # [py]
+        #description: Final time of the propagation to be used as termination criterion.
 
-      - name: propagator # [cpp]
-        type: TranslationalPropagatorType, default=cowell # [cpp]
-      - name: propagator # [py]
-        type: TranslationalPropagatorType, default=cowell # [py]
-        description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
+      #- name: propagator # [cpp]
+        #type: TranslationalPropagatorType, default=cowell # [cpp]
+      #- name: propagator # [py]
+        #type: TranslationalPropagatorType, default=cowell # [py]
+        #description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
 
-      - name: dependentVariablesToSave # [cpp]
-        type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
-      - name: output_variables # [py]
-        type: list[SingleDependentVariableSaveSettings], default=[] # [py]
-        description: List of dependent variables to be saved (by default, no dependent variables are saved).
+      #- name: dependentVariablesToSave # [cpp]
+        #type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
+      #- name: output_variables # [py]
+        #type: list[SingleDependentVariableSaveSettings], default=[] # [py]
+        #description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
-      - name: printInterval # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
-      - name: print_interval # [py]
-        type: float, default=TUDAT_NAN # [py]
-        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+      #- name: printInterval # [cpp]
+        #type: double, default=TUDAT_NAN # [cpp]
+      #- name: print_interval # [py]
+        #type: float, default=TUDAT_NAN # [py]
+        #description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
 
-    returns:
-        type: TranslationalStatePropagatorSettings
-        description: Translational state propagator settings object.
+    #returns:
+        #type: TranslationalStatePropagatorSettings
+        #description: Translational state propagator settings object.
 
 
   ## Translational propagator (overload 7)

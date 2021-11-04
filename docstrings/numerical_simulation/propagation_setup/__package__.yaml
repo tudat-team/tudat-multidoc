@@ -98,3 +98,39 @@ functions:
         type: TorqueModelMap # [py]
         description: Set of torques acting on the bodies to propagate, provided as dual key-value container, similar
                      to the torque settings input, but now with ``TorqueModel`` lists as inner value
+
+
+  - name: createMassRateModelsMap # [cpp]
+  - name: create_mass_rate_models # [py]
+    short_summary: "Function to create a set of mass-rate models from associated settings."
+
+    extended_summary: |
+      Function to create a set of mass-rate models from a map of bodies and mass-rate model types.
+      If the mass-rate depends on any acceleration models (e.g. thrust), the acceleration
+      models must be provided as an input.
+
+    parameters:
+      - name: bodies # [cpp]
+        type: SystemOfBodies # [cpp]
+      - name: body_system # [py]
+        type: SystemOfBodies # [py]
+        description: System of bodies to be used in the propagation.
+
+      - name: massRateModelSettings # [cpp]
+        type: SelectedMassRateModelMap # [cpp]
+      - name: selected_mass_rates_per_body # [py]
+        type: Dict[str, List[MassRateModelSettings]] # [py]
+        description: Key-value container, with key denoting the body with changing mass, and the value containing a
+                     list of mass rate settings (in most cases, this list will have only a single entry)
+
+      - name: accelerationModels # [cpp]
+        type: AccelerationMap # [cpp]
+      - name: acceleration_models # [py]
+        type: AccelerationMap # [py]
+        description: Sorted list of acceleration models, as created by :func:`create_acceleration_models`
+
+    returns:
+        type: MassRateModelMap # [cpp]
+        type: MassRateModelMap # [py]
+        description: Set of mass-rate models, as key-value container, same as the settings input, with the difference that
+          the rate settings objects have been processed into the associated objects calculating the actual mass-rate changes.

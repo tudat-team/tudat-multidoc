@@ -521,7 +521,7 @@ functions:
          # define variable containing the existing atmpsphere model settings  # [py]
          unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
          # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled( # [py]
+         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_constant( # [py]
          unscaled_atmosphere_settings, scaling_constant ) # [py]
 
       # [cpp] code snippet not available
@@ -543,10 +543,10 @@ functions:
         description: "Sets base settings of atmosphere model to be scaled."
 
       - name: density_scaling_function # [py]
-        type: float # [py]
+        type: Callable[[float], float] # [py]
       - name: scaling # [cpp]
         type: std::function< double( const double ) >  # [cpp]
-        description: "Specifies air density scaling factors as a function of time."
+        description: "Specifies air density scaling factor as a function of time."
 
       - name: is_scaling_absolute # [py]
         type: bool, default=false # [py]
@@ -569,16 +569,16 @@ functions:
       by modifying an existing :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` object such, that the resulting air density profile is scaled with a user-defined function of time:
 
       .. code-block:: python # [py]
+         # [py]
          # define function for scaling # [py]
          scaling_function = ... # [py]
          # define variable containing the existing atmpsphere model settings  # [py]
          unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
          # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled( # [py]
+         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_function( # [py]
          unscaled_atmosphere_settings, scaling_function ) # [py]
 
 
-      # [cpp] code snippet not available
 
   #######################################################################
 

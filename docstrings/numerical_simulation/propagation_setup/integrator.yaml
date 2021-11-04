@@ -69,7 +69,7 @@ classes:
   # base
   - name: IntegratorSettings
     short_summary: "Functional base class to define settings for integrators."
-    extendend_summary: |
+    extended_summary: |
       Class to define settings for numerical integrators, for instance for use in numerical integration of equations of motion/
       variational equations. This class can be used for simple integrators such as fixed step RK and Euler. Integrators that
       require more settings to define have their own derived class.
@@ -88,7 +88,7 @@ classes:
   # derived (1)
   - name: RungeKuttaVariableStepSizeSettingsScalarTolerances
     short_summary: "`IntegratorSettings`-derived class to define settings for Runge Kutta integrators with scalar tolerances."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Runge Kutta integrators with scalar tolerances. This
       class is actually derived from an intermediate class (`RungeKuttaVariableStepSizeBaseSettings`, not documented),
       which is derived directly from `IntegratorSettings`.
@@ -102,7 +102,7 @@ classes:
   # derived (2)
   - name: RungeKuttaVariableStepSizeSettingsVectorTolerances
     short_summary: "`IntegratorSettings`-derived class to define settings for Runge Kutta integrators with vector tolerances."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Runge Kutta integrators with vector tolerances. This
       class is actually derived from an intermediate class (`RungeKuttaVariableStepSizeBaseSettings`, not documented),
       which is derived directly from `IntegratorSettings`.
@@ -116,7 +116,7 @@ classes:
   # derived (3)
   - name: BulirschStoerIntegratorSettings
     short_summary: "`IntegratorSettings`-derived class to define settings for Bulirsch-Stoer integrator settings."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Bulirsch-Stoer integrator settings.
 
     methods:
@@ -128,7 +128,7 @@ classes:
   # derived (4)
   - name: AdamsBashforthMoultonSettings
     short_summary: "`IntegratorSettings`-derived class to define settings for Adams-Bashforth-Moulton integrator settings."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Adams-Bashforth-Moulton integrator settings.
 
     methods:

@@ -68,7 +68,7 @@ classes:
   # base
   - name: AccelerationSettings
     short_summary: "Functional base class to define settings for accelerations."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for acceleration model. This class is a functional (base) class for
       settings of acceleration models that  require no information in addition to their type.
       Classes defining settings for acceleration models requiring additional information must be derived from this class.
@@ -86,7 +86,7 @@ classes:
   # derived (1)
   - name: SphericalHarmonicAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the spherical harmonic acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for spherical harmonics acceleration model,
       including the maximum degree and order up to which the field is to be expanded. Note that
       the minimum degree and order are currently always set to zero.
@@ -100,7 +100,7 @@ classes:
   # derived (2)
   - name: MutualSphericalHarmonicAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the mutual spherical harmonic acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class for providing settings for the mutual spherical harmonics acceleration model,
       including the maximum degree and order up to which the fields of the bodies are to be expanded. Note that
       the minimum degree and order are currently always set to zero.
@@ -114,7 +114,7 @@ classes:
   # derived (3)
   - name: RelativisticAccelerationCorrectionSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the relativistic acceleration correction."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for typical relativistic corrections to the dynamics of an orbiter: the
       Schwarzschild, Lense-Thirring and de Sitter terms (see 'General relativity and Space Geodesy' by L. Combrinck,
       2012).
@@ -128,7 +128,7 @@ classes:
   # derived (4)
   - name: EmpiricalAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for the empirical acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for empirical accelerations. These are expressed in the
       RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
       The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
@@ -144,7 +144,7 @@ classes:
   # derived (5)
   - name: CustomAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for custom acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for custom accelerations. This is done by means of a function and, if necessary,
       an associated scaling function.
 
@@ -157,7 +157,7 @@ classes:
   # derived (6)
   - name: DirectTidalDissipationAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for direct tidal dissipation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for direct tidal dissipation accelerations. Creates settings for tidal accelerations.
       The direct of tidal effects in a satellite system is applied directly as an acceleration
       (as opposed to a modification of spherical harmonic coefficients).
@@ -171,7 +171,7 @@ classes:
   # derived (7)
   - name: ThrustAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for direct tidal dissipation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for thrust acceleration. Settings for the direction and magnitude of the thrust
       are included.
 
@@ -197,7 +197,7 @@ classes:
   # derived (8)
   - name: MomentumWheelDesaturationAccelerationSettings
     short_summary: "`AccelerationSettings`-derived class to define settings for momentum wheel desaturation acceleration."
-    extendend_summary: |
+    extended_summary: |
       Class to provide settings for momentum wheel desaturation acceleration. Settings for the direction and magnitude
       of the thrust are included.
 
@@ -751,7 +751,7 @@ functions:
       In this example, we define the tidal dissipation exerted by Jupiter on Io directly, instead of computing it
       through the spherical harmonic gravity:
 
-      .. code-block: python # [py]
+      .. code-block:: python # [py]
          # [py]
          # Define parameters # [py]
          love_number = 0.1 # [py]
@@ -762,18 +762,6 @@ functions:
             time_lag,  # [py]
             False,  # [py]
             False)] # [py]
-
-#      .. code-block:: cpp # [cpp]
-#
-#      // Define parameters # [cpp]
-#      double loveNumber = 0.1; # [cpp]
-#      double timeLag = 100.0; # [cpp]
-#      // Declare the acceleration settings map # [cpp]
-#      SelectedAccelerationMap accelerationSettings; # [cpp]
-#      // Add entry to the acceleration settings map # [cpp]
-#      accelerationSettings[ "Io" ][ "Jupiter" ] = std::make_shared< DirectTidalDissipationAccelerationSettings >( # [cpp]
-#         loveNumber, timeLag, false, false ); # [cpp]
-
 
   # Momentum wheel desaturation
   - name: momentumWheelDesaturationAcceleration # [cpp]
@@ -853,7 +841,6 @@ functions:
       supplied  separately in the form of dedicated settings objects (see the API for the respective classes in the
       :ref:`\`\`thrust\`\`` module).
 
-    # TODO add example
     parameters:
       - name: ThrustDirectionSettings # [cpp]
         type: ThrustDirectionSettings # [cpp]
@@ -899,63 +886,23 @@ functions:
          )
          ]
 
-  # Thrust acceleration (overload 2)
-  - name: thrustAcceleration # [cpp]
-  - name: thrust_from_interpolator_variable_isp # [py]
-    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with variable specific impulse."
-    extended_summary: |
-      Creates settings for thrust acceleration from interpolated thrust data and variable specific impulse. The thrust 
-      direction and magnitude is defined through the related interpolator (which uses time as independent variable) and 
-      it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
-      The specific impulse is defined through a user-defined function of time.
-
-    # TODO correct interpolator inputs
-    parameters:
-      - name: dataInterpolationSettings # [cpp]
-        type: DataInterpolationSettings<double, Eigen::Vector3d> # [cpp]
-      - name: data_interpolation_settings # [py]
-        type: DataInterpolationSettingsVector3d # [py]
-        description: Object defining settings for an interpolator providing the thrust as a function of time
-
-      - name: specificImpulseFunction # [cpp]
-        type: std::function<double(double)> # [cpp]
-      - name: specific_impulse_function # [py]
-        type: callable[[double], double] # [py]
-        description: Specific impulse provided as a function of time.
-
-      - name: thrustFrame # [cpp]
-        type: ThrustFrames, default=unspecified_thrust_frame # [cpp]
-      - name: thrust_frame # [py]
-        type: ThrustFrames, default=unspecified_thrust_frame # [py]
-        description: Frame in which the thrust direction vector is represented.
-
-      - name: centralBody # [cpp]
-        type: std::string, default="" # [cpp]
-      - name: central_body # [py]
-        type: str, default="" # [py]
-        description: Central body that is the origin of the thrust frame (if different from the vehicle, otherwise empty by default).
-
-    returns:
-        type: ThrustAccelerationSettings
-        description: Thrust acceleration settings object.
-
 
   # Thrust acceleration (overload 3)
   - name: thrustAcceleration # [cpp]
-  - name: thrust_from_interpolator # [py]
-    short_summary: "Creates settings for thrust acceleration from interpolated thrust data with constant specific impulse."
+  - name: thrust_from_custom_function # [py]
+    short_summary: "Creates settings for thrust acceleration using a custom user-defined thrust function."
     extended_summary: |
-      Creates settings for thrust acceleration from interpolated thrust data and constant specific impulse. The thrust 
-      direction and magnitude is defined through the related interpolator (which uses time as independent variable) and 
-      it returns the thrust direction vector in the specified frame (it can be local-vertical-local-horizontal or inertial). 
+      Creates settings for thrust acceleration from a user-defined function providing the thrust as a function of time.
+      This function may be defined in any number of ways, such as an interpolator, or a custom function that directly acceses the
+      environment. The custom thrust function returns the total thrust force vector in the specified frame (default inertial, *e.g.*
+      axes along the global orientation of the environment).
 
-# TODO correct interpolator inputs
     parameters:
-      - name: dataInterpolationSettings # [cpp]
-        type: DataInterpolationSettings<double, Eigen::Vector3d> # [cpp]
-      - name: data_interpolation_settings # [py]
-        type: DataInterpolationSettingsVector3d # [py]
-        description: Object defining settings for an interpolator providing the thrust as a function of time
+      - name: thrustForceFunction # [cpp]
+        type: DataInterpolationSettingsVector3d # [cpp]
+      - name: thrust_force_function # [py]
+        type: callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Function returning the thrust force vector, in the specified frame, as a function of time
 
       - name: constantSpecificImpulse # [cpp]
         type: double # [cpp]
@@ -964,9 +911,9 @@ functions:
         description: Constant specific impulse.
 
       - name: thrustFrame # [cpp]
-        type: ThrustFrames, default=unspecified_thrust_frame # [cpp]
+        type: ThrustFrames, default=inertial_thrust_frame # [cpp]
       - name: thrust_frame # [py]
-        type: ThrustFrames, default=unspecified_thrust_frame # [py]
+        type: ThrustFrames, default=inertial_thrust_frame # [py]
         description: Frame in which the thrust direction vector is represented.
 
       - name: centralBody # [cpp]
@@ -978,4 +925,66 @@ functions:
     returns:
         type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
+
+    examples: |
+      In this example, we define the full thrust force using a cubic-spline interpolator, and a constant specific impulse. In this example, the thrust in the interpolated dict is applied in the TNW frame
+
+      .. code-block:: python # [py]
+         # [py]
+         # Define dict that is to hold thrust at data points that are to be interpolated
+         thrust_per_epoch = dict( )
+         # Define thrust per epoch (manually or externally) # [py]
+         thrust_per_epoch[ ... ] = ... # [py]
+         # Create thrust interpolator # [py]
+         interpolator_settings = math.interpolators.cubic_spline_interpolation( ) # [py]
+         thrust_interpolator = math.interpolators.create_one_dimensional_interpolator( thrust_per_epoch, interpolator_settings ) # [py]
+         # [py]
+         # Create acceleration dict # [py]
+         acceleration_settings_on_spacecraft = dict() # [py]
+         # [py]
+         # Add thrust exerted by Spacecraft itself (!) # [py]
+         acceleration_settings_on_spacecraft ["Spacecraft" ] =[
+           propagation_setup.acceleration.thrust_from_custom_function(
+             thrust_force_function = thrust_interpolator.interpolate,
+             constant_specific_impulse = 300.0,
+             thrust_frame = propagation_setup.thrust.tnw_thrust_frame_type
+         )
+         ]
+
+  # Thrust acceleration (overload 2)
+  - name: thrustAcceleration # [cpp]
+  - name: thrust_and_isp_from_custom_function # [py]
+    short_summary: "Creates settings for thrust acceleration using a custom user-defined thrust and specific impulse functions."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.thrust_from_custom_function`, but with the specific impulse defined by a custom function (with time as input)
+
+    parameters:
+      - name: thrustForceFunction # [cpp]
+        type: DataInterpolationSettingsVector3d # [cpp]
+      - name: thrust_force_function # [py]
+        type: callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Function returning the thrust force vector, in the specified frame, as a function of time
+
+      - name: specificImpulseFunction # [cpp]
+        type: std::function<double(double)> # [cpp]
+      - name: specific_impulse_function # [py]
+        type: callable[[float], float] # [py]
+        description: Specific impulse provided as a function of time.
+
+      - name: thrustFrame # [cpp]
+        type: ThrustFrames, default=inertial_thrust_frame # [cpp]
+      - name: thrust_frame # [py]
+        type: ThrustFrames, default=inertial_thrust_frame # [py]
+        description: Frame in which the thrust direction vector is represented.
+
+      - name: centralBody # [cpp]
+        type: std::string, default="" # [cpp]
+      - name: central_body # [py]
+        type: str, default="" # [py]
+        description: Central body that is the origin of the thrust frame (if different from the vehicle, otherwise empty by default).
+
+    returns:
+        type: ThrustAccelerationSettings
+        description: Thrust acceleration settings object.
+
 

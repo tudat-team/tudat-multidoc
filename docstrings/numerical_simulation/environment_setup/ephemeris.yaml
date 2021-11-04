@@ -730,7 +730,7 @@ functions:
       .. code-block:: python # [py]
          # [py]
          # create ephemeris settings and add to body settings of body "Jupiter" # [py]
-         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.approximate_planet_positions( ) # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.approximate_jpl_model( "Jupiter" ) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
@@ -738,18 +738,18 @@ functions:
          bodySettings[ "Jupiter" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >(   # [cpp]
          							ephemerides::ApproximatePlanetPositionsBase::jupiter, false );                             # [cpp]
 
-      Alternatively, we can assign the ApproximateJplEphemerisSettings of Jupiter (or any other body for which an approximate JPL ephemeris is available) to any custom body:
+      #Alternatively, we can assign the ApproximateJplEphemerisSettings of Jupiter (or any other body for which an approximate JPL ephemeris is available) to any custom body:
 
-      .. code-block:: python # [py]
-         # Create ephemeris settings from Jupiter's ApproximateJplEphemeris and add to body settings of body "CustomBody"  # [py]
-         body_name_to_use =  "Jupiter" # [py]
-         body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.approximate_planet_positions( body_name_to_use ) # [py]
+      #.. code-block:: python # [py]
+         ## Create ephemeris settings from Jupiter's ApproximateJplEphemeris and add to body settings of body "CustomBody"  # [py]
+         #body_name_to_use =  "Jupiter" # [py]
+         #body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.approximate_jpl_model( body_name_to_use ) # [py]
 
-      .. code-block:: cpp # [cpp]
-         # [cpp]
-         // Create ephemeris settings from Jupiter's ApproximateJplEphemeris and add to body settings of body "CustomBody # [cpp]
-         bodySettings[ "CustomBody" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >( # [cpp]
-                       ephemerides::ApproximatePlanetPositionsBase::jupiter, false );                             # [cpp]
+      #.. code-block:: cpp # [cpp]
+         ## [cpp]
+         #// Create ephemeris settings from Jupiter's ApproximateJplEphemeris and add to body settings of body "CustomBody # [cpp]
+         #bodySettings[ "CustomBody" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >( # [cpp]
+                       #ephemerides::ApproximatePlanetPositionsBase::jupiter, false );                             # [cpp]
 
   #######################################################################
 
