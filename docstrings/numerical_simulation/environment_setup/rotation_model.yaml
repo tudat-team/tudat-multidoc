@@ -286,6 +286,11 @@ functions:
         type: SimpleRotationModelSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` class
 
+    notes: |
+      In order to create a :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` object which describes a synchronous rotation w.r.t. some ``central_body``,
+      we require an ``ephemeris_settings`` attribute to the ``central_body```s :class:`~tudatpy.numerical_simulation.environment_setup.BodySettings` object.
+
+
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
       using a simple rotation model with constant orientation of the rotation axis (body-fixed z-axis), and constant rotation rate about this axis.

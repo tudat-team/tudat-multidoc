@@ -297,7 +297,7 @@ classes:
 
   - name: ApproximateJplEphemerisSettings
     short_summary: "Class for creating settings of approximate ephemeris for major planets."
-    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described in `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_)."
+    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described in `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_)."
 
   #######################################################################
 
@@ -606,8 +606,9 @@ functions:
       Factory function for settings object defining an ephemeris model from interpolated Spice data.
       Using this option the state of the body is retrieved from Spice at regular intervals `before` the environment propagation (as opposed to during the propagation).
       These data are then used to create an interpolator, which is put into the environment, and called during the propagation.
-      This has the advantage of only requiring calls to Spice outside of the propagation inner loop, reducing computation time in many cases (a single call to the interpolator is significantly faster that a single call to Spice).
-      However, it has the downside of being applicable only during a limited time interval, and requiring the tabulated data to be stored in RAM. For many numerical integration scenarios, this approach may be faster than using :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`, with negligible influence on accuracy.
+      This option has the downside of being applicable only during a limited time interval and requiring the tabulated data to be stored in RAM,
+      but may for `some special cases <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/valid_time_range.html>`_
+      offer an advantage over a direct Spice ephemeris (:func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`).
 
     parameters:
 
@@ -684,7 +685,7 @@ functions:
   # (%!) confirm that the approximatePlanetPositionsSettings FF situation is documented correctly
   - name: approximatePlanetPositionsSettings # [cpp] # (%! naming is misleading - Position vs Positions)
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets." # [cpp]
-    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described in `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` class." # [cpp]
+    extended_summary: "Factory function for settings object, defining approximate ephemeris model for major planets. In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described in `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_). Three-dimensional and circular-coplanar approximation may be used. This function creates an instance of an `EphemerisSettings` derived `ApproximatePlanetPositionsSettings` class." # [cpp]
 
     parameters: # [cpp]
       - name: bodyIdentifier # [cpp]
@@ -709,7 +710,7 @@ functions:
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets."
     extended_summary: |
       Factory function for settings object, defining approximate ephemeris model for major planets.
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described `this document <http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf>`_).
+      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_).
       Note that this option is only available for solar system planets. For the case of the Earth the approximate ephemeris of the Earth-Moon barycenter is returned.
 
     parameters:
