@@ -199,3 +199,51 @@ functions:
     returns: # [py]
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
+
+
+  - name: add_aerodynamic_coefficient_interface # [py]
+    short_summary: "Function that creates an aerodynamic coefficient interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an aerodynamic coefficient interface to an existing body. It requires
+      settings for the aerodynamic coefficients, created using one of the factory functions in :ref:`\`\`aerodynamic_coefficient_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the coefficient interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the aerodynamic coefficients are to be assigned" # [py]
+
+      - name: coefficient_settings # [py]
+        type: AerodynamicCoefficientSettings # [py]
+        description: "Settings defining the coefficient interface that is to be created." # [py]
+
+  - name: add_radiation_pressure_interface # [py]
+    short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an radiation pressure interface to an existing body. It requires
+      settings for the radiation pressure interface, created using one of the factory functions in :ref:`\`\`radiation_pressure_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the radiation pressure interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the radiation pressure interface is to be assigned" # [py]
+
+      - name: radiation_pressure_settings # [py]
+        type: RadiationPressureInterfaceSettings # [py]
+        description: "Settings defining the radiation pressure interface that is to be created." # [py]
+
