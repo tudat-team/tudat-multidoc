@@ -117,12 +117,12 @@ functions:
         description: "List of name of bodies for which default settings are to be retrieved." # [py]
 
       - name: base_frame_origin # [py]
-        type: str # [py]
-        description: "Base frame origin of the set of bodies that is to be created." # [py]
+        type: str, default = 'SSB' # [py]
+        description: "Base frame origin of the set of bodies that is to be created. It defaults to the solar system barycenter (SSB), but it can by any of the bodies in `bodies_to_create` (provided it has an ephemeris defined)." # [py]
 
       - name: base_frame_orientation # [py]
-        type: str # [py]
-        description: "Base frame orientation of the set of bodies that is to be created." # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the set of bodies that is to be created. It can be either ECLIPJ2000 (default) or J2000." # [py]
 
     returns: # [py]
         type: BodyListSettings  # [py]
