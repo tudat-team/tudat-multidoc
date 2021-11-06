@@ -1,21 +1,38 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-##################                   Shape Setup ( createBodyShapeModel.h )                 #########################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Shape Setup ( createBodyShapeModel.h )
 
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   shape models of celestial bodies in an environment.
 
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
 
-###### enums
+# no enums
 
-  #    no enums
 
-######
-
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
-
+  # base class:
+  #######################################################################
 
   - name: BodyShapeSettings
     short_summary: "Base class for providing settings for body shape model."
@@ -33,6 +50,8 @@ classes:
 
 
   # derived classes:
+  #######################################################################
+
   - name: SphericalBodyShapeSettings
     short_summary: "Class for defining model settings of a strictly spherical body shape."
     extended_summary: "`BodyShapeSettings` derived class for strictly spherical body shape model settings."
@@ -58,6 +77,7 @@ classes:
       #        short_summary: "Constructor."
       #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory functions." # [py]
 
+  #######################################################################
 
   - name: OblateSphericalBodyShapeSettings
     short_summary: "Class for defining model settings of a oblate spherical body shape."
@@ -95,16 +115,23 @@ classes:
       #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory functions." # [py]
 
 
-functions:
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
 
+functions:
   # factory functions:
+  #######################################################################
 
   - name: spherical # [py]
   - name: sphericalBodyShapeSettings # [cpp]
     short_summary: "Factory function for creating spherical body shape model settings."
     extended_summary: |
       Factory function for settings object, defining strictly spherical body shape model entirely from single radius parameter.
-      This function creates an instance of an `BodyShapeModel` derived `SphericalBodyShapeSettings` object.
 
     parameters:
       - name: radius # [py]
@@ -114,32 +141,60 @@ functions:
         description: "Radius specifying spherical body shape."
 
     returns:
-        type: SphericalBodyShapeSettings  # [py]
-        description: Instance of SphericalBodyShapeSettings class. # [py]
-        type: SphericalBodyShapeSettings  # [cpp]
-        description: # [cpp]
+        type: SphericalBodyShapeSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape.SphericalBodyShapeSettings` class
 
+
+    examples: |
+      In this example, we create a :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` using a perfectly spherical shape model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing perfectly spherical model # [py]
+         body_radius = 6378.0E3 # [py]
+         # create shape model settings  # [py]
+         body_settings.get( "Earth" ).shape_settings = environment_setup.shape.spherical( body_radius ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing perfectly spherical model # [cpp]
+         double bodyRadius = 6378.0E3; # [cpp]
+         // create shape model settings  # [cpp]
+         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< SphericalBodyShapeSettings >( bodyRadius ); # [cpp]
+
+  #######################################################################
 
   - name: spherical_spice # [py]
   - name: fromSpiceSphericalBodyShapeSettings # [cpp]
     short_summary: "Factory function for creating spherical body shape model settings entirely from spice."
     extended_summary: |
       Factory function for settings object, defining spherical body shape model entirely from spice parameters.
-      This function creates an instance of an `BodyShapeModel` object.
 
     returns:
-        type: BodyShapeSettings  # [py]
-        description: Instance of BodyShapeSettings class. # [py]
-        type: BodyShapeSettings  # [cpp]
-        description: # [cpp]
+        type: BodyShapeSettings
+        description: Instance of :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` class
 
+
+    examples: |
+      In this example, we create a :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` using a perfectly spherical shape model and data from Spice:
+
+      .. code-block:: python # [py]
+         # [py]
+         # create shape model settings  # [py]
+         body_settings.get( "Earth" ).shape_settings = environment_setup.shape.spherical_spice( )
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // create shape model settings  # [cpp]
+         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< BodyShapeSettings >( spherical_spice ); # [cpp]
+
+  #######################################################################
 
   - name: oblate_spherical # [py]
   - name: oblateSphericalBodyShapeSettings # [cpp]
     short_summary: "Factory function for creating oblate spherical body shape model settings."
     extended_summary: |
       Factory function for settings object, defining oblate spherical body shape model from equatorial radius and flattening parameter.
-      This function creates an instance of an `BodyShapeModel` derived `OblateSphericalBodyShapeSettings` object.
 
     parameters:
       - name: equatorial_radius # [py]
@@ -154,9 +209,27 @@ functions:
         type: double # [cpp]
         description: "Flattening parameter specifying oblate spherical body shape."
 
-
     returns:
-        type: OblateSphericalBodyShapeSettings  # [py]
-        description: Instance of OblateSphericalBodyShapeSettings class. # [py]
-        type: OblateSphericalBodyShapeSettings  # [cpp]
-        description: # [cpp]
+        type: OblateSphericalBodyShapeSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape.OblateSphericalBodyShapeSettings` class
+
+    examples: |
+      In this example, we create a :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` using a perfectly oblate spherical shape model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters describing oblate spherical model # [py]
+         body_radius = 6378.0E3 # [py]
+         body_flattening = 1.0 / 300.0 # [py]
+         # create shape model settings  # [py]
+         body_settings.get( "Earth" ).shape_settings = environment_setup.shape.oblate_spherical( body_radius, body_flattening ) # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters describing oblate spherical model # [cpp]
+         double bodyRadius = 6378.0E3; # [cpp]
+         double bodyFlattening = 1.0 / 300.0; # [cpp]
+         // create shape model settings  # [cpp]
+         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< OblateSphericalBodyShapeSettings >( bodyRadius, bodyFlattening ); # [cpp]
+
+  #######################################################################

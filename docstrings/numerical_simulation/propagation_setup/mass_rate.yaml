@@ -33,7 +33,7 @@ classes:
   # base
   - name: MassRateModelSettings
     short_summary: "Functional base class to define settings for mass rates."
-    extendend_summary: |
+    extended_summary: |
       Base class for providing settings for a mass rate model, that defines the models to be used to numerically propagate the
       mass of a body during a simulation. If any additional information (besides the type of the mass rate model) is required,
       these must be implemented in a derived class (dedicated for each mass rate model type).
@@ -47,7 +47,7 @@ classes:
   # derived (1)
   - name: FromThrustMassRateSettings
     short_summary: "`MassRateModelSettings`-derived class to define settings for a mass rate model derived from a thrust model."
-    extendend_summary: |
+    extended_summary: |
       `MassRateModelSettings`-derived class to define settings for a mass rate model derived from a thrust model.
 
     methods:
@@ -59,7 +59,7 @@ classes:
   # derived (2)
   - name: CustomMassRateSettings
     short_summary: "`MassRateModelSettings`-derived class to define settings for a custom mass rate model."
-    extendend_summary: |
+    extended_summary: |
       `MassRateModelSettings`-derived class to define settings for a custom mass rate model.
 
     methods:

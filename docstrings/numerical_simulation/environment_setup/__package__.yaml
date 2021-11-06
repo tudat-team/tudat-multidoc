@@ -1,5 +1,14 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Environment Setup
+
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   environment models in a simulation.
 
 
@@ -14,15 +23,28 @@ modules:
   - shape
 
 
-###### enums
+  #########################################################################
+  #  ███████ ███   ██ ██    ██ ███    ███  ██████
+  #  ██      ████  ██ ██    ██ ████  ████ █
+  #  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+  #  ██      ██  ████ ██    ██ ██  ██  ██       █
+  #  ███████ ██    ██  ██████  ██      ██ ██████
+  #########################################################################
 
   # no enums
 
-######
 
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
 
+  #########################################################################
 
   - name: BodyListSettings
     short_summary: "Class for defining settings for the creation of a system of bodies."
@@ -55,6 +77,7 @@ classes:
           description: |
             Name of the body for which settings are to be retrieved
 
+  #########################################################################
 
   - name: BodySettings
     short_summary: "Class for defining settings for the creation of a single body."
@@ -101,6 +124,15 @@ classes:
           Object that defines the settings of the shape model that is to be created. A variable of this type is typically
           assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module.
 
+
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
+
 functions:
 
   - name: get_default_body_settings # [py]
@@ -128,12 +160,13 @@ functions:
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
 
+  #########################################################################
 
   - name: get_default_body_settings_time_limited # [py]
   - name: getDefaultBodySettings # [cpp]
     short_summary: "Function that retrieves the default settings for the given set of input bodies, with a limited valid time interval."
     extended_summary: |
-      Same as :ref:`get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
+      Same as :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
       the extraction of states from ephemerides more computationally efficient, at the expense of more RAM usage, and a
       constrained time interval over which the ephemerides are valid. See `this page <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/valid_time_range.html>`_ for more details.
 
@@ -166,3 +199,51 @@ functions:
     returns: # [py]
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
+
+
+  - name: add_aerodynamic_coefficient_interface # [py]
+    short_summary: "Function that creates an aerodynamic coefficient interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an aerodynamic coefficient interface to an existing body. It requires
+      settings for the aerodynamic coefficients, created using one of the factory functions in :ref:`\`\`aerodynamic_coefficient_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the coefficient interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the aerodynamic coefficients are to be assigned" # [py]
+
+      - name: coefficient_settings # [py]
+        type: AerodynamicCoefficientSettings # [py]
+        description: "Settings defining the coefficient interface that is to be created." # [py]
+
+  - name: add_radiation_pressure_interface # [py]
+    short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an radiation pressure interface to an existing body. It requires
+      settings for the radiation pressure interface, created using one of the factory functions in :ref:`\`\`radiation_pressure_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the radiation pressure interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the radiation pressure interface is to be assigned" # [py]
+
+      - name: radiation_pressure_settings # [py]
+        type: RadiationPressureInterfaceSettings # [py]
+        description: "Settings defining the radiation pressure interface that is to be created." # [py]
+

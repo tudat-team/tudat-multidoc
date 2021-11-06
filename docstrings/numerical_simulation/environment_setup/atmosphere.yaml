@@ -1,19 +1,39 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-##################               Atmosphere Setup ( createAtmopshereModel.h )              ##########################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Atmosphere Setup ( createAtmopshereModel.h )
 
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   atmosphere models of celestial bodies in an environment.
 
 
-###### enums
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
 
-  # no enums
+# no enums
 
-######
+
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 classes:
+  # base class:
+  #######################################################################
 
   - name: WindModelSettings
     short_summary: "Class for providing settings for wind model."
@@ -57,6 +77,7 @@ classes:
 
 
   # derived classes:
+  #######################################################################
 
   - name: ExponentialAtmosphereSettings
     short_summary: "Class for providing settings for exponential atmosphere model."
@@ -68,7 +89,8 @@ classes:
         extended_summary: "Instances of the `ExponentialAtmosphereSettings` class should be created through the `exponential` factory function." # [cpp]
 
 
-# this class does not have any factory function  exposed or even associated w/ it in tudat source.
+
+# this class does not have any factory function exposed or even associated w/ it in tudat source.
 
 #  - name: TabulatedAtmosphereSettings
 #    short_summary: "Class for using tabulated data as atmosphere model settings."
@@ -80,17 +102,24 @@ classes:
 #        extended_summary: "Instances of the `TabulatedAtmosphereSettings` class should be created through the (%!)NONE factory function." # [cpp]
 
 
-functions:
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
 
+functions:
   # factory functions:
-    # WindModelSettings FFs first
+  #######################################################################
+  # WindModelSettings FFs first
 
   - name: constant_wind_model # [py]
   - name: constantWindModelSettings # [cpp]
     short_summary: "Factory function for creating wind model settings with constant wind velocity."
     extended_summary: |
       Factory function for settings object, defining wind model entirely from constant wind velocity in a given reference frame.
-      This function creates an instance of an `WindModelSettings` derived `ConstantWindModelSettings` object.
 
     parameters:
       - name: wind_velocity # [py]
@@ -109,10 +138,17 @@ functions:
 
     returns:
         type: ConstantWindModelSettings  # [py]
-        description: Instance of ConstantWindModelSettings class. # [py]
-        type: ConstantWindModelSettings  # [cpp]
-        description: # [cpp]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ConstantWindModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings`,
+      using a constant wind-velocity vector defined in an Earth-fixed reference frame:
+
+      .. code-block:: python # [py]
+        # [py]
+        # (%!) example code snippet in the making
+
+  #######################################################################
 
   - name: custom_wind_model # [py]
   - name: customWindModelSettings # [cpp]
@@ -120,7 +156,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining wind model entirely from custom wind velocity function in a given reference frame.
       The custom wind velocity has to be given as a function of altitude, longitude, latitude and time.
-      This function creates an instance of an `WindModelSettings` derived `CustomWindModelSettings` object.
 
     parameters:
       - name: wind_velocity # [py]
@@ -135,15 +170,21 @@ functions:
       - name: associatedFrame # [cpp]
         type: reference_frames::AerodynamicsReferenceFrames, default = reference_frames::vertical_frame # [cpp]
         description: |
-          Reference frame in which constant wind velocity is defined.
+          Reference frame in which wind velocity is defined.
 
     returns:
-        type: CustomWindModelSettings  # [py]
-        description: Instance of CustomWindModelSettings class. # [py]
-        type: CustomWindModelSettings  # [cpp]
-        description: # [cpp]
+        type: CustomWindModelSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.CustomWindModelSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings`,
+      using a user-defined wind-velocity function (of altitude, longitude, latitude and time), defined in an Earth-fixed reference frame:
 
+      .. code-block:: python # [py]
+         # [py]
+         # (%!) example code snippet in the making
+
+    #######################################################################
     # AtmosphereSettings hereafter
 
   - name: exponential_predefined # [py]
@@ -163,19 +204,22 @@ functions:
           Body for which pre-defined model settings are to be loaded. Available bodies "Earth", "Mars".
 
     returns:
-        type: ExponentialAtmosphereSettings  # [py]
-        description: Instance of ExponentialAtmosphereSettings class. # [py]
-        type: ExponentialAtmosphereSettings  # [cpp]
-        description: # [cpp]
+        type: ExponentialAtmosphereSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ExponentialAtmosphereSettings` class
+
+
+  #######################################################################
 
   - name: exponential # [py]
   - name: exponentialAtmosphereSettings # [cpp]
     short_summary: "Factory function for creating atmospheric model settings from fully parametrized exponential model."
     extended_summary: |
-      Factory function for settings object, defining exponential atmosphere model from fully parametrized model.
-      This means that in addition to scale height and ground-level air density parameters the user can specify a constant temperature
-      and even non-standard values for gas constant and speficic heats ratio.
-      This function creates an instance of an `AtmosphereSettings` derived `ExponentialAtmosphereSettings` object.
+      Factory function for settings object, defining exponential atmosphere model.
+      The model is solely based on an exponentially decaying density profile with a constant temperature and composition
+      (i.e. independent of time, latitude and longitude).
+
+      The user has access to a fully parametrized model, meaning that in addition to the required input parameters ``scale_height`` and ``surface_density`` (ground-level air density),
+      the user can specify non-standard values for constant temperature, gas constant and speficic heats ratio.
 
     parameters:
 
@@ -210,27 +254,60 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-        type: ExponentialAtmosphereSettings # [py]
-        description: Instance of ExponentialAtmosphereSettings class. # [py]
-        type: ExponentialAtmosphereSettings # [cpp]
-        description: # [cpp]
+        type: ExponentialAtmosphereSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ExponentialAtmosphereSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      using the minimalistic interface to the exponential model and taking defaulted parameters by their default value:
 
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters of an invariant exponential atmosphere model  # [py]
+         density_scale_height = 7.2E3  # [py]
+         constant_temperature = 290  # [py]
+         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.exponential(  # [py]
+         	density_scale_height, density_at_zero_altitude)  # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters of an invariant exponential atmosphere model # [cpp]
+         double densityScaleHeight = 7.2E3; # [cpp]
+         double densityAtZeroAltitude = 1.225; # [cpp]
+         // create atmosphere settings and add to body settings of body "Earth" # [cpp]
+         bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< ExponentialAtmosphereSettings >( # [cpp]
+         densityScaleHeight, densityAtZeroAltitude ); # [cpp]
+
+  #######################################################################
 
   - name: nrlmsise00 # [py]
   - name: nrlmsise00AtmosphereSettings # [cpp]
     short_summary: "Factory function for creating NRLMSISE-00 atmospheric model settings."
     extended_summary: |
-      Factory function for settings object, defining atmosphere model in accordance to NRLMSISE-00 atmospheric model.
-      Note that NRLMSISE-00 is a global reference model for Earth's atmosphere.
-      This function creates an instance of an `AtmosphereSettings` object.
-
+      Factory function for settings object, defining atmosphere model in accordance to the NRLMSISE-00 global reference model for Earth's atmosphere.
     returns:
         type: AtmosphereSettings # [py]
-        description: Instance of AtmosphereSettings class. # [py]
-        type: AtmosphereSettings # [cpp]
-        description: AtmosphereSettings object of athmosphereType nrlmsise00. # [cpp]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` class
 
+    notes: | # [cpp] ( %! assuming it only affects cpp)
+      To use this model, the ``USE_NRLMSISE`` flag in your top-level CMakeLists must be set to true. # [cpp]
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      using the NRLMSISE-00 global reference model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # create atmosphere settings and add to body settings of body "Earth"
+         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.nrlmsise00() # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // create atmosphere settings and add to body settings of body "Earth" # [cpp]
+         bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< AtmosphereSettings >( nrlmsise00 ); # [cpp]
+
+  #######################################################################
 
   - name: custom_constant_temperature # [py]
   - name: customConstantTemperatureAtmosphereSettings # [cpp]
@@ -238,7 +315,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining constant temperature atmosphere model from custom density profile.
       The user is specifying the density profile as a function of altitude.
-      This function creates an instance of an `AtmosphereSettings` derived `CustomConstantTemperatureAtmosphereSettings` object.
+      The value of pressure is computed by assuming hydrostatic equilibrium, temperature, gas constant and the ratio of specific heats are modelled as constants.
 
     parameters:
 
@@ -268,11 +345,52 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-        type: CustomConstantTemperatureAtmosphereSettings # [py]
-        description: # [py]
-        type: CustomConstantTemperatureAtmosphereSettings # [cpp]
-        description: # [cpp]
+        type: CustomConstantTemperatureAtmosphereSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.CustomConstantTemperatureAtmosphereSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      with constant temperature and composition, but a density which varies with altitude according to a user-defined model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable containing function of density model # [py]
+         density_function = ...  # [py]
+         # define parameters for constant temperature and composition  # [py]
+         constant_temperature = 250.0  # [py]
+         specific_gas_constant = 300.0  # [py]
+         ratio_of_specific_heats = 1.4  # [py]
+         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
+         density_function, constant_temperature, specific_gas_constant, ratio_of_specific_heats) # [py]
+
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // Outside main # [cpp]
+         // define variable containing function of density model # [cpp]
+         double customDensityFunction( const double altitude ) # [cpp]
+         { # [cpp]
+           // Return a some density profile as function of altitude # [cpp]
+
+         } # [cpp]
+        # [cpp]
+         int main( ) # [cpp]
+         { # [cpp]
+           // ... # [cpp]
+        # [cpp]
+           // define parameters for constant temperature and composition # [cpp]
+           double constantTemperature = 250.0; # [cpp]
+           double specificGasConstant = 300.0; # [cpp]
+           double ratioOfSpecificHeats = 1.4; # [cpp]
+           // create atmosphere settings and add to body settings of body "Earth" # [cpp]
+           bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< CustomConstantTemperatureAtmosphereSettings >( # [cpp]
+           &customDensityFunction, constantTemperature, specificGasConstant, ratioOfSpecificHeats ); # [cpp]
+
+           // ...
+         }
+
+  #######################################################################
 
   - name: custom_four_dimensional_constant_temperature # [py]
   - name: customConstantTemperatureAtmosphereSettings # [cpp]
@@ -280,7 +398,6 @@ functions:
     extended_summary: |
       Factory function for settings object, defining constant temperature atmosphere model from custom density profile.
       The user is specifying the density profile as a function of altitude, longitude, latitude and time.
-      This function creates an instance of an `AtmosphereSettings` derived `CustomConstantTemperatureAtmosphereSettings` object.
 
     parameters:
 
@@ -310,46 +427,52 @@ functions:
         description: "Ratio of specific heats for (constant) atmospheric chemical composition."
 
     returns:
-        type: CustomConstantTemperatureAtmosphereSettings # [py]
-        description: # [py]
-        type: CustomConstantTemperatureAtmosphereSettings # [cpp]
-        description: # [cpp]
+      type: CustomConstantTemperatureAtmosphereSettings
+      description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.CustomConstantTemperatureAtmosphereSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      with constant temperature and composition (gas constant and ratio of specific heats), but a density which varies with altitude, longitude, latitude and time, according to a user-defined model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define variable containing function of density model # [py]
+         density_function = ...  # [py]
+         # define parameters for constant temperature and composition  # [py]
+         constant_temperature = 250.0  # [py]
+         specific_gas_constant = 300.0  # [py]
+         ratio_of_specific_heats = 1.4  # [py]
+         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
+         density_function, constant_temperature, specific_gas_constant, ratio_of_specific_heats) # [py]
 
 
-  - name: scaled_by_function # [py]
-  - name: scaledAtmosphereSettings # [cpp]
-    short_summary: "Factory function for creating scaled atmospheric model settings."
-    extended_summary: |
-      Factory function for settings object, defining atmospheric model based on scaling an existing atmospheric settings object.
-      The user can apply custom scaling factors (or absolute values) to the air densities of the existing model settings (for instance for an uncertainty analysis).
-      This function creates an instance of an `AtmosphereSettings` derived `ScaledAtmosphereSettings` object.
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // Outside main # [cpp]
+         // define variable containing function of density model # [cpp]
+         double customDensityFunction( const double altitude, const double longitude, const double latitude, const double time ) # [cpp]
+         { # [cpp]
+           // Return a some density profile as function of altitude, longitude, latitude, time # [cpp]
+           return 0.5 * altitude + 0.25 * longitude + 0.15 * latitude + 0.1 * time; # [cpp]
+         } # [cpp]
+        # [cpp]
+         int main( ) # [cpp]
+         { # [cpp]
+           // ... # [cpp]
+        # [cpp]
+           // define parameters for constant temperature and composition # [cpp]
+           double constantTemperature = 250.0; # [cpp]
+           double specificGasConstant = 300.0; # [cpp]
+           double ratioOfSpecificHeats = 1.4; # [cpp]
+           // create atmosphere settings and add to body settings of body "Earth" # [cpp]
+           bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< CustomConstantTemperatureAtmosphereSettings >( # [cpp]
+           &customDensityFunction, constantTemperature, specificGasConstant, ratioOfSpecificHeats ); # [cpp]
 
-    parameters:
-      - name: unscaled_atmosphere_settings # [py]
-        type: AtmosphereSettings # [py] # (%! correct type?)
-      - name: baseSettings # [cpp]
-        type: std::shared_ptr< AtmosphereSettings > # [cpp]
-        description: "Sets base settings of atmosphere model to be scaled."
+           // ...
+         }
 
-      - name: density_scaling_function # [py]
-        type: float # [py]
-      - name: scaling # [cpp]
-        type: std::function< double( const double ) >  # [cpp]
-        description: "Specifies air density scaling factors as a function of time."
-
-      - name: is_scaling_absolute # [py]
-        type: bool, default=false # [py]
-      - name: isScalingAbsolute # [cpp]
-        type: bool # [cpp]
-        description: |
-          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
-
-    returns:
-        type: ScaledAtmosphereSettings # [py]
-        description: # [py]
-        type: ScaledAtmosphereSettings # [cpp]
-        description: # [cpp]
-
+  #######################################################################
 
   - name: scaled_by_constant # [py]
   - name: scaledAtmosphereSettings # [cpp]
@@ -357,11 +480,10 @@ functions:
     extended_summary: |
       Factory function for settings object, defining atmospheric model based on an scaling of an existing atmospheric settings object.
       The user can apply a scaling factor (or an absolute value) to the air densities of the existing model settings (for instance for an uncertainty analysis).
-      This function creates an instance of an `AtmosphereSettings` derived `ScaledAtmosphereSettings` object.
 
     parameters:
       - name: unscaled_atmosphere_settings # [py]
-        type: AtmosphereSettings # [py] # (%! correct type?)
+        type: AtmosphereSettings # [py]
       - name: baseSettings # [cpp]
         type: std::shared_ptr< AtmosphereSettings > # [cpp]
         description: "Sets base settings of atmosphere model to be scaled."
@@ -380,9 +502,85 @@ functions:
           Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
 
     returns:
-        type: ScaledAtmosphereSettings # [py]
-        description: # [py]
-        type: ScaledAtmosphereSettings # [cpp]
-        description: # [cpp]
+      type: ScaledAtmosphereSettings
+      description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ScaledAtmosphereSettings` class.
+
+    notes: |
+      At present, the scaled atmosphere model only supports scaling of the density value.
+      For cases where the density is used to compute other atmospheric quantities (such as pressure using hydrostatic equilibrium),
+      this calculation is performed using the `unscaled` density!
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      by modifying an existing :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` object such that the resulting air density profile is scaled by a constant:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameter for scaling # [py]
+         scaling_constant = 1.5 # [py]
+         # define variable containing the existing atmpsphere model settings  # [py]
+         unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
+         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_constant( # [py]
+         unscaled_atmosphere_settings, scaling_constant ) # [py]
+
+      # [cpp] code snippet not available
+
+  #######################################################################
+
+  - name: scaled_by_function # [py]
+  - name: scaledAtmosphereSettings # [cpp]
+    short_summary: "Factory function for creating scaled atmospheric model settings."
+    extended_summary: |
+      Factory function for settings object, defining atmospheric model based on scaling an existing atmospheric settings object.
+      The user can apply custom scaling factors (or absolute values) to the air densities of the existing model settings (for instance for an uncertainty analysis).
+
+    parameters:
+      - name: unscaled_atmosphere_settings # [py]
+        type: AtmosphereSettings # [py]
+      - name: baseSettings # [cpp]
+        type: std::shared_ptr< AtmosphereSettings > # [cpp]
+        description: "Sets base settings of atmosphere model to be scaled."
+
+      - name: density_scaling_function # [py]
+        type: Callable[[float], float] # [py]
+      - name: scaling # [cpp]
+        type: std::function< double( const double ) >  # [cpp]
+        description: "Specifies air density scaling factor as a function of time."
+
+      - name: is_scaling_absolute # [py]
+        type: bool, default=false # [py]
+      - name: isScalingAbsolute # [cpp]
+        type: bool # [cpp]
+        description: |
+          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
+
+    returns:
+        type: ScaledAtmosphereSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ScaledAtmosphereSettings` class.
+
+    notes: |
+      At present, the scaled atmosphere model only supports scaling of the density value.
+      For cases where the density is used to compute other atmospheric quantities (such as pressure using hydrostatic equilibrium),
+      this calculation is performed using the `unscaled` density!
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      by modifying an existing :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` object such, that the resulting air density profile is scaled with a user-defined function of time:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define function for scaling # [py]
+         scaling_function = ... # [py]
+         # define variable containing the existing atmpsphere model settings  # [py]
+         unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
+         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_function( # [py]
+         unscaled_atmosphere_settings, scaling_function ) # [py]
+
+
+
+  #######################################################################
+
 
 

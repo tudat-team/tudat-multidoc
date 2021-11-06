@@ -17,13 +17,11 @@ enums:
       Enumeration of integrators supported by tudat.
 
     members:
-
-      - name: euler # [cpp]
-      - name: rungeKutta4 # [cpp]
-      - name: rungeKuttaVariableStepSize # [cpp]
-      - name: bulirschStoer # [cpp]
-      - name: adamsBashforthMoulton # [cpp]
-
+      #- name: euler # [cpp]
+      #- name: rungeKutta4 # [cpp]
+      #- name: rungeKuttaVariableStepSize # [cpp]
+      #- name: bulirschStoer # [cpp]
+      #- name: adamsBashforthMoulton # [cpp]
       - name: euler_type # [py]
       - name: runge_kutta_4_type # [py]
       - name: runge_kutta_variable_step_size_type # [py]
@@ -34,19 +32,17 @@ enums:
   #    py::enum_<tni::RungeKuttaCoefficients::CoefficientSets>
   #        enum tudat::numerical_integrators::RungeKuttaCoefficients::CoefficientSets
 
-  - name: CoefficientSets
+  - name: RKCoefficientSets
     short_summary: "Coefficient sets for Runge-Kutta integrators."
-    extended_summary: |
-      Coefficient sets for Runge-Kutta integrators.
+    #extended_summary: |
+      #Coefficient sets for Runge-Kutta integrators.
 
     members:
-
-      - name: undefinedCoefficientSet # [cpp]
-      - name: rungeKuttaFehlberg45 # [cpp]
-      - name: rungeKuttaFehlberg56 # [cpp]
-      - name: rungeKuttaFehlberg78 # [cpp]
-      - name: rungeKutta87DormandPrince # [cpp]
-
+      #- name: undefinedCoefficientSet # [cpp]
+      #- name: rungeKuttaFehlberg45 # [cpp]
+      #- name: rungeKuttaFehlberg56 # [cpp]
+      #- name: rungeKuttaFehlberg78 # [cpp]
+      #- name: rungeKutta87DormandPrince # [cpp]
       - name: rkf_45 # [py]
       - name: rkf_56 # [py]
       - name: rkf_78 # [py]
@@ -58,11 +54,10 @@ enums:
 
   - name: ExtrapolationMethodStepSequences
     short_summary: "Enumeration of available extrapolation method step sequences."
-    extended_summary: |
-      Enumeration of extrapolation method step sequences supported by tudat.
+    #extended_summary: |
+      #Enumeration of extrapolation method step sequences supported by tudat.
 
     members:
-
       - name: bulirsch_stoer_sequence
       - name: deufelhard_sequence
 
@@ -74,7 +69,7 @@ classes:
   # base
   - name: IntegratorSettings
     short_summary: "Functional base class to define settings for integrators."
-    extendend_summary: |
+    extended_summary: |
       Class to define settings for numerical integrators, for instance for use in numerical integration of equations of motion/
       variational equations. This class can be used for simple integrators such as fixed step RK and Euler. Integrators that
       require more settings to define have their own derived class.
@@ -93,7 +88,7 @@ classes:
   # derived (1)
   - name: RungeKuttaVariableStepSizeSettingsScalarTolerances
     short_summary: "`IntegratorSettings`-derived class to define settings for Runge Kutta integrators with scalar tolerances."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Runge Kutta integrators with scalar tolerances. This
       class is actually derived from an intermediate class (`RungeKuttaVariableStepSizeBaseSettings`, not documented),
       which is derived directly from `IntegratorSettings`.
@@ -107,7 +102,7 @@ classes:
   # derived (2)
   - name: RungeKuttaVariableStepSizeSettingsVectorTolerances
     short_summary: "`IntegratorSettings`-derived class to define settings for Runge Kutta integrators with vector tolerances."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Runge Kutta integrators with vector tolerances. This
       class is actually derived from an intermediate class (`RungeKuttaVariableStepSizeBaseSettings`, not documented),
       which is derived directly from `IntegratorSettings`.
@@ -121,7 +116,7 @@ classes:
   # derived (3)
   - name: BulirschStoerIntegratorSettings
     short_summary: "`IntegratorSettings`-derived class to define settings for Bulirsch-Stoer integrator settings."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Bulirsch-Stoer integrator settings.
 
     methods:
@@ -133,7 +128,7 @@ classes:
   # derived (4)
   - name: AdamsBashforthMoultonSettings
     short_summary: "`IntegratorSettings`-derived class to define settings for Adams-Bashforth-Moulton integrator settings."
-    extendend_summary: |
+    extended_summary: |
       `IntegratorSettings`-derived class to define settings for Adams-Bashforth-Moulton integrator settings.
 
     methods:

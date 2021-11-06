@@ -28,7 +28,7 @@ classes:
     short_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics.
-    extendend_summary: |
+    extended_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, such as latitude, longitude,
        altitude, etc. It also contains an
@@ -43,23 +43,27 @@ classes:
     properties: # [py]
       - name: aerodynamic_angle_calculator # [py]
         type: AerodynamicAngleCalculator # [py]
+        readonly: Yes
         description: |  # [py]
           The object that is responsible for computing various relevant
           flight dynamics angles and frame rotations.
 
       - name: longitude # [py]
         type: float # [py]
+        readonly: Yes
         description: |  # [py]
           The body-fixed longitude of the body w.r.t. its central body.
 
       - name: latitude # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The body-fixed geographic latitude of the body w.r.t. its
           central body.
 
       - name: geodetic_latitude # [py]
         type: float # [py]
+        readonly: Yes
         description: |  # [py]
           The body-fixed geodetic latitude of the body w.r.t. its central
           body, using an :py:class:`~OblateSpheroidBodyShapeModel` of the
@@ -68,17 +72,20 @@ classes:
 
       - name: altitude # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The altitude of this body w.r.t. the central body (using the
           :py:class:`~ShapeModel` of the central body).
 
       - name: time # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The current time, at which this object was last updated
 
       - name: body_centered_body_fixed_state # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description:  | # [py]
           Cartesian translational state, expressed in a frame centered
           at, and fixed to, the central body. Note that, due to the
@@ -93,7 +100,7 @@ classes:
     short_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, for flight in an atmosphere.
-    extendend_summary: |
+    extended_summary: |
        Object that calculates various state-derived quantities typically
        relevant for flight dynamics, for flight in an atmosphere, such
        as latitude,  longitude, altitude, density, Mach number etc. It
@@ -107,52 +114,61 @@ classes:
     properties: # [py]
       - name: density # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream atmospheric density at the body's current
           location.
 
       - name: temperature # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream atmospheric temperature at the body's current
           location.
 
       - name: dynamic_pressure # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream atmospheric dynamic pressure at the body's
           current location.
 
       - name: pressure # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream atmospheric static pressure at the body's
           current location.
 
       - name: speed_of_sound # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream atmospheric speed of sound at the body's current
           location.
 
       - name: airspeed # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The airspeed of the body w.r.t. the atmosphere.
 
       - name: airspeed_velocity # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: | # [py]
           The velocity vector of the body w.r.t. the freestream
           atmosphere (e.g. vectorial counterpart of airspeed).
 
       - name: mach_number # [py]
         type: float # [py]
+        readonly: Yes
         description: | # [py]
           The freestream Mach number of the body
 
       - name: aero_coefficient_independent_variables # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: | # [py]
           List of current values of independent variables of aerodynamic
           coefficients. This list is only defined if the body has an
@@ -162,6 +178,7 @@ classes:
 
       - name: control_surface_aero_coefficient_independent_variables # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: | # [py]
           List of lists current values of independent variables of
           aerodynamic coefficients for control surfaces. The outer list
@@ -173,6 +190,7 @@ classes:
 
       - name: aerodynamic_coefficient_interface # [py]
         type: AerodynamicCoefficientInterface # [py]
+        readonly: Yes
         description: | # [py]
           Object extracted from the same Body object as this
           :py:class:`~AtmosphericFlightConditions` object, which defines
@@ -185,18 +203,19 @@ classes:
     short_summary: |
        Object that stores the environment properties and current state of
        a single body.
-    extendend_summary: |
+    extended_summary: |
        Object that stores the environment properties and current state
        of a single celestial body (natural or artificial). Each separate
        environment model (gravity field, ephemeris, etc.) is stored as a
        member object in this class. During each time step, the Body gets
-       updated to teh current time/propagated state, and the current
+       updated to the current time/propagated state, and the current
        properties, in as much as they are time-dependent, can be
        extracted from this object
 
     properties: # [py]
       - name: state # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           The translational state of the Body, as set during the current
           step of the numerical propagation. The translational state
@@ -212,18 +231,15 @@ classes:
 
       - name: position # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           The translational position of the Body, as set during the
           current step of the numerical propagation
           (see :py:attr:`~state`).
 
-      - name: airspeed # [py]
-        type: float # [py]
-        description: |
-          The airspeed of the body w.r.t. the atmosphere
-
       - name: velocity # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           The translational velocity of the Body, as set during the
           current step of the numerical propagation
@@ -231,6 +247,7 @@ classes:
 
       - name: inertial_to_body_fixed_frame # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           The rotation from inertial frame (with global frame
           orientation) to this Body's body-fixed frame. The rotation is
@@ -247,12 +264,14 @@ classes:
 
       - name: body_fixed_to_inertial_frame # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           The rotation from this Body's body-fixed frame to inertial
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
 
       - name: inertial_to_body_fixed_frame_derivative # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           Time derivative of rotation matrix from inertial frame to this
           Body's body-fixed frame
@@ -260,6 +279,7 @@ classes:
 
       - name: body_fixed_to_inertial_frame_derivative # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           Time derivative of rotation matrix from this Body's body-fixed
           frame to inertial frame
@@ -267,21 +287,83 @@ classes:
 
       - name: inertial_angular_velocity # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           Angular velocity vector of the body, expressed in inertial
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
     
       - name: body_fixed_angular_velocity # [py]
         type: numpy.ndarray # [py]
+        readonly: Yes
         description: |
           Angular velocity vector of the body, expressed in body-fixed
           frame (see :py:attr:`~inertial_to_body_fixed_frame`).
+
+      - name: mass # [py]
+        type: float # [py]
+        description: |
+          Denotes the current mass of the vehicle, as used in the calculation of
+          non-conservative acceleration. Note that defining a mass for a vehicle
+          does *not* define a gravity field (this is done through a gravity field model).
+          However, defining a gravity field model in a body automatically assigns it
+          a mass here.
+          Unlike the attributes containing the state, orientation, angular velocity
+          of the Body, this attribute may be used to retrieve the state during the
+          propagation *and* to define the mass of a vehicle
+
+      - name: ephemeris # [py]
+        type: Ephemeris # [py]
+        description: |
+          Ephemeris model of this body, used to calculate its current state as a function of time.
+          Depending on the selected type of model, the type of this attribute
+              is of type Ephemeris, or a derived class thereof.
+
+      - name: atmosphere_model # [py]
+        type: AtmosphereModel # [py]
+        description: |
+          Atmosphere model of this body, used to calculate density, temperature, etc. at a given
+          state/time. Depending on the selected type of model, the type of this attribute
+          is of type AtmosphereModel, or a derived class thereof.
+
+      - name: shape_model # [py]
+        type: BodyShapeModel # [py]
+        description: |
+          Shape model of this body, used to define the exterior shape of the body, for instance for
+          the calculation of vehicle's altitude. Depending on the selected type of model, the type of this attribute
+          is of type BodyShapeModel, or a derived class thereof.
+
+      - name: gravity_field_model # [py]
+        type: GravityFieldModel # [py]
+        description: |
+          Gravity field model of this body, used to define the exterior gravitational potential, and
+          its gradient(s). Depending on the selected type of model, the type of this attribute
+          is of type GravityFieldModel, or a derived class thereof.
+
+      - name: aerodynamic_coefficient_interface # [py]
+        type: AerodynamicCoefficientInterface # [py]
+        description: |
+          Object definining the aerodynamic coefficients of a vehicle (force-only, or force and moment)
+          as a function of any number of independent variables. Depending on the selected type of model, the type of this attribute
+          is of type AerodynamicCoefficientInterface, or a derived class thereof.
+
+      - name: rotation_model # [py]
+        type: RotationalEphemeris # [py]
+        description: |
+          Object definining the orientation of a body, used to calculate the rotation to/from a body-fixed
+          frame (and its derivate). Depending on the selected type of model, the type of this attribute
+          is of type RotationalEphemeris, or a derived class thereof.
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        readonly: Yes
+        description: |
+          Attribute of convenience, equivalent to ``.gravity_field_model.gravitational_parameter``
 
   - name: SystemOfBodies
     short_summary: |
        Object that contains a set of Body objects and associated frame
        information.
-    extendend_summary: |
+    extended_summary: |
        Object that contains a set of Body objects and associated frame
        information. This object stored the entire environment for a
        typical Tudat numerical simulation, and is fundamental for the
@@ -307,6 +389,9 @@ classes:
         returns:
           type: Body
           description: Body object of the requested name
+
+      - name: get_body # [py]
+        short_summary: "Deprecated version of :py:func:`~get`"
 
       - name: createEmptyBody # [cpp]
       - name: create_empty_body # [py]

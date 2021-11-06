@@ -1,12 +1,24 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#################            Radiation Pressure Setup ( createBodyShapeModel.h )               ######################
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Radiation Pressure Setup ( createBodyShapeModel.h )
 
 extended_summary: |
-  This module consists of factory functions for setting up the
+  This module contains a set of factory functions for setting up the
   radiation pressure models of celestial bodies in an environment.
 
 
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
 
 enums:
 
@@ -26,8 +38,17 @@ enums:
 ######
 
 
-classes:
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
+classes:
+  # base class:
+  #######################################################################
 
   - name: RadiationPressureInterfaceSettings
     short_summary: "Base class for providing settings for radiation pressure interface models."
@@ -45,6 +66,8 @@ classes:
 
 
   # derived classes:
+  #######################################################################
+
   - name: CannonBallRadiationPressureInterfaceSettings
     short_summary: "Class for defining model settings of a cannonball radiation pressure interface."
     extended_summary: "`RadiationPressureInterfaceSettings` derived class for cannonball radiation pressure interface model settings."
@@ -56,16 +79,24 @@ classes:
         extended_summary: "Instances of the `CannonBallRadiationPressureInterfaceSettings` class should be created through the `cannonBallRadiationPressureSettings` factory function." # [cpp]
 
 
-functions:
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
 
+functions:
   # factory functions:
+  #######################################################################
 
   - name: cannonball # [py]
   - name: cannonBallRadiationPressureSettings # [cpp]
     short_summary: "Factory function for creating cannonball radiation pressure interface model settings."
     extended_summary: |
-      Factory function for settings object, defining cannonball radiation pressure interface model.
-      This function creates an instance of a `RadiationPressureInterfaceSettings` derived `CannonBallRadiationPressureInterfaceSettings` object.
+      Factory function for settings object, defining a cannonball radiation pressure interface model,
+      In this model the effective force is co-linear with the vector from radiation source to the body experiencing the force.
 
     parameters:
       - name: source_body # [py]
@@ -87,24 +118,56 @@ functions:
         description: "Radiation pressure coefficient."
 
       - name: occulting_bodies # [py]
-        type: list[str], default = [''] # [py]
+        type: list[str], default = [""] # [py]
       - name: occultingBodies # [cpp]
         type: std::vector< std::string > # [cpp]
         description: "List of bodies causing (partial) occultation."
 
     returns:
-        type: CannonBallRadiationPressureInterfaceSettings  # [py]
-        description: Instance of CannonBallRadiationPressureInterfaceSettings class. # [py]
-        type: CannonBallRadiationPressureInterfaceSettings  # [cpp]
-        description: # [cpp]
+        type: CannonBallRadiationPressureInterfaceSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.RadiationPressureInterfaceSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.CannonBallRadiationPressureInterfaceSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.RadiationPressureInterfaceSettings` using a cannonball radiation pressure model.
+      The radiating body is the Sun, the body experiencing the radiation pressure force is the "Spacecraft" body; occultations due to the Earth are taken into account:
+      # [cpp] (%!) Note about multi-body occultation...
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters of the cannonball model # [py]
+         reference_area_radiation = 4.0 # [py]
+         radiation_pressure_coefficient = 1.2 # [py]
+         # define parameter for occulting body # [py]
+         occulting_bodies = [ "Earth" ] # [py]
+         # create radiation pressure interface settings # [py]
+         radiation_pressure_settings = environment_setup.radiation_pressure.cannonball( # [py]
+         "Sun", reference_area_radiation, radiation_pressure_coefficient, occulting_bodies ) # [py]
+         # add radiation pressure interface to "Spacecraft" body # [py]
+         environment_setup.add_radiation_pressure_interface( # [py]
+         bodies, "Spacecraft", radiation_pressure_settings )  # [py]
+
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // define parameters of the cannonball model  # [cpp]
+         std::string sourceBody = "Sun"; # [cpp]
+         double area = 20.0; # [cpp]
+         const double radiationPressureCoefficient = 1.2; # [cpp]
+         // define parameter for occulting body and add to list of occulting bodies # [cpp]
+         std::vector< std::string > occultingBodies; # [cpp]
+         occultingBodies.push_back( "Earth" ); # [cpp]
+         // create radiation pressure interface and add to "Spacecraft" body # [cpp]
+         bodySettings[ "Sacecraft" ]->radiationPressureSettings[ sourceBody ] = std::make_shared< CannonBallRadiationPressureInterfaceSettings >( # [cpp]
+         sourceBody, area, radiationPressureCoefficient, occultingBodies ); # [cpp]
+
+
+  #######################################################################
 
   - name: panelled # [py]
   - name: panelledRadiationPressureInterfaceSettings # [cpp]
     short_summary: "Factory function for creating panelled radiation pressure interface model settings."
     extended_summary: |
       Factory function for settings object, defining panelled radiation pressure interface model.
-      This function creates an instance of a `RadiationPressureInterfaceSettings` derived `PanelledRadiationPressureInterfaceSettings` object.
+      In this model the solar radiation pressure force is derived from a so-called boxes-and-wings model.
 
     parameters:
       - name: source_body # [py]
@@ -142,13 +205,37 @@ functions:
         description: Vector containing the (constant) surface normals of the panels, expressed in the body-fixed frame. # [cpp]
 
       - name: occulting_bodies # [py]
-        type: list[str], default = [''] # [py]
+        type: list[str], default = [""] # [py]
       - name: occultingBodies # [cpp]
         type: std::vector< std::string > # [cpp]
         description: "List of bodies causing (partial) occultation."
 
     returns:
-        type: PanelledRadiationPressureInterfaceSettings  # [py]
-        description: Instance of PanelledRadiationPressureInterfaceSettings class. # [py]
-        type: PanelledRadiationPressureInterfaceSettings  # [cpp]
-        description: # [cpp]
+        type: PanelledRadiationPressureInterfaceSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.RadiationPressureInterfaceSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.PanelledRadiationPressureInterfaceSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.RadiationPressureInterfaceSettings` using a panelled radiation pressure model.
+      The radiating body is the Sun, the body experiencing the radiation pressure force is the boxes-and-wings - modelled "Spacecraft" body; occultations due to the Earth are taken into account:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define parameters of the panelled model # [py]
+         emissivities = [0.1, 0.0, 0.1, 0.1]                            # emissivity of each panel # [py]
+         areas = [4.0, 6.0, 2.3, 2,3]                                   # area of each panel # [py]
+         diffusion_coefficients = [0.46, 0.06, 0.46, 0.46]              # diffusion coefficient of each panel # [py]
+         panel_surface_normals = [ [0.0, 0.0, 1.0], [0.0, 0.0, -1.0],   # normals of each panel surfaces # [py]
+         	[1.0, 0.0, 0.0], [-1.0, 0.0, 0.0] ]  #  in body-fixed reference frame # [py]
+         # define parameter for occulting body # [py]
+         occulting_bodies = [ "Earth" ] # [py]
+         # create radiation pressure interface settings # [py]
+         radiation_pressure_settings = environment_setup.radiation_pressure.panelled( "Sun", emissivities, # [py]
+         	areas, diffusion_coefficients, surfaceNormalsInBodyFixedFrameFunctions, occulting_bodies) # [py]
+         # add radiation pressure interface to "Spacecraft" body # [py]
+         environment_setup.add_radiation_pressure_interface( bodies, "Vehicle", radiation_pressure_settings ) # [py]
+
+      # [cpp] cpp code snippet unavailabel (outdated on tudat-space)
+
+  #######################################################################
+  # missing (w.r.t) tudat-space:
+  #     - Solar Sail Radiation Interface

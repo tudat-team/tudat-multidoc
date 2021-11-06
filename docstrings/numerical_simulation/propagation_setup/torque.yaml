@@ -43,7 +43,7 @@ classes:
   # base
   - name: TorqueSettings
     short_summary: "Functional base class to define settings for torques."
-    extendend_summary: |
+    extended_summary: |
       This is a functional base class to define settings for torques that require no information in addition to their type.
       Classes defining settings for torque models requiring additional information must be
       derived from this class.
@@ -61,7 +61,7 @@ classes:
   # derived
   - name: SphericalHarmonicTorqueSettings
     short_summary: "`TorqueSettings`-derived class to define settings for torques caused by spherical harmonic gravity."
-    extendend_summary: |
+    extended_summary: |
       `TorqueSettings`-derived class to define settings for torques caused by spherical harmonic gravity.
 
     methods:
