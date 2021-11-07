@@ -14,5 +14,6 @@ modules:
   - astro
   - interface
   - numerical_simulation
+  - trajectory_design
   - plotting      # [py]
   - util          # [py]

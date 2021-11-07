@@ -1,0 +1,104 @@
+extended_summary: |
+  TODO
+
+# TODO: The attribute below API isn't working!
+#attributes:
+#  - name: DEFAULT_MINIMUM_PERICENTERS
+#    short_summary: "Minimum pericenter radii during fly-by."
+#    extended_summary: "TODO"
+#    type: dict[string, float] # [py]
+
+enums:
+  - name: TransferLegTypes
+    short_summary: "Enumeration of available leg types."
+    extended_summary: "TODO... extended summary needed?"
+
+    members:
+      - name: unpowered_unperturbed_leg_type # [py]
+      - name: dsm_position_based_leg_type # [py]
+      - name: dsm_velocity_based_leg_type # [py]
+
+      - name: unpowered_unperturbed_leg # [cpp]
+      - name: dsm_position_based_leg # [cpp]
+      - name: dsm_velocity_based_leg # [cpp]
+
+classes:
+  - name: TransferNodeSettings
+    short_summary: "Base class for providing settings for transfer node."
+    extended_summary: |
+      Functional (base) class for settings of transfer node that require no information in addition to their type.
+      Transfer node classes requiring additional information must be created using an object derived from this class.
+
+  - name: SwingbyNodeSettings
+    short_summary: "Class for defining settings of swingby node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for swingby nodes, including the minimum periapsis
+      radius.
+
+  - name: EscapeAndDepartureNodeSettings
+    short_summary: "Class for defining settings of escape and departure node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for escape and departure nodes, including the
+      departure semi-major axis and eccentricity.
+
+  - name: CaptureAndInsertionNodeSettings
+    short_summary: "Class for defining settings of capture and insertion node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for capture and insertion nodes, including the
+      capture semi-major axis and eccentricity.
+
+  - name: TransferLegSettings
+    short_summary: "Base class for providing settings for transfer leg."
+    extended_summary: |
+      Functional (base) class for settings of transfer leg that require no information in addition to their type.
+      Transfer leg classes requiring additional information must be created using an object derived from this class.
+
+functions:
+  - name: mga_transfer_settings # [py]
+  - name: getMgaTransferTrajectorySettings # [cpp]
+
+    short_summary: "TODO"
+    extended_summary: "TODO"
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: leg_type # [py]
+        type: TransferLegTypes # [py]
+      - name: identicalTransferLegType # [cpp]
+        type: TransferLegTypes # [cpp]
+        description: "Type of transfer leg between bodies."
+
+      # TODO: default values - is it working?
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: "Tuple of (semi-major axis, eccentricity) specifying the departure orbit."
+
+      # TODO: default values - is it working?
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: "Tuple of (semi-major axis, eccentricity) specifying the arrival orbit."
+
+      # TODO: default values - is it linking properly?
+      - name: minimum_pericenters # [py]
+        type: dict[string, float], default=tms::DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], tuple[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+
