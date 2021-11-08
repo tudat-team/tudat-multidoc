@@ -33,9 +33,12 @@ enums:
   #        enum tudat::numerical_integrators::RungeKuttaCoefficients::CoefficientSets
 
   - name: RKCoefficientSets
-    short_summary: "Coefficient sets for Runge-Kutta integrators."
-    #extended_summary: |
-      #Coefficient sets for Runge-Kutta integrators.
+    short_summary: "Coefficient sets for Runge-Kutta-Fehlberg-type integrators."
+    extended_summary: |
+      Coefficient sets for Runge-Kutta-Fehlberg-type integrators. The coefficients are defined
+      in a Butcher Tableau, with an coefficient set yielding an x(y) method yielding an integrator
+      with global truncation error of :math:`O(\Delta t^{x})`, and an embedded integrator of :math:`O(\Delta t^{y})
+      for step size control.
 
     members:
       #- name: undefinedCoefficientSet # [cpp]
@@ -44,9 +47,14 @@ enums:
       #- name: rungeKuttaFehlberg78 # [cpp]
       #- name: rungeKutta87DormandPrince # [cpp]
       - name: rkf_45 # [py]
+        description: "Coefficients for the Runge-Kutta-Fehlberg 4(5) method"
       - name: rkf_56 # [py]
+        description: "Coefficients for the Runge-Kutta-Fehlberg 5(6) method"
       - name: rkf_78 # [py]
+        description: "Coefficients for the Runge-Kutta-Fehlberg 7(8) method"
       - name: rkdp_87 # [py]
+        description: "Coefficients for the Dormand-Prince 8(7) method"
+
 
 
   #       py::enum_<tni::ExtrapolationMethodStepSequences>
@@ -225,7 +233,7 @@ functions:
       Factory function to create settings for the Runge-Kutta variable step size integrator with scalar tolerances.
       For this integrator, the step size is varied based on the tolerances and safety factor provided.
       The tolerance is composed of an absolute and a relative part.
-      Different coefficient sets (Butcher's tableau) can be used (see the `CoefficientSets` enum).
+      Different coefficient sets (Butcher's tableau) can be used (see the `RKCoefficientSets` enum).
 
     parameters:
       - name: initial_time # [py]
@@ -322,7 +330,7 @@ functions:
       Factory function to create settings for the Runge-Kutta variable step size integrator with vector tolerances.
       For this integrator, the step size is varied based on the tolerances and safety factor provided.
       The tolerance is composed of an absolute and a relative part.
-      Different coefficient sets (Butcher's tableau) can be used (see the `RungeKuttaCoefficients::CoefficientSets` enum).
+      Different coefficient sets (Butcher's tableau) can be used (see the `RKCoefficientSets` enum).
 
     parameters:
       - name: initial_time # [py]
@@ -507,12 +515,11 @@ functions:
  # Adams-Bashorth-Moulton integrator
   - name: adamsBashforthMoultonSettings # [cpp]
   - name: adams_bashforth_moulton # [py]
-    short_summary: "Creates the settings for the Bulirsch-Stoer integrator."
+    short_summary: "Creates the settings for the Adams-Bashorth-Moulton integrator."
     extended_summary: |
       Factory function to create settings for the Adams-Bashorth-Moulton integrator.
       For this integrator, the step size is varied based on the tolerances and safety factor provided.
       The tolerance is composed of an absolute and a relative part.
-      Different coefficient sets (Butcher's tableau) can be used (see the `RungeKuttaCoefficients::CoefficientSets` enum).
 
     parameters:
       - name: initialTime # [cpp]
