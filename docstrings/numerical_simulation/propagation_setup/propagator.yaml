@@ -6,6 +6,14 @@ extended_summary: |
 # propagationSettings.h, propagationTerminationSettings.h (tudat)
 
 
+references: |
+  .. [1] Vittaldev, V., Mooij, E., & Naeije, M. C. (2012). Unified State Model theory and
+         application in Astrodynamics. Celestial Mechanics and Dynamical Astronomy, 112(3), 253-282.
+  .. [2] Wakker, K. F. (2015). Fundamentals of astrodynamics.
+  .. [3] Hintz, G. R. (2008). Survey of orbit element sets. Journal of guidance, control, and dynamics, 31(3), 785-790.
+  .. [4] Vallado, D. A. (2001). Fundamentals of astrodynamics and applications (Vol. 12). Springer Science & Business Media.
+
+
 enums:
 
   #       py::enum_<tp::TranslationalPropagatorType>
@@ -13,35 +21,47 @@ enums:
 
   - name: TranslationalPropagatorType
     short_summary: "Enumeration of available translational propagator types."
-    extended_summary: |
-      Enumeration of translational propagator types supported by tudat.
-
+    #extended_summary: |
+      #Enumeration of translational propagator types supported by tudat.
     members:
       - name: undefined_translational_propagator
       - name: cowell
+        description: "Propagation of Cartesian elements (state vector size 6), without any transformations"
       - name: encke
+        description: "Propagation of the diffence in Cartesian elements of the orbit w.r.t. an unperturbed reference orbit.
+          The reference orbit is generated from the initial state/central body, and not updated during the propagation
+          (see Wakker, 2015 [2]_)"
       - name: gauss_keplerian
+        description: "Propagation of Keplerian elements (state vector size 6), with true anomaly as the 'fast' element  (see Vallado, 2001 [4]_)"
       - name: gauss_modified_equinoctial
+        description: "Propagation of Modified equinotial elements (state vector size 6), with the element :math:`I` defining
+          the location of the singulariy based on the initial condition (see Hintz, 2008 [3]_)"
       - name: unified_state_model_quaternions
+        description: "Propagation of Unified state model using quaternions (state vector size 7, see Vittaldev et al., 2012 [1]_)"
       - name: unified_state_model_modified_rodrigues_parameters
+        description: "Propagation of Unified state model using modified Rodrigues parameters (state vector size 7, last element represents shadow parameter, see Vittaldev et al., 2012 [1]_)"
       - name: unified_state_model_exponential_map
+        description: "Propagation of Unified state model using exponential map (state vector size 7, last element represents shadow parameter, see Vittaldev et al., 2012 [1]_)"
 
-  #       py::enum_<tp::RotationalPropagatorType>
-  #        enum tudat::propagators::RotationalPropagatorType
 
   - name: RotationalPropagatorType
     short_summary: "Enumeration of available rotational propagator types."
-    extended_summary: |
-      Enumeration of rotational propagator types supported by tudat.
-
+    #extended_summary: |
+      #Enumeration of rotational propagator types supported by tudat.
     members:
       - name: undefined_rotational_propagator
       - name: quaternions
+        description: "Entries 1-4: The quaternion defining the rotation from inertial to body-fixed frame
+          (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: modified_rodrigues_parameters
+        description: "Entries 1-4: The modified Rodrigues parameters defining the
+          rotation from inertial to body-fixed frame (with entry four the shadow parameter)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: exponential_map
-
-  #       py::enum_<tp::IntegratedStateType>
-  #        enum tudat::propagators::IntegratedStateType
+        description: "Entries 1-4: The exponential map defining the
+          rotation from inertial to body-fixed frame (with entry four the shadow parameter)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
 
   - name: IntegratedStateType # [cpp]
   - name: StateType # [py]
@@ -66,10 +86,10 @@ enums:
 
   #   enum tudatpy.simulation.propagation_setup.propagator.PropagationTerminationTypes # python only(?)
 
-  - name: RotationalPropagatorType # [py]
-    short_summary: "Enumeration of available rotational propagator types." # [py]
-    extended_summary: | # [py]
-      Enumeration of rotational propagator types supported by tudat. # [py]
+  - name: PropagationTerminationTypes # [py]
+    short_summary: "Enumeration of possible propagation termination types"
+    #extended_summary: | # [py]
+      #Enumeration of rotational propagator types supported by tudat. # [py]
 
     members:
       - name: time_stopping_condition # [py]
