@@ -224,6 +224,24 @@ functions:
         type: AerodynamicCoefficientSettings # [py]
         description: "Settings defining the coefficient interface that is to be created." # [py]
 
+
+  - name: create_system_of_bodies # [py]
+    short_summary: "Function that creates a System of bodies from associated settings."
+    extended_summary: |
+      Function that creates a System of bodies from associated settings. This function creates the separate :class:`~tudatpy.numerical_simulation.Body`
+      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.SystemOfBodies` object. This object represents the full
+      physical environmen in the simulation
+
+    parameters:
+      - name: body_settings # [py]
+        type: BodyListSettings # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+    returns: # [py]
+        type: SystemOfBodies  # [py]
+        description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
+
+
   - name: add_radiation_pressure_interface # [py]
     short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
     extended_summary: |
