@@ -1,6 +1,6 @@
 extended_summary: |
   This module provides the functionality for creating dependent variable
-  settings.
+  settings. Note that *all* output is in SI units (meters, radians, seconds). All epochs are provided in seconds since J2000.
 
 # the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for propagationOutputSettings.h (tudat)
