@@ -268,7 +268,7 @@ classes:
     extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
 
-    attributes:
+    properties:
     - name: propagator_settings_per_type # [py]
       type: dict[IntegratedStateType, list[SingleArcPropagatorSettings]] # [py]
 
