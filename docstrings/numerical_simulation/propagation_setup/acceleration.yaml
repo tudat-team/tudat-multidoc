@@ -619,8 +619,10 @@ functions:
         description: Empirical acceleration settings object.
 
     examples: |
-      In this example, we define the empirical acceleration acting on the vehicle. Note how the empirical acceleration
-      is self-exerted by the vehicle on itself:
+      In this example, we define the empirical acceleration acting on the vehicle. The body that 'exerts' the acceleration
+      is here used to determine the body w.r.t. which the true anomaly has o be calculated when determining the sine/cosine
+      contributions. This central body must be endowed with a gravity field (so that it possesses a gravitaional parameter
+      for the Cartesian to Keplerian conversion)
 
       .. code-block:: python # [py]
          # [py]
@@ -631,7 +633,7 @@ functions:
          # Create acceleration dict # [py]
          acceleration_settings_on_vehicle = dict() # [py]
          # Add the acceleration to the dict # [py]
-         acceleration_settings_on_vehicle["Vehicle"] = [propagation_setup.acceleration.empirical( # [py]
+         acceleration_settings_on_vehicle["Sun"] = [propagation_setup.acceleration.empirical( # [py]
              constant_acceleration,  # [py]
              sine_acceleration,  # [py]
              cosine_acceleration)] # [py]

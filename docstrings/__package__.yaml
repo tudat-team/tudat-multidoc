@@ -15,5 +15,6 @@ modules:
   - interface
   - math
   - numerical_simulation
+  - trajectory_design
   - plotting      # [py]
   - util          # [py]

@@ -1,0 +1,498 @@
+extended_summary: |
+  This module provides the functionality for creating transfer trajectories consisting of
+  multiple transfer legs separated by transfer nodes.
+
+
+
+# TODO: The attribute below API isn't working!
+#???:
+#  - name: DEFAULT_MINIMUM_PERICENTERS
+#    short_summary: "Minimum pericenter radii during fly-by."
+#    extended_summary: "TODO"
+#    type: dict[string, float] # [py]
+
+#############################################################################
+# Enums
+#############################################################################
+enums:
+  - name: TransferLegTypes
+    short_summary: "Enumeration of available leg types."
+    # extended_summary:
+
+    members:
+      - name: unpowered_unperturbed_leg_type # [py]
+      - name: unpowered_unperturbed_leg # [cpp]
+        description: "Unpowered leg."
+
+      - name: dsm_position_based_leg_type # [py]
+      - name: dsm_position_based_leg # [cpp]
+        description: "Leg with 1 deep space maneuver described using the position formulation."
+
+      - name: dsm_velocity_based_leg_type # [py]
+      - name: dsm_velocity_based_leg # [cpp]
+        description: "Leg with 1 deep space maneuver described using the velocity formulation."
+
+#############################################################################
+# Classes
+#############################################################################
+classes:
+  - name: TransferNodeSettings
+    short_summary: "Base class for providing settings for transfer nodes."
+    extended_summary: |
+      Functional (base) class for settings of transfer nodes that require no information in addition to their type.
+      Transfer node classes requiring additional information must be created using an object derived from this class.
+
+  - name: SwingbyNodeSettings
+    short_summary: "Class for defining settings of swingby node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for swingby nodes, including the minimum periapsis
+      radius.
+
+  - name: EscapeAndDepartureNodeSettings
+    short_summary: "Class for defining settings of escape and departure node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for escape and departure nodes, including the
+      departure semi-major axis and eccentricity.
+
+  - name: CaptureAndInsertionNodeSettings
+    short_summary: "Class for defining settings of capture and insertion node."
+    extended_summary: |
+      `TransferNodeSettings` derived class for providing settings for capture and insertion nodes, including the
+      capture semi-major axis and eccentricity.
+
+  - name: TransferLegSettings
+    short_summary: "Base class for providing settings for transfer legs."
+    extended_summary: |
+      Functional (base) class for settings of transfer legs that require no information in addition to their type.
+
+  - name: TransferTrajectory
+    short_summary: "Class defining a transfer trajectory constituted by transfer legs and nodes."
+    extended_summary:
+      Class defining a transfer trajectory constituted by transfer legs and nodes. The object is tipically created
+      using the `create_transfer_trajectory` function.
+
+    properties: # [py]
+      - name: delta_v # [py]
+        type: float # [py]
+        description: Total Delta V used in the transfer trajectory. # [py]
+        readonly: True # [py]
+
+      - name: time_of_flight # [py]
+        type: float # [py]
+        description: Total time of flight of the transfer trajectory. # [py]
+        readonly: True # [py]
+
+      - name: delta_v_per_node # [py]
+        type: list[float] # [py]
+        description: List of the Delta V applied in each node. # [py]
+        readonly: True # [py]
+
+      - name: delta_v_per_leg # [py]
+        type: list[float] # [py]
+        description: List of the Delta V applied in each leg (corresponding to each deep space maneuver). # [py]
+        readonly: True # [py]
+
+      - name: number_of_nodes # [py]
+        type: float # [py]
+        description: Number of nodes in the transfer trajectory. # [py]
+        readonly: True # [py]
+
+      - name: number_of_legs # [py]
+        type: float # [py]
+        description: Number of legs in the transfer trajectory. # [py]
+        readonly: True # [py]
+
+    methods:
+      - name: evaluate # [py]
+      - name: evaluateTrajectory # [cpp]
+        short_summary: "Evaluate transfer trajectory."
+        extended_summary: |
+          Function to evaluate the transfer trajectory, which consists of computing the transfer Delta V and time of
+          flight, for the specified set of parameters.
+          A full explanation of the node and leg free parameters used to define each transfer trajectory (which depends
+          on the leg type) is given by Musegaas [2]_.
+
+        parameters:
+          - name: node_times # [py]
+            type: list[float] # [py]
+          - name: nodeTimes # [cpp]
+            type: std::vector< double > # [cpp]
+            description: "List of the time at each node."
+
+          - name: leg_parameters # [py]
+            type: list[list[float]]
+          - name: legFreeParameters # [cpp]
+            type: std::vector< Eigen::VectorXd > # [cpp]
+            description: |
+              List of lists with the parameters characterizing each leg. Each inner list corresponds to the
+              parameters of one leg; if a leg does not require any parameter, its list can contain any value(s),
+              therefore it is recommended to leave it empty.
+
+          - name: node_parameters # [py]
+            type: list[list[float]]
+          - name: nodeFreeParameters # [cpp]
+            type: std::vector< Eigen::VectorXd > # [cpp]
+            description: |
+              List of lists with the parameters characterizing each node. Each inner list corresponds to the
+              parameters of one node; if a node does not require any parameter, its list can contain any value(s),
+              therefore it is recommended to leave it empty.
+
+        returns:
+          type: None # [py]
+          type: void # [cpp]
+
+      - name: single_node_delta_v # [py]
+      - name: getNodeDeltaV # [cpp]
+        short_summary: "Retrieves the Delta V at the specified node."
+        #extended_summary:
+
+        parameters:
+          - name: node_index # [py]
+            type: int # [py]
+          - name: nodeIndex # [cpp]
+            type: int # [cpp]
+
+        returns:
+          type: float # [py]
+          type: double # [cpp]
+          description: Delta V for the specified node.
+
+      - name: single_leg_delta_v # [py]
+      - name: getLegDeltaV # [cpp]
+        short_summary: "Retrieves the Delta V of the specified leg (corresponding to a deep space maneuver)."
+        #extended_summary:
+
+        parameters:
+          - name: leg_index # [py]
+            type: int # [py]
+          - name: legIndex # [cpp]
+            type: int # [cpp]
+
+        returns:
+          type: float # [py]
+          type: double # [cpp]
+          description: Delta V for the specified leg.
+
+      - name: states_along_trajectory # [py]
+      - name: getStatesAlongTrajectory # [cpp]
+        short_summary: "Returns the state history throughout the trajectory."
+        extended_summary: |
+          Function that returns the state history throughout the trajectory, using the same number of data points in
+          each leg. For each leg, the retrieved states are equally spaced in time. Each state is computed by
+          propagating the leg's initial state as a Kepler orbit until the desired time.
+
+        parameters:
+          - name: number_of_data_points_per_leg # [py]
+            type: int # [py]
+          - name: numberOfDataPointsPerLeg # [cpp]
+            type: int # [py]
+
+        returns:
+          type: std::map< double, Eigen::Vector6d > # [cpp]
+          type: tuple[numpy.ndarray,numpy.ndarray] # [py]
+          description: Tuple of (state history, time history). # [py]
+
+      - name: getTotalDeltaV # [cpp]
+        short_summary: "Retrieves the total Delta V used in the transfer trajectory." # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Delta V. # [cpp]
+
+      - name: getTotalTimeOfFlight # [cpp]
+        short_summary: "Retrieves the total time of flight of the transfer trajectory." # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Time of flight. # [cpp]
+
+      - name: getDeltaVPerNode # [cpp]
+        short_summary: "Returns the Delta V applied in each node." # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: std::vector< double > # [cpp]
+          description: Delta V per node. # [cpp]
+
+      - name: getDeltaVPerLeg # [cpp]
+        short_summary: "Returns the Delta V applied in each leg (corresponding to each deep space maneuver)."  # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: std::vector< double > # [cpp]
+          description: Delta V per leg. # [cpp]
+
+      - name: getNumberOfNodes # [cpp]
+        short_summary: "Retrieves the number of nodes in the transfer trajectory." # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Number of nodes. # [cpp]
+
+      - name: getNumberOfLegs # [cpp]
+        short_summary: "Retrieves the number of legs in the transfer trajectory." # [cpp]
+        #extended_summary:
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Number of legs. # [cpp]
+
+#############################################################################
+# Functions
+#############################################################################
+functions:
+  - name: mga_transfer_settings # [py]
+  - name: getMgaTransferTrajectorySettings # [cpp]
+
+    short_summary: |
+      Function to get the settings of the legs and nodes constituting the specified transfer trajectory.
+    extended_summary: |
+      Function determines the settings of the legs and nodes constituting the transfer trajectory. The transfer
+      trajectory consists of a series of nodes, each of them associated with a body (list of bodies needs to be provided
+      as an argument), connected by a series of legs (the type of which is specified as an argument).
+      If the departure orbit and arrival orbit are provided as arguments, the transfer trajectory is constituted by
+      a departure node, a sequence of swingby nodes and a capture node. If the departure/arrival orbit is not specified,
+      the first/last node is also defined as a swingby node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: leg_type # [py]
+        type: TransferLegTypes # [py]
+      - name: identicalTransferLegType # [cpp]
+        type: TransferLegTypes # [cpp]
+        description: "Type of transfer leg between bodies."
+
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: unpowered_leg # [py]
+  - name: unpoweredLeg # [cpp]
+
+    short_summary: |
+      Factory function for creating the settings of an unpowered leg.
+    extended_summary: |
+      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+
+    returns:
+      type: TransferLegSettings
+      description: Transfer leg settings.
+
+  - name: dsm_position_based_leg # [py]
+  - name: dsmPositionBasedLeg # [cpp]
+
+    short_summary: |
+      Factory function for creating the settings of a transfer leg with 1 deep space maneuver described using
+      the position formulation.
+    extended_summary: |
+      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+
+    returns:
+      type: TransferLegSettings
+      description: Transfer leg settings.
+
+  - name: dsm_velocity_based_leg # [py]
+  - name: dsmVelocityBasedLeg # [cpp]
+
+    short_summary: |
+      Factory function for creating the settings of a transfer leg with 1 deep space maneuver described using
+      the velocity formulation.
+    extended_summary: |
+      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+
+    returns:
+      type: TransferLegSettings
+      description: Transfer leg settings.
+
+  - name: swingby_node # [py]
+  - name: swingbyNode # [cpp]
+
+    short_summary: Factory function for creating the settings of a swingby node.
+    extended_summary: |
+      Factory function for creating the settings of a swingby node. The settings consist consist of the minimum
+      allowed periapsis radius.
+
+    parameters:
+      - name: minimum_periapsis # [py]
+        type: float # [py]
+      - name: minimumPeriapsisDistance # [cpp]
+        type: double # [cpp]
+        description: Minimum periapsis radius.
+
+    returns:
+      type: SwingbyNodeSettings
+      description: Swingby node settings.
+
+  - name: departure_node # [py]
+  - name: escapeAndDepartureNode # [cpp]
+
+    short_summary: Factory function for creating the settings of an escape or departure node.
+    extended_summary: |
+      Factory function for creating the settings of an escape or departure node. The settings consist of the
+      departure orbit eccentricity and semi-major axis.
+
+    parameters:
+      - name: departure_semi_major_axis # [py]
+        type: float # [py]
+      - name: departureSemiMajorAxis # [cpp]
+        type: double # [cpp]
+        description: Departure orbit semi-major axis.
+
+      - name: departure_eccentricity # [py]
+        type: float # [py]
+      - name: departureEccentricity # [cpp]
+        type: double # [cpp]
+        description: Departure orbit eccentricity.
+
+    returns:
+      type: EscapeAndDepartureNodeSettings
+      description: Escape or departure node settings.
+
+  - name: capture_node # [py]
+  - name: captureAndInsertionNode # [cpp]
+
+    short_summary: Factory function for creating the settings of a capture or insertion node.
+    extended_summary: |
+      Factory function for creating the settings of a capture or insertion node. The settings consist of the
+      capture orbit eccentricity and semi-major axis.
+
+    parameters:
+      - name: capture_semi_major_axis # [py]
+        type: float # [py]
+      - name: captureSemiMajorAxis # [cpp]
+        type: double # [cpp]
+        description: Capture orbit semi-major axis.
+
+      - name: capture_eccentricity # [py]
+        type: float # [py]
+      - name: captureEccentricity # [cpp]
+        type: double # [cpp]
+        description: Capture orbit eccentricity.
+
+    returns:
+      type: CaptureAndInsertionNodeSettings
+      description: Capture or insertion node settings.
+
+  - name: print_parameter_definitions # [py]
+  - name: printTransferParameterDefinition # [cpp]
+
+    short_summary: |
+      Prints the list of parameters required to define the transfer trajectory, according to the
+      specified node and leg settings.
+    #extended_summary:
+
+    parameters:
+      - name: leg_settings # [py]
+        type: list[TransferLegSettings] # [py]
+      - name: legSettings # [cpp]
+        type: std::vector< std::shared_ptr< TransferLegSettings > > # [cpp]
+        description: List of transfer leg settings.
+
+      - name: node_settings # [py]
+        type: list [TransferNodeSettings] # [py]
+      - name: nodeSettings # [cpp]
+        type: std::vector< std::shared_ptr< TransferNodeSettings > > # [cpp]
+        description: List of transfer node settings.
+
+    returns:
+      type: None # [py]
+      type: void # [cpp]
+
+  - name: create_transfer_trajectory # [py]
+  - name: createTransferTrajectory # [cpp]
+
+    short_summary: |
+      Factory function for creating a transfer trajectory consisting of the specified sequence of transfer nodes and
+      transfer legs.
+    extended_summary: |
+      The function creates a transfer trajectory based on the provided transfer nodes settings and transfer legs
+      settings. The number of nodes should be equal to the number of legs plus 1.
+      This function creates an instance of the `TransferTrajectory` class.
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+      - name: bodyMap # [cpp]
+        type: SystemOfBodies # [cpp]
+        description: System of bodies to be used in the transfer trajectory.
+
+      - name: leg_settings # [py]
+        type: list[TransferLegSettings] # [py]
+      - name: legSettings # [cpp]
+        type: std::vector< std::shared_ptr< TransferLegSettings > > # [cpp]
+        description: List of transfer leg settings.
+
+      - name: node_settings # [py]
+        type: list [TransferNodeSettings] # [py]
+      - name: nodeSettings # [cpp]
+        type: std::vector< std::shared_ptr< TransferNodeSettings > > # [cpp]
+        description: List of transfer node settings.
+
+      - name: node_names # [py]
+        type: list [str] # [py]
+      - name: nodeIds # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: Sequence of bodies used as transfer nodes.
+
+      - name: central_body # [py]
+        type: str # [py]
+      - name: centralBody # [cpp]
+        type: std::string # [cpp]
+        description: |
+          Central body with respect to which the two-body trajectory of the spacecraft
+          is calculated.
+
+    returns:
+      type: TransferTrajectory
+      description: Transfer trajectory object.
+
+#############################################################################
+# References
+#############################################################################
+references: |
+  .. [1] Izzo, D. 1st ACT global trajectory optimisation competition: Problem
+        description and summary of the results. Acta Astronautica 61, 9 (2007).
+        https://doi.org/10.1016/j.actaastro.2007.03.003
+  .. [2] Musegaas, P. Optimization of Space Trajectories Including Multiple
+        Gravity Assists and Deep Space Maneuvers. Delft University of Technology,
+        MSc thesis (2012).
+        http://resolver.tudelft.nl/uuid:02468c77-5c64-4df8-9a24-1ed7ad9d1408
