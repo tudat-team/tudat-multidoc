@@ -64,89 +64,89 @@ functions:
                      to the acceleration settings input, but now with ``AccelerationModel`` lists as inner value
 
     examples: |
-    In this example, the acceleration model includes a spherical harmonic (degree and order 5) gravitational acceleration
-    and aerodynamic acceleration exerted by the Earth, as well as point-mass gravity exerted by the Sun and the Moon.
-    The variable ``accelerations_settings_vehicle`` denotes the list of bodies exerting accelerations and the types of
-    accelerations, while the variable ``acceleration_settings`` associates this list with the body undergoing the
-    acceleration (``"Vehicle"``).
+      In this example, the acceleration model includes a spherical harmonic (degree and order 5) gravitational acceleration
+      and aerodynamic acceleration exerted by the Earth, as well as point-mass gravity exerted by the Sun and the Moon.
+      The variable ``accelerations_settings_vehicle`` denotes the list of bodies exerting accelerations and the types of
+      accelerations, while the variable ``acceleration_settings`` associates this list with the body undergoing the
+      acceleration (``"Vehicle"``).
 
-    .. code-block:: python # [py]
-       # [py]
-       # Define bodies that are propagated. # [py]
-       bodies_to_propagate = ["Vehicle"] # [py]
-       # [py]
-       # Define central bodies. # [py]
-       central_bodies = ["Earth"] # [py]
-       # [py]
-       # Define accelerations acting on Vehicle # [py]
-       accelerations_settings_vehicle = dict( # [py]
-           Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-           Moon=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-           Earth=[propagation_setup.acceleration.spherical_harmonic_gravity(5, 5), # [py]
-                  propagation_setup.acceleration.aerodynamic()] # [py]
-       ) # [py]
-       # [py]
-       # Create global accelerations settings dictionary # [py]
-       acceleration_settings = {"Delfi-C3": accelerations_settings_delfi_c3} # [py]
-       # [py]
-       # Create acceleration models # [py]
-       acceleration_models = propagation_setup.create_acceleration_models( # [py]
-           bodies, acceleration_settings,  bodies_to_propagate, central_bodies) # [py]
+      .. code-block:: python # [py]
+         # [py]
+         # Define bodies that are propagated. # [py]
+         bodies_to_propagate = ["Vehicle"] # [py]
+         # [py]
+         # Define central bodies. # [py]
+         central_bodies = ["Earth"] # [py]
+         # [py]
+         # Define accelerations acting on Vehicle # [py]
+         accelerations_settings_vehicle = dict( # [py]
+             Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+             Moon=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+             Earth=[propagation_setup.acceleration.spherical_harmonic_gravity(5, 5), # [py]
+                    propagation_setup.acceleration.aerodynamic()] # [py]
+         ) # [py]
+         # [py]
+         # Create global accelerations settings dictionary # [py]
+         acceleration_settings = {"Delfi-C3": accelerations_settings_delfi_c3} # [py]
+         # [py]
+         # Create acceleration models # [py]
+         acceleration_models = propagation_setup.create_acceleration_models( # [py]
+             bodies, acceleration_settings,  bodies_to_propagate, central_bodies) # [py]
 
-    When propagating multiple bodies, the same list of settings may be re-used for multiple bodies. Below,
-    an example is given for the definition of ``acceleration_settings`` for multiple bodies (``Vehicle1`` and
-    ``Vehicle2``) which are undergoing identical accelerations:
+      When propagating multiple bodies, the same list of settings may be re-used for multiple bodies. Below,
+      an example is given for the definition of ``acceleration_settings`` for multiple bodies (``Vehicle1`` and
+      ``Vehicle2``) which are undergoing identical accelerations:
 
-    .. code-block:: python # [py]
-       # [py]
-       # Define bodies that are propagated # [py]
-       bodies_to_propagate = ["Vehicle1", "Vehicle2"] # [py]
-       # [py]
-       # Define central bodies # [py]
-       central_bodies = ["Earth", "Earth"] # [py]
-       # [py]
-       # Define accelerations acting on both vehicles # [py]
-       accelerations_settings_vehicle = dict( # [py]
-           Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-           Moon=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-           Earth=[propagation_setup.acceleration.spherical_harmonic_gravity(5, 5), # [py]
-                  propagation_setup.acceleration.aerodynamic()] # [py]
-       ) # [py]
-       # [py]
-       # Create global accelerations settings dictionary # [py]
-       acceleration_settings = {"Vehicle1": accelerations_settings_delfi_c3, # [py]
-                                "Vehicle2": accelerations_settings_delfi_c3} # [py]
-       # Create acceleration models # [py]
-       acceleration_models = propagation_setup.create_acceleration_models( # [py]
-           bodies, acceleration_settings,  bodies_to_propagate, central_bodies) # [py]
+      .. code-block:: python # [py]
+         # [py]
+         # Define bodies that are propagated # [py]
+         bodies_to_propagate = ["Vehicle1", "Vehicle2"] # [py]
+         # [py]
+         # Define central bodies # [py]
+         central_bodies = ["Earth", "Earth"] # [py]
+         # [py]
+         # Define accelerations acting on both vehicles # [py]
+         accelerations_settings_vehicle = dict( # [py]
+             Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+             Moon=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+             Earth=[propagation_setup.acceleration.spherical_harmonic_gravity(5, 5), # [py]
+                    propagation_setup.acceleration.aerodynamic()] # [py]
+         ) # [py]
+         # [py]
+         # Create global accelerations settings dictionary # [py]
+         acceleration_settings = {"Vehicle1": accelerations_settings_delfi_c3, # [py]
+                                  "Vehicle2": accelerations_settings_delfi_c3} # [py]
+         # Create acceleration models # [py]
+         acceleration_models = propagation_setup.create_acceleration_models( # [py]
+             bodies, acceleration_settings,  bodies_to_propagate, central_bodies) # [py]
 
-    Alternatively, separate acceleration settings may be defined for separate bodies and then combined into an
-    ``acceleration_settings`` variable. Below, an example for such a case is given when propagating the Earth and Moon:
+      Alternatively, separate acceleration settings may be defined for separate bodies and then combined into an
+      ``acceleration_settings`` variable. Below, an example for such a case is given when propagating the Earth and Moon:
 
-    .. code-block:: python # [py]
-      # [py]
-      # Define bodies that are propagated # [py]
-      bodies_to_propagate = ["Earth", "Moon"] # [py]
-      # [py]
-      # Define central bodies # [py]
-      central_bodies = ["Sun", "Sun"] # [py]
-      # Define accelerations acting on the Moon # [py]
-      accelerations_settings_moon = dict( # [py]
-          Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-          Earth=[propagation_setup.acceleration.point_mass_gravity()] # [py]
-          ) # [py]
-      # [py]
-      # Define accelerations acting on the Earth # [py]
-      accelerations_settings_earth = dict( # [py]
-          Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
-          Moon=[propagation_setup.acceleration.point_mass_gravity()] # [py]
-          ) # [py]
-      # [py]
-      # Create global accelerations settings dictionary
-      acceleration_settings = {
-          "Moon": accelerations_settings_moon,
-          "Earth": accelerations_settings_earth
-      }
+      .. code-block:: python # [py]
+        # [py]
+        # Define bodies that are propagated # [py]
+        bodies_to_propagate = ["Earth", "Moon"] # [py]
+        # [py]
+        # Define central bodies # [py]
+        central_bodies = ["Sun", "Sun"] # [py]
+        # Define accelerations acting on the Moon # [py]
+        accelerations_settings_moon = dict( # [py]
+            Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+            Earth=[propagation_setup.acceleration.point_mass_gravity()] # [py]
+            ) # [py]
+        # [py]
+        # Define accelerations acting on the Earth # [py]
+        accelerations_settings_earth = dict( # [py]
+            Sun=[propagation_setup.acceleration.point_mass_gravity()], # [py]
+            Moon=[propagation_setup.acceleration.point_mass_gravity()] # [py]
+            ) # [py]
+        # [py]
+        # Create global accelerations settings dictionary
+        acceleration_settings = {
+            "Moon": accelerations_settings_moon,
+            "Earth": accelerations_settings_earth
+        }
 
 
   - name: createTorqueModelsMap # [cpp]
