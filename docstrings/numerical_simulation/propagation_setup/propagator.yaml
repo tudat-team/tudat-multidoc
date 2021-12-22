@@ -443,7 +443,11 @@ functions:
         type: Eigen::Matrix # [cpp]
       - name: initial_states # [py]
         type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+        description: |
+          Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the
+           bodies to integrate. The initial states must be expressed in Cartesian elements with the same frame
+           orientation as the environment (specified when creating a body system from default body settings, see
+           :func:~`tudatpy.numerical_simulation.environment_setup.get_default_body_settings`).
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
