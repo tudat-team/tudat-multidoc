@@ -820,15 +820,15 @@ functions:
       reached (as the ``use_as_lower_limit`` is set to ``True``). To use the above settings to terminate when an
       *upper* limit of 25 km is reached, set this boolean to ``False``.
 
-      	.. code-block:: python
+      .. code-block:: python
 
-          # Set dependent variable to be checked as termination setting
-      		termination_variable = propagation_setup.dependent_variable.altitude( "Spacecraft", "Earth" )
-      		# Create termination settings
-      		termination_settings = propagation_setup.propagator.dependent_variable_termination(
-      			dependent_variable_settings = termination_variable,
-      			limit_value = 25.0E3,
-      			use_as_lower_limit = True)
+        # Set dependent variable to be checked as termination setting
+        termination_variable = propagation_setup.dependent_variable.altitude( "Spacecraft", "Earth" )
+        # Create termination settings
+        termination_settings = propagation_setup.propagator.dependent_variable_termination(
+          dependent_variable_settings = termination_variable,
+          limit_value = 25.0E3,
+          use_as_lower_limit = True)
 
 
   # Custom termination
@@ -898,7 +898,7 @@ functions:
     examples: |
       In the following example, the propagation will terminate once *one of the three* termination settings (simulated time, cpu time, altitude)
       has reached the imposed limit value. The ``fulfill_single_condition`` variable determines whether the propagation
-       terminates once a *single* condition is met (if True, as above) or once *all* conditions must be met (False).
+      terminates once a *single* condition is met (if True, as above) or once *all* conditions must be met (False).
 
       .. code-block:: python
 
