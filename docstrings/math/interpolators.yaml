@@ -2,14 +2,15 @@ extended_summary: |
   Functions for performing numerical interpolation using various algorithms.
 
 classes:
+
   - name: InterpolatorSettings
     short_summary: "Base class to define settings for an interpolator."
 
   - name: LagrangeInterpolatorSettings
-    short_summary: :class:`InterpolatorSettings`-derived class to define settings for a Lagrange interpolator.
+    short_summary: ":class:`InterpolatorSettings`-derived class to define settings for a Lagrange interpolator."
 
   - name: OneDimensionalInterpolatorScalar
-    short_summary: Object that performs interpolation for scalar independent, and scalar dependent variables.
+    short_summary: "Object that performs interpolation for scalar independent, and scalar dependent variables."
     extended_summary: |
       Object that performs interpolation for scalar independent, and scalar dependent variables. This object is
       not created manually, but is set up using the :func:`create_one_dimensional_scalar_interpolator` function.
@@ -31,7 +32,7 @@ classes:
 
 
   - name: OneDimensionalInterpolatorVector
-    short_summary: Object that performs interpolation for vector independent, and vector dependent variables.
+    short_summary: "Object that performs interpolation for vector independent, and vector dependent variables."
     extended_summary: |
       Object that performs interpolation for vector independent, and vector dependent variables. This object is
       not created manually, but is set up using the :func:`create_one_dimensional_vector_interpolator` function.
@@ -247,7 +248,7 @@ functions:
       8 data points out of the full data set. Normally, the interpolating polynomial is only used between the
       :math:`4^{th}` and :math:`5^{th}` data point, where it will typically be of good accuracy. Consequently,
       a separate interpolating polynomial (using data over a span of :math:`m` consecutive points) is used for
-      each single interval :math:`[t_{i}..t_{i+1}] (with the exception of the boundaries, see below).
+      each single interval :math:`[t_{i}..t_{i+1}]` (with the exception of the boundaries, see below).
 
       .. warning:: Issues can occur if the data point :math:`t` at which the interpolation is to be
                    performed is close to :math:`t_{0}` or :math:`t_{N}`. In those case, there is not sufficient
@@ -257,16 +258,14 @@ functions:
                    used as input to this function). In short, interpolation between the first and last :math:`m/2`
                    data points will lead to degraded results, warnings, or termination.
 
-
     parameters:
-
 
       - name: number_of_points # [py]
         type: int # [py]
         description: Number of consecutive data points that are used to construct a single interpolating polynomial.
 
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default = huntingalgorithm# [py]
+        type: AvailableLookupScheme, default = huntingalgorithm # [py]
         description: Algorithm used to find the nearest neighbour in the independent
           variable input data when the interpolation scheme is called
 
@@ -280,12 +279,11 @@ functions:
         description: Interpolator behaviour that is to be used at the boundaries of the domain, where the
           regular algorithm cannot be executed.
 
-
     returns:
-        type: LagrangeInterpolatorSettings # [py]
-        description: Lagrange interpolation settings object
+      type: LagrangeInterpolatorSettings # [py]
+      description: Lagrange interpolation settings object
 
-  - name: create_one_dimensional_scalar_interpolator
+  - name: create_one_dimensional_scalar_interpolator # [py]
     short_summary: "Function to create an interpolator for scalar dependent variables."
     extended_summary: |
       Function to create an interpolator for scalar dependent variables, with a single independent
@@ -313,7 +311,7 @@ functions:
         type: OneDimensionalInterpolatorScalar
         description: Interpolator object
 
-  - name: create_one_dimensional_vector_interpolator
+  - name: create_one_dimensional_vector_interpolator # [py]
     short_summary: "Function to create an interpolator for vector dependent variables."
     extended_summary: |
       As :func:`create_one_dimensional_scalar_interpolator`, but with vectors as dependent variables
@@ -339,7 +337,7 @@ functions:
         type: OneDimensionalInterpolatorVector
         description: Interpolator object
 
-  - name: create_one_dimensional_matrix_interpolator
+  - name: create_one_dimensional_matrix_interpolator # [py]
     short_summary: "Function to create an interpolator for matrix dependent variables."
     extended_summary: |
       As :func:`create_one_dimensional_scalar_interpolator`, but with matrices (2-dimensional arrays) as dependent variables
