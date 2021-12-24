@@ -8,3 +8,4 @@ extended_summary:  |
 modules:
   - frame_conversion
   - element_conversion
+  - two_body_dynamics
