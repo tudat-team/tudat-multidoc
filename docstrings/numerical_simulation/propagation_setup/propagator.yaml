@@ -443,10 +443,12 @@ functions:
         type: Eigen::Matrix # [cpp]
       - name: initial_states # [py]
         type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the
-                     bodies to integrate. The initial states must be expressed in Cartesian elements with the same frame
-                     orientation as the environment (specified when creating a body system from default body settings, see
-                     :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`).
+
+        description: Initial states of the bodies to integrate (one initial state for each body, concatenated into a single array), provided in the same order as the
+          bodies to integrate. The initial states must be expressed in Cartesian elements, w.r.t. the central body of each integrated body. 
+          The states must be defined with the same frame orientation as the global frame orientation of the environment (specified when creating a system of bodies, see for instance
+          :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings` and :func:`~tudatpy.numerical_simulation.environment_setup.create_system_of_bodies`).
+          Consequently, for N integrated bodies, this input is a vector with size size 6N.
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
@@ -508,7 +510,10 @@ functions:
         type: Eigen::Matrix # [cpp]
       - name: initial_states # [py]
         type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+        description: |
+          Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+          Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
+          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
