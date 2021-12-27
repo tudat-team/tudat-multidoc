@@ -87,7 +87,7 @@ functions:
          ) # [py]
          # [py]
          # Create global accelerations settings dictionary # [py]
-         acceleration_settings = {"Delfi-C3": accelerations_settings_delfi_c3} # [py]
+         acceleration_settings = {"Vehicle": accelerations_settings_vehicle} # [py]
          # [py]
          # Create acceleration models # [py]
          acceleration_models = propagation_setup.create_acceleration_models( # [py]
@@ -138,34 +138,25 @@ functions:
       torques, while the variable ``torque_settings`` associates this list with the body undergoing the
       torque.
 
-      .. code-block:: python
-
-        # Define bodies that are propagated
-        bodies_to_propagate = ["Vehicle"]
-
-        # Define torques per each exerting body
-        torque_settings_vehicle = dict(
-            Sun=
-            [
-                propagation_setup.torque.second_degree_gravitational()
-            ],
-            Moon=
-            [
-                propagation_setup.torque.second_degree_gravitational()
-            ],
-            Earth=
-            [
-                propagation_setup.torque.spherical_harmonic_gravitational(4, 4),
-                propagation_setup.torque.aerodynamic()
-            ]
-        )
-
-        # Create global torque settings dictionary
-        torque_settings = {"Vehicle": torque_settings_vehicle}
-
-        # Create torque models
-        torque_models = propagation_setup.create_torque_models(
-            bodies, torque_settings,  bodies_to_propagate )
+      .. code-block:: python # [py]
+        # [py]
+        # Define bodies that are propagated # [py]
+        bodies_to_propagate = ["Vehicle"] # [py]
+        # [py]
+        # Define torques per each exerting body # [py]
+        torque_settings_vehicle = dict( # [py]
+            Sun=[propagation_setup.torque.second_degree_gravitational()], # [py]
+            Moon=[propagation_setup.torque.second_degree_gravitational()], # [py]
+            Earth=[propagation_setup.torque.spherical_harmonic_gravitational(4, 4), # [py]
+                   propagation_setup.torque.aerodynamic()] # [py]
+        ) # [py]
+        # [py]
+        # Create global torque settings dictionary # [py]
+        torque_settings = {"Vehicle": torque_settings_vehicle} # [py]
+        # [py]
+        # Create torque models # [py]
+        torque_models = propagation_setup.create_torque_models( # [py]
+            bodies, torque_settings,  bodies_to_propagate ) # [py]
 
 
   - name: createMassRateModelsMap # [cpp]
