@@ -1,4 +1,4 @@
-description: "Converting stuff!"
+description: "Plotting stuff!"
 
 functions:
   - name: plot_blue_marble_ground_track

@@ -25,6 +25,7 @@ enums:
 
   - name: AerodynamicCoefficientsIndependentVariables
     short_summary: "Enumeration of the independent variables that can be used to compute aerodynamic coefficients."
+    extended_summary: ""
 
     members:
       - name: mach_number_dependent
