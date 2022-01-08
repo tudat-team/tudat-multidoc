@@ -163,7 +163,7 @@ classes:
 
       - name: create_time_dependent_field # [py]
         type: bool # [py]
-        description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [py]
+        description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed initially). # [py]
 
     methods:
       - name: ctor # [cpp]
@@ -214,7 +214,7 @@ classes:
         parameters: # [cpp]
           - name: cosineCoefficients # [cpp]
             type: Eigen::MatrixXd # [cpp]
-            description: Cosine spherical harmonic coefficients (geodesy normalized) of the gravity field that is to be created from the setings object. Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
+            description: Cosine spherical harmonic coefficients (geodesy normalized) of the gravity field that is to be created from the settings object. Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
 
 
       - name: getSineCoefficients # [cpp]
@@ -232,7 +232,7 @@ classes:
         parameters: # [cpp]
           - name: sineCoefficients # [cpp]
             type: Eigen::MatrixXd # [cpp]
-            description: Sine spherical harmonic coefficients (geodesy normalized) of the gravity field that is to be created from the setings object. Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
+            description: Sine spherical harmonic coefficients (geodesy normalized) of the gravity field that is to be created from the settings object. Entry (i,j) denotes coefficient at degree i and order j. # [cpp]
 
       - name: getAssociatedReferenceFrame # [cpp]
         short_summary: "Retrieve associated reference frame." # [cpp]
@@ -258,7 +258,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
             type: bool # [cpp]
-            description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
+            description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed initially). # [cpp]
 
       - name: setCreateTimeDependentField # [cpp]
         short_summary: "Set whether field is created as time-dependent." # [cpp]
@@ -266,7 +266,7 @@ classes:
         parameters: # [cpp]
           - name: CreateTimeDependentField # [cpp]
             type: bool # [cpp]
-            description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed intially). # [cpp]
+            description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed initially). # [cpp]
 
   #######################################################################
 
@@ -310,14 +310,14 @@ functions:
       .. code-block:: python # [py]
          # [py]
          # define parameters describing central gravity model # [py]
-         gravitational_parameter = ... # [py]
+         gravitational_parameter = 3.986e14 # [py]
          # create gravity field settings # [py]
          body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.central( gravitational_parameter ) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
          // define parameters describing central gravity model # [cpp]
-         double gravitationalParameter = ... # [cpp]
+         double gravitationalParameter = 3.986e14 # [cpp]
          // create gravity field settings # [cpp]
          bodySettings[ "Earth" ]->gravityFieldSettings = std::make_shared< CentralGravityFieldSettings >( gravitationalParameter ); # [cpp]
 
@@ -356,7 +356,7 @@ functions:
       The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
       It represents the frame in which the spherical harmonic field is defined.
       Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
-      To normalize unnormalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
+      To normalize un-normalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
 
     parameters:
       - name: gravitational_parameter # [py]
@@ -399,22 +399,38 @@ functions:
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using a spherical harmonics gravity model:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters describing spherical harmonics gravity model # [py]
-         gravitational_parameter = ... # [py]
-         reference_radius = ... # [py]
-         normalized_cosine_coefficients = ... # [py]
-         normalized_sine_coefficients = ...   # [py]
-         associated_reference_frame = ... # [py]
-         # create gravity field settings  # [py]
-         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic( gravitational_parameter, # [py]
-         reference_radius, normalized_cosine_coefficients, normalized_sine_coefficients, associated_reference_frame ) # [py]
+        # [py]
+        # Define the spherical harmonics gravity model # [py]
+        gravitational_parameter = 3986004.415E+8 # [py]
+        reference_radius = 6378136.3 # [py]
+        # Normalized coefficients taken from https://cddis.nasa.gov/archive/egm96/general_info/egm96_to360.ascii # [py]
+        # The above file is described in https://cddis.nasa.gov/archive/egm96/general_info/readme.egm96 # [py]
+        normalized_cosine_coefficients = [ # [py]
+            [1,                   0,                   0,                   0], # [py]
+            [0,                   0,                   0,                   0], # [py]
+            [-0.484165371736E-03, -0.186987635955E-09, 0.243914352398E-05,  0], # [py]
+            [0.957254173792E-06,  0.202998882184E-05,  0.904627768605E-06,  0.721072657057E-06] # [py]
+        ] # [py]
+        normalized_sine_coefficients = [ # [py]
+            [0,                   0,                   0,                   0], # [py]
+            [0,                   0,                   0,                   0], # [py]
+            [0,                   0.119528012031E-08,  -0.140016683654E-05, 0], # [py]
+            [0,                   0.248513158716E-06,  -0.619025944205E-06, 0.141435626958E-05] # [py]
+        ] # [py]
+        associated_reference_frame = "IAU_Earth" # [py]
+        # Create the gravity field settings and add them to the body "Earth" # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic( # [py]
+            gravitational_parameter, # [py]
+            reference_radius, # [py]
+            normalized_cosine_coefficients, # [py]
+            normalized_sine_coefficients, # [py]
+            associated_reference_frame ) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
          // define parameters describing spherical harmonics gravity model  # [cpp]
-         double gravitationalParameter = ... # [cpp]
-         double referenceRadius = ... # [cpp]
+         double gravitationalParameter = 3.986e14 # [cpp]
+         double referenceRadius = 6.371e6 # [cpp]
          Eigen::MatrixXd normalizedCosineCoefficients = ...  # [cpp]
          Eigen::MatrixXd normalizedSineCoefficients =  ...   # [cpp]
          std::string associatedReferenceFrame = ...     # [cpp]
@@ -484,19 +500,16 @@ functions:
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using the expansion of a homogeneous triaxial ellipsoid into a spherical harmonics gravity model:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters describing the ellipsoid, homogeneous mass # [py]
-         axis_a = ... # [py]
-         axis_b = ... # [py]
-         axis_c = ... # [py]
-         density = ... # [py]
-         # define parameters for the expansion # [py]
-         maximum_degree = ... # [py]
-         maximum_order = ... # [py]
-         associated_reference_frame = ... # [py]
-         # create gravity field settings  # [py]
-         body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic( gravitational_parameter, # [py]
-         reference_radius, normalized_cosine_coefficients, normalized_sine_coefficients, associated_reference_frame ) # [py]
+        # [py]
+        # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic_triaxial_body( # [py]
+            axis_a=6378171.88, # [py]
+            axis_b=6378102.03, # [py]
+            axis_c=6356752.24, # [py]
+            density=5520, # [py]
+            maximum_degree=50, # [py]
+            maximum_order=50, # [py]
+            associated_reference_frame="IAU_Earth" ) # [py]
 
       # cpp code snippet unavailable # [cpp]
 
