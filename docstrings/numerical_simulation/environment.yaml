@@ -23,6 +23,26 @@ enums:
       - name: aerodynamic_frame
       - name: body_frame
 
+  - name: AerodynamicCoefficientsIndependentVariables
+    short_summary: "Enumeration of the independent variables that can be used to compute aerodynamic coefficients."
+
+    members:
+      - name: mach_number_dependent
+        description: "Mach number of the propagated vehicle."
+      - name: angle_of_attack_dependent
+        description: "Angle of attack of the propagated vehicle."
+      - name: sideslip_angle_dependent
+        description: "Sideslip angle of the propagated vehicle."
+      - name: altitude_dependent
+        description: "Altitude of the propagated vehicle."
+      - name: time_dependent
+        description: "Current simulation epoch."
+      - name: control_surface_deflection_dependent
+        description: "Angle of deflection of the control surface of the propagated vehicle."
+      - name: undefined_independent_variable
+        description: "Can be used for a custom coefficient interface with other variables, at the expense of being able to use the FlightConditions class to automatically updates the aerodynamic coefficients during propagation."
+
+
 classes:
   - name: FlightConditions
     short_summary: |
@@ -254,7 +274,7 @@ classes:
           always returned here as a rotation matrix.  If the body's
           rotational state is numerically propagated, this property gets
           extracted from the propagated state vector. If it is not
-          propagated, the state is extracted from this body's rotatitonal
+          propagated, the state is extracted from this body's rotational
           ephemeris.
 
           .. note:: This function is **only** valid during the
@@ -342,14 +362,14 @@ classes:
       - name: aerodynamic_coefficient_interface # [py]
         type: AerodynamicCoefficientInterface # [py]
         description: |
-          Object definining the aerodynamic coefficients of a vehicle (force-only, or force and moment)
+          Object defining the aerodynamic coefficients of a vehicle (force-only, or force and moment)
           as a function of any number of independent variables. Depending on the selected type of model, the type of this attribute
           is of type AerodynamicCoefficientInterface, or a derived class thereof.
 
       - name: rotation_model # [py]
         type: RotationalEphemeris # [py]
         description: |
-          Object definining the orientation of a body, used to calculate the rotation to/from a body-fixed
+          Object defining the orientation of a body, used to calculate the rotation to/from a body-fixed
           frame (and its derivate). Depending on the selected type of model, the type of this attribute
           is of type RotationalEphemeris, or a derived class thereof.
 
@@ -495,7 +515,7 @@ classes:
            :py:class:`~SystemOfBodies`.
         extended_summary: |
 
-          .. warning:: This function does *not* necessarilly delete the
+          .. warning:: This function does *not* necessarily delete the
                        Body object, it only removes it from this object.
                        If any existing models in the simulation refer to
                        this Body, it will persist in memory.
