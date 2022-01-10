@@ -10,8 +10,7 @@ extended_summary: |
 
 notes: |
 
-  In general, unless specified otherwise, the Keplerian elements are
-  ordered as:
+  In general, unless specified otherwise, the Keplerian elements are ordered as:
 
   +-------+--------------------------------------------------------------------------------------+
   | Index | Keplerian Element                                                                    |
@@ -34,11 +33,9 @@ functions:
   - name: convertCartesianToKeplerianElements # [cpp]
     short_summary: "Convert Cartesian to Keplerian elements."
     extended_summary: |
-      Function to convert from Cartesian elements to standard Keplerian
-      elements.
-
       .. note:: See module level documentation for the standard ordering
                 convention of Keplerian elements used.
+
 
     parameters:
       - name: cartesian_elements # [py]
@@ -62,9 +59,6 @@ functions:
   - name: convertKeplerianToCartesianElements # [cpp]
     short_summary: "Convert Keplerian elements to Cartesian."
     extended_summary: |
-      Function to convert from standard Keplerian elements to Cartesian
-      elements.
-
       .. note:: See module level documentation for the standard ordering
                 convention of Keplerian elements used.
 
@@ -90,9 +84,6 @@ functions:
   - name: convertKeplerianToCartesianElements # [cpp]
     short_summary: "Convert Keplerian elements to Cartesian, with elementwise input."
     extended_summary: |
-      Function to convert from standard Keplerian elements to Cartesian
-      elements, with elementwise input.
-
       .. note:: The final Keplerian element is always the true anomaly.
 
     parameters:
@@ -142,16 +133,16 @@ functions:
         type: numpy.ndarray # [py]
         description: Keplerian elements, as computed from Cartesian element input. 
 
-  - name: quaterion_entries_to_rotation_matrix # [py]
+  - name: quaternion_entries_to_rotation_matrix # [py]
   - name: convertVectorQuaternionToMatrixFormat # [cpp]
     short_summary: "Converts an array of four quaternion elements to the equivalent rotation matrix."
     extended_summary: |
       Function to convert an array of four quaternion elements to the equivalent rotation matrix. These quaternion elements
       are for instance used when propagating rotational dynamics in Tudat, and this function can be used to convert the
-      numerical results to a usable rotation matrix. See `our user guide <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_ for more details.
+      numerical results to a usable rotation matrix. See `our user guide <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#rotational-states>`_ for more details.
 
     parameters:
-      - name: quaterion_entries # [py]
+      - name: quaternion_entries # [py]
         type: numpy.ndarray # [py]
       - name: vector # [cpp]
         type: Eigen::Vector4d # [cpp]
@@ -165,7 +156,7 @@ functions:
   - name: convertMatrixToVectorQuaternionFormat # [cpp]
     short_summary: "Converts a rotation matrix to the equivalent array of four quaternion elements."
     extended_summary: |
-      Inverse function of :func:`quaterion_entries_to_rotation_matrix`
+      Inverse function of :func:`quaternion_entries_to_rotation_matrix`.
 
     parameters:
       - name: rotation_matrix # [py]
