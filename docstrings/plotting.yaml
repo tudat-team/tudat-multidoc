@@ -1,4 +1,8 @@
-description: "Plotting stuff!"
+summary: "Plotting stuff!"
+
+extended_summary: |
+  This module contains utility functions to make characteristic plots of astrodynamics applications. It will also
+  include shortcuts to plot the output of numerical simulations.
 
 functions:
   - name: plot_blue_marble_ground_track

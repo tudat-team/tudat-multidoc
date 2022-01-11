@@ -7,9 +7,11 @@
 #########################################################################
 # Environment Setup
 
+summary : "Definition of environment settings."
+
 extended_summary: |
-  This module contains a set of factory functions for setting up the
-  environment models in a simulation.
+  This module contains submodules to define environment settings. It also contains a set of factory functions to use
+  environment settings in a simulation by creating natural and artificial body objects.
 
 
 modules:

@@ -1,7 +1,9 @@
+summary : "Functionalities of environment objects."
+
 extended_summary: |
-  This module provides the functionality for functional environment
-  objects and associated functionality. Specifically, it contains the
-  models that perform computations related to environment models of
+  This module provides functionalities for environment
+  objects. Specifically, it contains
+  classes that perform computations related to environment models of
   natural and artificial bodies.
 
 enums:

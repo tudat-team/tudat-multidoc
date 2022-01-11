@@ -1,3 +1,5 @@
+summary: "Interface to the SPICE package."
+
 extended_summary: |
   This module provides an interface to NAIF's ``SPICE`` package.
 

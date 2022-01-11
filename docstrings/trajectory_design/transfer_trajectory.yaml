@@ -1,3 +1,5 @@
+summary: "Functionalities for multiple-leg transfer trajectories."
+
 extended_summary: |
   This module provides the functionality for creating transfer trajectories consisting of
   multiple transfer legs separated by transfer nodes.

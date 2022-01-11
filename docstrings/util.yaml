@@ -1,4 +1,7 @@
-description: "Converting stuff!"
+summary: "Miscellaneous utilities."
+
+extended_summary: |
+  This module contains various utility functions.
 
 functions:
   - name: result2array
