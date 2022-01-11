@@ -1,10 +1,14 @@
 extended_summary: |
   This module provides the functionality for creating dependent variable
-  settings.
+  settings. Note that *all* output is in SI units (meters, radians, seconds). All epochs are provided in seconds since J2000.
 
 # the structure of this file follows the order of expose_propagation_setup.cpp (tudatpy) and
 # includes content for propagationOutputSettings.h (tudat)
 
+references: |
+  .. [1] Mooij, E. The motion of a vehicle in a planetary atmosphere.
+         Delft University of Technology, Faculty of Aerospace Engineering,
+         Report LR-768 (1994).
 
 
 enums:
@@ -43,7 +47,7 @@ enums:
     - name: geodetic_latitude_dependent_variable # [cpp]
     - name: control_surface_deflection_dependent_variable # [cpp]
     - name: total_mass_rate_dependent_variables # [cpp]
-    - name: lvlh_to_inertial_frame_rotation_dependent_variable # [cpp]
+    - name: tnw_to_inertial_frame_rotation_dependent_variable # [cpp]
     - name: periapsis_altitude_dependent_variable # [cpp]
     - name: total_torque_norm_dependent_variable # [cpp]
     - name: single_torque_norm_dependent_variable # [cpp]
@@ -89,7 +93,7 @@ enums:
     - name: geodetic_latitude_type # [py]
     - name: control_surface_deflection_type # [py]
     - name: total_mass_rate_type # [py]
-    - name: lvlh_to_inertial_frame_rotation_type # [py]
+    - name: tnw_to_inertial_frame_rotation_type # [py]
     - name: periapsis_altitude_type # [py]
     - name: total_torque_norm_type # [py]
     - name: single_torque_norm_type # [py]
@@ -119,7 +123,7 @@ classes:
   # base
   - name: VariableSettings
     short_summary: "Functional base class to define settings for variables."
-    extendend_summary: |
+    extended_summary: |
       This class is a functional base class for defining settings for variables.
       Any variable that requires additional information in addition to what can be provided here, should be defined by a
       dedicated derived class.
@@ -133,7 +137,7 @@ classes:
   # derived (level 1)
   - name: SingleDependentVariableSaveSettings
     short_summary: "`VariableSettings`-derived class to define settings for dependent variables that are to be saved during propagation."
-    extendend_summary: |
+    extended_summary: |
       Functional base class for defining settings for dependent variables that are to be computed and saved during propagation.
       Any dependent variable that requires additional information in addition to what can be provided here, should be
       defined by a dedicated derived class.
@@ -147,7 +151,7 @@ classes:
   # derived (level 2)
   - name: SingleAccelerationDependentVariableSaveSettings
     short_summary: "`SingleDependentVariableSaveSettings`-derived class to save a single acceleration (norm or vector) during propagation."
-    extendend_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
+    extended_summary: "Class to define settings for saving a single acceleration (norm or vector) during propagation. Note: this acceleration is returned in the inertial frame!"
 
     methods:
       - name: ctor # [cpp]
@@ -913,7 +917,8 @@ functions:
     short_summary: "Function to add the aerodynamic moment coefficients to the dependent variables to save."
     extended_summary: "Function to add the aerodynamic force coefficients to the dependent variables to save.
     It requires an aerodynamic coefficient interface to be defined for the vehicle.
-    The coefficients are returned in the following order: C_l, C_m, C_n (respectively about the X, Y, Z axes of the body-fixed frame, see Mooij 1994)."
+    The coefficients are returned in the following order: C_l, C_m, C_n ,
+    respectively about the X, Y, Z axes of the body-fixed frame, see (see Mooij, 1994 [1]_)"
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1009,10 +1014,7 @@ functions:
   - name: headingDependentVariable # [cpp]
   - name: heading_angle # [py]
     short_summary: "Function to add the heading angle to the dependent variables to save."
-  # TODO: check explanation of heading angle
-    extended_summary: "Function to add the heading angle to the dependent variables to save.
-    The heading angle is the angle between the X-axis of the vertical frame and the XZ-plane
-    in the groundspeed-based trajectory frame (see Mooij, 1994)."
+    extended_summary: "Function to add the heading angle to the dependent variables to save, as defined by Mooij, 1994 [1]_ ."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1036,10 +1038,7 @@ functions:
   - name: flightPathAngleDependentVariable # [cpp]
   - name: flight_path_angle # [py]
     short_summary: "Function to add the flight path angle to the dependent variables to save."
-    # TODO: check explanation of flight path angle
-    extended_summary: "Function to add the flight path angle to the dependent variables to save.
-    The flight path angle is the angle between the X-axis of the groundspeed-based trajectory frame
-    and the local horizontal plane defined in the vertical reference frame (see Mooij, 1994)."
+    extended_summary: "Function to add the flight path angle to the dependent variables to save, as defined by Mooij, 1994 [1]_ ."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1063,10 +1062,7 @@ functions:
   - name: angleOfAttackDependentVariable # [cpp]
   - name: angle_of_attack # [py]
     short_summary: "Function to add the angle of attack to the dependent variables to save."
-    # TODO: check explanation of angle of attack
-    extended_summary: "Function to add the angle of attack angle to the dependent variables to save.
-    The angle of attack is the angle between the X-axis of the body-fixed reference frame and the
-    XY plane in the groundspeed-based aerodynamic frame (see Mooij, 1994)."
+    extended_summary: "Function to add the angle of attack angle to the dependent variables to save, as defined by Mooij, 1994 [1]_ ."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1089,10 +1085,7 @@ functions:
   # Sideslip angle
   - name: sideslipAngleDependentVariable # [cpp]
   - name: sideslip_angle # [py]
-    short_summary: "Function to add the sideslip angle to the dependent variables to save."
-    # TODO: add explanation of sideslip angle
-    extended_summary: "Function to add the sideslip angle to the dependent variables to save.
-    The sideslip angle is ???"
+    short_summary: "Function to add the sideslip angle to the dependent variables to save, as defined by Mooij, 1994 [1]_ ."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1115,10 +1108,7 @@ functions:
   # Bank angle
   - name: bankAngleDependentVariable # [cpp]
   - name: bank_angle # [py]
-    short_summary: "Function to add the bank angle to the dependent variables to save."
-    # TODO: add explanation of bank angle
-    extended_summary: "Function to add the bank angle to the dependent variables to save.
-    The bank angle is ???"
+    short_summary: "Function to add the bank angle to the dependent variables to save, as defined by Mooij, 1994 [1]_ ."
 
     parameters:
       - name: associatedBody # [cpp]
@@ -1294,12 +1284,11 @@ functions:
         description: Dependent variable settings object.
 
 
-  # Rotation matrix: from LVLH to inertial
-  - name: lvlhToInertialFrameRotationMatrixVariable # [cpp]
-  - name: lvlh_to_inertial_rotation_matrix # [py]
-    short_summary: "Function to add the rotation matrix from the Local Vertical, Local Horizontal (LVLH) to the inertial frame to the dependent variables to save."
-    extended_summary: "Function to add the rotation matrix from the Local Vertical, Local Horizontal (LVLH) to the inertial frame to the dependent variables to save.
-    This frame is also denoted TNW frame. It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vecotr, and the y-axis
+  - name: tnwToInertialFrameRotationMatrixVariable # [cpp]
+  - name: tnw_to_inertial_rotation_matrix # [py]
+    short_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save."
+    extended_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save.
+    It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vecotr, and the y-axis
     completing the right-handed system. NOTE: a rotation matrix is returned as a nine-entry vector in the dependent variable output, where entry :math:`(i,j)` of the matrix is stored in
     entry :math:`(3i+j)` of the vector (with :math:`i,j=0,1,2`),"
 
@@ -1315,7 +1304,34 @@ functions:
         type: std::str # [cpp]
       - name: central_body # [py]
         type: str # [py]
-        description: Body with respect to which the LVLH frame is determned.
+        description: Body with respect to which the TNW frame is determned.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+  - name: rswToInertialFrameRotationMatrixVariable # [cpp]
+  - name: rsw_to_inertial_rotation_matrix # [py]
+    short_summary: "Function to add the rotation matrix from the RSW to the inertial frame to the dependent variables to save."
+    extended_summary: "Function to add the rotation matrix from the RSW to the inertial frame to the dependent variables to save.
+    It has the x-axis pointing along the position vector (away from the central body), the z-axis along the orbital angular
+    momentum vector, and the y-axis completing the right-handed system. NOTE: a rotation matrix is returned as a nine-entry
+    vector in the dependent variable output, where entry :math:`(i,j)` of the matrix is stored in entry :math:`(3i+j)` of the
+    vector (with :math:`i,j=0,1,2`),"
+
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body for which the rotation matrix is to be saved.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body with respect to which the TNW frame is determned.
 
     returns:
         type: SingleDependentVariableSaveSettings

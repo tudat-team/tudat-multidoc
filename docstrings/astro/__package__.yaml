@@ -8,3 +8,5 @@ extended_summary:  |
 modules:
   - frame_conversion
   - element_conversion
+  - time_conversion # [py]
+  - two_body_dynamics

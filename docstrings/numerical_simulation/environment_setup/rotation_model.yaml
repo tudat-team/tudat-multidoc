@@ -222,16 +222,20 @@ functions:
       using a simple rotation model with constant orientation of the rotation axis (body-fixed z-axis), and constant rotation rate about this axis:
 
       .. code-block:: python # [py]
-         # [py]
-         # set parameters describing the rotation between two frames
-         initial_orientation = ... # [py]
-         initial_time = ... # [py]
-         rotation_rate = ... # [py]
-         original_frame = "J2000" # [py]
-         target_frame = "Earth_Fixed_Simplified" # [py]
-         # create rotation model settings and assign to body settings of "Earth" # [py]
-         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple(
-         original_frame, target_frame, initial_orientation, initial_time, rotation_rate)
+        # [py]
+        # Set parameters describing the rotation between the two frames # [py]
+        initial_orientation = np.array([[1, 0, 0], [0, -1, 0], [0, 0, 1]]) # [py]
+        initial_time = 12345 # [sec since J2000] # [py]
+        rotation_rate = 2e-5 # [rad/s] # [py]
+        original_frame = "J2000" # [py]
+        target_frame = "Earth_Fixed_Simplified" # [py]
+        # Create the rotation model settings and assign to body settings of "Earth" # [py]
+        body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple( # [py]
+            original_frame, # [py]
+            target_frame, # [py]
+            initial_orientation, # [py]
+            initial_time, # [py]
+            rotation_rate) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
@@ -250,7 +254,7 @@ functions:
 
   - name: simple_from_spice # [py]
   - name: simpleRotationModelFromSpiceSettings # [cpp]
-    short_summary: "Factory function for creating simple rotation model settings using initial orientation and rotaton rates from Spice."
+    short_summary: "Factory function for creating simple rotation model settings using initial orientation and rotation rates from Spice."
     extended_summary: |
       Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
       Note that `only` the initial orientation and rotation rate ( at the time defined by ``initial_time`` ) are extracted from Spice - for
@@ -286,6 +290,11 @@ functions:
         type: SimpleRotationModelSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` class
 
+    notes: |
+      In order to create a :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.SimpleRotationModelSettings` object which describes a synchronous rotation w.r.t. some ``central_body``,
+      we require an ``ephemeris_settings`` attribute to the :class:`~tudatpy.numerical_simulation.environment_setup.BodySettings` object of the ``central_body``.
+
+
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` for Earth,
       using a simple rotation model with constant orientation of the rotation axis (body-fixed z-axis), and constant rotation rate about this axis.
@@ -293,15 +302,15 @@ functions:
 
       .. code-block:: python # [py]
          # [py]
-         # set parameters for time at which initial data is extracted from spice
-         initial_time = ...
-         # set parameters for defining the rotation between frames
-         original_frame = "J2000"
-         target_frame = "IAU_Earth_Simplified"
-         target_frame_spice = "IAU_Earth"
+         # set parameters for time at which initial data is extracted from spice # [py]
+         initial_time = 12345 # [py]
+         # set parameters for defining the rotation between frames # [py]
+         original_frame = "J2000" # [py]
+         target_frame = "IAU_Earth_Simplified" # [py]
+         target_frame_spice = "IAU_Earth" # [py]
          # create rotation model settings and assign to body settings of "Earth" # [py]
-         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple_from_spice(
-         original_frame, target_frame, target_frame_spice, initial_time)
+         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.simple_from_spice( # [py]
+         original_frame, target_frame, target_frame_spice, initial_time) # [py]
 
       # [cpp] cpp code snippet unavailable
 
@@ -318,7 +327,7 @@ functions:
       - the body-fixed z-axis is *always* perpendicular to the orbital plane (along the direction of :math:`\mathbf{x}\times\mathbf{v}` )
       - the body-fixed y-axis completes the right-handed reference frame
 
-      Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacraft.
+      Such a model can be useful for, for instance, approximate rotation of tidally locked natural satellites or nadir-pointing spacecraft.
 
     parameters:
       - name: central_body_name # [py]
@@ -525,14 +534,16 @@ functions:
       using a constant rotation matrix between Earth-fixed and inertial frame:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters describing the constant orientation between frames # [py]
-         original_frame = "ECLIPJ2000"  # [py]
-         target_frame = "Earth_fixed"  # [py]
-         constant_orientation = ...  # [py]
-         # create rotation model settings and assign to body settings of "Earth" # [py]
-         body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.constant( # [py]
-         original_frame, target_frame, constant_orientation ) # [py]
+        # [py]
+        # define parameters describing the constant orientation between frames # [py]
+        original_frame = "ECLIPJ2000"  # [py]
+        target_frame = "Earth_fixed"  # [py]
+        constant_orientation = np.array([[1, 0, 0], [0, -1, 0], [0, 0, 1]])  # [py]
+        # create rotation model settings and assign to body settings of "Earth" # [py]
+        body_settings.get( "Earth" ).rotation_model_settings = environment_setup.rotation_model.constant( # [py]
+            original_frame, # [py]
+            target_frame, # [py]
+            constant_orientation ) # [py]
 
 
       # [cpp] cpp code snippet unavailable

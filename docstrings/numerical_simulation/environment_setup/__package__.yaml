@@ -49,7 +49,7 @@ classes:
   - name: BodyListSettings
     short_summary: "Class for defining settings for the creation of a system of bodies."
     extended_summary: |
-      Class for defining settings for the creation of a system of bodies. This object is typicall created from default settings, and
+      Class for defining settings for the creation of a system of bodies. This object is typically created from default settings, and
       then adapted to the user's specific needs.
 
     properties: # [py]
@@ -60,7 +60,7 @@ classes:
 
       - name: frame_orientation # [py]
         type: str # [py]
-        description: Definition of the global frame orienation for the bodies # [py]
+        description: Definition of the global frame orientation for the bodies # [py]
         readonly: True # [py]
 
 
@@ -140,7 +140,7 @@ functions:
     short_summary: "Function that retrieves the default settings for the given set of input bodies."
     extended_summary: |
       Function that retrieves the default settings for the given set of input bodies. Default settings are described in
-      detail `here <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/create_bodies/default_settings.html>`_ .
+      detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/create_bodies/default_settings.html>`_ .
       Note that if a body is provided as input for which default settings do not exist, an exception is thrown. In addition
       to settings for each separate body, this function returns an object that defines the global frame origin and orientation,
     parameters:
@@ -149,12 +149,12 @@ functions:
         description: "List of name of bodies for which default settings are to be retrieved." # [py]
 
       - name: base_frame_origin # [py]
-        type: str # [py]
-        description: "Base frame origin of the set of bodies that is to be created." # [py]
+        type: str, default = 'SSB' # [py]
+        description: "Base frame origin of the set of bodies that is to be created. It defaults to the solar system barycenter (SSB), but it can by any of the bodies in `bodies_to_create` (provided it has an ephemeris defined)." # [py]
 
       - name: base_frame_orientation # [py]
-        type: str # [py]
-        description: "Base frame orientation of the set of bodies that is to be created." # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the set of bodies that is to be created. It can be either ECLIPJ2000 (default) or J2000." # [py]
 
     returns: # [py]
         type: BodyListSettings  # [py]
@@ -166,9 +166,9 @@ functions:
   - name: getDefaultBodySettings # [cpp]
     short_summary: "Function that retrieves the default settings for the given set of input bodies, with a limited valid time interval."
     extended_summary: |
-      Same as :ref:`get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
+      Same as :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`, but with body settings valid over a limited time interval. This makes the
       the extraction of states from ephemerides more computationally efficient, at the expense of more RAM usage, and a
-      constrained time interval over which the ephemerides are valid. See `this page <https://tudat-space.readthedocs.io/en/latest/_src_api/environment_setup/valid_time_range.html>`_ for more details.
+      constrained time interval over which the ephemerides are valid. See `this page <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/valid_time_range.html>`_ for more details.
 
     parameters:
       - name: bodies # [py]
@@ -199,3 +199,69 @@ functions:
     returns: # [py]
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
+
+
+  - name: add_aerodynamic_coefficient_interface # [py]
+    short_summary: "Function that creates an aerodynamic coefficient interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an aerodynamic coefficient interface to an existing body. It requires
+      settings for the aerodynamic coefficients, created using one of the factory functions in :ref:`\`\`aerodynamic_coefficient_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the coefficient interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the aerodynamic coefficients are to be assigned" # [py]
+
+      - name: coefficient_settings # [py]
+        type: AerodynamicCoefficientSettings # [py]
+        description: "Settings defining the coefficient interface that is to be created." # [py]
+
+
+  - name: create_system_of_bodies # [py]
+    short_summary: "Function that creates a System of bodies from associated settings."
+    extended_summary: |
+      Function that creates a System of bodies from associated settings. This function creates the separate :class:`~tudatpy.numerical_simulation.Body`
+      objects and stores them in a :class:`~tudatpy.numerical_simulation.SystemOfBodies` object. This object represents the full
+      physical environment in the simulation
+
+    parameters:
+      - name: body_settings # [py]
+        type: BodyListSettings # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+    returns: # [py]
+        type: SystemOfBodies  # [py]
+        description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
+
+
+  - name: add_radiation_pressure_interface # [py]
+    short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add an radiation pressure interface to an existing body. It requires
+      settings for the radiation pressure interface, created using one of the factory functions in :ref:`\`\`radiation_pressure_setup\`\``.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the radiation pressure interface
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the radiation pressure interface is to be assigned" # [py]
+
+      - name: radiation_pressure_settings # [py]
+        type: RadiationPressureInterfaceSettings # [py]
+        description: "Settings defining the radiation pressure interface that is to be created." # [py]
+

@@ -6,6 +6,14 @@ extended_summary: |
 # propagationSettings.h, propagationTerminationSettings.h (tudat)
 
 
+references: |
+  .. [1] Vittaldev, V., Mooij, E., & Naeije, M. C. (2012). Unified State Model theory and
+         application in Astrodynamics. Celestial Mechanics and Dynamical Astronomy, 112(3), 253-282.
+  .. [2] Wakker, K. F. (2015). Fundamentals of astrodynamics.
+  .. [3] Hintz, G. R. (2008). Survey of orbit element sets. Journal of guidance, control, and dynamics, 31(3), 785-790.
+  .. [4] Vallado, D. A. (2001). Fundamentals of astrodynamics and applications (Vol. 12). Springer Science & Business Media.
+
+
 enums:
 
   #       py::enum_<tp::TranslationalPropagatorType>
@@ -13,35 +21,47 @@ enums:
 
   - name: TranslationalPropagatorType
     short_summary: "Enumeration of available translational propagator types."
-    extended_summary: |
-      Enumeration of translational propagator types supported by tudat.
-
+    #extended_summary: |
+      #Enumeration of translational propagator types supported by tudat.
     members:
       - name: undefined_translational_propagator
       - name: cowell
+        description: "Propagation of Cartesian elements (state vector size 6), without any transformations"
       - name: encke
+        description: "Propagation of the diffence in Cartesian elements of the orbit w.r.t. an unperturbed reference orbit.
+          The reference orbit is generated from the initial state/central body, and not updated during the propagation
+          (see Wakker, 2015 [2]_)"
       - name: gauss_keplerian
+        description: "Propagation of Keplerian elements (state vector size 6), with true anomaly as the 'fast' element  (see Vallado, 2001 [4]_)"
       - name: gauss_modified_equinoctial
+        description: "Propagation of Modified equinotial elements (state vector size 6), with the element :math:`I` defining
+          the location of the singulariy based on the initial condition (see Hintz, 2008 [3]_)"
       - name: unified_state_model_quaternions
+        description: "Propagation of Unified state model using quaternions (state vector size 7, see Vittaldev et al., 2012 [1]_)"
       - name: unified_state_model_modified_rodrigues_parameters
+        description: "Propagation of Unified state model using modified Rodrigues parameters (state vector size 7, last element represents shadow parameter, see Vittaldev et al., 2012 [1]_)"
       - name: unified_state_model_exponential_map
+        description: "Propagation of Unified state model using exponential map (state vector size 7, last element represents shadow parameter, see Vittaldev et al., 2012 [1]_)"
 
-  #       py::enum_<tp::RotationalPropagatorType>
-  #        enum tudat::propagators::RotationalPropagatorType
 
   - name: RotationalPropagatorType
     short_summary: "Enumeration of available rotational propagator types."
-    extended_summary: |
-      Enumeration of rotational propagator types supported by tudat.
-
+    #extended_summary: |
+      #Enumeration of rotational propagator types supported by tudat.
     members:
       - name: undefined_rotational_propagator
       - name: quaternions
+        description: "Entries 1-4: The quaternion defining the rotation from inertial to body-fixed frame
+          (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: modified_rodrigues_parameters
+        description: "Entries 1-4: The modified Rodrigues parameters defining the
+          rotation from inertial to body-fixed frame (with entry four the shadow parameter)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: exponential_map
-
-  #       py::enum_<tp::IntegratedStateType>
-  #        enum tudat::propagators::IntegratedStateType
+        description: "Entries 1-4: The exponential map defining the
+          rotation from inertial to body-fixed frame (with entry four the shadow parameter)
+          Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
 
   - name: IntegratedStateType # [cpp]
   - name: StateType # [py]
@@ -66,10 +86,10 @@ enums:
 
   #   enum tudatpy.simulation.propagation_setup.propagator.PropagationTerminationTypes # python only(?)
 
-  - name: RotationalPropagatorType # [py]
-    short_summary: "Enumeration of available rotational propagator types." # [py]
-    extended_summary: | # [py]
-      Enumeration of rotational propagator types supported by tudat. # [py]
+  - name: PropagationTerminationTypes # [py]
+    short_summary: "Enumeration of possible propagation termination types"
+    #extended_summary: | # [py]
+      #Enumeration of rotational propagator types supported by tudat. # [py]
 
     members:
       - name: time_stopping_condition # [py]
@@ -86,7 +106,7 @@ classes:
   # base: dependent variables
   - name: DependentVariableSaveSettings
     short_summary: "Functional class to define settings for dependent variable to save."
-    extendend_summary: |
+    extended_summary: |
       Class to define settings for dependent variable to save.
 
     methods:
@@ -99,7 +119,7 @@ classes:
   # base: propagator
   - name: PropagatorSettings
     short_summary: "Functional base class to define settings for propagators."
-    extendend_summary: |
+    extended_summary: |
       Base class to define settings for propagators. Derived classes are split into settings for single- and multi-arc dynamics.
 
     methods:
@@ -124,7 +144,7 @@ classes:
   # derived: propagator (1)
   - name: MultiArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for multi-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for multi-arc dynamics.
 
     methods:
@@ -138,7 +158,7 @@ classes:
   # derived: propagator (2)
   - name: HybridArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for hybrid-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for hybrid-arc dynamics.
 
     methods:
@@ -152,7 +172,7 @@ classes:
   # derived: propagator (3)
   - name: SingleArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for single-arc dynamics."
-    extendend_summary: |
+    extended_summary: |
        `PropagatorSettings`-derived class to define settings for single-arc dynamics.
 
     attributes:
@@ -172,7 +192,7 @@ classes:
   # derived, level 2: translational propagator
   - name: TranslationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics.
 
     attributes:
@@ -231,7 +251,7 @@ classes:
   # derived, level 2: rotational state propagator
   - name: RotationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation.
 
     methods:
@@ -245,7 +265,7 @@ classes:
   # derived, level 2: multitype propagator
   - name: MultiTypePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities."
-    extendend_summary: |
+    extended_summary: |
        `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
 
     properties:
@@ -305,7 +325,7 @@ classes:
   # base: termination settings
   - name: PropagationTerminationSettings
     short_summary: "Functional base class to define termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        Functional base classclass to define termination settings for the propagation.
 
     methods:
@@ -318,7 +338,7 @@ classes:
   # derived (1): dependent variable termination settings
   - name: PropagationDependentVariableTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables.
 
     methods:
@@ -332,7 +352,7 @@ classes:
   # derived (2): time termination settings
   - name: PropagationTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time.
 
     methods:
@@ -346,7 +366,7 @@ classes:
   # derived (3): CPU time termination settings
   - name: PropagationCPUTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time.
 
     methods:
@@ -360,7 +380,7 @@ classes:
   # derived (4): custom termination settings
   - name: PropagationCustomTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define custom termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define custom termination settings for the propagation.
 
     methods:
@@ -374,7 +394,7 @@ classes:
   # derived (5): hybrid termination settings
   - name: PropagationHybridTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation."
-    extendend_summary: |
+    extended_summary: |
        `PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation.
 
     methods:
@@ -388,16 +408,16 @@ classes:
 
 functions:
 
-  # Translational propagator (overload 6)
+  # Translational propagator
   - name: translationalStatePropagatorSettings # [cpp]
-  - name: translational_with_time_termination # [py]
+  - name: translational # [py]
     short_summary: "Factory function to create translational state propagator settings with stopping condition at given final time."
     extended_summary: |
       Factory function to create translational state propagator settings for N bodies.
       The propagated state vector is defined by the combination of integrated bodies, and their central body, the combination
       of which define the relative translational states for which a differential equation is to be solved. The propagator
       input defines the formulation in which the differential equations are set up
-      The dynamical models are defined by an ``AccelerationMap``, as created by ``create_acceleration_models`` function.
+      The dynamical models are defined by an ``AccelerationMap``, as created by :func:`~create_acceleration_models` function.
 
 
     parameters:
@@ -423,13 +443,18 @@ functions:
         type: Eigen::Matrix # [cpp]
       - name: initial_states # [py]
         type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
 
-      - name: endTime # [cpp]
-        type: double # [cpp]
-      - name: termination_time # [py]
-        type: float # [py]
-        description: Final time of the propagation to be used as termination criterion.
+        description: Initial states of the bodies to integrate (one initial state for each body, concatenated into a single array), provided in the same order as the
+          bodies to integrate. The initial states must be expressed in Cartesian elements, w.r.t. the central body of each integrated body. 
+          The states must be defined with the same frame orientation as the global frame orientation of the environment (specified when creating a system of bodies, see for instance
+          :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings` and :func:`~tudatpy.numerical_simulation.environment_setup.create_system_of_bodies`).
+          Consequently, for N integrated bodies, this input is a vector with size size 6N.
+
+      - name: terminationSettings # [cpp]
+        type: PropagationTerminationSettings # [cpp]
+      - name: termination_settings # [py]
+        type: PropagationTerminationSettings # [py]
+        description: Generic termination settings object to check whether the propagation should be ended.
 
       - name: propagator # [cpp]
         type: TranslationalPropagatorType, default=cowell # [cpp]
@@ -454,73 +479,6 @@ functions:
         description: Translational state propagator settings object.
 
 
-  ## Translational propagator (overload 7)
-  #- name: translationalStatePropagatorSettings # [cpp]
-  #- name: translational_from_acceleration_settings # [py]
-    #short_summary: "Factory function to create translational state propagator settings with generic stopping conditions, and acceleration settings input."
-    #extended_summary: |
-      #Factory function to create translational state propagator settings with generic stopping conditions, and acceleration
-      #settings input. Unlike the typical propagator settings factory functions, it works by providing a key-value acceleration
-      #*settings* container, containing the list of accelerations settings acting on each body. The map has as key a string
-      #denoting the name of the body on which a set of accelerations, provided as value, act. This set is again a key-value
-      #container, with the key denoting the body exerting the acceleration  and the value (a pointer to) an acceleration settings
-      #object. In this function, the termination conditions are set through the final time provided. NOTE, this function is *only*
-      #used in the rare cases where the creation of the acceleration models is to be deferred until after the propagator settings
-      #creation, or where the acceleration settings of the same propagator settings are to be modified in a loop. When in doubt,
-      #use the regular ``translational`` function.
-
-    #parameters:
-      #- name: centralBodies # [cpp]
-        #type: std::vector<std::string> # [cpp]
-      #- name: central_bodies # [py]
-        #type: list[str] # [py]
-        #description: List of central bodies with respect to which the bodies to be integrated are propagated.
-
-      #- name: accelerationSettingsMap # [cpp]
-        #type: SelectedAccelerationMap # [cpp]
-      #- name: acceleration_settings # [py]
-        #type: SelectedAccelerationMap # [py]
-        #description: Set of accelerations acting on the bodies to propagate, provided as acceleration settings objects.
-
-      #- name: bodiesToIntegrate # [cpp]
-        #type: std::vector<std::string> # [cpp]
-      #- name: bodies_to_integrate # [py]
-        #type: list[str] # [py]
-        #description: List of bodies to be numerically propagated, whose order reflects the order of the central bodies.
-
-      #- name: initialBodyStates # [cpp]
-        #type: Eigen::Matrix # [cpp]
-      #- name: initial_states # [py]
-        #type: numpy.ndarray # [py]
-        #description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
-
-      #- name: endTime # [cpp]
-        #type: double # [cpp]
-      #- name: termination_time # [py]
-        #type: float # [py]
-        #description: Final time of the propagation to be used as termination criterion.
-
-      #- name: propagator # [cpp]
-        #type: TranslationalPropagatorType, default=cowell # [cpp]
-      #- name: propagator # [py]
-        #type: TranslationalPropagatorType, default=cowell # [py]
-        #description: Type of translational propagator to be used (see `TranslationalPropagatorType` enum).
-
-      #- name: dependentVariablesToSave # [cpp]
-        #type: std::vector<SingleDependentVariableSaveSettings>, default=std::vector() # [cpp]
-      #- name: output_variables # [py]
-        #type: list[SingleDependentVariableSaveSettings], default=[] # [py]
-        #description: List of dependent variables to be saved (by default, no dependent variables are saved).
-
-      #- name: printInterval # [cpp]
-        #type: double, default=TUDAT_NAN # [cpp]
-      #- name: print_interval # [py]
-        #type: float, default=TUDAT_NAN # [py]
-        #description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
-
-    #returns:
-        #type: TranslationalStatePropagatorSettings
-        #description: Translational state propagator settings object.
 
 
   # Rotational propagator (overload 1)
@@ -552,7 +510,10 @@ functions:
         type: Eigen::Matrix # [cpp]
       - name: initial_states # [py]
         type: numpy.ndarray # [py]
-        description: Initial states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+        description: |
+          Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
+          Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
+          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
@@ -732,7 +693,19 @@ functions:
     short_summary: "Factory function to create time termination settings for the propagation."
     extended_summary: |
       Factory function to create time termination settings for the propagation.
-      The propagation is stopped when the final time provided is reached.
+      The propagation is stopped when the final time provided is reached. Note that the termination time is set as the
+      absolute time (in seconds since J2000), not the time since the start of the propagation.
+      Depending on the sign of the time step of the numerical integrator, the termination time will be treated as an
+      upper bound (for positive time step) or lower bound (for negative time step).
+      The simulator will normally finish the final time-step, which may cause the termination time to be slightly exceeded.
+      This behaviour can be suppressed by providing the optional input argument
+      ``terminate_exactly_on_final_condition=True``, in which case the final propagation step will be *exactly* on the
+      specified time.
+
+    notes: |
+      To reach *exactly* the final time, state derivative function evaluations beyond the final
+      time may be required by the propagator. Reaching the final condition exactly is an iterative process and
+      very minor deviations from the specified final condition can occur.
 
     parameters:
       - name: terminationTime # [cpp]
@@ -750,6 +723,17 @@ functions:
     returns:
         type: PropagationTimeTerminationSettings
         description: Time termination settings object.
+
+    examples: |
+      In this example, we set the termination time of the propagation equal to one day (86400 $s$).
+
+      .. code-block:: python
+
+        # Set termination time (in seconds since J2000)
+        termination_time = simulation_start_epoch + 86400.0
+        # Create time termination settings
+        termination_settings = propagation_setup.propagator.time_termination( termination_time )
+
 
 
   # CPU time termination
@@ -771,6 +755,17 @@ functions:
         type: PropagationCPUTimeTerminationSettings
         description: CPU time termination settings object.
 
+    examples: |
+      In this case, we set a CPU time termination setting so that the propagation stops once your computer has run it
+      for 120 seconds.
+
+      .. code-block:: python
+
+        # Set CPU time to 120 seconds
+        cpu_termination_time = 120.0
+        # Create termination settings
+        termination_settings = propagation_setup.propagator.cpu_time_termination( cpu_termination_time )
+
 
   # Dependent variable termination
   - name: propagationDependentVariableTerminationSettings # [cpp]
@@ -779,6 +774,15 @@ functions:
     extended_summary: |
       Factory function to create CPU time termination settings for the propagation.
       The propagation is stopped when the final CPU time provided is reached.
+      The simulator will normally finish the final time-step, which may cause the termination time to be slightly exceeded.
+      This behaviour can be suppressed by providing the optional input argument
+      ``terminate_exactly_on_final_condition=True``, in which case the final propagation step will be *exactly* on the
+      specified time.
+
+    notes: |
+      To reach *exactly* the final time, state derivative function evaluations beyond the final
+      time may be required by the propagator. Reaching the final condition exactly is an iterative process and
+      very minor deviations from the specified final condition can occur.
 
     parameters:
       - name: dependentVariableSettings # [cpp]
@@ -815,6 +819,22 @@ functions:
         type: PropagationDependentVariableTerminationSettings
         description: Dependent variable termination settings object.
 
+    examples: |
+      Below, an example is shown for termination on a given vehicle altitude. The exact termination condition is defined
+      in the ``termination_settings``. The propagation is terminated once the *lower* limit of 25 km in altitude is
+      reached (as the ``use_as_lower_limit`` is set to ``True``). To use the above settings to terminate when an
+      *upper* limit of 25 km is reached, set this boolean to ``False``.
+
+      .. code-block:: python
+
+        # Set dependent variable to be checked as termination setting
+        termination_variable = propagation_setup.dependent_variable.altitude( "Spacecraft", "Earth" )
+        # Create termination settings
+        termination_settings = propagation_setup.propagator.dependent_variable_termination(
+          dependent_variable_settings = termination_variable,
+          limit_value = 25.0E3,
+          use_as_lower_limit = True)
+
 
   # Custom termination
   - name: popagationCustomTerminationSettings # [cpp]
@@ -823,6 +843,8 @@ functions:
     extended_summary: |
       Factory function to create custom termination settings for the propagation.
       The propagation is stopped when the condition provided is verified.
+      This custom function should take the current time as input and output a Boolean. It can use internal variables
+      and calculations, for example retrieved from the environment.
 
     parameters:
       - name: checkStopCondition # [cpp]
@@ -835,6 +857,21 @@ functions:
         type: PropagationCustomTerminationSettings
         description: Custom termination settings object.
 
+    examples: |
+
+      .. code-block:: python
+
+        # Create custom function returning a bool
+        def custom_termination_function(time: float):
+            # Do something
+            set_condition = ...
+            # Return bool
+            return set_condition
+
+        # Create termination settings
+        termination_settings = propagation_setup.propagator.custom_termination(
+          custom_termination_function)
+
 
   # Hybrid termination
   - name: PropagationHybridTerminationSettings # [cpp]
@@ -843,7 +880,8 @@ functions:
     extended_summary: |
       Factory function to create hybrid termination settings for the propagation. This function can be used
       to define that all conditions or a single condition of the conditions provided must be met to
-      stop the propagation.
+      stop the propagation. Each termination condition should be created according to each individual factory function
+      and then added to a list of termination conditions.
 
     parameters:
       - name: terminationSettings # [cpp]
@@ -861,3 +899,35 @@ functions:
     returns:
         type: PropagationHybridTerminationSettings
         description: Hybrid termination settings object.
+
+    examples: |
+      In the following example, the propagation will terminate once *one of the three* termination settings (simulated time, cpu time, altitude)
+      has reached the imposed limit value. The ``fulfill_single_condition`` variable determines whether the propagation
+      terminates once a *single* condition is met (if True, as above) or once *all* conditions must be met (False).
+
+      .. code-block:: python
+
+        # Set simulation termination time
+        termination_time = simulation_start_epoch + 86400.0
+        # Create simulation time termination setting
+        time_termination_settings = propagation_setup.propagator.time_termination( termination_time )
+
+        # Set dependent variable termination setting
+        termination_variable = propagation_setup.dependent_variable.altitude( "Spacecraft", "Earth" )
+        # Create altitude-based termination setting
+        altitude_termination_settings = propagation_setup.propagator.dependent_variable_termination(
+          dependent_variable_settings = termination_variable,
+          limit_value = 25.0E3,
+          use_as_lower_limit = True)
+
+        # Set cpu termination time
+        cpu_termination_time = 120.0
+        # Create cpu time termination setting
+        cpu_termination_settings = propagation_setup.propagator.cpu_time_termination( cpu_termination_time )
+
+        # Store termination setting objects in a list
+        termination_settings_list = [time_termination_settings, altitude_termination_settings, cpu_termination_settings]
+
+        # Create hybrid termination settings
+        termination_settings = propagation_setup.propagator.hybrid_termination( termination_settings_list, fulfill_single_condition = True )
+

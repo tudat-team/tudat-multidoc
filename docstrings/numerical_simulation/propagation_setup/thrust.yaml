@@ -15,16 +15,19 @@ enums:
   - name: ThrustFrames
     short_summary: "Enumeration of available thrust frame types."
     extended_summary: |
-      Enumeration of thrust frame types supported by tudat.
+      Enumeration of thrust frame types supported by tudat. The inertial frame has axes along the global orientation (as
+      defined in the :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. The TNW is determined
+      w.r.t. a central body as described in the function :func:`~tudatpy.astro.frame_conversion.tnw_to_inertial_rotation_matrix`
+      (with the N-axis pointing away from the cenral body).
 
     members:
       - name: unspecified_thrust_frame # [cpp]
       - name: inertial_thrust_frame # [cpp]
-      - name: lvlh_thrust_frame # [cpp]
+      - name: tnw_thrust_frame # [cpp]
 
       - name: unspecified_thrust_frame_type # [py]
       - name: inertial_thrust_frame_type # [py]
-      - name: lvlh_thrust_frame_type # [py]
+      - name: tnw_thrust_frame_type # [py]
 
 
   #    py::enum_<tss::ThrustMagnitudeTypes>
@@ -72,7 +75,7 @@ classes:
   # Thrust direction: base
   - name: ThrustDirectionSettings
     short_summary: "Functional base class to define settings for the thrust direction."
-    extendend_summary: |
+    extended_summary: |
       Functional base class to provide settings for the thrust direction.
 
     methods:
@@ -97,7 +100,7 @@ classes:
   # Thrust direction: derived (1)
   - name: ThrustDirectionFromStateGuidanceSettings
     short_summary: "`ThrustDirectionSettings`-derived class to define settings for the thrust direction from the current state."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust direction. The thrust direction is assumed to be in line with
       either the position or velocity of the body of interest with respect to some other
       body.
@@ -124,7 +127,7 @@ classes:
   # Thrust direction: derived (2)
   - name: CustomThrustDirectionSettings
     short_summary: "`ThrustDirectionSettings`-derived class to define settings for a custom thrust direction."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust direction. The thrust direction is provided through a unit
       vector in the inertial frame.
 
@@ -144,7 +147,7 @@ classes:
   # Thrust direction: derived (3)
   - name: CustomThrustOrientationSettings
     short_summary: "`ThrustDirectionSettings`-derived class to define settings for a custom thrust orientation."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust direction. The thrust orientation is provided through a function
       of time returing a unit quaternion in the inertial frame, representing the rotation from body-fixed thrust
       direction to the inertial thrust direction.
@@ -165,7 +168,7 @@ classes:
   # Thrust direction: derived (4)
   - name: MeeCostateBasedThrustDirectionSettings
     short_summary: "`ThrustDirectionSettings`-derived class to define settings for the thrust direction from Modified Equinoctial Elements (MEE) costates."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust direction. By using these settings for the thrust direction,
       the so-called co-states of the Modified Equinoctial elements are used to determine the direction of the thrust.
 
@@ -191,7 +194,7 @@ classes:
   # Thrust magnitude: base
   - name: ThrustMagnitudeSettings
     short_summary: "Functional base class to define settings for the thrust magnitude."
-    extendend_summary: |
+    extended_summary: |
       Functional base class to provide settings for the thrust magnitude.
 
     methods:
@@ -216,7 +219,7 @@ classes:
   # Thrust magnitude: derived (1)
   - name: ConstantThrustMagnitudeSettings
     short_summary: "`ThrustMagnitudeSettings`-derived class to define settings for constant thrust magnitude."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust magnitude. This class should be used to define a constant thrust
       magnitude.
 
@@ -248,7 +251,7 @@ classes:
 #  # Thrust magnitude: derived (2)
 #  - name: FromBodyThrustMagnitudeSettings
 #    short_summary: "`ThrustMagnitudeSettings`-derived class to define settings for constant thrust magnitude."
-#    extendend_summary: |
+#    extended_summary: |
 #      Derived class to provide settings for the thrust magnitude.  This class creates thrust magnitude settings that use
 #      the thrust from one or all of the EngineModel objects that a vehicle is endowed with. In such a situation,
 #      the thrust direction, force, and specific impulse are taken from the EngineModel.
@@ -269,7 +272,7 @@ classes:
   # Thrust magnitude: derived (3)
   - name: FromFunctionThrustMagnitudeSettings
     short_summary: "`ThrustMagnitudeSettings`-derived class to define settings for constant thrust magnitude."
-    extendend_summary: |
+    extended_summary: |
       Derived class to provide settings for the thrust magnitude. This class should be used to define a thrust
       magnitude through a custom function.
 

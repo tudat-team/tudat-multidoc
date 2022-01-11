@@ -160,7 +160,7 @@ functions:
          // define parameters describing perfectly spherical model # [cpp]
          double bodyRadius = 6378.0E3; # [cpp]
          // create shape model settings  # [cpp]
-         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< SphericalBodyShapeSettings >( bodyRadius );
+         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< SphericalBodyShapeSettings >( bodyRadius ); # [cpp]
 
   #######################################################################
 
@@ -186,7 +186,7 @@ functions:
       .. code-block:: cpp # [cpp]
          # [cpp]
          // create shape model settings  # [cpp]
-         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< BodyShapeSettings >( spherical_spice );
+         bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< BodyShapeSettings >( spherical_spice ); # [cpp]
 
   #######################################################################
 
