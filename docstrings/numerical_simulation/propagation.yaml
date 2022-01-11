@@ -1,8 +1,9 @@
+summary : "Functionalities and utilities of propagation objects."
+
 extended_summary: |
-  This module provides the functionality for functional environment
-  objects and associated functionality. Specifically, it contains
-  the models that perform computations related to environment models
-  of natural and artificial bodies.
+  This module provides functionalities for propagation settings
+  objects. It also contains some utility functions that extract specific quantities from propagation settings and body
+  objects.
 
 enums:
   - name: PropagationTerminationReason

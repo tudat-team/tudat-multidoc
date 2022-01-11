@@ -1,4 +1,9 @@
+summary : "Setup and execution of numerical simulations."
+
 extended_summary: |
+  This module contains everything related to the setup of a numerical simulation, including submodules to define
+  environment, propagation, and integration settings. It also contains objects that perform the simulation using such
+  settings.
 
 modules:
   - environment_setup
