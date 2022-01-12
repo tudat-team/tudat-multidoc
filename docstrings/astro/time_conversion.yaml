@@ -17,7 +17,7 @@ notes: |
   - Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, the 1st of January 2000.
 
 references: |
-  See ` this page <https://www.ucolick.org/~sla/leapsecs/timescales.html>`_, mainly based on IAU resolutions,
+  See `this page <https://www.ucolick.org/~sla/leapsecs/timescales.html>`_ mainly based on IAU resolutions,
   and references therein.
 
 #########################################################################
