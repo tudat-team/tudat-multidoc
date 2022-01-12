@@ -103,7 +103,7 @@ classes:
 
   # (%!) notes:
   # - make distinction between struct and class ?
-  # - explicitly referring to factory functions from derived classes?
+  # - I decided to explicitly refer to factory functions from derived classes? multitude of base and derived classes now...
   # - rationale behind which functions are exposed and which ones are not...
 
 
@@ -113,7 +113,7 @@ classes:
   - name: DopplerProperTimeRateSettings
     short_summary: "Base class to defining proper time rate settings."
     extended_summary: |
-      Functional (base) class for settings of proper time rate (at a single link end) in one-way Doppler mode.
+      Functional (base) class for settings of proper time rate (at a single link end) for one-way Doppler observation model settings.
       Specific proper time rate settings must be defined using an object derived from this class.
       The derived classes are made accessible via dedicated factory functions.
 
@@ -131,10 +131,11 @@ classes:
     short_summary: "Base class for defining observation settings."
     extended_summary: |
       Functional (base) class for settings of observation models.
-      The base class allows the type, light-time corrections and bias for the observation to be set.
-      Observation model that are fully characterised by these settings are can be created via dedicated factory functions, such as
-      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.angular_position`, etc.
-      Model settings for specific observation models that require additional information (e.g. integration time, retransmission time, etc.) must be defined using an object derived from this class.
+      Observation model settings define at least the type and geometry of a given observation.
+      They can furthermore set observation biases and/or corrections.
+      Simple observation models settings that are fully characterised by these elements can be managed by this base class, which can be instantiated through dedicated factory functions, such as
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.cartesian_position`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.angular_position`, etc.
+      Model settings for specific observation models that require additional information such as integration time, retransmission time, etc. must be defined using an object derived from this class.
       The derived classes are made accessible through further factory functions.
 
     # attributes: none exposed
@@ -150,8 +151,8 @@ classes:
     short_summary: "Class for defining the settings of one-way Doppler observation models."
     extended_summary: |
       :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings` derived class for one-way Doppler observation model settings.
-      Settings object can account for light time corrections, proper time rate sattings and observation biases.
-      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` factory function. # [py]
+      Settings object can account for additional observation model aspects such as light time corrections and proper time rate sattings.
+      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` factory function.
 
     # attributes: none exposed
 
@@ -168,7 +169,7 @@ classes:
       Functional (base) class for settings of light time corrections.
       This class is not used for calculations of corrections, but is used for the purpose of defining the light time correction properties.
       Specific light time correction settings must be defined using an object derived from this class.
-      The derived classes are made accessible via dedicated factory functions.
+      The derived classes are made accessible via dedicated factory functions, such as e.g. :func:`~tudatpy.numerical_simulation.estimation_setup.observation.first_order_relativistic_light_time_correction`
 
     # attributes: none exposed
 
@@ -196,11 +197,12 @@ classes:
 
 
   - name: ObservationSimulationSettings
-    short_summary: "Base struct for setting times at which observations are to be simulated."
+    short_summary: "Base struct for defining observation simulation settings."
     extended_summary: |
-      Functional (base) struct for settings of observation simulation times.
-      Specific observation simulation settings must be defined using an object derived from this class.
-      The derived classes are made accessible via dedicated factory functions.
+      Functional (base) struct for settings of observation simulation.
+      A simulation settings object defines observation times, noise and viability criteria for the :class:`~tudatpy:numerical_simulation:estimation:ObservationSimulator` object to which it is applied during the simulation of observations.
+      Therefore, one simulation settings object can only refer to one combination of observable type and link geometry (LinkEnds).
+      Typically, the user does not interact with this class directly, but defines specific observation simulation settings using an object derived from this class.
 
     # attributes: none exposed
 
@@ -214,9 +216,13 @@ classes:
   - name: TabulatedObservationSimulationSettings
     short_summary: "Struct for setting a list of observation times."
     extended_summary: |
-      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived struct for defining a list of observation times, fully defined before simulatiion of the observations.
-      Observations are simulated at the times stored in this struct. Some may be discarded due to the use of vaibility settings.
-      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings` factory function. # [py]
+      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived struct for settings of observation simulation.
+      A simulation settings object defines observation times, noise and viability criteria for the :class:`~tudatpy:numerical_simulation:estimation:ObservationSimulator` object to which it is applied during the simulation of observations.
+      Therefore, one simulation settings object can only refer to one combination of observable type and link geometry (LinkEnds).
+
+      In this struct, discrete time instances at which applicable observations are to be simulated are defined and stored in a rigid, "tabulated" form. Some observation times may be discarded due to the use of vaibility settings.
+      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings` and :func:`~tudatpy.numerical_simulation.estimation_setup.observation.crearte_tabulated_simulation_settings` factory functions. # [py]
+
     # (%!) I deleted tudatpy constructor, is that ok?
 
     # attributes: none exposed
@@ -226,7 +232,6 @@ classes:
         #      - name: __init__ # [py]
         short_summary: "Constructor." # [cpp]
         extended_summary: "Instances of the `TabulatedObservationSimulationSettings` class should be created via the `tabulatedObservationSimulationSettings` factory function." # [cpp]
-
 
 
   - name: ObservationViabilitySettings
@@ -247,13 +252,15 @@ classes:
 
 
   # (%!) DOUBTS
+    #    relation to derived classes?
+    #    why is this exposed? does not seem to have a way of constructing an object
+    #    appears only in function signature of add_dependent_variables_to_settings
+
   # - name: ObservationDependentVariableSettings
   #  short_summary: "Base class for setting observation dependent variables."
   #  extended_summary: |
   #    Functional (base) class for setting observation dependent variables as part of the observation output.
-  #    (%!) relation to derived classes?
-  #    (%!) why is this exposed? does not seem to have a way of constructing an object
-  #    (%!) appears only in function signature of add_dependent_variables_to_settings
+
   #
   #  # attributes: none exposed
   #
@@ -264,7 +271,6 @@ classes:
   #      extended_summary: "Instances of this class are typically not generated by the user. Settings objects for observation simulation times should be instantiated through the factory functions of a derived class." # [cpp]
 
 
-  # derived classes:
   #######################################################################
 
 ##############################################################################
@@ -276,327 +282,75 @@ classes:
 ##############################################################################
 
 functions:
-  # factory functions:
-  #   missing:
-  #     +      n_way_range
-  #     +      arcwise_bias (absolute) x2
-  #     +      arcwise_relative_bias  x2
-  #     //     elevation_angle_viability_list
-  #     //     body_avoidance_viability_list
-  #     //     body_occultation_viability_list
-  #           tabulated_simulation_settings
-  #           create_tabulated_simulation_settings
 
+  ###############    LINK ENDS           ################################
+  # (%!) how shall we handle LinkEnds typedef or typedefs in general in python
+  # module functions
 
-
-  ###############    OBSERVABLES         ################################
-
-  - name: one_way_range # [py]
-    short_summary: "Factory function for creating settings for a one-way range observable."
+  - name: one_way_downlink_link_ends # [py]
+    short_summary: "Function for defining one-way downlinks via LinkEnds types."
     extended_summary: |
-      Factory function for creating settings for a one-way range observable.
+      Function for defining single or multiple one-way downlinks.
+      Multiple downlinks share the same transmitters, but may each have a different receiver.
+      For each downlink, the returned list will contain an additional `LinkEnds` type.
 
     parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
+      - name: transmitter # [py]
+        type: Tuple[str, str] # [py]
         description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``transmitter`` and ``receiver`` :class:`LinkEndType` entries to be defined.
+          `LinkEndId` type (tuple of strings), where the first entrance identifies the body and the second entry the reference point of the single tranmitter link end.
 
-      - name: light_time_correction_settings # [py]
-        type: list( LightTimeCorrectionSettings ), default = list() # [py]
+      - name: receivers # [py]
+        type: List[ Tuple[str, str] ] # [py]
         description: |
-          List of corrections for the light-time that are to be used. Default is none, which will result
-          in the signal being modelled as moving in a straight line with the speed of light
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)	
+          List of `LinkEndId` types (tuple of strings), where for each tuple the first entrance identifies the body and the second entry the reference point of the receiver link end(s).
 
     returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the one-way observable.
-
-#######################################################################
-
-  - name: n_way_range # [py]
-    short_summary: "Factory function for creating settings for a multi-way range observable."
-    extended_summary: |
-      Factory function for settings object, defining multi-way range observation model.
-
-    parameters:
-      - name: one_way_range_settings # [py]
-        type: list(ObservationModelSettings) # [py]
-        description: |
-          List of observation model settings for each of the n components of the multi-way range observable.
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation).
-          Note that only one bias setting is applied to the n-way observable.
-
-      - name: retransmission_times_function # [py]
-        type: Callable[[float], List[float]]], default = None # [py]
-        description: |
-          Function that provides a list of retransmission delay of each intermediate link end as a function of the observation time at the retransmitting link end.
-
-    returns:
-      type: NWayRangeObservationSettings  # [py]
-      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.NWayRangeObservationSettings` class.
+      type: List[ Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] ]  # [py]
+      description:
+        List of one or more `LinkEnds` types, each defining the geometry for one one-way downlink.
+        A `LinkEnds` type for a one one-way link is composed a dict with one ``receiver`` and one ``transmitter`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
 
   #######################################################################
 
-  - name: one_way_open_loop_doppler # [py]
-    short_summary: "Factory function for creating settings for a one-way open-loop observable."
+  - name: one_way_uplink_link_ends # [py]
+    short_summary: "Function for defining one-way uplinks via LinkEnds types."
     extended_summary: |
-      Factory function for creating settings for a one-way open-loop observable. The observable is *approximately* equal to
-      the range-rate between the link ends, divided by *c*. The full model one-way Doppler observable :math:`h_{D(1),AB}` from 
-      link end *A* to link end *B* is computed from: 
-    
-      .. math::
-         h_{D(1),AB}=\frac{d\tau_{A}}{dt_{A}}\frac{t_{A}}{dt_{B}}\frac{dt_{B}}{d\tau_{B}}-1
-         
-      where :math:`t` and :math:`\tau` denote coordinate and proper time of the transmitter A and receiver B, respectively. The
-      resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
-      This observable represents the 'instantaneous (non-integrated)' Doppler observable, as obtained from open-loop observations.
-      It should *not* be used for the modelling of the typical closed-loop observations used in deep space tracking. The coordinate
-      time derivative :math:`\frac{t_{A}}{dt_{B}}` is always computed when generating this observable. Settings for the proper time
-      rates :math:`\frac{d\tau}{dt}` should be specified by the user through this function.
+      Function for defining single or multiple one-way uplinks.
+      Multiple uplinks share the same receiver, but may each have a different transmitter.
+      For each uplink, the returned list will contain an additional `LinkEnds` type.
 
     parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
+      - name: transmitters # [py]
+        type: List[ Tuple[str, str] ] # [py]
         description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``transmitter`` and ``receiver`` :class:`LinkEndType` entries to be defined.
+          List of `LinkEndId` types (tuple of strings), where for each tuple the first entrance identifies the body and the second entry the reference point of the tranmitter link end(s).
 
-      - name: light_time_correction_settings # [py]
-        type: list( LightTimeCorrectionSettings ), default = list() # [py]
+      - name: receiver # [py]
+        type: Tuple[str, str] # [py]
         description: |
-          List of corrections for the light-time that are to be used. Default is none, which will result
-          in the signal being modelled as moving in a straight line with the speed of light
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
-
-      - name: transmitter_proper_time_rate_settings # [py]
-        type: DopplerProperTimeRateSettings, default = None # [py]
-        description: |
-          Settings for computing the transmitter proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
-
-      - name: receiver_proper_time_rate_settings # [py]
-        type: DopplerProperTimeRateSettings, default = None # [py]
-        description: |
-          Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the angular position observable.
-
-  #######################################################################
-
-  - name: two_way_open_loop_doppler # [py]
-    short_summary: "Factory function for creating settings for a two-way open-loop observable."
-    extended_summary: |
-      Factory function for creating settings for a two-way open-loop observable. The observable is *approximately* equal to
-      the two-way range-rate between the link ends, divided by *c*. This model uses two combined one-way open loop observables,
-      defined by the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` function.  The combined effect
-      from two one-way Doppler effects: one from link end :math:`A` to link end  :math:`B`, and one from :math:`B` to :math:`C`, computed as:  
-    
-      .. math::
-         h_{D(2),ABC}=(h_{D(1),AB}+1)(h_{D(1),BC}+1)-1
-
-      The resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
-
-    parameters:
-      - name: uplink_doppler_settings # [py]
-        type: OneWayDopplerObservationSettings # [py]
-        description: |
-          Settings for uplink leg of one-way observable, created using :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler`
-
-      - name: downlink_doppler_settings # [py]
-        type: OneWayDopplerObservationSettings # [py]
-        description: |
-          Settings for downlink leg of one-way observable, created using :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler`
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the full observation, default is none (unbiases observation). Note that,
-          even if no bias is applied to the two-way observable, the constituent one-way observables may still be biased.
+          `LinkEndId` type (tuple of strings), where the first entrance identifies the body and the second entry the reference point of the single receiver link end.
 
     returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the angular position observable.
-
-  #######################################################################
-
-  - name: one_way_closed_loop_doppler # [py]
-    short_summary: "Factory function for creating settings for a one-way closed loop Doppler observable."
-    extended_summary: |
-      Factory function for creating settings for a one-way closed loop Doppler observable.  
-
-    parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``transmitter`` and ``receiver`` :class:`LinkEndType` entries to be defined.
-
-      - name: integration_time # [py]
-        type: float # [py]
-        description: |
-          Integration time that is to be used for the observable. NOTE: This setting is to be moved to the :class:`ObservationSimulationSettings` class and
-          associated factory functions.
-
-      - name: light_time_correction_settings # [py]
-        type: list( LightTimeCorrectionSettings ), default = list() # [py]
-        description: |
-          List of corrections for the light-time that are to be used. Default is none, which will result
-          in the signal being modelled as moving in a straight line with the speed of light
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
-
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the one-way closed loop observable.
-
-  #######################################################################
-
-  - name: angular_position # [py]
-    short_summary: "Factory function for creating settings for an angular position observable."
-    extended_summary: |
-      Factory function for creating settings for an angular position observable. This observable can be used for
-      optical astrometry, VLBI, etc. and computes the relative angular position in terms of right ascension :math:`alpha` and declination :math:`delta`
-
-    parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``transmitter`` and ``receiver`` :class:`LinkEndType` entries to be defined.
-
-      - name: light_time_correction_settings # [py]
-        type: list( LightTimeCorrectionSettings ), default = list() # [py]
-        description: |
-          List of corrections for the light-time that are to be used. Default is none, which will result
-          in the signal being modelled as moving in a straight line with the speed of light
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
-
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the angular position observable.
-
-  #######################################################################
-
-  - name: cartesian_position # [py]
-    short_summary: "Factory function for creating settings for a Cartesian position observable."
-    extended_summary: |
-      Factory function for creating settings for a Cartesian position observable. Note that this observable is typically not
-      realized in reality, but can be very useful for verification or analysis purposes. This observable provides the inertial
-      (w.r.t. global frame origin) Cartesian position of the ``observed_body`` defined by the ``link_ends`` input. The observable
-      has size 3, and contains the :math:`x`, :math:`y` and :math:`z` position
-
-    parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``observed_body``` :class:`LinkEndType` entries to be defined.
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
-
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the cartesian position observable.
-
-  #######################################################################
-
-  - name: cartesian_velocity # [py]
-    short_summary: "Factory function for creating settings for a Cartesian velocity observable."
-    extended_summary: |
-      Factory function for creating settings for a Cartesian velocity observable. Note that this observable is typically not
-      realized in reality, but can be very useful for verification or analysis purposes. This observable provides the inertial
-      (w.r.t. global frame origin) Cartesian velocity of the ``observed_body`` defined by the ``link_ends`` input. The observable
-      has size 3, and contains the :math:`x`, :math:`y` and :math:`z` velocity
-
-    parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``observed_body``` :class:`LinkEndType` entries to be defined.
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
-
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the cartesian velocity observable.
-
-  #######################################################################
-
-  - name: 313_euler_angles # [py]
-    short_summary: "Factory function for creating settings for observable containing the body orientation as Euler angles."
-    extended_summary: |
-      Factory function for creating settings for observable containing the body orientation as Euler angles. This observable can be
-      used for *e.g.* body attitude observattions, but can also be very useful as 'synthetic' observable for verification or analysis purposes. 
-      This observable provides the rotation from inertial (defined by the global frame orientation) to body-fixed orientation of the 
-      body specified by the ``observed_body`` in the ``link_ends`` input.  The observable
-      has size 3, and contains the  3-1-3 (e.g. z-x-z) Euler angles
-
-    parameters:
-      - name: link_ends # [py]
-        type: LinkEnds # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          ``observed_body``` :class:`LinkEndType` entries to be defined.
-
-      - name: bias_settings # [py]
-        type: ObservationBiasSettings, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
-
-    returns:
-        type: ObservationSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the Euler angle observable.
+      type: List[ Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] ]  # [py]
+      description:
+        List of one or more `LinkEnds` types, each defining the geometry for one one-way uplink.
+        A `LinkEnds` type for a one one-way link is composed a dict with one ``receiver`` and one ``transmitter`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
 
 
   ############### LIGHT-TIME CORRECTIONS ################################
+  # factory functions
 
   - name: first_order_relativistic_light_time_correction # [py]
     short_summary: "Factory function for creating settings for first-order relativistic light-time corrections."
     extended_summary: |
-      Factory function for creating settings for first-order relativistic light-time corrections: the correction to 
-      the light time of a (set of) stationary point masses, computed up to c−2 according to general relativity as formulated by e.g. Moyer (2000). 
+      Factory function for creating settings for first-order relativistic light-time corrections: the correction to
+      the light time of a (set of) stationary point masses, computed up to c−2 according to general relativity as formulated by e.g. Moyer (2000).
       One ambiguity in the model is the time at which the states of the perturbing bodies are evaluated. We distinguish two cases:
 
-      * In the case where the perturbing body contains a link end of the observation (for instance perturbation due to Earth gravity field, 
-        with one of the link ends being an Earth-based station), the time at which the Earth’s state is evaluated equals the transmission time if Earth acts as transmitter, and reception time if 
-        Earth acts as receiver. 
+      * In the case where the perturbing body contains a link end of the observation (for instance perturbation due to Earth gravity field,
+        with one of the link ends being an Earth-based station), the time at which the Earth’s state is evaluated equals the transmission time if Earth acts as transmitter, and reception time if
+        Earth acts as receiver.
       * In other cases, where the perturbing body is not involved in the link ends, its state is evaluated at the midpoint time between transmitter and receiver.
 
     parameters:
@@ -606,12 +360,13 @@ functions:
           A list containing the names of the bodies due to which the light-time correction is to be taken into account.
 
     returns:
-        type: LightTimeCorrectionSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LightTimeCorrectionSettings`
-          defining the settings for the light-time corrections
+      type: class:`FirstOrderRelativisticLightTimeCorrectionSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LightTimeCorrectionSettings` derived class:`FirstOrderRelativisticLightTimeCorrectionSettings` class,
+        defining the settings for the light-time corrections
 
 
   ###############        BIASES 		 ################################
+  # factory functions
 
   - name: absolute_bias # [py]
     short_summary: "Factory function for creating settings for an absolute observation bias."
@@ -632,9 +387,9 @@ functions:
           applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
 
     returns:
-        type: ObservationBiasSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings`
-          defining the settings for the observation bias.
+      type: class:`ConstantObservationBiasSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings` derived class:`ConstantObservationBiasSettings` class,
+        defining the settings for a constant, absolute observation bias.
 
   #######################################################################
 
@@ -657,9 +412,9 @@ functions:
           applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
 
     returns:
-        type: ObservationBiasSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings`
-          defining the settings for the observation bias
+      type: class:`ConstantObservationBiasSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings` derived class:`ConstantObservationBiasSettings` class,
+        defining the settings for a constant, relative observation bias.
 
   #######################################################################
 
@@ -672,12 +427,12 @@ functions:
     parameters:
 
       - name: arc_start_times # [py]
-        type: list(float) # [py]
+        type: List[ float ] # [py]
         description: |
           List containing starting times for each arc.
 
       - name: bias_values # [py]
-        type: list(numpy.ndarray) # [py]
+        type: List[ numpy.ndarray ] # [py]
         description: |
           List of arc-wise bias vectors that are to be applied to the given observable. The vectors should be the same size as the observable to which it is
           applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
@@ -727,12 +482,12 @@ functions:
     parameters:
 
       - name: arc_start_times # [py]
-        type: list(float) # [py]
+        type: List[ float ] # [py]
         description: |
           List containing starting times for each arc.
 
       - name: bias_values # [py]
-        type: list(numpy.ndarray) # [py]
+        type: List[ numpy.ndarray ] # [py]
         description: |
           List of arc-wise bias vectors that are to be applied to the given observable. The vectors should be the same size as the observable to which it is
           applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
@@ -756,11 +511,11 @@ functions:
 
     parameters:
 
-    - name: bias_values_per_start_time # [py]
-      type: Dict[float, numpy.ndarray[numpy.float64[m, 1]]] # [py]
-      description: |
-        Dictionary, in which the bias value vectors for each arc are directly mapped to the starting times of the respective arc.
-        The vectors should be the same size as the observable to which it is applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
+      - name: bias_values_per_start_time # [py]
+        type: Dict[float, numpy.ndarray[numpy.float64[m, 1]]] # [py]
+        description: |
+          Dictionary, in which the bias value vectors for each arc are directly mapped to the starting times of the respective arc.
+          The vectors should be the same size as the observable to which it is applied (*e.g.* size 1 for a range observable, size 2 for angular position, *etc*.)
 
       - name: time_link_end # [py]
         type: LinkEndType # [py]
@@ -791,29 +546,369 @@ functions:
 
     parameters:
       - name: bias_list # [py]
-        type: list(ObservationBiasSettings) # [py]          # (%!) does this work without extensive linkage?
+        type: List[ ObservationBiasSettings ] # [py]
         description: |
           A list containing the bias the bias settings that are to be applied to the observable.
 
     returns:
-        type: ObservationBiasSettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings`
-          defining the settings for the observation bias
+      type: class:`MultipleObservationBiasSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings` derived class:`MultipleObservationBiasSettings` class,
+        combining the settings for multiple observation biases.
+
+
+  ###############    OBSERVABLES         ################################
+  # factory functions
+
+  - name: one_way_range # [py]
+    short_summary: "Factory function for creating settings for a one-way range observable."
+    extended_summary: |
+      Factory function for creating observation model settings of one-way range type observables.
+      Each combination of observable type and link geometry (link_ends) needs a dedicated :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` object.
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires the
+          ``transmitter`` and ``receiver`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ LightTimeCorrectionSettings ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)	
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the one-way observable.
+
+  #######################################################################
+
+  - name: n_way_range # [py]
+    short_summary: "Factory function for creating settings for a n-way range observable."
+    extended_summary: |
+      Factory function for creating observation model settings of n-way range type observables.
+      Each combination of observable type and link geometry (link_ends) needs a dedicated :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` object.
+
+    parameters:
+      - name: one_way_range_settings # [py]
+        type: List[ ObservationModelSettings ] # [py]
+        description: |
+          List of observation model settings for each of the n components of the n-way range observable.
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation).
+          Note that only one bias setting is applied to the n-way observable.
+
+      - name: retransmission_times_function # [py]
+        type: Callable[[float], List[float]]], default = None # [py]
+        description: |
+          Function that provides a list of retransmission delay of each intermediate link end as a function of the observation time at the retransmitting link end.
+
+    returns:
+      type: class:`NWayRangeObservationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.NWayRangeObservationSettings` class.
+
+  #######################################################################
+
+  - name: one_way_open_loop_doppler # [py]
+    short_summary: "Factory function for creating settings for a one-way open-loop Doppler observable."
+    extended_summary: |
+      Factory function for creating observation model settings of one-way open-loop Doppler type observables.
+      The observable is *approximately* equal to
+      the range-rate between the link ends, divided by *c*. The full model one-way Doppler observable :math:`h_{D(1),AB}` from 
+      link end *A* to link end *B* is computed from: 
+    
+      .. math::
+         h_{D(1),AB}=\frac{d\tau_{A}}{dt_{A}}\frac{t_{A}}{dt_{B}}\frac{dt_{B}}{d\tau_{B}}-1
+         
+      where :math:`t` and :math:`\tau` denote coordinate and proper time of the transmitter A and receiver B, respectively. The
+      resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
+      This observable represents the 'instantaneous (non-integrated)' Doppler observable, as obtained from open-loop observations.
+      It should *not* be used for the modelling of the typical closed-loop observations used in deep space tracking. The coordinate
+      time derivative :math:`\frac{t_{A}}{dt_{B}}` is always computed when generating this observable. Settings for the proper time
+      rates :math:`\frac{d\tau}{dt}` should be specified by the user through this function.
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``transmitter`` and ``receiver`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ LightTimeCorrectionSettings ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
+
+      - name: transmitter_proper_time_rate_settings # [py]
+        type: DopplerProperTimeRateSettings, default = None # [py]
+        description: |
+          Settings for computing the transmitter proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+
+      - name: receiver_proper_time_rate_settings # [py]
+        type: DopplerProperTimeRateSettings, default = None # [py]
+        description: |
+          Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+
+    returns:
+        type: class:`OneWayDopplerObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `OneWayDopplerObservationSettings` class
+          defining the settings for the one-way open doppler observable observable.
+
+  #######################################################################
+
+  - name: two_way_open_loop_doppler # [py]
+    short_summary: "Factory function for creating settings for a two-way open-loop Doppler observable."
+    extended_summary: |
+      Factory function for creating observation model settings of two-way open-loop Doppler type observables.
+      The observable is *approximately* equal to the two-way range-rate between the link ends, divided by *c*. This model uses two combined one-way open-loop observables,
+      defined by the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` function.  The combined effect
+      from two one-way Doppler effects: one from link end :math:`A` to link end  :math:`B`, and one from :math:`B` to :math:`C`, computed as:  
+    
+      .. math::
+         h_{D(2),ABC}=(h_{D(1),AB}+1)(h_{D(1),BC}+1)-1
+
+      The resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
+
+    parameters:
+      - name: uplink_doppler_settings # [py]
+        type: OneWayDopplerObservationSettings # [py]
+        description: |
+          Settings for uplink leg of one-way observable, created using :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler`
+
+      - name: downlink_doppler_settings # [py]
+        type: OneWayDopplerObservationSettings # [py]
+        description: |
+          Settings for downlink leg of one-way observable, created using :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler`
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the full observation, default is none (unbiases observation). Note that,
+          even if no bias is applied to the two-way observable, the constituent one-way observables may still be biased.
+
+    returns:
+        type: class:`TwoWayDopplerObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `TwoWayDopplerObservationSettings` class
+          defining the settings for the two-way open doppler observable.
+
+  #######################################################################
+
+  - name: one_way_closed_loop_doppler # [py]
+    short_summary: "Factory function for creating settings for a one-way closed-loop Doppler observable."
+    extended_summary: |
+      Factory function for creating observation model settings of one-way closed-loop Doppler type observables.
+      This interface only allows for one constant integration time in the observations model.
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``transmitter`` and ``receiver`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: integration_time # [py]
+        type: float # [py]
+        description: |
+          Integration time that is to be used for the observable. NOTE: This setting is to be moved to the :class:`ObservationSimulationSettings` class and
+          associated factory functions.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ LightTimeCorrectionSettings ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `OneWayDifferencedRangeRateObservationSettings` class
+          defining the settings for the one-way closed-loop doppler observable.
+
+  #######################################################################
+
+  - name: one_way_closed_loop_doppler # [py]   # overload
+    short_summary: "Factory function for creating settings for a one-way closed-loop Doppler observable."
+    extended_summary: |
+      Factory function for creating observation model settings of one-way closed-loop Doppler type observables.
+      This interface only allows for variable (as a function of observation time) integration times in the observations model.
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``transmitter`` and ``receiver`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: integration_time_function # [py]
+        type: Callable[float, float] # [py]
+        description: |
+          Integration time that is to be used for the observable as a function of observation time. NOTE: This setting is to be moved to the :class:`ObservationSimulationSettings` class and
+          associated factory functions.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ LightTimeCorrectionSettings ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
+
+    returns:
+      type: class:`OneWayDifferencedRangeRateObservationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `OneWayDifferencedRangeRateObservationSettings` class
+        defining the settings for the one-way closed-loop doppler observable.
+
+  #######################################################################
+
+  - name: angular_position # [py]
+    short_summary: "Factory function for creating settings for an angular position observable."
+    extended_summary: |
+      Factory function for creating observation model settings of angular position type observables.
+      This observable can be used for optical astrometry, VLBI, etc. and
+      computes the relative angular position in terms of right ascension :math:`alpha` and declination :math:`delta`
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``transmitter`` and ``receiver`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ LightTimeCorrectionSettings ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the angular position observable.
+
+  #######################################################################
+
+  - name: cartesian_position # [py]
+    short_summary: "Factory function for creating settings for a Cartesian position observable."
+    extended_summary: |
+      Factory function for creating observation model settings of Cartesian position type observables.
+      Note that this observable is typically not realized in reality, but can be very useful for verification or analysis purposes.
+      This observable provides the inertial (w.r.t. global frame origin) Cartesian position of the ``observed_body`` defined by the ``link_ends`` input.
+      The observable has size 3, and contains the :math:`x`, :math:`y` and :math:`z` position
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``observed_body``` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the cartesian position observable.
+
+  #######################################################################
+
+  - name: cartesian_velocity # [py]
+    short_summary: "Factory function for creating settings for a Cartesian velocity observable."
+    extended_summary: |
+      Factory function for creating observation model settings of Cartesian position type observables.
+      Note that this observable is typically not realized in reality, but can be very useful for verification or analysis purposes.
+      This observable provides the inertial (w.r.t. global frame origin) Cartesian velocity of the ``observed_body`` defined by the ``link_ends`` input.
+      The observable has size 3, and contains the :math:`x`, :math:`y` and :math:`z` velocity
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``observed_body``` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the cartesian velocity observable.
+
+  #######################################################################
+
+  - name: 313_euler_angles # [py]
+    short_summary: "Factory function for creating settings for observable containing the body orientation as Euler angles."
+    extended_summary: |
+      Factory function for creating observation model settings of Euler angle type observables.
+      This observable can be used for *e.g.* body attitude observattions, but can also be very useful as 'synthetic' observable for verification or analysis purposes.
+      This observable provides the rotation from inertial (defined by the global frame orientation) to body-fixed orientation of the 
+      body specified by the ``observed_body`` in the ``link_ends`` input.  The observable
+      has size 3, and contains the  3-1-3 (e.g. z-x-z) Euler angles
+
+    parameters:
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires that the
+          ``observed_body``` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: bias_settings # [py]
+        type: ObservationBiasSettings, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiases observation)	
+
+    returns:
+        type: ObservationSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the Euler angle observable.
 
 
   ###############         VIABILITY 		 ################################
+  # factory functions
 
   - name: elevation_angle_viability # [py]
-    short_summary: "Factory function for defining single observation elevation angle viability settings."
+    short_summary: "Factory function for defining single elevation angle viability setting."
     extended_summary: |
-      Factory function for defining single observation elevation angle viability settings. When simulating observations, this setting
-      will omit any observations for which the local elevation angle at a ground station is less than some limit value, when
-      using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function.
+      Factory function for defining elevation angle viability settings for single link end.
+      When simulating observations, this setting ensures that any applicable observations, for which the local elevation angle at link end is less than some limit value, will be ommited.
 
     parameters:
 
       - name: link_end # [py]
-        type: [str,str] # [py]
+        type: Tuple[str,str] # [py]
         description: |
           Link end (as defined by body/reference point pair, see TODO), for which the elevation angle viability setting is to be created.
           To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""].
@@ -826,52 +921,46 @@ functions:
      
     returns:
         type: ObservationViabilitySettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`
-          defining the settings for observation viability
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` class, defining the settings for observation viability
 
   #######################################################################
 
-  # (%!) I suggest we make the list interface the default and get rid of the tuple option
-  #  - elevation_angle
-  #  - body_avoidance
-  #  - body_occultation
+  - name: elevation_angle_viability_list # [py]
+    short_summary: "Factory function for defining list of elevation angle viability settings."
+    extended_summary: |
+      Factory function for defining elevation angle viability settings for multiple link ends.
+      Each entry in the returned list contains the observation viability settings for one link end.
+      When simulating observations, these settings ensure that any applicable observations, for which the local elevation angle at a link end is less than some limit value, will be ommited.
 
-  # name: elevation_angle_viability_list # [py]
-  # short_summary: "Factory function for defining settings of multiple observation elevation angle viability criteria."
-  # extended_summary: |
-  #   Factory function for defining settings of multiple observation elevation angle viability criteria. When simulating observations, these settings
-  #   will omit any observations for which the local elevation angle at a ground station is less than the specified limit value, when
-  #   using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function.
+    parameters:
 
-  # parameters:
+      - name: link_ends_list # [py]
+        type: List[ Tuple[str,str] ] # [py]
+        description: |
+          List of individual link ends (as defined by body/reference point pair, see TODO), for which the elevation angle viability setting is to be created.
+          To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""].
+          For each link end included in this list, it will be checked if a signal received by and/or transmited (or reflected) by this
+          link end violates the minimum elevation angle constraint.
 
-  #   - name: link_ends_list # [py]
-  #     type: list([str,str]) # [py]
-  #     description: |
-  #       List of link ends (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
-  #       To apply a setting to *all* ground station on a given body (such as "Earth"), use ["Earth", ""] as entry in this list.
+      - name: elevation_angle # [py]
+        type: float
+        description: |
+          Limit elevation angle, below which no observations are produced when using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function. Note: this
+          value must be in radians.
 
-  #   - name: elevation_angle # [py]
-  #     type: float
-  #     description: |
-  #       Limit elevation angle, below which no observations are produced from the link ends during the call to :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function. Note: this
-  #       values must be in radians.
-
-  # returns:
-  #   type: ObservationViabilitySettings  # [py]
-  #   description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`
-  #     defining the settings for observation viability
-
+    returns:
+      type: ObservationViabilitySettings  # [py]
+      description: List of :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, each
+        defining the settings for observation viability of one link end.
 
   #######################################################################
 
   - name: body_avoidance_viability # [py]
     short_summary: "Factory function for defining body avoidance observation viability settings."
     extended_summary: |
-      Factory function for defining body avoidance observation viability settings. When simulating observations, this setting
-      will omit any observations for which the signal path passes 'too close' to a body, when
-      using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function. The definition of 'too close' is computed
-      as the angle between:
+      Factory function for defining body avoidance observation viability settings.
+      When simulating observations, this settings ensures that any applicable observations, for which the signal path passes 'too close' to a body, will be ommited.
+      The definition of 'too close' is computed as the angle between:
       
       * The line-of-sight vector from a link end to a given third body
       * The line-of-sight between two link ends 
@@ -881,16 +970,16 @@ functions:
 
     parameters:
 
-      - name: link_ends_list # [py]
-        type: list([str,str]) # [py]
+      - name: link_end # [py]
+        type: Tuple[str,str] # [py]
         description: |
-          List of link ends (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
+          Link end (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
           To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""] is entry in this list.
           For each link end included in this list, it will be checked if a signal received by and/or transmited (or reflected) by this
           link end passes too close to the specified body.
 
       - name: body_to_avoid # [py]
-        type: float  # [py]
+        type: str  # [py]
         description: |
           Name of the body which the signal path should not pass 'too close' to.
 
@@ -902,100 +991,339 @@ functions:
      
     returns:
         type: ObservationViabilitySettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`
-          defining the settings for observation viability
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`, defining the settings for observation viability.
+
+  #######################################################################
+
+  - name: body_avoidance_viability_list # [py]
+    short_summary: "Factory function for defining list of body avoidance viability settings."
+    extended_summary: |
+      Factory function for defining body avoidance viability settings for multiple link ends.
+      Each entry in the returned list contains the observation viability settings for one link end.
+      When simulating observations, these settings ensure that any applicable observations, for which the signal path passes 'too close' to a body, will be ommited.
+      The definition of 'too close' is computed as the angle between:
+
+      * The line-of-sight vector from a link end to a given third body
+      * The line-of-sight between two link ends
+
+      This constraint is typically used to prevent the Sun from being too close to the field-of-view of the telescope(s), as defined by
+      a so-called 'SPE' (Sun-Probe-Earth) angle constraint. The present viability setting generalizes this constraint.
+
+    parameters:
+
+      - name: link_ends_list # [py]
+        type: List[ Tuple[str,str] ]# [py]
+        description: |
+          List of individual link ends (as defined by body/reference point pair, see TODO), for which the elevation angle viability setting is to be created.
+          To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""].
+
+      - name: body_to_avoid # [py]
+        type: str  # [py]
+        description: |
+          Name of the body which the signal path should not pass 'too close' to.
+
+      - name: avoidance_angle # [py]
+        type: float  # [py]
+        description: |
+          Limit angle (generalization of SPE angle), below which no observations are produced when using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function. Note: this
+          value must be in radians.
+
+    returns:
+      type: ObservationViabilitySettings  # [py]
+      description: List of :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, each
+        defining the settings for observation viability of one link end.
 
   #######################################################################
 
   - name: body_occultation_viability # [py]
     short_summary: "Factory function for defining body occulation viability settings."
     extended_summary: |
-      Factory function for defining body occultation observation viability settings. When simulating observations, this setting
-      will omit any observations for which the signal path is occulted by a given body, when
-      using the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.simulate_observations` function. The occultation is computed using the shape model of the specified body
+      Factory function for defining body occultation viability settings for multiple link ends.
+      When simulating observations, this setting ensures that any applicable observations, for which the signal path is occulted by a given body, will be omitted.
+      The occultation is computed using the shape model of the specified body.
+
+    parameters:
+
+      - name: link_end # [py]
+        type: Tuple[str,str] # [py]
+        description: |
+          Link end (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
+          To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""] is entry in this list.
+
+      - name: body_to_avoid # [py]
+        type: str  # [py]
+        description: |
+          Name of the body which the signal path should not be occulted by.
+
+    returns:
+      type: ObservationViabilitySettings  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`, defining the settings for observation viability.
+
+  #######################################################################
+
+  - name: body_occultation_viability_list # [py]
+    short_summary: "Factory function for defining body occulation viability settings."
+    extended_summary: |
+      Factory function for defining body occultation viability settings for multiple link ends.
+      Each entry in the returned list contains the observation viability settings for one link end.
+      When simulating observations, these settings ensure that any applicable observations, for which the signal path is occulted by a given body, will be omitted.
+      The occultation is computed using the shape model of the specified body.
 
     parameters:
 
       - name: link_ends_list # [py]
-        type: list([str,str]) # [py]
+        type: List[ Tuple[str,str] ] # [py]
         description: |
-          List of link ends (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
+          List of individual link ends (as defined by body/reference point pair, see TODO), for which the viability settings are to be created.
           To apply these settings to *all* ground station on a given body (such as "Earth"), use ["Earth", ""] is entry in this list.
           For each link end included in this list, it will be checked if a signal received by and/or transmited (or reflected) by this
           link end is occulted by the specified body.
 
       - name: body_to_avoid # [py]
-        type: float  # [py]
+        type: str  # [py]
         description: |
-          Name of the body which the signal path should not be occulted by
+          Name of the body which the signal path should not be occulted by.
 
     returns:
         type: ObservationViabilitySettings  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings`
-          defining the settings for observation viability
+        description: List of :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, each
+          defining the settings for observation viability of one link end.
 
 
-  # module functions:
+  ############## SIMULATION SETTINGS   ########################### (%! here)
+  # factory functions
+
+  - name: tabulated_simulation_settings # [py]
+
+    short_summary: "Factory function for creating settings object for observation simulation."
+    extended_summary: |
+      Factory function for creating single simulation settings object.
+      For more information about the characteristics of the resulting settings object, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
+
+    parameters:
+      - name: observable_type # [py]
+        type: ObservableType # [py]
+        description: Observable type of which observations are to be simulated.
+
+      - name: link_ends # [py]
+        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        description: Link ends for which observations are to be simulated.
+
+      - name: simulation_times # [py]
+        type: List[float] # [py]
+        description: List of times at which to perform the observation simulation.
+
+      - name: reference_link_end # [py]
+        type: LinkEndType, default = LinkEndType.receiver # [py]
+        description: unknown # (%!)
+
+      - name: viability_settings # [py]
+        type: List[ObservationViabilitySettings], default = [] # [py]
+        description: |
+          Settings for the creation of the viability criteria calculators, which conduct viabilty checks on the simulated observations.
+
+      - name: noise_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[m, 1]]], default = None # [py]
+        description: unknown # (%!)
+
+    returns:
+      type: TabulatedObservationSimulationSettings  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
+
+  #######################################################################
+
+  - name: create_tabulated_simulation_settings # [py] (%! name is not informative, in relation to simple tabulated_simulation_settings)
+
+    short_summary: "Factory function for creating multiple settings object, each defining observation simulation times."
+    extended_summary: |
+      Factory function for creating multiple observation simulation settings objects in a list.
+      During a single call to this function, one simulation settings object is created for each combination of observable type and link geometry given by the ``link_ends_per_observable`` parameter.
+      All resulting simulation settings object share the same tabulated simulation times, given by the ``simulation_times`` parameter.
+      For more information about the characteristics of the resulting settings objects, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
+
+      Note that this interface does not allow to include viability settings or noise functions during creation of the simulation settings object.
+      For adding viability settings or noise functions, please use the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_settings` and :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_viability_check_to_settings` functions.
+
+    parameters:
+      - name: link_ends_per_observable # [py]
+        type: Dict[ObservableType, List[Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str]]]]  # [py]
+        description: Observable type of which observations are to be simulated.
+
+      - name: simulation_times # [py]
+        type: List[ float ] # [py]
+        description: List of times at which to perform the observation simulation.
+
+    returns:
+      type: List[ TabulatedObservationSimulationSettings ] # [py]
+      description: List of :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` objects.
+
+
+  ############## ADDING TO SIMULATION SETTINGS   ###########################
+  # module functions
+
+  - name: add_gaussian_noise_to_settings # [py]
+    short_summary: "Function for adding gaussian noise function to existing observation simulation settings."
+    extended_summary: |
+      Function for including simple time-independent and time-uncorrelated Gaussian noise funtion to the simulation settings of one or more observable(s).
+      Out of the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) in the ``observation_simulation_settings`` parameter, the modification is only applied to the ones
+      which match the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` given by the ``observable_type`` parameter.
+      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: noise_amplitude # [py]
+        type: float # [py]
+        description: Amplitude of Gaussian distribution for the noise.
+
+      - name: observable_type # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` # [py]
+        description: |
+          Identifies the observable type in the observation simulation settings to which the noise is to be added.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+  #######################################################################
+
+  - name: add_viability_check_to_settings # [py]
+    short_summary: "Function for including viability checks into existing observation simulation settings."
+    extended_summary: |
+      Function for including viability checks into the simulation settings of one or more observable(s).
+      Modifications are applied to all given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s),
+      matching each :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object with the corresponding :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` entry in the ``viability_settings`` parameter.
+      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: viability_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` ] # [py]
+        description: |
+          List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, defining the viability checks to be included.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+  #######################################################################
+
+  - name: add_viability_check_to_settings # [py]
+    short_summary: "Function for including viability checks into existing observation simulation settings."
+    extended_summary: |
+      Function for including viability checks into the simulation settings of one or more observable(s).
+      Each of the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects is matched with the corresponding :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` entry in the ``viability_settings`` parameter,
+      but *modifications are only applied* to those :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` which match the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` given by the ``observable_type`` parameter.
+      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: viability_settings # [py]
+        type: List( :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` ) # [py]
+        description: |
+          List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, defining the viability checks to be included.
+
+      - name: observable_type # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` # [py]
+        description: |
+          Identifies the observable type in the observation simulation settings for which the viability checks are to be considered.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+  #######################################################################
+
+  - name: add_dependent_variables_to_settings # [py]
+    short_summary: "Function for including dependent variables into existing observation simulation settings."
+    extended_summary: |
+
+      Function for including the computation and reporting of dependent variables into the observation simulation settings of one or more observable(s).
+      Modifications are applied to all given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s),
+      matching each :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object with the corresponding :class:`ObservationDependentVariableSettings` entry in the ``dependent_variable_settings`` parameter.
+      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: dependent_variable_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` ] # [py]
+        description: |
+          List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` objects, defining the dependent variables to be considered.
+
+      - name: bodies # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
+        description: |
+          Object consolidating all bodies and environment models that constitute the physical environment.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+
   ##############  SIMULATION           ###########################
 
   - name: create_observation_simulators # [py]
     short_summary: "Function for creating observation simulator objects."
     extended_summary: |
-      Function for creating observation simulator objects from observation settings.
+      Factory function for creating observation simulator objects from observation settings.
+      Note that each observation (i.e. combination of observable and link geometry) requires its own observation simulator object.
 
     parameters:
 
       - name: observation_settings # [py]
-        type: list(ObservationSettings) # [py]
+        type: List[ ObservationSettings ] # [py]
         description: |
-          List of settings objects, each object defining the observation model settings for one of the desired observables that are to be simulated.
-        # (%!) link end information in here too? worth mentioning explicitely?
+          List of settings objects, each object defining the observation model settings for one combination of observable and link geometry that is to be simulated.
 
       - name: bodies # [py]
-        type: SystemOfBodies  # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
         description: |
           Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
-        # (%!) is this correct
 
     returns:
-      type: List[:class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationSimulator`]  # [py]
-      description: List of :class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationSimulator` objects, each object hosting the functionality for simulating one type of observable and link end set.
+      type: List[ :class:`~tudatpy:numerical_simulation:estimation:ObservationSimulator` ]  # [py]
+      description: List of :class:`~tudatpy:numerical_simulation:estimation:ObservationSimulator` objects, each object hosting the functionality for simulating one combination of observable type and link geometry.
 
   #######################################################################
 
   - name: simulate_observations # [py]
     short_summary: "Function to simulate observations."
     extended_summary: |
-      Function to simulate observations from set of observables, link ends and observation time settings.
-      Automatically accounts for all provided observables and link ends, generating the full set of simulated observations.
+      Function to simulate observations from set observation simulators and observation simulator settings.
+      Automatically iterates over all provided observation simulators, generating the full set of simulated observations.
 
     parameters:
 
       - name: observation_to_simulate # [py]
-        type: list(ObservationSimulationSettings) # [py]
+        type: List[ ObservationSimulationSettings ] # [py]
         description: |
           List of settings objects, each object providing the observation time settings for simulating one type of observable and link end set.
 
       - name: observation_simulators # [py]
-        type: List[:class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationSimulator`] # [py]
+        type: List[ :class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationSimulator` ] # [py]
         description: |
           List of :class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationSimulator` objects, each object hosting the functionality for simulating one type of observable and link end set.
 
       - name: bodies # [py]
-        type: SystemOfBodies  # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
         description: |
           Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
 
     returns:
-      type: :class:`ObservationCollection`]  # [py] #(%!) return type not yet exposed: :class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationCollection`
+      type: :class:`ObservationCollection`  # [py] #(%!) return type not yet exposed: :class:`~tudatpy:numerical_simulation:estimation_setup:observation:ObservationCollection`
       description: Collection containing all products of the observation simulation.
-
-
-      #   missing:
-      #     +      simulate_observations
-      #     +      create_observation_simulators
-      #           one_way_downlink_link_ends
-      #           one_way_uplink_link_ends
-      #           add_gaussian_noise_to_settings
-      #           add_viability_check_to_settings x2
-      #           add_dependent_variables_to_settings
