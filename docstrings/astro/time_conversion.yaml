@@ -17,8 +17,9 @@ notes: |
   - Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, the 1st of January 2000.
 
 references: |
-  See `this page <https://www.ucolick.org/~sla/leapsecs/timescales.html>`_ mainly based on IAU resolutions,
-  and references therein.
+  Chapter 2 of: Kaplan, G. United States Naval Observatory Circular No. 179, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
+  
+  This document can be accessed at the following link: https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view
 
 #########################################################################
 #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██

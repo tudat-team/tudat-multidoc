@@ -1171,7 +1171,7 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ExponentialAtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
 
     examples: |
       In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` object with factors from a custom function:

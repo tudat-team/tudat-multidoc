@@ -95,7 +95,7 @@ classes:
       #- name: getCumulativeComputationTimeHistoryBase # [cpp]
         #type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
         #description: |
-          #This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
+          #This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers.
           #This means that at each time step the computation time is the sum of the computation time needed for that particular
           #time step and the computation time needed for all the previous time steps. The computation time is returned
           #as value, with time as key. This function is similar to the corresponding function without "base", with
@@ -130,7 +130,7 @@ classes:
         type: EnvironmentUpdater
         readonly: Yes
         description: |
-          Object used in the propagation to update the enviroment, it uses the current time and numerically calulcated state
+          # Object used in the propagation to update the environment, it uses the current time and numerically calculated state
           to update the translational state, rotational state, flight conditions, etc. of all bodies in the simulation to be
           consistent with this time and state.  Typically, this class is NOT used directly by users.
 
@@ -174,7 +174,7 @@ classes:
         readonly: Yes
         description: |  # [py]
           Boolean defining whether the last propagation was finished
-          succesfully, as defined by the termination conditions, or if
+          successfully, as defined by the termination conditions, or if
           it was terminated prematurely (for instance due to an
           exception, or an Inf/NaN state entry being detected).
 
@@ -198,7 +198,7 @@ classes:
       - name: ctor
         short_summary: "Class constructor."
         extended_summary: |
-          Class constructor defining environment, propagation and
+          Defines environment, propagation and
           integrations models, as well as a number of settings related
           to simulation output and processing.
 
@@ -237,7 +237,7 @@ classes:
               accessible. Putting this setting to True (deleting the
               results) is only sensible when the
               :py:attr:`~set_integrated_result` is set to True. In that
-              case, the propagated states are *not* accesible directly
+              case, the propagated states are *not* accessible directly
               from this objects, but the results are used to update the
               environment, *e.g.* update the ephemeris of the propagated
               body with the numerical results.
@@ -272,7 +272,7 @@ classes:
                  - **Mass**: The mass function of the propagated body
                    will be updated.
 
-          - name: print_number_of_function_evaluaions # [py]
+          - name: print_number_of_function_evaluations # [py]
             type: bool, default = False # [py]
             description: |    # [py]
               Boolean defining whether the number of function evaluations that
@@ -319,7 +319,7 @@ classes:
       #- name: manually_set_and_process_raw_numerical_equations_of_motion_solution # [py]
         #short_summary: "This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers."
         #extended_summary: |
-          #This function returns the history of cumulative computation time needed during the propagationas a vector of key-value containers.
+          #This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers.
           #This means that at each time step the computation time is the sum of the computation time needed for that particular
           #time step and the computation time needed for all the previous time steps. The computation time is returned
           #as value, with time as key. This function is similar to the corresponding function without "base", with

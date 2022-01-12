@@ -1219,7 +1219,7 @@ functions:
 
   # Single, per-term gravity field variation acceleration
   - name: singleGravityFieldVariationSeparateTermsAccelerationContributionVariable # [cpp]
-  - name: single_per_terms_gravity_field_variation_acceleration # [py]
+  - name: single_per_term_gravity_field_variation_acceleration # [py]
     short_summary: "Function to add the acceleration induced by a single time-variability of a gravity field, at a given list of degrees/orders, to the dependent variables to save."
     short_summary: "Function to add the acceleration induced by a single time-variability of a gravity field, at a given list of degrees/orders, to the dependent variables to save.
     This combines the functionality of the :func:`single_gravity_field_variation_acceleration` and :func:`spherical_harmonic_terms_acceleration` variables"
