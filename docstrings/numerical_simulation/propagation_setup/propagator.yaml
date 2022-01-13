@@ -513,7 +513,7 @@ functions:
         description: |
           Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
           Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
-          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`
+          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_.
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]

@@ -518,6 +518,90 @@ functions:
   #######################################################################
   # (%!) not on tudat-space
 
+  - name: tabulated_from_files # [py]
+  - name: readTabulatedAerodynamicCoefficientsFromFiles # [cpp]
+    short_summary: "Factory function for creating aerodynamic interface model settings from tabulated coefficients from files."
+    extended_summary: |
+      Factory function for settings object, defining aerodynamic interface model via user-defined, tabulated aerodynamic force and moment coefficients
+      (tabulated w.r.t. independent variable), obtained from data files.
+
+    parameters:
+
+      - name: force_coefficient_files # [py]
+        type: Dict[int, str] # [py]
+        description: Path of the aerodynamic coefficient files corresponding to the force coefficient of the given dict key. # [py]
+
+      - name: moment_coefficient_files # [py]
+        type: Dict[int, str] # [py]
+        description: Path of the aerodynamic coefficient files corresponding to the moment coefficient of the given dict key. # [py]
+
+      - name: reference_length # [py]
+        type: float # [py]
+        description: "Reference length with which aerodynamic moments about x- and z- axes are non-dimensionalized." # [py]
+
+      - name: reference_area # [py]
+        type: float # [py]
+        description: "Reference area with which aerodynamic forces and moments are non-dimensionalized." # [py]
+
+      - name: lateral_reference_length # [py]
+        type: float # [py]
+        description: "Reference length with which aerodynamic moment about y-axis is non-dimensionalized." # [py]
+
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
+        description: "Point w.r.t. aerodynamic moment is calculated." # [py]
+
+      - name: independent_variable_names # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
+        description: Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined. # [py]
+
+      - name: are_coefficients_in_aerodynamic_frame # [py]
+        type: bool, default = True # [py]
+        description: | # [py]
+          Boolean to define whether the aerodynamic coefficients are defined in the aerodynamic frame # [py]
+          (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz). # [py]
+
+      - name: are_coefficients_in_negative_axis_direction # [py]
+        type: bool, default = True # [py]
+        description: | # [py]
+          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or # [py]
+          aerodynamic frame (see arg areCoefficientsInAerodynamicFrame). # [py]
+          Note that for drag, side and lift force, the coefficients are typically defined in negative direction. # [py]
+
+      - name: interpolator_settings # [py]
+        type: math.interpolators.InterpolatorSettings, default = None # [py]
+        description: |  # [py]
+          Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved. # [py]
+
+    returns: # [py]
+        type: TabulatedAerodynamicCoefficientSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettings` class # [py]
+    
+    examples: | # [py]
+      This example is very similar to the one for `tabulated_force_only_from_files`, with the distinction that a pitching moment coefficient is added.
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the force coefficient files (leave C_S empty) # [py]
+        force_coefficients_files = {0: "input/STS_CD.dat", 2:"input/STS_CL.dat"} # [py]
+        # Define the moment coefficient files (leave C_S empty) # [py]
+        moment_coefficients_files = {0: "input/STS_CM.dat"} # [py]
+        # Setup the aerodynamic coefficients settings tabulated from the files # [py]
+        coefficient_settings = environment_setup.aerodynamic_coefficients.tabulated_from_files( # [py]
+            force_coefficient_files=force_coefficients_files, # [py]
+            moment_coefficient_files=moment_coefficients_files, # [py]
+            reference_length=11.9, # [py]
+            reference_area=2690.0*0.3048*0.3048, # [py]
+            lateral_reference_length=11.9, # [py]
+            moment_reference_point = [2.5, 0, 0.25], # [py]
+            independent_variable_names=[environment.angle_of_attack_dependent, environment.mach_number_dependent] # [py]
+        ) # [py]
+        # Add the predefined aerodynamic coefficients database to the body # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "STS", coefficient_settings) # [py]
+
+  #######################################################################
+  # (%!) not on tudat-space
+
   - name: scaled_by_constant # [py]
   - name: scaledAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings by applying one constant scaling factor/value to all coefficients of an existing model settings object."
