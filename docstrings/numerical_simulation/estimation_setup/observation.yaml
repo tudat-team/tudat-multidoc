@@ -1135,8 +1135,8 @@ functions:
       All resulting simulation settings object share the same tabulated simulation times, given by the `simulation_times` parameter.
       For more information about the characteristics of the resulting settings objects, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
 
-      Note that this interface does not allow to include viability settings or noise functions during creation of the simulation settings object.
-      For adding viability settings or noise functions, please use the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_settings` and :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_viability_check_to_settings` functions.
+      Note that this interface does not allow noise functions to be considered during creation of the simulation settings object.
+      For adding noise functions, please use the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_settings` function.
 
     parameters:
       - name: link_ends_per_observable # [py]
@@ -1146,6 +1146,19 @@ functions:
       - name: simulation_times # [py]
         type: List[ float ] # [py]
         description: List of times at which to perform the observation simulation.
+
+      - name: reference_link_end_type # [py]
+        type: LinkEndType, default = LinkEndType.receiver # [py]
+        description: |
+          Defines the link end (via the LinkEndType) which is used as a reference for observation times.
+          The single link end specified here will be considered as the reference link end for all simulation settings object created in the function call.
+
+      - name: viability_settings # [py]
+        type: List[ObservationViabilitySettings], default = [] # [py]
+        description: |
+          Settings for the creation of the viability criteria calculators, which conduct viabilty checks on the simulated observations.
+          The single settings list given here will be considered as potential viability settings for all simulation settings object created in the function call.
+
 
     returns:
       type: List[ TabulatedObservationSimulationSettings ] # [py]
