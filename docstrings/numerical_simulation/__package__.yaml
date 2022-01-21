@@ -4,6 +4,7 @@ modules:
   - estimation_setup
   - environment_setup
   - propagation_setup
+  - estimation
   - environment
   - propagation
 

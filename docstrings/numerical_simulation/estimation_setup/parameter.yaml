@@ -130,13 +130,27 @@ functions:
       The factory function uses the propagator settings to determine which type of initial state parameter (`initial_body_state_type`, `arc_wise_initial_body_state_type`, `initial_rotational_body_state_type`) is needed,
       e.g. if a translational propagator is defined, the function will automatically create the parameters for an `initial_body_state_type`.
 
-      Note: These function return lists of parameter settings objects, which means that the return of this function cannot simply be added to the parameter settings objects of single parameters in a list creation statement like [estimation_setup.parameter.initial_states(...), single_parameter_1, single_parameter_2, ...].
-      Instead, the parameter settings objects of single parameters need to be concatenated to the list of initial state parameter settings, e.g. by using the + operator: estimation_setup.parameter.initial_states(...) + [single_parameter_1, single_parameter_2, ...]
-    # (%!) math
+      Note: These function return lists of parameter settings objects.
+      This means that which the return of this function cannot simply be added to the parameter settings objects of single parameters in a list creation statement.
+      Instead, list concatenation is recommended. Please see the following example:
+
+      .. code-block:: python # [py]
+         # [py]
+         # define single estimatable parameters # [py]
+         single_parameter_1 = ...  # [py]
+         single_parameter_2 = ...  # [py]
+         ...  # [py]
+
+         # bad: list creation statement --> will result in nested list, undesired!
+         list_of_all_parameters = [estimation_setup.parameter.initial_states(...), single_parameter_1, single_parameter_2, ...] # [py]
+
+         # better: list concatenation --> will result in simple list, desired!
+         list_of_all_parameters = estimation_setup.parameter.initial_states(...) + [single_parameter_1, single_parameter_2, ...] # [py]
+
 
     parameters:
       - name: propagator_settings # [py]
-        type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings # [py]
+        type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`# [py]
         description: |
           Object containing the consolidated propagation settings of the simulation in the context of which the given model parameters are to be estimated.
 
@@ -163,7 +177,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for constant drag coefficients, typically used for variational equation propagation and estimation.
       Using the constant drag coefficient as an estimatable parameter requires
-        * an :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the `body` parameter
+        * a :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the `body` parameter
         * the body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.aerodynamic` acceleration
       The drag coefficient is defined according to the universal convention and thus no further model information is given.
 
@@ -268,7 +282,7 @@ functions:
     returns:
       type: :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings`  # [py]
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EmpiricalAccelerationEstimatableParameterSettings` class´
+        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EmpiricalAccelerationEstimatableParameterSettings` class
         for the specified body's empirical acceleration terms.
 
 
@@ -279,7 +293,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the gravitational parameter of massive bodies, typically used for variational equation propagation and estimation.
       Using the gravitational parameter as estimatable parameter requires
-        * a :func:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.central` (or equivalent) point mass gravity model to be defined for the body specified by the `body` parameter
+        * a :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.central` (or equivalent) point mass gravity model to be defined for the body specified by the `body` parameter
         * any dynamical or observational model to depend on the gravitational model of the body specified by the `body` parameter
       The gravitational parameter is defined according to the universal convention for a point mass gravity model and thus no further model information is given.
 
@@ -320,7 +334,7 @@ functions:
     returns:
       type: :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings`  # [py]
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class´
+        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class
         for the applicable spherical harmonics c-coefficients of the specified body's gravitational model.
 
   #######################################################################
@@ -349,7 +363,7 @@ functions:
     returns:
       type: :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings`  # [py]
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class´
+        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class
         for the applicable spherical harmonics s-coefficients of the specified body's gravitational model.
 
   #######################################################################
@@ -388,7 +402,7 @@ functions:
     returns:
       type: :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings`  # [py]
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class´
+        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class
         for the applicable spherical harmonics c-coefficients of the specified body's gravitational model.
 
   #######################################################################
@@ -427,7 +441,7 @@ functions:
     returns:
       type: :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings`  # [py]
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class´
+        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.SphericalHarmonicEstimatableParameterSettings` class
         for the applicable spherical harmonics s-coefficients of the specified body's gravitational model.
 
 

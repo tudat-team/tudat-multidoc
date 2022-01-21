@@ -229,7 +229,7 @@ functions:
     short_summary: "Function that creates a System of bodies from associated settings."
     extended_summary: |
       Function that creates a System of bodies from associated settings. This function creates the separate :class:`~tudatpy.numerical_simulation.Body`
-      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.SystemOfBodies` object. This object represents the full
+      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. This object represents the full
       physical environmen in the simulation
 
     parameters:
@@ -249,7 +249,7 @@ functions:
       settings for the radiation pressure interface, created using one of the factory functions from the :ref:`~tudatpy.numerical_simulation_environment_setup.radiation_pressure` module.
       This function creates the actual coefficient interface from these settings, and assigns it to the
       selected body. In addition to the identifier for the body to which it is assigned, this function
-      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      requires the full :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` as input, to facilitate
       inter-body dependencies in the radiation pressure interface
 
     parameters:

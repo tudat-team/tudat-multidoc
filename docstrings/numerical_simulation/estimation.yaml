@@ -1,33 +1,441 @@
 extended_summary: |
-  This module provides the functionality for functional environment
-  objects and associated functionality. Specifically, it contains the
-  models that perform computations related to environment models of
-  natural and artificial bodies.
+  This module contains the functionality for managing the inputs and outputs of an estimation.
+
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
+
+# no enums
 
 
-  #########################################################################
-  #  ███████ ███   ██ ██    ██ ███    ███  ██████
-  #  ██      ████  ██ ██    ██ ████  ████ █
-  #  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
-  #  ██      ██  ████ ██    ██ ██  ██  ██       █
-  #  ███████ ██    ██  ██████  ██      ██ ██████
-  #########################################################################
-
-  # no enums
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
 
 
-  #########################################################################
-  #   ██████ ██          ██      ██████  ██████ ███████  ██████
-  #  ██      ██         ████    █       █       ██      █
-  #  ██      ██        ██  ██    █████   █████  █████    █████
-  #  ██      ██       ████████        █       █ ██            █
-  #   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
-  #########################################################################
+classes:
 
-  # EstimatableParameterSet
+  #################        PARAMETERS       ################################
 
-  # ObservationViabilityCalculator
-  # ObservationSimulator (_1, _2, _3, _6)
+  - name: EstimatableParameterSet
+    short_summary: "Class containing a consolidated set of estimatable parameters."
+    extended_summary: |
+      Class containing a consolidated set of estimatable parameters, linked to the environment and acceleration settings of the simualtion.
+      The user typically creates instances of this class via the :func:`~tudatpy.numerical_simulation.estimation_setup.create_parameters_to_estimate` factory function.
+
+    properties: # [py]
+
+      - name: parameter_set_size # [py]
+        type: int # [py]
+        description: Size of the parameter set, i.e. amount of estimatable parameters contained in the set. # [py]
+        readonly: True # [py]
+
+      - name: initial_states_size # [py]
+        type: int # [py]
+        description: Amount of initial state parameters contained in the set. # [py]
+        readonly: True # [py]
+
+      - name: initial_single_arc_states_size # [py]
+        type: int # [py]
+        description: Amount of initial state parameters in the set, which are treated in a single-arc fashion.  # [py]
+        readonly: True # [py]
+
+      - name: initial_multi_arc_states_size # [py]
+        type: int # [py]
+        description: Amount of initial state parameters in the set, which are treated in a multi-arc fashion.  # [py]
+        readonly: True # [py]
+
+      - name: constraints_size # [py]
+        type: int # [py]
+        description: Total size of linear constraint that is to be applied during estimation.  # [py] (%!)
+        readonly: True # [py]
+
+      - name: parameter_vector # [py]
+        type: numpy.ndarray[numpy.float64[m, 1]] # [py]
+        description: Vector containing the parameter values of all parameters in the set. # [py]
+        readonly: False # [py]
+
+
+    methods:
+
+      - name: ctor   # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: "Instances of the `EstimatableParameterSet` class should be created through the `createParametersToEstimate` factory function." # [cpp]
+
+      - name: indices_for_parameter_type # [py] (%!) help with this function
+        short_summary: "Function to retrieve the indices of a given type of parameter." # [py]
+        extended_summary: | # [py]
+          Function to retrieve the index of all parameters of a given type from the parameter set.
+          This function can be very useful, since the order of parameters within the parameter set does not necessarily correspond to the order in which the elements were added to the set.
+
+        parameters: # [py]
+        - name: parameter_type # [py] (%!)
+          type: Tuple[ :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatebleParameterTypes`, Tuple[str, str] ] # [py]
+          description: help  # [py]
+
+        returns: # [py]
+        - type: List[ Tuple[int, int] ] # [py]
+          description: help  # [py]
+
+
+  #################        OBSERVATION       ################################
+
+  - name: ObservationViabilityCalculator
+    short_summary: "Template class for observation viability calculators."
+    extended_summary: |
+      Template class for classes which conducts viability calculations on simulated observations.
+      Instances of the applicable ObservationViabilityCalculators are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects during the simulation of observations (:func:`~tudatpy.numerical_simulation.estimation.simulate_observations`).
+      The user typically does not interact directly with this class.
+
+    methods:
+      - name: is_observation_viable
+        short_summary: Function to check whether an observation is viable.
+        extended_summary: |
+          Function to check whether an observation is viable.
+          The calculation is performed based on the given times and link end states.
+          Note, that this function is called automatically during the simulation of observations.
+          Direct calls to this function are generally not required.
+
+        parameters:
+
+        - name: link_end_states
+          type: List[ numpy.ndarray[numpy.float64[6, 1]] ]
+          description: Vector of states of the link ends involved in the observation.
+
+        - name: link_end_times
+          type: List[float]
+          description: Vector of times at the link ends involved in the observation.
+
+        returns:
+        - type: bool
+          descrption: True if observation is viable, false if not.
+
+  - name: ObservationViabilityCalculator_1
+    short_summary: "Class which conducts viability calculations on simulated observations of size 1."
+    extended_summary: |
+      Class which conducts viability calculations on simulated observations of size 1, e.g. Doppler or range observations.
+      Instances of the applicable ObservationViabilityCalculators are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects during the simulation of observations (:func:`~tudatpy.numerical_simulation.estimation.simulate_observations`).
+      The user typically does not interact directly with this class.
+
+  - name: ObservationViabilityCalculator_2
+    short_summary: "Class which conducts viability calculations on simulated observations."
+    extended_summary: |
+      Class which conducts viability calculations on simulated observations of size 2, e.g. angular position observations.
+      Instances of the applicable ObservationViabilityCalculators are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects during the simulation of observations (:func:`~tudatpy.numerical_simulation.estimation.simulate_observations`).
+      The user typically does not interact directly with this class.
+
+  - name: ObservationViabilityCalculator_3
+    short_summary: "Class which conducts viability calculations on simulated observations."
+    extended_summary: |
+      Class which conducts viability calculations on simulated observations of size 3, e.g. Euler angle observations
+      Instances of the applicable ObservationViabilityCalculators are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects during the simulation of observations (:func:`~tudatpy.numerical_simulation.estimation.simulate_observations`).
+      The user typically does not interact directly with this class.
+
+  - name: ObservationViabilityCalculator_6
+    short_summary: "Class which conducts viability calculations on simulated observations."
+    extended_summary: |
+      Class which conducts viability calculations on simulated observations of size 6, e.g. (pseudo-) observations of the full cartesian state.
+      Instances of the applicable ObservationViabilityCalculators are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects during the simulation of observations (:func:`~tudatpy.numerical_simulation.estimation.simulate_observations`).
+      The user typically does not interact directly with this class.
+
+
+
+
+  ##############################################################################
+
+  - name: ObservationSimulator # (%!) help: how to document the 1, 2, 3, 6 extensions
+    short_summary: "Class hosting the functionality for simulating observations."
+    extended_summary: |
+      Class hosting the functionality for simulating a given observable over a defined link geometry.
+      Instances of this class are automatically created from the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings` objects upon instantiation of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+
+  ##############################################################################
+
+  - name: ObservationCollection
+    short_summary: "Class collecting all products of the observation simulation."
+    extended_summary: |
+      Class containing all products of the observation simulation.
+      This class is instantiated via a call to the :func:`~tudatpy.numerical_simulation.estimation.simulate_observations` function.
+
+    properties: # [py]
+
+      - name: concatenated_times # [py]
+        type: numpy.ndarray[numpy.float64[m, 1]] # [py]
+        description: Vector containing concatenated observation times. Concatenation takes place over the observation times of all observables. # [py]
+        readonly: True # [py]
+
+      - name: concatenated_observations # [py]
+        type: numpy.ndarray[numpy.float64[m, 1]] # [py]
+        description: Vector containing concatenated observation times. Concatenation takes place over the observations of all observables. # [py]
+        readonly: True # [py]
+
+
+  ################# VARIATIONAL EQUATIONS ######################################
+
+  - name: CombinedStateTransitionAndSensitivityMatrixInterface
+    short_summary: "Class establishing an interface with the simulation's State Transition and Sensitivity Matrices."
+    extended_summary: |
+      Class establishing an interface to the State Transition and Sensitivity Matrices.
+      Instances of this class are instantiated upon creation of :class:`~tudatpy.numerical_simulation.Estimator` objects,
+      using the simulation information in the observation, propagation and integration settings that the :class:`~tudatpy.numerical_simulation.Estimator` instance is linked to.
+
+    properties: # [py]
+
+      - name: state_transition_size # [py]
+        type: int # [py]
+        description: Size of the (square) state transition matrix.  # [py]
+        readonly: True # [py]
+
+      - name: sensitivity_size # [py]
+        type: int # [py]
+        description: Number of columns in the sensitivity matrix. # [py]
+        readonly: True # [py]
+
+      - name: full_parameter_size # [py]
+        type: int # [py]
+        description: Full amount of parameters w.r.t. which partials have been set up via State Transition and Sensitivity Matrices. # [py]
+        readonly: True # [py]
+
+    methods: # [py]
+
+      - name: state_transition_sensitivity_at_epoch # [py]
+        short summary: Function to get the concatenated state transition and sensitivity matrix at a given time. # [py]
+        extended summary: | # [py]
+          Function to get the concatenated state transition and sensitivity matrix at a given time.
+          Entries corresponding to parameters which are not active at the current arc are omitted.
+
+        parameters:
+        - name: time                                              # [py]
+          type: float                                             # [py]
+          description: Time at which concatenated state transition and sensitivity matrix are to be retreived.   # [py]
+
+        returns:
+        - type: numpy.ndarray[numpy.float64[m, n]]
+          description: Concatenated state transition and sensitivity matrix at a given time.
+
+      - name: full_state_transition_sensitivity_at_epoch # [py]
+        short summary: Function to get the full concatenated state transition and sensitivity matrix at a given time. # [py]
+        extended summary: | # [py]
+          Function to get the full concatenated state transition and sensitivity matrix at a given time.
+          Entries corresponding to parameters which are not active at the current arc are included in the returned matrix,
+          having a value of zero.
+
+        parameters:
+        - name: time                                              # [py]
+          type: float                                             # [py]
+          description: Time at which full concatenated state transition and sensitivity matrix are to be retreived.   # [py]
+
+        returns:
+        - type: numpy.ndarray[numpy.float64[m, n]]
+          description: Full concatenated state transition and sensitivity matrix at a given time.
+
+
+  ################# ESTIMATION ######################################
+
+  - name: EstimationConvergenceChecker
+    short_summary: "Class defining the convergence criteria for an estimation."
+    extended_summary: |
+      Class defining the convergence criteria for an estimation.
+      The user typically creates instances of this class via the :func:`~tudatpy.numerical_simulation.estimation.create_estimation_convergence_checker` factory function.
+
+    methods: # [cpp]
+      - name: ctor # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: The user typically does not use the constructor, but creates instances of this class via the `createEstimationConvergenceChecker` factory function. # [cpp]
+
+  ##############################################################################
+
+  - name: PodInput
+    short_summary: Class for consolidating all inputs to the estimation.
+    extensive_summary: |
+      Class for consolidating all inputs required to conduct an estimation. This includes foremost the simulated observations,
+      as well as apriori information about the estimatable parameters.
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+      special_members: __init__
+
+    methods:
+      - name: set_constant_weight # [py]
+        short_summary: Function to set a constant weight matrix for all observables.
+        extended_summary: |
+          Function to set a constant weight matrix for all observables.
+          The weights are applied to all observations managed by the given PodInput object.
+
+        parameters:
+        - name: constant_weight
+          type: float
+          description: Constant weight factor that is to be applied to all observations.
+
+        returns:
+        - type: None
+          description: Function modifies the object in-place.
+
+
+      - name: set_constant_weight_per_observable # [py]
+        short_summary: Function to set a constant weight matrix for a given type of observable.
+        extended_summary: |
+          Function to set a constant weight matrix for a given type of observable.
+          The weights are applied to all observations of the observable type specified by the `weight_per_observable` parameter.
+
+        parameters:
+        - name: constant_weight
+          type: Dict[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType`, float ]
+          description: Constant weight factor that is to be applied to all observations.
+
+        returns:
+        - type: None
+          description: Function modifies the object in-place.
+
+      - name: define_estimation_settings # [py]
+        short_summary: Function to define specific settings for estimation process
+        extended_summary: |
+          Function to define specific settings for estimation process
+
+        parameters:
+        - name: reintegrate_equations_on_first_iteration
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the dynamics and variational equations are to be reintegrated on first iteration,
+            or if existing values are to be used to perform first iteration.
+
+        - name: reintegrate_variational_equations
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the variational equations are to be reintegrated during estimation.
+
+        - name: save_design_matrix
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to save the partials matrix in the output.
+
+        - name: print_output_to_terminal
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to print output to th terminal when running the estimation.
+
+        - name: save_residuals_and_parameters_per_iteration
+          type: bool, default = True
+          descriptoon: |
+            Boolean denoting whether the residuals and parameters from the each iteration are to be saved.
+
+        - name: save_state_history_per_iteration
+          type: bool, default = False
+          description: |
+            Boolean denoting whether the state history is to be saved on each iteration.
+
+        returns:
+        - type: None
+          description: Function modifies the object in-place.
+
+
+    #methods:
+    #  - name: ctor # [cpp]
+    #  - name: __init__ # [py]
+    #    short_summary: "Constructor."
+    #    extended_summary: |
+    #      Constructor, through which the user can create instances of this class.
+
+    #parameters:
+    #
+    #- name: observations_and_times              # [py]
+    #  type: ObservationCollection               # [py]
+    #  description: "Total data structure of observations and associated times/link ends/type."             # [py]
+    #
+    #- name: parameter_size             # [py]
+    #  type: int                        # [py]
+    #  description: "Size of vector of estimated parameters."              # [py]
+    #
+    #- name: inverse_apriori_covariance              # [py]
+    #  type: numpy.ndarray[numpy.float64[m, n]], default = []           # [py]
+    #  description: "A priori covariance matrix (unnormalized) of estimated parameters."             # [py]
+    #
+    #- name: apriori_parameter_correction              # [py]
+    #  type: numpy.ndarray[numpy.float64[m, 1]], default = []                         # [py]
+    #  description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
+    #
+    #returns:
+    #- type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
+    #  description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
+
+
+  ##############################################################################
+
+  - name: PodOutput
+    short_summary: Class collecting all outputs from the estimation process.
+    extensive_summary: |
+      Class collecting all outputs from the estimation (Pod) process.
+      Instances of this class are typically created by calling the `perform_estimation` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+
+    properties:
+
+      - name: inverse_covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: (Unnormalized) inverse estimation covariance matrix.
+        readonly: True
+
+      - name: covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: (Unnormalized) estimation covariance matrix.
+        readonly: True
+
+      - name: formal_errors
+        type: numpy.ndarray[numpy.float64[m, 1]]
+        description: Formal error vector of the estimation result. Correlation matrix of the estimation result.
+        readonly: True
+
+      - name: correlations
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: Correlation matrix of the estimation result.
+        readonly: True
+
+      - name: residual_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Residual vectors, concatenated per iteration into a matrix.
+        readonly: True
+
+      - name: parameter_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Parameter vectors, concatenated per iteration into a matrix. Column 0 contains pre-estimation values.
+        readonly: True
+
+      - name: design_matrix
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Matrix of unnormalized partial derivatives.
+        readonly: True
+
+      - name: normalized_design_matrix
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Matrix of partial derivatives.
+        readonly: True
+
+      - name: weighted_design_matrix
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Matrix of weighted partial derivatives.
+        readonly: True
+
+      - name: weighted_normalized_design_matrix
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Matrix of weighted, normalized partial derivatives.
+        readonly: True
+
+      - name: final_residuals
+        type: numpy.ndarray[numpy.float64[m, 1]]
+        description: Vector of postfit observation residuals.
+        readonly: True
+
+    methods: # [cpp]
+      - name: ctor # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: "Instances of this class are typically not generated by the user, but result from the `performEstimation` function. " # [cpp]
+
+
 
 
   ##############################################################################
@@ -40,30 +448,130 @@ extended_summary: |
 
 functions:
 
+  #################        OBSERVATIONS       ################################
+
   - name: simulate_observations # [py]
-    short_summary: "Function to perform the simulation of observations."
+    short_summary: "Function to simulate observations."
     extended_summary: |
-      Function to perform the simulation of observations from the given observation simulators and simulator settings.
+      Function to simulate observations from set observation simulators and observation simulator settings.
+      Automatically iterates over all provided observation simulators, generating the full set of simulated observations.
 
     parameters:
+
       - name: observation_to_simulate # [py]
-        type: List( :class:`~tudatpy.numerical_simulation.estimation_setup.ObservationSimulationSettings` ) # [py]
+        type: List[ :class:`ObservationSimulationSettings` ] # [py]
         description: |
+          List of settings objects, each object providing the observation time settings for simulating one type of observable and link end set.
 
       - name: observation_simulators # [py]
-        type: List( :class:`~tudatpy.numerical_simulation.estimation_setup.ObservationSimulatorBases` ) # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` ] # [py]
         description: |
+          List of :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` objects, each object hosting the functionality for simulating one type of observable and link end set.
 
       - name: bodies # [py]
-        type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` # [py]
         description: |
           Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
 
+    returns:
+      type: :class:`~tudatpy.numerical_simulation.estimation.ObservationCollection`  # [py]
+      description: Object collecting all products of the observation simulation.
 
+
+  #################        COVARIANCES       ################################
+
+  - name: propagate_covariance # [py]
+    short_summary: "Function to propagate system covariance through time."
+    extended_summary: |
+      Function to propagate the covariance of a given system through time.
+      The system dynamics and numerical settings of the propagation are prescribed by the `state_transition_interface` parameter.
+
+    parameters:
+
+      - name: initial_covariance # [py]
+        type: numpy.ndarray[numpy.float64[m, n]] # [py]
+        description: |
+          System covariance matrix (symmetric and positive semi-definite) at initial time.
+          Dimensions have to be consistent with estimatable parameters in the system (specified by `state_transition_interface`)
+
+      - name: state_transition_interface # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.CombinedStateTransitionAndSensitivityMatrixInterface` # [py]
+        description: |
+          Interface to the variational equations of the system dynamics, handling the propagation of the covariance matrix through time.
+
+      - name: output_times # [py]
+        type: List[ float ] # [py]
+        description: |
+          Times at which the propagated covariance matrix shall be reported.
+          Note that this argument has no impact on the integration time-steps of the covariance propagation,
+          which always adheres to the integrator settings that the `state_transition_interface` links to.
+          Output times which do not coincide with integration timesteps are calculated via interpolation.
 
     returns:
-      type: EstimatableParameterSet
-      description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` class, consolidating all estimatable parameters and simulation models.
+      type: Dict[ float, numpy.ndarray[numpy.float64[m, n]] ]  # [py]
+      description: Dictionary reporting the propagated covariances at each output time.
 
+  ##############################################################################
+
+  - name: propagate_formal_errors # [py]
+    short_summary: "Function to propagate system formal errors through time."
+    extended_summary: |
+      Function to propagate the formal errors of a given system through time.
+      Note that in practice the entire covariance matrix is propagated, but only the formal errors (variances) are reported at the output times.
+      The system dynamics and numerical settings of the propagation are prescribed by the `state_transition_interface` parameter.
+
+    parameters:
+
+      - name: initial_covariance # [py]
+        type: numpy.ndarray[numpy.float64[m, n]] # [py]
+        description: |
+          System covariance matrix (symmetric and positive semi-definite) at initial time.
+          Dimensions have to be consistent with estimatable parameters in the system (specified by `state_transition_interface`)
+
+      - name: state_transition_interface # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.CombinedStateTransitionAndSensitivityMatrixInterface` # [py]
+        description: |
+          Interface to the variational equations of the system dynamics, handling the propagation of the covariance matrix through time.
+
+      - name: output_times # [py]
+        type: List[ float ] # [py]
+        description: |
+          Times at which the propagated covariance matrix shall be reported.
+          Note that this argument has no impact on the integration time-steps of the covariance propagation,
+          which always adheres to the integrator settings that the `state_transition_interface` links to.
+          Output times which do not coincide with integration timesteps are calculated via interpolation.
+
+    returns:
+      type: Dict[ float, numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
+      description: Dictionary reporting the propagated formal errors at each output time.
+
+
+  ################# ESTIMATION ######################################
+
+  - name: estimation_convergence_checker # [py]
+    short_summary: Function for creating an :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` object.
+    extended_summary: |
+      Function for creating an :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` object, which is required for defining the convergence criteria of an estimation.
+
+    parameters:
+
+      - name: maximum_iterations              # [py]
+        type: int, default = 5                # [py]
+        description: "Maximum number of allowed iterations for estimation."             # [py]
+
+      - name: minimum_residual_change             # [py]
+        type: float, default = 0.0                # [py]
+        description: "Minimum required change in residual between two iterations."              # [py]
+
+      - name: minimum_residual                  # [py]
+        type: float, default = 0.0              # [py]
+        description: "Minimum value of observation residual below which estimation is converged."             # [py]
+
+      - name: number_of_iterations_without_improvement              # [py]
+        type: int, default = 2                                    # [py]
+        description: "Number of iterations without reduction of residual."              # [py]
+
+    returns:
+      - type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
 

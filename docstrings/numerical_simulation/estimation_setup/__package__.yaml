@@ -48,9 +48,10 @@ modules:
 
 functions:
 
+  ###########################################################################
   ###  EstimatableParameterSettings --> EstimatableParameterSet #
 
-  - name: create_parameters_to_estimate # [py]
+  - name: create_parameter_set # [py]
     short_summary: "Function for creating a consolidated set of estimatable parameters."
     extended_summary: |
       Function for creating a consolidated parameter from the given estimatable parameter settings.
@@ -58,18 +59,42 @@ functions:
 
     parameters:
       - name: bodies # [py]
-        type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` # [py]
         description: |
           Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
 
       - name: propagator_settings # [py]
-        type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings # [py]
+        type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings` # [py]
         description: |
           Object containing the consolidated propagation settings of the simulation.
 
     returns:
-      type: EstimatableParameterSet
+      type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet`
       description: |
-        Instance of :class:`~tudatpy.numerical_simulation.estimation_setup.EstimatableParameterSet` class, consolidating all estimatable parameters and simulation models.
+        Instance of :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` class, consolidating all estimatable parameters and simulation models.
 
 
+  ###########################################################################
+  ###  ObservationModelSettings --> ObservationSimulator #
+
+  - name: create_observation_simulators # [py]
+    short_summary: "Function for creating observation simulator objects."
+    extended_summary: |
+      Factory function for creating observation simulator objects from observation settings.
+      Note that each observation (i.e. combination of observable and link geometry) requires its own observation simulator object.
+
+    parameters:
+
+      - name: observation_settings # [py]
+        type: List[ ObservationSettings ] # [py]
+        description: |
+          List of settings objects, each object defining the observation model settings for one combination of observable and link geometry that is to be simulated.
+
+      - name: bodies # [py]
+        type: :class:`SystemOfBodies` # [py]
+        description: |
+          Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
+
+    returns:
+      type: List[ :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` ]  # [py]
+      description: List of :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` objects, each object hosting the functionality for simulating one combination of observable type and link geometry.
