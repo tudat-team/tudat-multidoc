@@ -17,7 +17,7 @@ enums:
     extended_summary: |
       Enumeration of thrust frame types supported by tudat. The inertial frame has axes along the global orientation (as
       defined in the :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. The TNW is determined
-      w.r.t. a central body as described here :func:`astro.frame_conversion.tnw_to_inertial_rotation_matrix`
+      w.r.t. a central body as described in the function :func:`~tudatpy.astro.frame_conversion.tnw_to_inertial_rotation_matrix`
       (with the N-axis pointing away from the cenral body).
 
     members:

@@ -2,3 +2,7 @@ description: "Converting stuff!"
 
 functions:
   - name: result2array
+  - name: compare_results
+
+classes:
+  - name: redirect_std

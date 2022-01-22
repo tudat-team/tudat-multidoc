@@ -89,6 +89,17 @@ functions:
         type: TorqueSettings
         description: Torque settings object.
 
+    examples: |
+
+      In this example, we define the aerodynamic torque exerted by the Earth on the vehicle.
+
+      .. code-block:: python
+
+        # Create torque settings dict
+        torque_settings_vehicle = {}
+        # Add aerodynamic torque exerted by the Earth on the vehicle
+        torque_settings_vehicle["Earth"] = [propagation_setup.torque.aerodynamic()]
+
 
   # Spherical harmonic
   - name: sphericalHarmonicGravitationalTorque # [cpp]
@@ -116,6 +127,18 @@ functions:
         type: TorqueSettings
         description: Torque settings object.
 
+    examples: |
+
+      In this example, we define the spherical harmonic gravitational torque (up to degree 4 and order 4)
+      exerted by the Earth on the vehicle.
+
+      .. code-block:: python
+
+        # Create torque settings dict
+        torque_settings_vehicle = {}
+        # Add aerodynamic torque exerted by the Earth on the vehicle
+        torque_settings_vehicle["Earth"] = [propagation_setup.torque.spherical_harmonic_gravitational(4, 4)]
+
 
   # Second degree gravitational
   - name: secondDegreeGravitationalTorque # [cpp]
@@ -132,17 +155,26 @@ functions:
         type: TorqueSettings
         description: Torque settings object.
 
+    examples: |
+
+      In this example, we define the second degree gravitational torque
+      exerted by the Earth on the vehicle.
+
+      .. code-block:: python
+
+        # Create torque settings dict
+        torque_settings_vehicle = {}
+        # Add aerodynamic torque exerted by the Earth on the vehicle
+        torque_settings_vehicle["Earth"] = [propagation_setup.torque.second_degree_gravitational()]
+
 
   # Custom
   - name: customTorqueSettings # [cpp]
   - name: custom # [py]
     short_summary: "Creates the settings for a custom torque."
     extended_summary: |
-      Torque exerted by a point mass on a body with a degree two spherical harmonics mass distribution.
-      A degree two spherical harmonics mass distribution can be represented by an inertia tensor; thus,
-      for this torque model, the body undergoing the torque needs to have an inertia tensor defined.
-      The body exerting the torque only needs to have a gravitational model defined (either point-mass or spherical
-      harmonics).
+      Creates settings for a custom torque. This torque must be parameterized as a function of time
+      and expressed with an inertial orientation.
 
     parameters:
       - name: torqueFunction # [cpp]
@@ -160,3 +192,22 @@ functions:
     returns:
         type: TorqueSettings
         description: Torque settings object.
+
+    examples: |
+
+      In this example, we define a custom torque
+      exerted by the Earth on the vehicle.
+
+      .. code-block:: python
+
+        # Create torque function
+        def torque_function(time: float):
+            # Compute torque
+            torque = ...
+            return torque
+
+        # Create torque settings dict
+        torque_settings_vehicle = {}
+        # Add aerodynamic torque exerted by the Earth on the vehicle
+        torque_settings_vehicle["Earth"] = [propagation_setup.torque.custom(torque_function)]
+

@@ -1,0 +1,39 @@
+summary: "Functions for (semi-)analytical calculations in a simple two-body point-mass system."
+
+
+functions:
+
+  - name: propagate_kepler_orbit # [py]
+    short_summary: "Function to propagate Keplerian elements to a later epoch, assuming an unperturbed system."
+    extended_summary: |
+      Function to propagate Keplerian elements to a later epoch, assuming an unperturbed system. This function will
+      take the initial Keplerian elements, and propagate the true anomaly in time as per the requested input. This
+      is done by converting true anomaly to mean anomaly, apply the constant rate in mean motion for the requested
+      time, and converting the result back to true anomaly. Currently both elliptic and hyperbolic orbits are supported. 
+      Parabolic orbits are not supported and will result in an error message.
+    parameters:
+      - name: initial_kepler_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Keplerian elements that are to be propagated (see :ref:`\`\`element_conversion\`\`` for order)
+
+      - name: propagation_time # [py]
+        type: float # [py]
+        description: Time for which the elements are to be propagated w.r.t. the initial elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body used for propagation
+
+      - name: root_finder # [py]
+        type: RootFinder, default = None # [py]
+        description: Root finder used to solve Kepler's equation when converting mean to eccentric anomaly.
+          When no root finder is specifiied, the default option of the mean to eccentric anomaly function is used
+          (see :func:`~mean_to_eccentric_anomaly').
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, propagated in time from initial elements assuming unperturbed dynamics.
+          Note that the true anomaly is returned within the -PI to PI spectrum. If the user desires a different spectrum 
+          (possibly including the number of revolutions), these should be added by the user a posteriori.
+
+

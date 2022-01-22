@@ -144,6 +144,18 @@ After running the `python cli s`, the sphinx html files are generated. These wil
 To check the output of the html files, it is recommended to open the `index.html` file with your preferred browser
 (or, if you are using CLion, with CLion's built-in html viewer) and navigate through the various html pages from there.
 
+## How to trigger a build of the online API docs
+
+- They reside at https://tudatpy.readthedocs.io/en/latest/
+- They are re-built when changes are pushed to tudatpy/develop
+- They use the tudat-multidoc/docstrings specified by this [git hash](https://github.com/tudat-team/tudatpy/blob/354c6492246c84822eb8d96c8c89b1a026cf674f/docs/source/conf.py#L32)
+
+Currently there’s no version kept track of, we can sort that out later down the line. The workflow is:
+1. Push your changes to tudat-multidoc
+2. Change the tudat-multidoc git hash in tudatpy/develop [here](https://github.com/tudat-team/tudatpy/blob/354c6492246c84822eb8d96c8c89b1a026cf674f/docs/source/conf.py#L32)
+3. Push the changes, build can be monitored [here](https://readthedocs.org/projects/tudatpy/builds/)
+
+Note: Builds take 21.5 minutes to complete, as the tudatpy source needs to be compiled.
 
 ## Common Issues
 
