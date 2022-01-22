@@ -666,7 +666,7 @@ functions:
 
   #######################################################################
 
-  - name: two_way_open_loop_doppler # [py]
+  - name: two_way_open_loop_doppler_from_one_way_links # [py]
     short_summary: "Factory function for creating settings for a two-way open-loop Doppler observable."
     extended_summary: |
       Factory function for creating observation model settings of two-way open-loop Doppler type observables.
@@ -1112,7 +1112,7 @@ functions:
         description: Defines the link end (via the :class:`LinkEndType`) which is used as a reference for observation times.
 
       - name: viability_settings # [py]
-        type: List[ :class:`ObservationViabilitySettings` ], default = [] # [py]
+        type: List[ :class:`ObservationViabilitySettings` ], default = [ ] # [py]
         description: |
           Settings for the creation of the viability criteria calculators, which conduct viabilty checks on the simulated observations.
 
@@ -1154,7 +1154,7 @@ functions:
           The single link end specified here will be considered as the reference link end for all simulation settings object created in the function call.
 
       - name: viability_settings # [py]
-        type: List[ :class:`ObservationViabilitySettings` ], default = [] # [py]
+        type: List[ :class:`ObservationViabilitySettings` ], default = [ ] # [py]
         description: |
           Settings for the creation of the viability criteria calculators, which conduct viabilty checks on the simulated observations.
           The single settings list given here will be considered as potential viability settings for all simulation settings object created in the function call.

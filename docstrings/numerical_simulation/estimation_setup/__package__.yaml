@@ -91,7 +91,7 @@ functions:
           List of settings objects, each object defining the observation model settings for one combination of observable and link geometry that is to be simulated.
 
       - name: bodies # [py]
-        type: :class:`SystemOfBodies` # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` # [py]
         description: |
           Object consolidating all bodies and environment models, including ground station models, that constitute the physical environment.
 

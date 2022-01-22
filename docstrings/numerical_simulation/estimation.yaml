@@ -82,7 +82,7 @@ classes:
           description: help  # [py]
 
         returns: # [py]
-        - type: List[ Tuple[int, int] ] # [py]
+          type: List[ Tuple[int, int] ] # [py]
           description: help  # [py]
 
 
@@ -115,7 +115,7 @@ classes:
           description: Vector of times at the link ends involved in the observation.
 
         returns:
-        - type: bool
+          type: bool
           descrption: True if observation is viable, false if not.
 
   - name: ObservationViabilityCalculator_1
@@ -184,7 +184,7 @@ classes:
     short_summary: "Class establishing an interface with the simulation's State Transition and Sensitivity Matrices."
     extended_summary: |
       Class establishing an interface to the State Transition and Sensitivity Matrices.
-      Instances of this class are instantiated upon creation of :class:`~tudatpy.numerical_simulation.Estimator` objects,
+      Instances of this class are instantiated automatically upon creation of :class:`~tudatpy.numerical_simulation.Estimator` objects,
       using the simulation information in the observation, propagation and integration settings that the :class:`~tudatpy.numerical_simulation.Estimator` instance is linked to.
 
     properties: # [py]
@@ -207,34 +207,35 @@ classes:
     methods: # [py]
 
       - name: state_transition_sensitivity_at_epoch # [py]
-        short summary: Function to get the concatenated state transition and sensitivity matrix at a given time. # [py]
-        extended summary: | # [py]
+        short_summary: Function to get the concatenated state transition and sensitivity matrix at a given time.
+        extended_summary: |
           Function to get the concatenated state transition and sensitivity matrix at a given time.
           Entries corresponding to parameters which are not active at the current arc are omitted.
 
         parameters:
-        - name: time                                              # [py]
-          type: float                                             # [py]
-          description: Time at which concatenated state transition and sensitivity matrix are to be retreived.   # [py]
+        - name: time
+          type: float
+          description: Time at which concatenated state transition and sensitivity matrix are to be retreived.
 
         returns:
-        - type: numpy.ndarray[numpy.float64[m, n]]
+          type: numpy.ndarray[numpy.float64[m, n]]
           description: Concatenated state transition and sensitivity matrix at a given time.
 
+
       - name: full_state_transition_sensitivity_at_epoch # [py]
-        short summary: Function to get the full concatenated state transition and sensitivity matrix at a given time. # [py]
-        extended summary: | # [py]
+        short summary: Function to get the full concatenated state transition and sensitivity matrix at a given time.
+        extended summary: |
           Function to get the full concatenated state transition and sensitivity matrix at a given time.
           Entries corresponding to parameters which are not active at the current arc are included in the returned matrix,
           having a value of zero.
 
         parameters:
-        - name: time                                              # [py]
-          type: float                                             # [py]
+        - name: time                                              
+          type: float                                         
           description: Time at which full concatenated state transition and sensitivity matrix are to be retreived.   # [py]
 
         returns:
-        - type: numpy.ndarray[numpy.float64[m, n]]
+          type: numpy.ndarray[numpy.float64[m, n]]
           description: Full concatenated state transition and sensitivity matrix at a given time.
 
 
@@ -244,7 +245,7 @@ classes:
     short_summary: "Class defining the convergence criteria for an estimation."
     extended_summary: |
       Class defining the convergence criteria for an estimation.
-      The user typically creates instances of this class via the :func:`~tudatpy.numerical_simulation.estimation.create_estimation_convergence_checker` factory function.
+      The user typically creates instances of this class via the :func:`~tudatpy.numerical_simulation.estimation.estimation_convergence_checker` factory function.
 
     methods: # [cpp]
       - name: ctor # [cpp]
@@ -259,9 +260,38 @@ classes:
       Class for consolidating all inputs required to conduct an estimation. This includes foremost the simulated observations,
       as well as apriori information about the estimatable parameters.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
-      special_members: __init__
+       special_members: __init__
+
 
     methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor, through which the user can create instances of this class.
+
+        parameters:
+
+        - name: observations_and_times              # [py]
+          type: ObservationCollection               # [py]
+          description: "Total data structure of observations and associated times/link ends/type."             # [py]
+
+        - name: parameter_size             # [py]
+          type: int                        # [py]
+          description: "Size of vector of estimated parameters."              # [py]
+
+        - name: inverse_apriori_covariance              # [py]
+          type: numpy.ndarray[numpy.float64[m, n]], default = [ ]           # [py]
+          description: "A priori covariance matrix (unnormalized) of estimated parameters."             # [py]
+
+        - name: apriori_parameter_correction              # [py]
+          type: numpy.ndarray[numpy.float64[m, 1]], default = [ ]                         # [py]
+          description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
+
+        returns:
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
+
+
       - name: set_constant_weight # [py]
         short_summary: Function to set a constant weight matrix for all observables.
         extended_summary: |
@@ -274,7 +304,7 @@ classes:
           description: Constant weight factor that is to be applied to all observations.
 
         returns:
-        - type: None
+          type: None
           description: Function modifies the object in-place.
 
 
@@ -290,7 +320,7 @@ classes:
           description: Constant weight factor that is to be applied to all observations.
 
         returns:
-        - type: None
+          type: None
           description: Function modifies the object in-place.
 
       - name: define_estimation_settings # [py]
@@ -331,38 +361,8 @@ classes:
             Boolean denoting whether the state history is to be saved on each iteration.
 
         returns:
-        - type: None
+          type: None
           description: Function modifies the object in-place.
-
-
-    #methods:
-    #  - name: ctor # [cpp]
-    #  - name: __init__ # [py]
-    #    short_summary: "Constructor."
-    #    extended_summary: |
-    #      Constructor, through which the user can create instances of this class.
-
-    #parameters:
-    #
-    #- name: observations_and_times              # [py]
-    #  type: ObservationCollection               # [py]
-    #  description: "Total data structure of observations and associated times/link ends/type."             # [py]
-    #
-    #- name: parameter_size             # [py]
-    #  type: int                        # [py]
-    #  description: "Size of vector of estimated parameters."              # [py]
-    #
-    #- name: inverse_apriori_covariance              # [py]
-    #  type: numpy.ndarray[numpy.float64[m, n]], default = []           # [py]
-    #  description: "A priori covariance matrix (unnormalized) of estimated parameters."             # [py]
-    #
-    #- name: apriori_parameter_correction              # [py]
-    #  type: numpy.ndarray[numpy.float64[m, 1]], default = []                         # [py]
-    #  description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
-    #
-    #returns:
-    #- type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
-    #  description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
 
 
   ##############################################################################
@@ -572,6 +572,6 @@ functions:
         description: "Number of iterations without reduction of residual."              # [py]
 
     returns:
-      - type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
+        type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
         description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
 
