@@ -209,19 +209,19 @@ classes:
 
         parameters:
           - name: bodies
-            type: :class:`SystemOfBodies`
+            type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`
             description: |
               Object defining the physical environment, with all
               properties of artificial and natural bodies.
 
           - name: integrator_settings # [py]
-            type: :class:`IntegratorSettings`  # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`  # [py]
             description: |            # [py]
               Settings to create the numerical integrator that is to be
               used for the integration of the equations of motion
 
           - name: propagator_settings # [py]
-            type: :class:`PropagatorSettings`  # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`  # [py]
             description: |            # [py]
               Settings to create the propagator that is to be
               used for the propagation of dynamics
