@@ -1,4 +1,7 @@
-summary: |
+summary: "Functionalities for trajectory design."
+
+extended_summary: |
+  This module contains submodules with specific trajectory design functionalities.
 
 modules:
   - transfer_trajectory

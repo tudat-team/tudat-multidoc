@@ -1,8 +1,12 @@
-description: "Converting stuff!"
+summary: "Miscellaneous utilities."
+
+extended_summary: |
+  This module contains various utility functions.
 
 functions:
   - name: result2array
   - name: compare_results
+  - name: pareto_optimums
 
 classes:
   - name: redirect_std

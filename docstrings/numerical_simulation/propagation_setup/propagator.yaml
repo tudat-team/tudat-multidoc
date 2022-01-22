@@ -28,14 +28,14 @@ enums:
       - name: cowell
         description: "Propagation of Cartesian elements (state vector size 6), without any transformations"
       - name: encke
-        description: "Propagation of the diffence in Cartesian elements of the orbit w.r.t. an unperturbed reference orbit.
+        description: "Propagation of the difference in Cartesian elements of the orbit w.r.t. an unperturbed reference orbit.
           The reference orbit is generated from the initial state/central body, and not updated during the propagation
           (see Wakker, 2015 [2]_)"
       - name: gauss_keplerian
         description: "Propagation of Keplerian elements (state vector size 6), with true anomaly as the 'fast' element  (see Vallado, 2001 [4]_)"
       - name: gauss_modified_equinoctial
-        description: "Propagation of Modified equinotial elements (state vector size 6), with the element :math:`I` defining
-          the location of the singulariy based on the initial condition (see Hintz, 2008 [3]_)"
+        description: "Propagation of Modified equinoctial elements (state vector size 6), with the element :math:`I` defining
+          the location of the singularity based on the initial condition (see Hintz, 2008 [3]_)"
       - name: unified_state_model_quaternions
         description: "Propagation of Unified state model using quaternions (state vector size 7, see Vittaldev et al., 2012 [1]_)"
       - name: unified_state_model_modified_rodrigues_parameters
@@ -66,8 +66,8 @@ enums:
   - name: IntegratedStateType # [cpp]
   - name: StateType # [py]
     short_summary: "Enumeration of available integrated state types."
-    extended_summary: |
-      Enumeration of integrated state types supported by tudat.
+#    extended_summary: |
+#      Enumeration of integrated state types supported by tudat.
 
     members:
 
@@ -106,8 +106,8 @@ classes:
   # base: dependent variables
   - name: DependentVariableSaveSettings
     short_summary: "Functional class to define settings for dependent variable to save."
-    extended_summary: |
-      Class to define settings for dependent variable to save.
+#    extended_summary: |
+#      Class to define settings for dependent variable to save.
 
     methods:
       - name: ctor
@@ -131,8 +131,8 @@ classes:
       - name: resetInitialStates # [cpp]
       - name: reset_initial_states # [py]
         short_summary: "Function to reset the initial state used as input for numerical integration."
-        extended_summary: |
-          Function to reset the initial state used as input for numerical integration.
+#        extended_summary: |
+#          Function to reset the initial state used as input for numerical integration.
         parameters:
         - name: initialBodyStates # [cpp]
           type: Eigen::Matrix # [cpp]
@@ -144,8 +144,8 @@ classes:
   # derived: propagator (1)
   - name: MultiArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for multi-arc dynamics."
-    extended_summary: |
-       `PropagatorSettings`-derived class to define settings for multi-arc dynamics.
+#    extended_summary: |
+#       `PropagatorSettings`-derived class to define settings for multi-arc dynamics.
 
     methods:
       - name: ctor
@@ -158,8 +158,8 @@ classes:
   # derived: propagator (2)
   - name: HybridArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for hybrid-arc dynamics."
-    extended_summary: |
-       `PropagatorSettings`-derived class to define settings for hybrid-arc dynamics.
+#    extended_summary: |
+#       `PropagatorSettings`-derived class to define settings for hybrid-arc dynamics.
 
     methods:
       - name: ctor
@@ -172,8 +172,8 @@ classes:
   # derived: propagator (3)
   - name: SingleArcPropagatorSettings
     short_summary: "`PropagatorSettings`-derived class to define settings for single-arc dynamics."
-    extended_summary: |
-       `PropagatorSettings`-derived class to define settings for single-arc dynamics.
+#    extended_summary: |
+#       `PropagatorSettings`-derived class to define settings for single-arc dynamics.
 
     attributes:
     - name: terminationSettings_ # [cpp]
@@ -192,8 +192,8 @@ classes:
   # derived, level 2: translational propagator
   - name: TranslationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics."
-    extended_summary: |
-       `SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics.
+#    extended_summary: |
+#       `SingleArcPropagatorSettings`-derived class to define settings for single-arc translational dynamics.
 
     attributes:
     - name: accelerationSettingsMap_ # [cpp] readonly
@@ -212,8 +212,8 @@ classes:
       - name: resetInitialStates # [cpp]
       - name: reset_initial_states # [py]
         short_summary: "Function to reset the initial state used as input for numerical integration."
-        extended_summary: |
-          Function to reset the initial state used as input for numerical integration.
+#        extended_summary: |
+#          Function to reset the initial state used as input for numerical integration.
         parameters:
         - name: initialBodyStates # [cpp]
           type: Eigen::Matrix # [cpp]
@@ -251,8 +251,8 @@ classes:
   # derived, level 2: rotational state propagator
   - name: RotationalStatePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation."
-    extended_summary: |
-       `SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation.
+#    extended_summary: |
+#       `SingleArcPropagatorSettings`-derived class to define settings for single-arc rotational state propagation.
 
     methods:
       - name: ctor
@@ -265,8 +265,8 @@ classes:
   # derived, level 2: multitype propagator
   - name: MultiTypePropagatorSettings
     short_summary: "`SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities."
-    extended_summary: |
-       `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
+#    extended_summary: |
+#       `SingleArcPropagatorSettings`-derived class to define settings for propagation of multiple quantities.
 
     properties:
     - name: propagator_settings_per_type # [py]
@@ -282,8 +282,8 @@ classes:
       - name: resetInitialStates # [cpp]
       - name: reset_initial_states # [py]
         short_summary: "Function to reset the initial states used as input for numerical integration."
-        extended_summary: |
-          Function to reset the initial states used as input for numerical integration.
+#        extended_summary: |
+#          Function to reset the initial states used as input for numerical integration.
         parameters:
         - name: initialBodyStates # [cpp]
           type: Eigen::Matrix # [cpp]
@@ -319,14 +319,14 @@ classes:
 
       - name: getPropagatorSettingsMap # [cpp]
         short_summary: "Function to retrieve the propagator settings map." # [cpp]
-        extended_summary: "Function to retrieve the propagator settings map." # [cpp]
+#        extended_summary: "Function to retrieve the propagator settings map." # [cpp]
 
 
   # base: termination settings
   - name: PropagationTerminationSettings
     short_summary: "Functional base class to define termination settings for the propagation."
-    extended_summary: |
-       Functional base classclass to define termination settings for the propagation.
+#    extended_summary: |
+#       Functional base class to define termination settings for the propagation.
 
     methods:
       - name: ctor
@@ -338,8 +338,8 @@ classes:
   # derived (1): dependent variable termination settings
   - name: PropagationDependentVariableTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables."
-    extended_summary: |
-       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables.
+#    extended_summary: |
+#       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from dependent variables.
 
     methods:
       - name: ctor
@@ -352,8 +352,8 @@ classes:
   # derived (2): time termination settings
   - name: PropagationTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time."
-    extended_summary: |
-       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time.
+#    extended_summary: |
+#       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from propagation time.
 
     methods:
       - name: ctor
@@ -366,8 +366,8 @@ classes:
   # derived (3): CPU time termination settings
   - name: PropagationCPUTimeTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time."
-    extended_summary: |
-       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time.
+#    extended_summary: |
+#       `PropagationTerminationSettings`-derived class to define termination settings for the propagation from CPU time.
 
     methods:
       - name: ctor
@@ -380,8 +380,8 @@ classes:
   # derived (4): custom termination settings
   - name: PropagationCustomTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define custom termination settings for the propagation."
-    extended_summary: |
-       `PropagationTerminationSettings`-derived class to define custom termination settings for the propagation.
+#    extended_summary: |
+#       `PropagationTerminationSettings`-derived class to define custom termination settings for the propagation.
 
     methods:
       - name: ctor
@@ -394,8 +394,8 @@ classes:
   # derived (5): hybrid termination settings
   - name: PropagationHybridTerminationSettings
     short_summary: "`PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation."
-    extended_summary: |
-       `PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation.
+#    extended_summary: |
+#       `PropagationTerminationSettings`-derived class to define hybrid termination settings for the propagation.
 
     methods:
       - name: ctor
@@ -513,7 +513,7 @@ functions:
         description: |
           Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
           Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
-          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`
+          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_.
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
@@ -837,7 +837,7 @@ functions:
 
 
   # Custom termination
-  - name: popagationCustomTerminationSettings # [cpp]
+  - name: propagationCustomTerminationSettings # [cpp]
   - name: custom_termination # [py]
     short_summary: "Factory function to create custom termination settings for the propagation."
     extended_summary: |
@@ -876,7 +876,7 @@ functions:
   # Hybrid termination
   - name: PropagationHybridTerminationSettings # [cpp]
   - name: hybrid_termination # [py]
-    short_summary: "Factory function to create bybrid termination settings for the propagation."
+    short_summary: "Factory function to create hybrid termination settings for the propagation."
     extended_summary: |
       Factory function to create hybrid termination settings for the propagation. This function can be used
       to define that all conditions or a single condition of the conditions provided must be met to

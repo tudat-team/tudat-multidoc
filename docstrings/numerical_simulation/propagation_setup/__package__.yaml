@@ -1,11 +1,15 @@
+summary : "Definition of propagation settings."
+
 extended_summary: |
-  This module consists of factory functions for setting up the
-  propagation component of a simulation.
+  This module contains submodules to define propagation settings. It also contains a set of factory functions to create
+  dynamical models for translational state, rotational state, and mass rate.
+
+
 
 
 ###### enums
 
-  # no enums
+# no enums
 
 ######
 

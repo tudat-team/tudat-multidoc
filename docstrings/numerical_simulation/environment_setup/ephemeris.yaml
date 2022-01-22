@@ -184,7 +184,7 @@ classes:
     properties: # [py]
       - name: correct_for_stellar_aberration # [py]
         type: bool # [py]
-        description: Boolean defining whether to correct for stellar abberations in retrieved values (of observed state). # [py]
+        description: Boolean defining whether to correct for stellar aberrations in retrieved values (of observed state). # [py]
         readonly: True # [py]
 
       - name: correct_for_light_time_aberration # [py]
@@ -213,17 +213,17 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
             type: bool # [cpp]
-            description: Boolean defining whether to correct for stellar abberations in retrieved values (of observed state). # [cpp]
+            description: Boolean defining whether to correct for stellar aberrations in retrieved values (of observed state). # [cpp]
 
       - name: getCorrectForLightTimeAberration # [cpp]
         short_summary: "Check whether to correct for light time aberration." # [cpp]
         extended_summary: | # [cpp]
-          Function to retrieve the boolean which indicates whether to correct for light time abberation in retrieved values (of observed state). # [cpp]
+          Function to retrieve the boolean which indicates whether to correct for light time aberration in retrieved values (of observed state). # [cpp]
         parameters: # [cpp]
           - name: None # [cpp]
         returns: # [cpp]
             type: bool # [cpp]
-            description: Boolean defining whether to correct for light time abberations in retrieved values (of observed state). # [cpp]
+            description: Boolean defining whether to correct for light time aberrations in retrieved values (of observed state). # [cpp]
 
       - name: getConvergeLighTimeAberration # [cpp]
         short_summary: "Check whether to use iterative solution for light time." # [cpp]
@@ -297,7 +297,7 @@ classes:
 
   - name: ApproximateJplEphemerisSettings
     short_summary: "Class for creating settings of approximate ephemeris for major planets."
-    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as inplemented in ApproximateJplEphemerisSettings class and derived class (described in `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_)."
+    extended_summary: "`EphemerisSettings` derived class for approximate ephemeris for major planets as implemented in ApproximateJplEphemerisSettings class and derived class (described in `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_)."
 
   #######################################################################
 
@@ -514,7 +514,7 @@ functions:
 
       - name: correctForStellarAberration # [cpp]
         type: bool, default=false # [cpp]
-        description: "Boolean whether to correct for stellar abberations in retrieved values (of observed state)." # [cpp]
+        description: "Boolean whether to correct for stellar aberrations in retrieved values (of observed state)." # [cpp]
 
       - name: correctForLightTimeAberration # [cpp]
         type: bool, default=false # [cpp]
@@ -664,11 +664,11 @@ functions:
 
       .. code-block:: python # [py]
         # [py]
-        # define parameters for interpolation settings
+        # Define the interpolation settings
         initial_time = 0.0 # [py]
         final_time = 1.0E8 # [py]
         time_step = 3600.0 # [py]
-        # define parameters describing ephemeris frame
+        # Define the ephemeris frame
         frame_origin = "SSB" # [py]
         frame_orientation = "J2000" # [py]
         # create ephemeris settings and add to body settings of body "Jupiter"
@@ -788,13 +788,14 @@ functions:
 
       .. code-block:: python # [py]
          # [py]
-         # define parameters describing the constant cartesian state # [py]
-         constant_cartesian_state = ... # [py]
-         # define parameters describing ephemeris frame # [py]
+         # Define the constant cartesian state # [py]
+         constant_cartesian_state = [747.13e9, 0, 0, 13.5e3, 0, 0] # [py]
+         # Define the ephemeris frame # [py]
          frame_origin = "SSB" # [py]
          frame_orientation = "J2000" # [py]
-         # make ephemeris settings # [py]
-         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.constant(constant_cartesian_state, # [py]
+         # Make the ephemeris settings # [py]
+         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.constant( # [py]
+           constant_cartesian_state, # [py]
            frame_origin, frame_orientation) # [py]
 
       # cpp code snippet unavailable # [cpp]
@@ -832,18 +833,30 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.CustomEphemerisSettings` class
 
     examples: |
-      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings`s for Earth from a custom state history function:
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Earth from a custom state history function:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable containing the custom state function for Earth # [py]
-         custom_state_function = ...  # [py]
-         # define parameters describing ephemeris frame # [py]
-         frame_origin = "SSB" # [py]
-         frame_orientation = "J2000" # [py]
-         # make ephemeris settings # [py]
-         body_settings.get("Earth").ephemeris_settings = environment_setup.ephemeris.custom(
-           custom_state_function, frame_origin, frame_orientation)
+        # [py]
+        # Define the custom state function for Earth # [py]
+        def custom_state_function(time): # [py]
+            # Compute what fraction of the year it is # [py]
+            frac_year = (time - 2451545) % (365.25*24*3600) # [py]
+            # Distance and velocity of the Earth w.r.t. the Sun # [py]
+            AU, v_E = 1.496e11, 30e3 # [py]
+            # Compute the position and velocity of the Earth in a 2D circle # [py]
+            x_pos = np.sin(frac_year*np.pi) * AU # [py]
+            y_pos = np.cos(frac_year*np.pi) * AU # [py]
+            x_vel = np.cos(frac_year*np.pi) * v_E # [py]
+            y_vel = np.sin(frac_year*np.pi) * v_E # [py]
+            return [x_pos, y_pos, 0, x_vel, y_vel, 0] # [py]
+        # Define the ephemeris frame # [py]
+        frame_origin = "SSB" # [py]
+        frame_orientation = "J2000" # [py]
+        # Make the ephemeris settings # [py]
+        body_settings.get("Earth").ephemeris_settings = environment_setup.ephemeris.custom( # [py]
+            custom_state_function, # [py]
+            frame_origin, # [py]
+            frame_orientation) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp] code snippet unavailable
@@ -920,17 +933,20 @@ functions:
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for a simple, barycentric (SSB) Kepler orbit of Jupiter:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters describing computation of Kepler orbit ephemeris # [py]
-         initial_state_in_keplerian_elements = ... # [py]
-         initial_state_epoch = ... # [py]
-         central_body_gravitational_parameter = ... # [py]
-         # define parameters describing ephemeris frame # [py]
-         frame_origin = "SSB" # [py]
-         frame_orientation = "J2000" # [py]
-         # create ephemeris settings and add to body settings of body "Jupiter" # [py]
-         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian( initial_state_in_keplerian_elements, # [py]
-           initial_state_epoch, central_body_gravitational_parameter, frame_origin, frame_orientation ) # [py]
+        # [py]
+        # Define the computation of the Kepler orbit ephemeris # [py]
+        initial_state_in_keplerian_elements = [747.13e9, 0, 0, 13.5e3, 0, 0] # [py]
+        initial_state_epoch = 12345 # [py]
+        central_body_gravitational_parameter = 1.3284e20 # (sum of Sun and Jupiter) # [py]
+        # Define the ephemeris frame # [py]
+        frame_origin = "SSB" # [py]
+        frame_orientation = "J2000" # [py]
+        # Create ephemeris settings and add to body settings of "Jupiter" # [py]
+        body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian( # [py]
+            initial_state_in_keplerian_elements, # [py]
+            initial_state_epoch, # [py]
+            central_body_gravitational_parameter, # [py]
+            frame_origin, frame_orientation ) # [py]
 
       # cpp code snippet unavailable # [cpp]
 
@@ -1003,21 +1019,25 @@ functions:
       The initial keplerian state is extracted from Spice as the state of ``body_name`` w.r.t. ``frame_origin``
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters for retreival of initial Kepler orbit elements from spice # [py]
-         body_name = "Jupiter" # [py]
-         initial_state_epoch = ... # [py]
-         central_body_gravitational_parameter = ... # [py]
-         # define parameters describing ephemeris frame # [py]
-         frame_origin = "SSB" # [py]
-         frame_orientation = 'J2000' # [py]
-         # make ephemeris settings
-         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian_from_spice(  # [py]
-           body_name, initial_state_epoch, central_body_gravitational_parameter, frame_origin, frame_orientation ) # [py]
+        # [py]
+        # Define the parameters for retrieval of the initial Kepler orbit elements from spice # [py]
+        body_name = "Jupiter" # [py]
+        initial_state_epoch = 12345 # [py]
+        central_body_gravitational_parameter = 1.3284e20 # (sum of Sun and Jupiter) # [py]
+        # Define the ephemeris frame # [py]
+        frame_origin = "SSB" # [py]
+        frame_orientation = 'J2000' # [py]
+        # Make ephemeris the settings and add to body settings of "Jupiter" # [py]
+        body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.keplerian_from_spice(  # [py]
+            body_name, # [py]
+            initial_state_epoch, # [py]
+            central_body_gravitational_parameter, # [py]
+            frame_origin, # [py]
+            frame_orientation ) # [py]
 
       # cpp code snippet unavailable # [cpp]
 
-      Additionally, as is the case for the :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`, :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.approximate_jpl_model` and :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.interpolated_spice` functions, the ephemeris model from Spice can be retreived for some body and assigned to a custom body.
+      Additionally, as is the case for the :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`, :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.approximate_jpl_model` and :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.interpolated_spice` functions, the ephemeris model from Spice can be retrieved for some body and assigned to a custom body.
 
   #######################################################################
 
@@ -1062,7 +1082,7 @@ functions:
          # define variables containing the existing ephemeris settings
          unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
          # make new ephemeris settings
-         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
+         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled_by_constant(
                 unscaled_ephemeris_settings, scaling_constant )
       
       In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by a factor 1.001.
@@ -1107,14 +1127,15 @@ functions:
       In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettingsObject` with a the constant elements of a vector:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable for scaling vector
-         scaling_vector = ...
-         # define variables containing the existing ephemeris settings
-         unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
-         # make new ephemeris settings
-         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
-                unscaled_ephemeris_settings, scaling_vector )
+        # [py]
+        # Define the scaling vector # [py]
+        scaling_vector = [1.01, 0.99, 1, 1, 1, 0] # [py]
+        # Extract the unscaled ephemeris settings from Jupiter # [py]
+        unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings # [py]
+        # Create the scaled ephemeris settings and apply to the body "Jupiter" # [py]
+        body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled_by_vector( # [py]
+            unscaled_ephemeris_settings, # [py]
+            scaling_vector) # [py]
       
       In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by the corresponding scaling factor in ``scaling_vector``.
 
@@ -1150,20 +1171,24 @@ functions:
 
     returns:
         type: ScaledEphemerisSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ExponentialAtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ScaledEphemerisSettings` class
 
     examples: |
       In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` object with factors from a custom function:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable for scaling vector function
-         scaling_vector_function = ...
-         # define variables containing the existing ephemeris settings
-         unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings
-         # make new ephemeris settings
-         body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled(
-                unscaled_ephemeris_settings, scaling_vector_function )
+        # [py]
+        # Define the scaling vector function # [py]
+        def scaling_vector_function(time): # [py]
+            # Add a wobble in the x and y coordinates # [py]
+            wobble = 1 + 0.1 * np.cos(time/50) # [py]
+            return [wobble, wobble, 1, 1, 1, 1] # [py]
+        # Extract the existing unscaled ephemeris settings # [py]
+        unscaled_ephemeris_settings = body_settings.get( "Jupiter" ).ephemeris_settings # [py]
+        # Create the scaled ephemeris settings and apply to the body "Jupiter" # [py]
+        body_settings.get( "Jupiter" ).ephemeris_settings =  environment_setup.ephemeris.scaled_by_vector_function( # [py]
+            unscaled_ephemeris_settings, # [py]
+            scaling_vector_function ) # [py]
 
       In the above case, the original Jupiter ephemeris setting is taken and each state element (x,y,z position and velocity) from the original ephemeris is multiplied by the corresponding scaling factor in the vector returned by ``vector_scaling_function``.
 
@@ -1177,7 +1202,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model to be created from tabulated data.
       Currently the data that is provided gets interpolated by a 6th order Lagrange interpolator (hardcoded).
-      At the edges of the interpolation interval a cubic spline interpolator is used to suppres the influence of Runge's phenomenon.
+      At the edges of the interpolation interval a cubic spline interpolator is used to suppress the influence of Runge's phenomenon.
 
     properties:
       - name: body_state_history # [py]
@@ -1209,15 +1234,22 @@ functions:
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Jupiter from tabulated state history data:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable containing the Jupiter's tabulated state history # [py]
-         body_state_history = ... # [py]
-         # define parameters describing ephemeris frame # [py]
-         frame_origin = "SSB" # [py]
-         frame_orientation = "J2000" # [py]
-         # make ephemers settings # [py]
-         body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.tabulated( body_state_history, # [py]
-           frame_origin, frame_orientation ) # [py]
+        # [py]
+        # Define the Dict containing Jupiter's tabulated state history # [py]
+        body_state_history = { # [py]
+            0: [7.4713e11, 0, 0, 13.5e3, 0, 0], # [py]
+            1000: [7.4711e11, 5e9, 0, 13.4998e3, 75, 0], # [py]
+            2150: [7.4671e11, 2.5e10, 0, 13.498e3, 200, 0], # [py]
+            # ... truncated # [py]
+            15650: [7.3899e11, 1.1e11, 0, 13.416e3, 1.5e3, 0] # [py]
+        } # [py]
+        # Define the ephemeris frame # [py]
+        frame_origin = "SSB" # [py]
+        frame_orientation = "J2000" # [py]
+        # Create the tabulated ephemeris settings and add them to the body "Jupiter" # [py]
+        body_settings.get( "Jupiter" ).ephemeris_settings = environment_setup.ephemeris.tabulated( body_state_history, # [py]
+            frame_origin, # [py]
+            frame_orientation ) # [py]
 
       # cpp code snippet unavailable # [cpp]
 

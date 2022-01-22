@@ -98,13 +98,13 @@ functions:
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: constant_force_coefficient # [py]
-        type: ndarray # [py]
+        type: numpy.ndarray # [py]
       - name: constantForceCoefficient # [cpp]
         type: Eigen::Vector3d # [cpp]
         description: "Constant force coefficients."
 
       - name: are_coefficients_in_aerodynamic_frame # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInAerodynamicFrame # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -112,7 +112,7 @@ functions:
           (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
 
       - name: are_coefficients_in_negative_axis_direction # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
         description: | # [py]
           Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or
           aerodynamic frame (see arg are_coefficients_in_aerodynamic_frame).
@@ -126,20 +126,23 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.ConstantAerodynamicCoefficientSettings` class
 
     examples: |
-      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for the artifical body "Spacecraft", using only constant aerodynamic coefficients:
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for the artificial body "Vehicle", using only constant aerodynamic coefficients:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameters of constant aerodynamic coefficient model  # [py]
-         reference_area = 20.0  # [py]
-         drag_coefficient = 1.5  # [py]
-         lift_coefficient = 0.3  # [py]
-         # create aerodynamic interface settings
-         aero_coefficient_settings = environment_setup.aerodynamic_coefficients.constant(
-             reference_area, [ drag_coefficient, 0, lift_coefficient ] )
-         # assign aerodynamic interface to "Spacecraft" vehicle
-         environment_setup.add_aerodynamic_coefficient_interface(
-                     bodies, "Spacecraft", aero_coefficient_settings )
+        # [py]
+        # Define the reference area and constant aerodynamic coefficients # [py]
+        reference_area = 20.0 # [py]
+        drag_coefficient = 1.5 # [py]
+        lift_coefficient = 0.3 # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.constant( # [py]
+            reference_area, # [py]
+            constant_force_coefficient=[drag_coefficient, 0, lift_coefficient], # [py]
+            are_coefficients_in_aerodynamic_frame=True, # [py]
+            are_coefficients_in_negative_axis_direction=True # [py]
+        ) # [py]
+        # Assign aerodynamic interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
@@ -177,13 +180,13 @@ functions:
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: independent_variable_name # [py]
-        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
 
       - name: are_coefficients_in_aerodynamic_frame # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInAerodynamicFrame # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -191,7 +194,7 @@ functions:
           (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
 
       - name: are_coefficients_in_negative_axis_direction # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInNegativeAxisDirection # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -203,7 +206,33 @@ functions:
     returns:
         type: CustomAerodynamicCoefficientSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.CustomAerodynamicCoefficientSettings` class
+    
+    examples: | # [py]
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for the artificial body "Vehicle", using a function based on the mach number: # [py]
 
+      .. code-block:: python # [py]
+        # [py]
+        def force_coefficients(variables_list): # [py]
+          # Extract the mach number # [py]
+          mach_number = variables_list[0] # [py]
+          # If the mach number is below 3, use fixed coefficients # [py]
+          if mach_number <= 3: # [py]
+              return [0.99, 0, 1.08] # [py]
+          # Same if the mach number is above 10 # [py]
+          elif mach_number >= 10: # [py]
+              return [0.82, 0, 0.88] # [py]
+          # Otherwise, vary linearly between the ones at M=3 and M=10 # [py]
+          CD = 1.0667-0.02457*mach_number # [py]
+          CL = 1.1636-0.02786*mach_number # [py]
+          return [CD, 0, CL] # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.custom( # [py]
+            force_coefficients, # [py]
+            reference_area=1.50, # [py]
+            independent_variable_names=[environment.AerodynamicCoefficientsIndependentVariables.mach_number_dependent] # [py]
+        ) # [py]
+        # Assign the aerodynamic coefficient interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
 
   #######################################################################
   # (%!) no example on tudat-space
@@ -218,10 +247,10 @@ functions:
     parameters:
 
       - name: independent_variables # [py]
-        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[float] # [py]
       - name: constantForceCoefficient # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
-        description: "Values of independent variables at which the coefficients in the input multi vector are defined (size 1)"
+        description: "Values of independent variables at which the coefficients in the input multi vector are defined (size 1)."
 
       - name: force_coefficients # [py]
         type: list[numpy.ndarray[numpy.float64[3, 1]]] # [py]
@@ -237,17 +266,17 @@ functions:
         type: std::vector< Eigen::Vector3d > # [cpp]
         description: Values of moment coefficients at independent variables defined by independentVariables. # [cpp]
 
-      - name: reference_area # [py]
-        type: float # [py]
-      - name: referenceArea # [cpp]
-        type: double # [cpp]
-        description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
-
       - name: reference_length # [py]
         type: float # [py]
       - name: referenceLength # [cpp]
         type: double # [cpp]
         description: "Reference length with which aerodynamic moments about x- and z- axes are non-dimensionalized."
+
+      - name: reference_area # [py]
+        type: float # [py]
+      - name: referenceArea # [cpp]
+        type: double # [cpp]
+        description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: lateral_reference_length # [py]
         type: float # [py]
@@ -256,19 +285,19 @@ functions:
         description: "Reference length with which aerodynamic moment about y-axis is non-dimensionalized."
 
       - name: moment_reference_point # [py]
-        type: float # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
       - name: momentReferencePoint # [cpp]
         type: double # [cpp]
         description: "Point w.r.t. aerodynamic moment is calculated."
 
       - name: independent_variable_name # [py]
-        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
 
       - name: are_coefficients_in_aerodynamic_frame # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInAerodynamicFrame # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -276,7 +305,7 @@ functions:
           (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
 
       - name: are_coefficients_in_negative_axis_direction # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInNegativeAxisDirection # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -285,7 +314,7 @@ functions:
           Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
 
       - name: interpolator_settings # [py]
-        type: math.interpolators.InterpolatorSettings # [py]
+        type: math.interpolators.InterpolatorSettings, default = None # [py]
         description: Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved. # [py]
       - name: interpolatorSettings # [cpp]
         type: std::shared_ptr< interpolators::InterpolatorSettings >, default = nullptr # [cpp]
@@ -295,7 +324,41 @@ functions:
     returns:
         type: TabulatedAerodynamicCoefficientSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettings` class (via :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettingsBase` class)
+    
+    examples: | # [py]
+      In this example, aerodynamic force and moment coefficients are defined as multi-dimensional arrays. # [py]
+      The values for the aerodynamic coefficients vary with Mach number, and are defined for Mach numbers of 3, 5, 10, and 15. # [py]
+      This example also shows how to set the required reference point, lengths, and area. # [py]
 
+      .. code-block:: python # [py]
+        # [py]
+        # Define the aerodynamic force coefficients [CD, CS, CL] for different mach numbers # [py]
+        aero_coefficients_array_force = [ # [py]
+            [0.7647, 0, 0.9722], # [py]
+            [0.6729, 0, 0.8461], # [py]
+            [0.6240, 0, 0.7838], # [py]
+            [0.6246, 0, 0.7841] # [py]
+        ] # [py]
+        # Define the aerodynamic moment coefficients for different mach numbers # [py]
+        aero_coefficients_array_moment = [ # [py]
+            [0.45, 0, 0], # [py]
+            [0.50, 0, 0], # [py]
+            [0.53, 0, 0], # [py]
+            [0.55, 0, 0] # [py]
+        ] # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.tabulated( # [py]
+            independent_variables=[3, 5, 10, 15],       # Mach number at which the coefficients are defined # [py]
+            force_coefficients=aero_coefficients_array_force, # [py]
+            moment_coefficients=aero_coefficients_array_moment, # [py]
+            reference_length=0.25, # [py]
+            reference_area=1.50, # [py]
+            lateral_reference_length=0.25, # [py]
+            moment_reference_point=[0, 0.015, 0.01], # [py]
+            independent_variable_name=environment.AerodynamicCoefficientsIndependentVariables.mach_number_dependent # [py]
+        ) # [py]
+        # Assign the aerodynamic coefficient interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
 
   #######################################################################
   # (%!) not on tudat-space
@@ -310,7 +373,7 @@ functions:
     parameters:
 
       - name: independent_variables # [py]
-        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: list[float] # [py]
       - name: constantForceCoefficient # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Values of independent variables at which the coefficients in the input multi vector are defined (size 1)"
@@ -329,13 +392,13 @@ functions:
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
       - name: independent_variable_name # [py]
-        type: list[astro.aerodynamics.AerodynamicCoefficientsIndependentVariables] # [py]
+        type: environment.AerodynamicCoefficientsIndependentVariables # [py]
       - name: independentVariableNames # [cpp]
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
-        description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
+        description: "Identifier of the independent variable w.r.t. which the aerodynamic coefficients are defined."
 
       - name: are_coefficients_in_aerodynamic_frame # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInAerodynamicFrame # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -343,7 +406,7 @@ functions:
           (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
 
       - name: are_coefficients_in_negative_axis_direction # [py]
-        type: bool, default = true # [py]
+        type: bool, default = True # [py]
       - name: areCoefficientsInNegativeAxisDirection # [cpp]
         type: bool, default = true # [cpp]
         description: |
@@ -352,7 +415,7 @@ functions:
           Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
 
       - name: interpolator_settings # [py]
-        type: math.interpolators.InterpolatorSettings # [py]
+        type: math.interpolators.InterpolatorSettings, default = None # [py]
         description: |  # [py]
           Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved.
       - name: interpolatorSettings # [cpp]
@@ -363,7 +426,178 @@ functions:
     returns:
         type: TabulatedAerodynamicCoefficientSettings  # [py]
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettings` class
+    
+    examples: | # [py]
+      In this example, aerodynamic force coefficients are defined as a multi-dimensional array. # [py]
+      The values for the force coefficients vary with Mach number, and are defined for Mach numbers of 3, 5, 10, and 15. # [py]
 
+      .. code-block:: python # [py]
+        # [py]
+        # Define the aerodynamic coefficients [CD, CS, CL] for different mach numbers # [py]
+        aero_coefficients_array = [ # [py]
+            [0.7647, 0, 0.9722], # [py]
+            [0.6729, 0, 0.8461], # [py]
+            [0.6240, 0, 0.7838], # [py]
+            [0.6246, 0, 0.7841] # [py]
+        ] # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.tabulated_force_only( # [py]
+            independent_variables=[3.0, 5.0, 10.0, 15.0],       # Mach number at which the coefficients are defined # [py]
+            force_coefficients=aero_coefficients_array, # [py]
+            reference_area=1.50, # [py]
+            independent_variable_name=environment.AerodynamicCoefficientsIndependentVariables.mach_number_dependent # [py]
+        ) # [py]
+        # Assign the aerodynamic coefficient interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
+
+  #######################################################################
+  # (%!) not on tudat-space
+
+  - name: tabulated_force_only_from_files # [py]
+  - name: readTabulatedAerodynamicCoefficientsFromFiles # [cpp]
+    short_summary: "Factory function for creating aerodynamic interface model settings from tabulated force coefficients from files."
+    extended_summary: |
+      Factory function for settings object, defining aerodynamic interface model via user-defined, tabulated aerodynamic force coefficients
+      (tabulated w.r.t. independent variable), obtained from data files.
+
+    parameters:
+
+      - name: force_coefficient_files # [py]
+        type: Dict[int, str] # [py]
+        description: Path of the aerodynamic coefficient files corresponding to the force coefficient of the given dict key. # [py]
+
+      - name: reference_area # [py]
+        type: float # [py]
+        description: Reference area with which aerodynamic forces and moments are non-dimensionalized.
+
+      - name: independent_variable_names # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
+        description: Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined.
+
+      - name: are_coefficients_in_aerodynamic_frame # [py]
+        type: bool, default = True # [py]
+        description: |
+          Boolean to define whether the aerodynamic coefficients are defined in the aerodynamic frame
+          (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
+
+      - name: are_coefficients_in_negative_axis_direction # [py]
+        type: bool, default = True # [py]
+        description: |
+          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or
+          aerodynamic frame (see arg areCoefficientsInAerodynamicFrame).
+          Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
+
+      - name: interpolator_settings # [py]
+        type: math.interpolators.InterpolatorSettings, default = None # [py]
+        description: |  # [py]
+          Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved.
+
+    returns:
+        type: TabulatedAerodynamicCoefficientSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettings` class
+    
+    examples: | # [py]
+      In this example, the drag and lift coefficients of the Space Transport System are defined from two data files. # [py]
+      Both of these data files contain coefficient values dependent on both the angle of attack and the mach number, # [py]
+      as shown in the example in the `independent_variable_names` input. # [py]
+      This example is taken from the `reentry trajectory example <https://github.com/tudat-team/tudatpy-examples/blob/1f8180b0064226175bbe66e3eaf044f229a897f6/propagation/reentry_trajectory.py>`_. # [py]
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the aerodynamic coefficient files (leave C_S empty) # [py]
+        aero_coefficients_files = {0: "input/STS_CD.dat", 2:"input/STS_CL.dat"} # [py]
+        # Setup the aerodynamic coefficients settings tabulated from the files # [py]
+        coefficient_settings = environment_setup.aerodynamic_coefficients.tabulated_force_only_from_files( # [py]
+            force_coefficient_files=aero_coefficients_files, # [py]
+            reference_area=2690.0*0.3048*0.3048, # [py]
+            independent_variable_names=[environment.angle_of_attack_dependent, environment.mach_number_dependent] # [py]
+        ) # [py]
+        # Add predefined aerodynamic coefficients database to the body # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "STS", coefficient_settings) # [py]
+
+  #######################################################################
+  # (%!) not on tudat-space
+
+  - name: tabulated_from_files # [py]
+  - name: readTabulatedAerodynamicCoefficientsFromFiles # [cpp]
+    short_summary: "Factory function for creating aerodynamic interface model settings from tabulated coefficients from files."
+    extended_summary: |
+      Factory function for settings object, defining aerodynamic interface model via user-defined, tabulated aerodynamic force and moment coefficients
+      (tabulated w.r.t. independent variable), obtained from data files.
+
+    parameters:
+
+      - name: force_coefficient_files # [py]
+        type: Dict[int, str] # [py]
+        description: Path of the aerodynamic coefficient files corresponding to the force coefficient of the given dict key. # [py]
+
+      - name: moment_coefficient_files # [py]
+        type: Dict[int, str] # [py]
+        description: Path of the aerodynamic coefficient files corresponding to the moment coefficient of the given dict key. # [py]
+
+      - name: reference_length # [py]
+        type: float # [py]
+        description: "Reference length with which aerodynamic moments about x- and z- axes are non-dimensionalized." # [py]
+
+      - name: reference_area # [py]
+        type: float # [py]
+        description: "Reference area with which aerodynamic forces and moments are non-dimensionalized." # [py]
+
+      - name: lateral_reference_length # [py]
+        type: float # [py]
+        description: "Reference length with which aerodynamic moment about y-axis is non-dimensionalized." # [py]
+
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
+        description: "Point w.r.t. aerodynamic moment is calculated." # [py]
+
+      - name: independent_variable_names # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
+        description: Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined. # [py]
+
+      - name: are_coefficients_in_aerodynamic_frame # [py]
+        type: bool, default = True # [py]
+        description: | # [py]
+          Boolean to define whether the aerodynamic coefficients are defined in the aerodynamic frame # [py]
+          (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz). # [py]
+
+      - name: are_coefficients_in_negative_axis_direction # [py]
+        type: bool, default = True # [py]
+        description: | # [py]
+          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or # [py]
+          aerodynamic frame (see arg areCoefficientsInAerodynamicFrame). # [py]
+          Note that for drag, side and lift force, the coefficients are typically defined in negative direction. # [py]
+
+      - name: interpolator_settings # [py]
+        type: math.interpolators.InterpolatorSettings, default = None # [py]
+        description: |  # [py]
+          Interpolator settings object, where the conditions for interpolation of tabulated inputs are saved. # [py]
+
+    returns: # [py]
+        type: TabulatedAerodynamicCoefficientSettings  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.TabulatedAerodynamicCoefficientSettings` class # [py]
+    
+    examples: | # [py]
+      This example is very similar to the one for `tabulated_force_only_from_files`, with the distinction that a pitching moment coefficient is added.
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the force coefficient files (leave C_S empty) # [py]
+        force_coefficients_files = {0: "input/STS_CD.dat", 2:"input/STS_CL.dat"} # [py]
+        # Define the moment coefficient files (leave C_S empty) # [py]
+        moment_coefficients_files = {0: "input/STS_CM.dat"} # [py]
+        # Setup the aerodynamic coefficients settings tabulated from the files # [py]
+        coefficient_settings = environment_setup.aerodynamic_coefficients.tabulated_from_files( # [py]
+            force_coefficient_files=force_coefficients_files, # [py]
+            moment_coefficient_files=moment_coefficients_files, # [py]
+            reference_length=11.9, # [py]
+            reference_area=2690.0*0.3048*0.3048, # [py]
+            lateral_reference_length=11.9, # [py]
+            moment_reference_point = [2.5, 0, 0.25], # [py]
+            independent_variable_names=[environment.angle_of_attack_dependent, environment.mach_number_dependent] # [py]
+        ) # [py]
+        # Add the predefined aerodynamic coefficients database to the body # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "STS", coefficient_settings) # [py]
 
   #######################################################################
   # (%!) not on tudat-space
@@ -397,7 +631,7 @@ functions:
         type: double # [cpp]
         description: "Constant scaling factor to be applied to all aerodynamic moment coefficients."
 
-      - name: is_scaling_absolute # [py]
+      - name: is_scaling_absolute, default = False # [py]
         type: bool # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
@@ -410,6 +644,30 @@ functions:
         type: ScaledAerodynamicCoefficientInterfaceSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.ScaledAerodynamicCoefficientInterfaceSettings` class
 
+    examples: | # [py]
+      In this example, we first set constant aerodynamic coefficients, like in the earlier example. # [py]
+      Then, we use the `scaled_by_constant` function to scale the force coefficients by 1.1. # [py]
+      Since the `is_scaling_absolute` equals `False` by default, the force coefficients are then increased by 10%. # [py]
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the reference area and constant aerodynamic coefficients # [py]
+        reference_area = 20.0 # [py]
+        drag_coefficient = 1.5 # [py]
+        lift_coefficient = 0.3 # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.constant( # [py]
+            reference_area, # [py]
+            constant_force_coefficient=[drag_coefficient, 0, lift_coefficient] # [py]
+        ) # [py]
+        # Define scaled aerodynamic coefficient to increase the force coefficients by 10% # [py]
+        scaled_aero_coefficient_settings = environment_setup.aerodynamic_coefficients.scaled_by_constant( # [py]
+            unscaled_coefficient_settings=aero_coefficient_settings, # [py]
+            force_scaling_constant=1.1, # [py]
+            moment_scaling_constant=1.0 # [py]
+        ) # [py]
+        # Assign aerodynamic interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", scaled_aero_coefficient_settings) # [py]
 
   #######################################################################
   # (%!) not on tudat-space
@@ -444,7 +702,7 @@ functions:
         type: Eigen::Vector3d # [cpp]
         description: "Constant scaling factors to be applied to each aerodynamic moment coefficient."
 
-      - name: is_scaling_absolute # [py]
+      - name: is_scaling_absolute, default = False # [py]
         type: bool # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
@@ -457,6 +715,29 @@ functions:
         type: ScaledAerodynamicCoefficientInterfaceSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.ScaledAerodynamicCoefficientInterfaceSettings` class
 
+    examples: | # [py]
+      In this example, we first set constant aerodynamic coefficients, like in the earlier example. # [py]
+      Then, we use the `scaled_by_vector` function to scale the drag coefficient by 2. # [py]
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the reference area and constant aerodynamic coefficients # [py]
+        reference_area = 20.0 # [py]
+        drag_coefficient = 1.5 # [py]
+        lift_coefficient = 0.3 # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.constant( # [py]
+            reference_area, # [py]
+            constant_force_coefficient=[drag_coefficient, 0, lift_coefficient] # [py]
+        ) # [py]
+        # Define scaled aerodynamic coefficient to increase CD by a factor of 2 # [py]
+        scaled_aero_coefficient_settings = environment_setup.aerodynamic_coefficients.scaled_by_vector( # [py]
+            unscaled_coefficient_settings=aero_coefficient_settings, # [py]
+            force_scaling_vector=[2.0, 1.0, 1.0], # [py]
+            moment_scaling_vector=[1.0, 1.0, 1.0] # [py]
+        ) # [py]
+        # Assign aerodynamic interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", scaled_aero_coefficient_settings) # [py]
 
   #######################################################################
   # (%!) not on tudat-space
@@ -491,7 +772,7 @@ functions:
         type: std::function< Eigen::Vector3d( const double ) > # [cpp]
         description: "Custom scaling factors to be applied to each aerodynamic moment coefficient."
 
-      - name: is_scaling_absolute # [py]
+      - name: is_scaling_absolute, default = False # [py]
         type: bool # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
@@ -504,6 +785,35 @@ functions:
         type: ScaledAerodynamicCoefficientInterfaceSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.ScaledAerodynamicCoefficientInterfaceSettings` class
 
+    examples: | # [py]
+      In this example, we first set constant aerodynamic coefficients, like in the earlier example. # [py]
+      Then, we use the `scaled_by_vector_function` function to scale the drag and lift coefficients according to a function that varies with time. # [py]
+      This scaling function essentially adds noise to the CD and CL following as a sin or cos function. # [py]
+
+      .. code-block:: python # [py]
+        # [py]
+        # Define the reference area and constant aerodynamic coefficients # [py]
+        reference_area = 20.0 # [py]
+        drag_coefficient = 1.5 # [py]
+        lift_coefficient = 0.3 # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.constant( # [py]
+            reference_area, # [py]
+            constant_force_coefficient=[drag_coefficient, 0, lift_coefficient] # [py]
+        ) # [py]
+        # Define the aerodynamic coefficient scaling as a function of time # [py]
+        def aero_coefficient_scaling(time): # [py]
+            CD_scale = 1 + 0.25*np.sin(time/10) # [py]
+            CL_scale = 1 + 0.25*np.cos(time/15) # [py]
+            return [CD_scale, 1.0, CL_scale] # [py]
+        # Define scaled aerodynamic coefficient to increase CD by a factor of 2 # [py]
+        scaled_aero_coefficient_settings = environment_setup.aerodynamic_coefficients.scaled_by_vector_function( # [py]
+            unscaled_coefficient_settings=aero_coefficient_settings, # [py]
+            force_scaling_vector_function=aero_coefficient_scaling, # [py]
+            moment_scaling_vector_function=lambda x: [1.0, 1.0, 1.0] # [py]
+        ) # [py]
+        # Assign aerodynamic interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", scaled_aero_coefficient_settings) # [py]
 
   #######################################################################
   # missing (w.r.t) tudat-space:

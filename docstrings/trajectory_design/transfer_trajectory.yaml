@@ -1,14 +1,22 @@
+summary: "Functionalities for multiple-leg transfer trajectories."
+
 extended_summary: |
   This module provides the functionality for creating transfer trajectories consisting of
-  multiple transfer legs separated by transfer nodes.
+  multiple transfer legs separated by transfer nodes. In particular, this allows the definition of multi-gravity assist
+  (MGA) transfers with deep space maneuvers (DSM).
 
 
 
-# TODO: The attribute below API isn't working!
-#???:
+#############################################################################
+# Attribute
+#############################################################################
+# Multidoc needs to be updated for the constant keyword to render properly
+#constant:
 #  - name: DEFAULT_MINIMUM_PERICENTERS
-#    short_summary: "Minimum pericenter radii during fly-by."
-#    extended_summary: "TODO"
+#    short_summary: "Default minimum pericenter radii during fly-by."
+#    extended_summary:
+#      Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+#      value. Values from Izzo [1]_.
 #    type: dict[string, float] # [py]
 
 #############################################################################
@@ -26,11 +34,11 @@ enums:
 
       - name: dsm_position_based_leg_type # [py]
       - name: dsm_position_based_leg # [cpp]
-        description: "Leg with 1 deep space maneuver described using the position formulation."
+        description: "Leg with 1 deep space maneuver described using the position formulation [2]_."
 
       - name: dsm_velocity_based_leg_type # [py]
       - name: dsm_velocity_based_leg # [cpp]
-        description: "Leg with 1 deep space maneuver described using the velocity formulation."
+        description: "Leg with 1 deep space maneuver described using the velocity formulation [2]_."
 
 #############################################################################
 # Classes
@@ -254,9 +262,11 @@ functions:
   - name: getMgaTransferTrajectorySettings # [cpp]
 
     short_summary: |
-      Function to get the settings of the legs and nodes constituting the specified transfer trajectory.
+      Function to get the settings of the legs and nodes constituting the specified multi-gravity assist transfer
+      trajectory.
     extended_summary: |
-      Function determines the settings of the legs and nodes constituting the transfer trajectory. The transfer
+      Function determines the settings of the legs and nodes constituting the multi-gravity assist transfer trajectory.
+      The transfer
       trajectory consists of a series of nodes, each of them associated with a body (list of bodies needs to be provided
       as an argument), connected by a series of legs (the type of which is specified as an argument).
       If the departure orbit and arrival orbit are provided as arguments, the transfer trajectory is constituted by

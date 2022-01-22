@@ -1,3 +1,5 @@
+summary: "Interface to the SPICE package."
+
 extended_summary: |
   This module provides an interface to NAIF's ``SPICE`` package.
 
@@ -9,37 +11,45 @@ classes:
   - name: SpiceEphemeris
     short_summary: "Ephemeris derived class which retrieves the state of a body directly from the SPICE library."
     extended_summary: |
-      Ephemeris derived class which retrieves the state of a body directly from the SPICE library.
       The body of which the ephemeris is to be retrieved, as well as the origin and orientation
       of the reference frame in which the states are returned, and any corrections that are
       applied, are defined once during object construction.
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
     methods:
-      - name: __init__
+      - name: ctor
         short_summary: "Constructor."
-        extended_summary: "Constructor, sets the input variables for the calls to the spice function to retrieve state."
+        extended_summary: "Sets the input variables for the calls to the spice function to retrieve state."
         parameters:
           - name: target_body_name
+            type: str # [py]
             description: "Name of body of which the ephemeris is to be calculated."
           - name: observer_body_name
+            type: str # [py]
             description: "Name of body relative to which the ephemeris is to be calculated."
           - name: correct_for_stellar_aberration
-            description: >
+            type: bool, default = True # [py]
+            description: |
               Boolean whether to correct for stellar Aberration in
               retrieved values of (observed state).
           - name: correct_for_light_time_aberration
-            description: >
+            type: bool, default = True # [py]
+            description: |
               Boolean whether to correct for light time in
               retrieved values of (observed state).
-          - name: converge_ligh_time_aberration
-            description: >
+          - name: converge_light_time_aberration
+            type: bool, default = False # [py]
+            description: |
               Boolean whether to use single iteration or max. 3
               iterations for calculating light time.
           - name: reference_frame_name
-            description: >
+            type: str, default = "ECLIPJ2000" # [py]
+            description: |
               Name of the reference frame in which the ephemeris is to be
               calculated.
           - name: reference_julian_day
-            description: >
+            type: float, default = constants.JULIAN_DAY_ON_J2000 # [py]
+            description: |
               Reference julian day w.r.t. which ephemeris is evaluated.
       - name: get_cartesian_state
         short_summary: "Get Cartesian state from ephemeris."
@@ -218,22 +228,22 @@ functions:
       type: np.ndarray[6,]  # [py]
       description: "Cartesian state vector (x,y,z, position+velocity)."
 
-  - name: compute_rotation_quaternion_between_frames
-    short_summary: "Compute quaternion of rotation between two frames."
-    extended_summary: |
-      This function computes the quaternion of rotation between two
-      frames at a given time instant. kernels defining the two frames,
-      as well as any required intermediate frames, at the requested
-      time must have been loaded. Wrapper for `pxform_c` spice function.
-    parameters:
-      - name: original_frame
-        description: "Reference frame from which the rotation is made."
-      - name: new_frame
-        description: "Reference frame to which the rotation is made."
-      - name: ephemeris_time
-        description: "Value of ephemeris time at which rotation is to be determined."
-    returns:
-      description: "Rotation quaternion from original to new frame at given time."
+# - name: compute_rotation_quaternion_between_frames
+#   short_summary: "Compute quaternion of rotation between two frames."
+#   extended_summary: |
+#     This function computes the quaternion of rotation between two
+#     frames at a given time instant. kernels defining the two frames,
+#     as well as any required intermediate frames, at the requested
+#     time must have been loaded. Wrapper for `pxform_c` spice function.
+#   parameters:
+#     - name: original_frame
+#       description: "Reference frame from which the rotation is made."
+#     - name: new_frame
+#       description: "Reference frame to which the rotation is made."
+#     - name: ephemeris_time
+#       description: "Value of ephemeris time at which rotation is to be determined."
+#   returns:
+#     description: "Rotation quaternion from original to new frame at given time."
 
   - name: compute_rotation_matrix_derivative_between_frames
     short_summary: "Computes time derivative of rotation matrix between two frames."

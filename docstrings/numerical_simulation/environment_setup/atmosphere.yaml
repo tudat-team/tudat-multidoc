@@ -142,11 +142,20 @@ functions:
 
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings`,
-      using a constant wind-velocity vector defined in an Earth-fixed reference frame:
+      using a constant wind-velocity vector defined in a vertical aerodynamic reference frame:
 
       .. code-block:: python # [py]
         # [py]
-        # (%!) example code snippet in the making
+        # Define the wind in 3 directions in the vertical reference frame # [py]
+        wind_Xv = 3     # Meridional wind of +3 m/s (pointing to the North) # [py]
+        wind_Yv = 5     # Zonal wind of +5 m/s (pointing to the West) # [py]
+        wind_Zv = -11   # Vertical wind of +11 m/s (pointing out of the centre of the Earth) # [py]
+        # Create the constant wind settings # [py]
+        constant_wind = environment_setup.atmosphere.constant_wind_model( # [py]
+          [wind_Xv, wind_Yv, wind_Zv], # [py]
+          environment.AerodynamicsReferenceFrames.vertical_frame) # [py]
+        # Apply the constant wind settings to the Earth atmosphere settings # [py]
+        body_settings.get("Earth").atmosphere_settings.wind_settings = constant_wind # [py]
 
   #######################################################################
 
@@ -156,6 +165,9 @@ functions:
     extended_summary: |
       Factory function for settings object, defining wind model entirely from custom wind velocity function in a given reference frame.
       The custom wind velocity has to be given as a function of altitude, longitude, latitude and time.
+      
+      .. note:: The longitude and latitude will be passed to the function in **degree** and not in radians.
+                The altitude is in meters, and the time is a Julian date in seconds since J2000.
 
     parameters:
       - name: wind_velocity # [py]
@@ -178,11 +190,26 @@ functions:
 
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.WindModelSettings`,
-      using a user-defined wind-velocity function (of altitude, longitude, latitude and time), defined in an Earth-fixed reference frame:
+      using a user-defined wind-velocity function (of altitude, longitude, latitude and time), defined in a vertical aerodynamic reference frame:
 
       .. code-block:: python # [py]
-         # [py]
-         # (%!) example code snippet in the making
+        # [py]
+        # Define the wind in 3 directions in the vertical reference frame # [py]
+        def wind_function(h, lon, lat, time): # [py]
+            # Meridional wind (pointing North) depends on latitude [deg] and time [sec since J2000] # [py]
+            wind_Xv = lat*10/time # [py]
+            # Zonal wind (pointing West) only depends on the longitude [deg] # [py]
+            wind_Yv = 5/lon # [py]
+            # Vertical wind (pointing out of the centre of the Earth) only depends on the altitude [m] # [py]
+            wind_Zv = 1000/h # [py]
+            # Return the custom wind # [py]
+            return [wind_Xv, wind_Yv, wind_Zv] # [py]
+        # Create the custom wind settings # [py]
+        custom_wind = environment_setup.atmosphere.custom_wind_model( # [py]
+            wind_function, # [py]
+            environment.AerodynamicsReferenceFrames.vertical_frame) # [py]
+        # Apply the custom wind settings to the Earth atmosphere settings # [py]
+        body_settings.get("Earth").atmosphere_settings.wind_settings = custom_wind # [py]
 
     #######################################################################
     # AtmosphereSettings hereafter
@@ -192,8 +219,37 @@ functions:
     short_summary: "Factory function for creating atmospheric model settings from pre-defined exponential model."
     extended_summary: |
       Factory function for settings object, defining atmosphere model from pre-defined exponential model.
-      Model settings available for bodies Earth and Mars.
+      The pre-encoded properties are available for Earth and Mars, as can be seen on the table below.
       This function creates an instance of an `AtmosphereSettings` derived `ExponentialAtmosphereSettings` object.
+
+      .. list-table:: Pre-defined exponential atmosphere model properties
+        :widths: 25 25 25 25
+        :header-rows: 1
+
+        * - Property
+          - Earth
+          - Mars
+          - Units
+        * - Scale Height
+          - 7.2
+          - 1.11
+          - km
+        * - Density at Zero Altitude
+          - 1.225
+          - 0.02
+          - kg/m :math:`{}^3`
+        * - Constant Temperature
+          - 246.0
+          - 215.0
+          - K
+        * - Specific Gas Constant
+          - 287.0
+          - 197.0
+          - J/kg/K
+        * - Ratio of Specific Heats
+          - 1.4
+          - 1.3
+          - --
 
     parameters:
       - name: body_name # [py]
@@ -207,6 +263,15 @@ functions:
         type: ExponentialAtmosphereSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.ExponentialAtmosphereSettings` class
 
+    examples: | # [py]
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Mars, # [py]
+      using the interface of the predefined exponential model, using pre-encoded values: # [py]
+
+      .. code-block:: python # [py]
+         # [py]
+         # Create atmosphere settings and add to body settings of "Mars"  # [py]
+         body_settings.get("Mars").atmosphere_settings = environment_setup.atmosphere.exponential_predefined("Mars")  # [py]
+
 
   #######################################################################
 
@@ -219,7 +284,7 @@ functions:
       (i.e. independent of time, latitude and longitude).
 
       The user has access to a fully parametrized model, meaning that in addition to the required input parameters ``scale_height`` and ``surface_density`` (ground-level air density),
-      the user can specify non-standard values for constant temperature, gas constant and speficic heats ratio.
+      the user can specify non-standard values for constant temperature, gas constant and specific heats ratio.
 
     parameters:
 
@@ -259,14 +324,14 @@ functions:
 
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
-      using the minimalistic interface to the exponential model and taking defaulted parameters by their default value:
+      using the minimalist interface to the exponential model and taking parameters with classic values for Earth:
 
       .. code-block:: python # [py]
          # [py]
          # define parameters of an invariant exponential atmosphere model  # [py]
          density_scale_height = 7.2E3  # [py]
          constant_temperature = 290  # [py]
-         # create atmosphere settings and add to body settings of body "Earth"  # [py]
+         # create atmosphere settings and add to body settings of "Earth"  # [py]
          body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.exponential(  # [py]
          	density_scale_height, density_at_zero_altitude)  # [py]
 
@@ -353,17 +418,23 @@ functions:
       with constant temperature and composition, but a density which varies with altitude according to a user-defined model:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable containing function of density model # [py]
-         density_function = ...  # [py]
-         # define parameters for constant temperature and composition  # [py]
-         constant_temperature = 250.0  # [py]
-         specific_gas_constant = 300.0  # [py]
-         ratio_of_specific_heats = 1.4  # [py]
-         # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
-         density_function, constant_temperature, specific_gas_constant, ratio_of_specific_heats) # [py]
-
+        # [py]
+        # Define the density as a function of altitude [in m] # [py]
+        def density_function(h): # [py]
+            # Return the density according to a modified exponential model # [py]
+            return 1.15 * np.exp(-h/7300) # [py]
+        # Define parameters for constant temperature and composition # [py]
+        constant_temperature = 250.0 # [py]
+        specific_gas_constant = 300.0 # [py]
+        ratio_of_specific_heats = 1.4 # [py]
+        # Create the custom constant temperature atmosphere settings # [py]
+        custom_density_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
+            density_function, # [py]
+            constant_temperature, # [py]
+            specific_gas_constant, # [py]
+            ratio_of_specific_heats) # [py]
+        # Add the custom density to the body settings of "Earth" # [py]
+        body_settings.get("Earth").atmosphere_settings = custom_density_settings # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
@@ -386,9 +457,9 @@ functions:
            // create atmosphere settings and add to body settings of body "Earth" # [cpp]
            bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< CustomConstantTemperatureAtmosphereSettings >( # [cpp]
            &customDensityFunction, constantTemperature, specificGasConstant, ratioOfSpecificHeats ); # [cpp]
-
-           // ...
-         }
+        # [cpp]
+           // ... # [cpp]
+         } # [cpp]
 
   #######################################################################
 
@@ -398,6 +469,9 @@ functions:
     extended_summary: |
       Factory function for settings object, defining constant temperature atmosphere model from custom density profile.
       The user is specifying the density profile as a function of altitude, longitude, latitude and time.
+      
+      .. note:: The longitude and latitude will be passed to the function in **degree** and not in radians.
+                The altitude is in meters, and the time is a Julian date in seconds since J2000.
 
     parameters:
 
@@ -435,17 +509,21 @@ functions:
       with constant temperature and composition (gas constant and ratio of specific heats), but a density which varies with altitude, longitude, latitude and time, according to a user-defined model:
 
       .. code-block:: python # [py]
-         # [py]
-         # define variable containing function of density model # [py]
-         density_function = ...  # [py]
-         # define parameters for constant temperature and composition  # [py]
-         constant_temperature = 250.0  # [py]
-         specific_gas_constant = 300.0  # [py]
-         ratio_of_specific_heats = 1.4  # [py]
-         # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
-         density_function, constant_temperature, specific_gas_constant, ratio_of_specific_heats) # [py]
-
+        # [py]
+        # Define the density as a function of altitude [m], longitude [deg], latitude [deg], and time [sec since J2000] # [py]
+        def density_function(h, lon, lat, time): # [py]
+            # Return the density according to an exponential model that varies with time to add noise with a sine (ignore lon/lat) # [py]
+            return (1 + 0.15 * np.sin(time/10)) * np.exp(-h/7300) # [py]
+        # Define the parameters for constant temperature and composition # [py]
+        constant_temperature = 250.0  # [py]
+        specific_gas_constant = 300.0  # [py]
+        ratio_of_specific_heats = 1.4  # [py]
+        # Create the atmosphere settings and add to body settings of "Earth"  # [py]
+        body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.custom_constant_temperature( # [py]
+            density_function, # [py]
+            constant_temperature, # [py]
+            specific_gas_constant,  # [py]
+            ratio_of_specific_heats ) # [py]
 
       .. code-block:: cpp # [cpp]
          # [cpp]
@@ -468,9 +546,9 @@ functions:
            // create atmosphere settings and add to body settings of body "Earth" # [cpp]
            bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< CustomConstantTemperatureAtmosphereSettings >( # [cpp]
            &customDensityFunction, constantTemperature, specificGasConstant, ratioOfSpecificHeats ); # [cpp]
-
-           // ...
-         }
+             # [cpp]
+           // ... # [cpp]
+         } # [cpp]
 
   #######################################################################
 
@@ -499,7 +577,7 @@ functions:
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
         description: |
-          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
+          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the baseline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
 
     returns:
       type: ScaledAtmosphereSettings
@@ -515,14 +593,15 @@ functions:
       by modifying an existing :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` object such that the resulting air density profile is scaled by a constant:
 
       .. code-block:: python # [py]
-         # [py]
-         # define parameter for scaling # [py]
-         scaling_constant = 1.5 # [py]
-         # define variable containing the existing atmpsphere model settings  # [py]
-         unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
-         # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_constant( # [py]
-         unscaled_atmosphere_settings, scaling_constant ) # [py]
+        # [py]
+        # define parameter for scaling # [py]
+        scaling_constant = 1.5 # [py]
+        # define variable containing the existing atmosphere model settings  # [py]
+        unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings # [py]
+        # create atmosphere settings and add to body settings of "Earth"  # [py]
+        body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_constant( # [py]
+            unscaled_atmosphere_settings, # [py]
+            scaling_constant ) # [py]
 
       # [cpp] code snippet not available
 
@@ -553,7 +632,7 @@ functions:
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
         description: |
-          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the basline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
+          Boolean indicating whether density scaling is absolute. Setting this boolean to true will add the scaling value to the baseline density, instead of the default behaviour of multiplying the baseline density by the scaling value.
 
     returns:
         type: ScaledAtmosphereSettings
@@ -569,14 +648,16 @@ functions:
       by modifying an existing :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` object such, that the resulting air density profile is scaled with a user-defined function of time:
 
       .. code-block:: python # [py]
-         # [py]
-         # define function for scaling # [py]
-         scaling_function = ... # [py]
-         # define variable containing the existing atmpsphere model settings  # [py]
-         unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings; # [py]
-         # create atmosphere settings and add to body settings of body "Earth"  # [py]
-         body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_function( # [py]
-         unscaled_atmosphere_settings, scaling_function ) # [py]
+        # [py]
+        # Define the density scaling as a function of time [sec since J2000] (to add noise with a sine) # [py]
+        def scaling_function(time): # [py]
+            return 1 + np.sin(time / 50) * 0.25
+        # Extract the existing atmosphere model settings # [py]
+        unscaled_atmosphere_settings = body_settings.get( "Earth" ).atmosphere_settings # [py]
+        # Create the atmosphere settings and add to body settings of "Earth"  # [py]
+        body_settings.get( "Earth" ).atmosphere_settings =  environment_setup.atmosphere.scaled_by_function( # [py]
+            unscaled_atmosphere_settings, # [py]
+            scaling_function ) # [py]
 
 
 

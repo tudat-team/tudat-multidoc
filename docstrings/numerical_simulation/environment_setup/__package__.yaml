@@ -7,9 +7,11 @@
 #########################################################################
 # Environment Setup
 
+summary : "Definition of environment settings."
+
 extended_summary: |
-  This module contains a set of factory functions for setting up the
-  environment models in a simulation.
+  This module contains submodules to define environment settings. It also contains a set of factory functions to use
+  environment settings in a simulation by creating natural and artificial body objects.
 
 
 modules:
@@ -49,7 +51,7 @@ classes:
   - name: BodyListSettings
     short_summary: "Class for defining settings for the creation of a system of bodies."
     extended_summary: |
-      Class for defining settings for the creation of a system of bodies. This object is typicall created from default settings, and
+      Class for defining settings for the creation of a system of bodies. This object is typically created from default settings, and
       then adapted to the user's specific needs.
 
     properties: # [py]
@@ -60,7 +62,7 @@ classes:
 
       - name: frame_orientation # [py]
         type: str # [py]
-        description: Definition of the global frame orienation for the bodies # [py]
+        description: Definition of the global frame orientation for the bodies # [py]
         readonly: True # [py]
 
 
@@ -229,8 +231,8 @@ functions:
     short_summary: "Function that creates a System of bodies from associated settings."
     extended_summary: |
       Function that creates a System of bodies from associated settings. This function creates the separate :class:`~tudatpy.numerical_simulation.Body`
-      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. This object represents the full
-      physical environmen in the simulation
+      objects and stores them in a :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. This object represents the full
+      physical environment in the simulation.
 
     parameters:
       - name: body_settings # [py]
@@ -238,7 +240,7 @@ functions:
         description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
 
     returns: # [py]
-        type: SystemOfBodies  # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`  # [py]
         description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
 
 
