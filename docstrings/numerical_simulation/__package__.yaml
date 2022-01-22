@@ -209,16 +209,22 @@ classes:
 
         parameters:
           - name: bodies
-            type: SystemOfBodies
+            type: :class:`SystemOfBodies`
             description: |
               Object defining the physical environment, with all
               properties of artificial and natural bodies.
 
           - name: integrator_settings # [py]
-            type: IntegratorSettings  # [py]
+            type: :class:`IntegratorSettings`  # [py]
             description: |            # [py]
               Settings to create the numerical integrator that is to be
               used for the integration of the equations of motion
+
+          - name: propagator_settings # [py]
+            type: :class:`PropagatorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the propagator that is to be
+              used for the propagation of dynamics
 
           - name: are_equations_of_motion_to_be_integrated # [py]
             type: Bool, default = True # [py]
