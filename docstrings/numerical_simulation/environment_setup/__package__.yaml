@@ -98,31 +98,31 @@ classes:
         description: | # [py]
           Object that defines the settings of the atmosphere model that is to be created. Note that wind model settings
           may be defined inside this object. A variable of this type is typically assigned by using a factory function from the
-          :ref:`tudatpy.numerical_simulation.environment_setup.atmosphere` module.
+          :ref:`~tudatpy.numerical_simulation.environment_setup.atmosphere` module.
 
       - name: ephemeris_settings # [py]
         type: EphemerisSettings # [py]
         description: | # [py]
           Object that defines the settings of the ephemeris model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.ephemeris` module.
+          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.ephemeris` module.
 
       - name: gravity_field_settings # [py]
         type: GravityFieldSettings # [py]
         description: | # [py]
           Object that defines the settings of the gravity field model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.gravity_field` module.
+          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.gravity_field` module.
 
       - name: rotation_model_settings # [py]
         type: RotationModelSettings # [py]
         description: | # [py]
           Object that defines the settings of the rotation model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.rotation_model` module.
+          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.rotation_model` module.
 
       - name: shape_settings # [py]
         type: BodyShapeSettings # [py]
         description: | # [py]
           Object that defines the settings of the shape model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`tudatpy.numerical_simulation.environment_setup.shape` module.
+          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.shape` module.
 
 
 ##############################################################################
@@ -205,10 +205,10 @@ functions:
     short_summary: "Function that creates an aerodynamic coefficient interface from settings, and adds it to an existing body."
     extended_summary: |
       This function can be used to add an aerodynamic coefficient interface to an existing body. It requires
-      settings for the aerodynamic coefficients, created using one of the factory functions in :ref:`\`\`aerodynamic_coefficient_setup\`\``.
+      settings for the aerodynamic coefficients, created using one of the factory functions from the `~tudatpy.numerical_simulation_environment_setup.aerodynamic_coefficient` module.
       This function creates the actual coefficient interface from these settings, and assigns it to the
       selected body. In addition to the identifier for the body to which it is assigned, this function
-      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      requires the full :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` as input, to facilitate
       inter-body dependencies in the coefficient interface
 
     parameters:
@@ -229,7 +229,7 @@ functions:
     short_summary: "Function that creates a System of bodies from associated settings."
     extended_summary: |
       Function that creates a System of bodies from associated settings. This function creates the separate :class:`~tudatpy.numerical_simulation.Body`
-      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.SystemOfBodies` object. This object represents the full
+      objecrs and stores them in a :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` object. This object represents the full
       physical environmen in the simulation
 
     parameters:
@@ -246,10 +246,10 @@ functions:
     short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
     extended_summary: |
       This function can be used to add an radiation pressure interface to an existing body. It requires
-      settings for the radiation pressure interface, created using one of the factory functions in :ref:`\`\`radiation_pressure_setup\`\``.
+      settings for the radiation pressure interface, created using one of the factory functions from the :ref:`~tudatpy.numerical_simulation_environment_setup.radiation_pressure` module.
       This function creates the actual coefficient interface from these settings, and assigns it to the
       selected body. In addition to the identifier for the body to which it is assigned, this function
-      requires the full :class:`~tudatpy.numerical_simulation.SystemOfBodies` as input, to facilitate
+      requires the full :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` as input, to facilitate
       inter-body dependencies in the radiation pressure interface
 
     parameters:
