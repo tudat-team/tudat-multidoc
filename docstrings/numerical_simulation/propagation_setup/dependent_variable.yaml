@@ -68,6 +68,7 @@ enums:
     - name: euler_angles_to_body_fixed_313 # [cpp]
     - name: current_body_mass_dependent_variable # [cpp]
     - name: radiation_pressure_coefficient_dependent_variable # [cpp]
+    - name: custom_dependent_variable # [cpp]
 
     - name: mach_number_type # [py]
     - name: altitude_type # [py]
@@ -114,7 +115,7 @@ enums:
     - name: euler_angles_to_body_fixed_type # [py]
     - name: current_body_mass_type # [py]
     - name: radiation_pressure_coefficient_type # [py]
-
+    - name: custom_type # [py]
   ######
 
 
@@ -1565,6 +1566,30 @@ functions:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
+  # Total mass rate
+  - name: customDependentVariable # [cpp]
+  - name: custom # [py]
+    short_summary: "Function to add the a custom dependent variable to the dependent variables to save."
+    extended_summary: "Function to add the a custom dependent variable to the dependent variables to save. Using this function, you can set up your own dependent variable, provided as a function taking no inputs, and return a vector (numpy array) of values which constitute your dependent variable. Your custom dependent variable may have any and all dependencies on other Tudat objects. In particular, the custom dependent variable will often depend on the current properties of the environment, through the :class:`~tudatpy.numerical_simulation.Body` and its properties/members."
+
+      .. warning:: When using a time-dependent Body property (see `user guide<https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/environment_during_propagation.html>` in the calculation of the custom dependent variable, such as its current translational or rotational state, this property will only be usable if it is already used by any other dependent variable and/or acceleration model. If it is not, this property will not be updated to teh current time by the propagator.
+
+    parameters:
+      - name: customDependentVariableFunction # [cpp]
+        type: std::function< Eigen::VectorXd( ) > # [cpp]
+      - name: custom_function # [py]
+        type: callable[[], numpy.ndarray] # [py]
+        description: Function that is called at each time step, which returns your custom dependent variable
+
+      - name: dependentVariableSize # [cpp]
+        type: int # [cpp]
+      - name: variable_size # [py]
+        type: int # [py]
+        description: Size (e.g. number of rows) of the vector returned by your custom function.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
 
 
