@@ -313,7 +313,7 @@ functions:
     extended_summary: "Function to add the groundspeed velocity vector to the dependent variables to save.
     The groundspeed velocity vector is *not provided in an inertial frame*, but instead a frame centered on,
     and fixed to, the central body. It defines the velocity vector of a body w.r.t. 'the ground' or
-    (alternatively and identically) the relative atosphere in the case the atmosphere would be perfectly
+    (alternatively and identically) the relative atmosphere in the case the atmosphere would be perfectly
     corotating with the central body."
     parameters:
       - name: associatedBody # [cpp]
@@ -800,7 +800,7 @@ functions:
     extended_summary: "Function to add single degree/order contributions of a spherical harmonic acceleration vector
     to the dependent variables to save. The spherical harmonic acceleration consists of a (truncated) summation
     of contributions at degree :math:`l` and order :math:`m`. Using this function, you can save the contributions
-    of seperate :math:`l,m` entries to the total acceleration. For instance, when requesting dependent variables
+    of separate :math:`l,m` entries to the total acceleration. For instance, when requesting dependent variables
     for :math:`l,m=2,2`, the contribution due to the combined influence of :math:`\bar{C}_{22}` and `\bar{S}_{22}` are provided "
 
 
@@ -965,7 +965,7 @@ functions:
     extended_summary: "Function to add the geodetic latitude, in the body-fixed frame
     of a central body, to the dependent variables to save. If the central body has a spherical
     shape model, this value is identical to the latitude. If the central body has an
-    oblate spheroid shape model, the calulcation of the geodetic latitude uses the flattening
+    oblate spheroid shape model, the calculation of the geodetic latitude uses the flattening
     of the this shape model to determine the geodetic latitude"
 
     parameters:
@@ -1289,7 +1289,7 @@ functions:
   - name: tnw_to_inertial_rotation_matrix # [py]
     short_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save."
     extended_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save.
-    It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vecotr, and the y-axis
+    It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vector, and the y-axis
     completing the right-handed system. NOTE: a rotation matrix is returned as a nine-entry vector in the dependent variable output, where entry :math:`(i,j)` of the matrix is stored in
     entry :math:`(3i+j)` of the vector (with :math:`i,j=0,1,2`),"
 
@@ -1305,7 +1305,7 @@ functions:
         type: std::str # [cpp]
       - name: central_body # [py]
         type: str # [py]
-        description: Body with respect to which the TNW frame is determned.
+        description: Body with respect to which the TNW frame is determined.
 
     returns:
         type: SingleDependentVariableSaveSettings
@@ -1332,7 +1332,7 @@ functions:
         type: std::str # [cpp]
       - name: central_body # [py]
         type: str # [py]
-        description: Body with respect to which the TNW frame is determned.
+        description: Body with respect to which the TNW frame is determined.
 
     returns:
         type: SingleDependentVariableSaveSettings
@@ -1569,17 +1569,20 @@ functions:
   # Total mass rate
   - name: customDependentVariable # [cpp]
   - name: custom # [py]
-    short_summary: "Function to add the a custom dependent variable to the dependent variables to save."
-    extended_summary: "Function to add the a custom dependent variable to the dependent variables to save. Using this function, you can set up your own dependent variable, provided as a function taking no inputs, and return a vector (numpy array) of values which constitute your dependent variable. Your custom dependent variable may have any and all dependencies on other Tudat objects. In particular, the custom dependent variable will often depend on the current properties of the environment, through the :class:`~tudatpy.numerical_simulation.Body` and its properties/members."
+    short_summary: "Function to add the a dependent variable based on a custom function to the dependent variables to save."
+    extended_summary: |
+      This dependent variable allows to set up your own dependent variable, provided as a function taking no inputs, and return a vector (numpy array) of values which constitute your dependent variable.
+      Your custom dependent variable may have any and all dependencies on other Tudat objects.
+      In particular, the custom dependent variable will often depend on the current properties of the environment, through the :class:`~tudatpy.numerical_simulation.environment.Body` and its properties/members.
 
-      .. warning:: When using a time-dependent Body property (see `user guide<https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/environment_during_propagation.html>` in the calculation of the custom dependent variable, such as its current translational or rotational state, this property will only be usable if it is already used by any other dependent variable and/or acceleration model. If it is not, this property will not be updated to teh current time by the propagator.
+      .. warning:: When using a time-dependent Body property (see `user guide <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/environment_during_propagation.html>`_ ) in the calculation of the custom dependent variable, such as its current translational or rotational state, this property will only be usable if it is already used by any other dependent variable and/or acceleration model. If it is not, this property will not be updated to the current time by the propagator.
 
     parameters:
       - name: customDependentVariableFunction # [cpp]
         type: std::function< Eigen::VectorXd( ) > # [cpp]
       - name: custom_function # [py]
         type: callable[[], numpy.ndarray] # [py]
-        description: Function that is called at each time step, which returns your custom dependent variable
+        description: Function that is called at each time step, returning the custom dependent variable as a vector. This function takes no argument.
 
       - name: dependentVariableSize # [cpp]
         type: int # [cpp]
@@ -1591,8 +1594,34 @@ functions:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
+    examples: |
+      In this example, we want to save the atmosphere mass flow that gets trough a specified area of our Space Plane vehicle.
+      In this case, this allows to compute the amount of air per second that gets into an inlet of the vehicle.
 
+      A custom function is thus defined, computing the mass flow from the current atmosphere density, the fixed surface area of the inlet, the current airspeed of the vehicle, and the current angle of attack of the vehicle.
 
+      .. code-block:: python # [py]
+        # [py]
+        # Function used to compute the atmosphere mass flow going trough an area of a vehicle # [py]
+        def compute_mass_flow(): # [py]
+            # Define a constant reference area # [py]
+            fixed_reference_area = 0.0035 # [py]
+            # Extract the vehicle from the system of bodies # [py]
+            vehicle = bodies.get_body("SpacePlane") # [py]
+            # Extract the current angle of attack of the vehicle, using the aerodynamic angle calculator # [py]
+            aerodynamic_angle_calculator = vehicle.flight_conditions.aerodynamic_angle_calculator # [py]
+            angle_of_attack = aerodynamic_angle_calculator.get_angle(environment.angle_of_attack) # [py]
+            # Extract the current airspeed of the vehicle # [py]
+            airspeed = vehicle.flight_conditions.airspeed # [py]
+            # Extract the atmosphere density where the vehicle is located # [py]
+            density = vehicle.flight_conditions.density # [py]
+            # Compute the current mass flow going trough the area that was defined # [py]
+            mass_flow = density * fixed_reference_area * airspeed * np.cos(angle_of_attack) # [py]
+            # Return the mass flow, as a vector of size 1 # [py]
+            return [mass_flow] # [py]
 
-
-
+        # Define the dependent variables to save, including the custom mass flow computation (of size 1) # [py]
+        dependent_variables_to_save = [ # [py]
+            propagation_setup.dependent_variable.altitude("SpacePlane", "Mars"), # [py]
+            propagation_setup.dependent_variable.custom(compute_mass_flow, 1) # [py]
+        ] # [py]
