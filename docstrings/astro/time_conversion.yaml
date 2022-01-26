@@ -459,7 +459,7 @@ functions:
         description: "Time in seconds since J2000, in the TT time scale."
   #######################################################################
   - name: TT_to_TCG
-    short_summary: "Convert time from the XXX scale to the YYY scale."
+    short_summary: "Convert time from the TT scale to the TCG scale."
     
     extended_summary: |
       The TT scale is the Terrestrial Time, and the TCG scale is the Geocentric Coordinate Time.
@@ -476,7 +476,7 @@ functions:
         description: "Time in seconds since J2000, in the TCG time scale."
   #######################################################################
   - name: TAI_to_TT
-    short_summary: "Convert time from the TAI scale to the YYY scale."
+    short_summary: "Convert time from the TAI scale to the TT scale."
     
     extended_summary: "The TAI scale is the International Atomic Time, and the TT scale is the Terrestrial Time."
 
