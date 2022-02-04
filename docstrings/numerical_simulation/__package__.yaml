@@ -395,3 +395,132 @@ classes:
 
 
 
+
+  - name: Estimator # [py]
+  - name: OrbitDeterminationManager # [cpp]
+    short_summary: "Class for consolidating all estimation functionality."
+    extended_summary: |
+       Class for consolidating all functionality required to perform an estimation.
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
+    properties:
+      # - name: equationsOfMotionNumericalSolution_ # [cpp]
+      #  type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: observation_simulators # [py]
+        type: list[ :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` ] # [py]
+        readonly: Yes
+        description: |
+          Observation simulators contained in the Estimator object. A single observation simulator hosts
+          the functionality for simulating a given observable over the defined link geometry.
+
+
+      - name: observationManagers_ # [cpp]
+        type: std::map< observation_models::ObservableType, std::shared_ptr< observation_models::ObservationManagerBase<  > > >  # [cpp]
+      - name: observation_managers # [py]
+        type: dict[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType`, :class:`~tudatpy.numerical_simulation.estimation.ObservationManager` ] # [py]
+        readonly: Yes
+        description: |
+          Observation managers contained in the Estimator object. A single observation manager can simulate observations and
+          calculate observation partials for all link ends involved in the given observable type.
+
+      - name: stateTransitionAndSensitivityMatrixInterface_ # [cpp]
+        type: std::shared_ptr< propagators::CombinedStateTransitionAndSensitivityMatrixInterface > # [cpp]
+      - name: state_transition_interface # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.CombinedStateTransitionAndSensitivityMatrixInterface` # [py]
+        readonly: Yes
+        description: |
+          State transition and sensitivity matrix interface, setting the variational equations/dynamics in the
+          Estimator object.
+
+      - name: variationalEquationsSolver_ # [cpp]
+        type: std::shared_ptr< propagators::VariationalEquationsSolver< > > # [cpp]
+      - name: variational_solver # [py]
+        type: :class:`~tudatpy.numerical_simulation.VariationalEquationsSolver` # [py]
+        readonly: Yes
+        description: |
+          Variational equations solver, which is used to manage and execute the numerical integration of
+          equations of motion and variational equations/dynamics in the Estimator object.
+
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor through which the user can create instances of this class.
+          Defines environment, propagation and integrations models, as well as a number of settings related
+          to the estimatable parameters and observation settings.
+
+          .. note:: When using default settings, creating an object of
+                    this type automatically triggers the propagation
+
+        parameters:
+          - name: bodies
+            type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`
+            description: |
+              Object defining the physical environment, with all
+              properties of artificial and natural bodies.
+
+          - name: estimated_parameters # [py]
+            type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` # [py]
+            description: | # [py]
+              Object defining a consolidated set of estimatable parameters,
+              linked to the environment and acceleration settings of the simualtion.
+
+          - name: observation_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings`
+            description: | # [py]
+               List of settings objects, each object defining the observation model settings for one
+               combination of observable and link geometry that is to be simulated.
+
+          - name: integrator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the numerical integrator that is to be
+              used for the integration of the equations of motion
+
+          - name: propagator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the propagator that is to be
+              used for the propagation of dynamics
+
+          - name: integrate_on_creation # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean defining whether the propagation should be
+              performed immediately (default), or at a later time
+              (when calling the :func:`perform_estimation` member function.
+
+
+      - name: estimateParameters                          # [cpp]
+      - name: perform_estimation                          # [py]
+        short_summary: |
+          This function to trigger parameter estimation.
+
+        extended_summary: |
+          Function to trigger parameter estimation, including orbit determination, i.e. body initial states, from (simulated) observations
+          and apriori constraints.
+          All observable types and link ends per obsevable types that are included in the estimation input must have been
+          provided to the constructor of the Estimator object by the `observation_settings` parameter.
+
+        parameters:
+
+        - name: PodInput # [cpp]
+          type: simulation_setup::PodInput # [cpp]
+        - name: estimation_input # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput` # [py]
+          description: |
+            Object consolidating all inputs required to conduct an estimation.
+            This includes foremost the simulated observations, as well as apriori information about the estimatable parameters.
+
+        - name: EstimationConvergenceChecker # [cpp]
+          type: simulation_setup::EstimationConvergenceChecker # [cpp]
+        - name: EstimationConvergenceChecker # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` # [py]
+          description: |
+            Object defining the convergence criteria for the estimation.
+
+        returns:
+          type: simulation_setup::PodOutput # [cpp]
+          type: :class:`~tudatpy.numerical_simulation.estimation.PodOutput` # [py]
+          description:  Object containing all outputs from the estimation (Pod) process. # [py]
