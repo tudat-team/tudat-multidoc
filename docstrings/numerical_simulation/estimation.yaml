@@ -267,7 +267,7 @@ classes:
       - name: ctor
         short_summary: "Class constructor."
         extended_summary: |
-          Constructor, through which the user can create instances of this class.
+          Constructor through which the user can create instances of this class.
 
         parameters:
 

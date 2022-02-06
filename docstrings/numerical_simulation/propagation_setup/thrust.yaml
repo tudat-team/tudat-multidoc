@@ -720,7 +720,7 @@ functions:
       - name: bodyFixedThrustDirection # [cpp]
         type: std::function<Eigen::Vector3d()>, , default=[](){return Eigen::Vector3d::UnitX();} # [cpp] # [cpp]
       - name: body_fixed_thrust_direction # [py]
-      - name: "callable[[], numpy.ndarray], default=lambda t: numpy.ndarray([])" # [py]
+        type: "callable[[], numpy.ndarray], default=lambda t: numpy.ndarray([])" # [py]
         description: Constant body-fixed thrust direction (positive x-direction by default). Note that this function should be a unit-vector representing the direction opposite to the nozzle direction. This setting can be used to incorporate thrust-vector control (TVC) into the thrust.
 
       - name: customThrustResetFunction # [cpp]
