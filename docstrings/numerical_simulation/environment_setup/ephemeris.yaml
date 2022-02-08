@@ -225,7 +225,7 @@ classes:
             type: bool # [cpp]
             description: Boolean defining whether to correct for light time aberrations in retrieved values (of observed state). # [cpp]
 
-      - name: getConvergeLighTimeAberration # [cpp]
+      - name: getConvergeLightTimeAberration # [cpp]
         short_summary: "Check whether to use iterative solution for light time." # [cpp]
         extended_summary: | # [cpp]
           Function to retrieve the boolean which indicates whether to use single iteration or max. 3 iterations for calculating light time. # [cpp]
@@ -520,7 +520,7 @@ functions:
         type: bool, default=false # [cpp]
         description: "Boolean whether to correct for light time in retrieved values (of observed state)." # [cpp]
 
-      - name: convergeLighTimeAberration # [cpp]
+      - name: convergeLightTimeAberration # [cpp]
         type: bool, default=false # [cpp]
         description: "Boolean whether to use single iteration or max. 3 iterations for calculating light time." # [cpp]
 

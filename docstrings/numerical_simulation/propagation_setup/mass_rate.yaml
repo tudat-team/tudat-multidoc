@@ -14,7 +14,7 @@ enums:
   - name: AvailableMassRateModels
     short_summary: "Enumeration of available mass rate models."
     extended_summary: |
-      Enumeration of mass rate models supported by tuday.
+      Enumeration of mass rate models supported by tudat.
 
     members:
 

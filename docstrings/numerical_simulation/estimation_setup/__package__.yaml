@@ -55,7 +55,7 @@ functions:
     short_summary: "Function for creating a consolidated set of estimatable parameters."
     extended_summary: |
       Function for creating a consolidated parameter from the given estimatable parameter settings.
-      The function checks for consitency between the parameter settings and the models contained in the simulation setup (given by the `bodies` & and `propagator_settings` parameters).
+      The function checks for consistency between the parameter settings and the models contained in the simulation setup (given by the `bodies` & and `propagator_settings` parameters).
 
     parameters:
       - name: bodies # [py]

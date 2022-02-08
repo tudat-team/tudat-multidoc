@@ -5,7 +5,7 @@
 
 
 
-## **** docstings - basics ****
+## **** docstrings - basics ****
 
 #  Docstrings are kept in yaml files in the tudat-bundle/tudat-multidoc/docstrings directory.
 #      The content is divided over a file tree structure that mimics the structure of the tudatpy exposure in tudat-bundle/tudatpy/tudatpy/kernel.
@@ -33,10 +33,10 @@
 #     listed in both APIs, where names and types are adopted to the respective API ([cpp] or [py]).
 #     Most class or function summaries are the same (word-by-word) for the two APIs.
 #     An exception to the analogous structure of the two APIs is the treatment of class attributes:
-#          Class attributes are only documenred as such for the tudatpy API, while the tudat API documents the get/set
+#          Class attributes are only documented as such for the tudatpy API, while the tudat API documents the get/set
 #          methods of the classes instead.
 #          This is of course reflected in the exposure of classes in tudatpy, where "properties" (attributes) of the
-#          tudatpy classes are exposed by making them evailable via the original get/set methods of the tudat classes.
+#          tudatpy classes are exposed by making them available via the original get/set methods of the tudat classes.
 #
 
 
@@ -49,7 +49,7 @@
 #      docstrings of the FF - this may include (but is not limited to) complete explanations for function parameters,
 #      information about the models (that will be created by the classes), model implementation and links to external
 #      resources.
-#   Classes on the other hand are documented in a more minimalistc manner, that is focussed on code design, hierachy
+#   Classes on the other hand are documented in a more minimalistic manner, that is focussed on code design, hierarchy
 #      and less the functional aspects. Constructors of classes that have FF's implemented will not be documented with
 #      'parameters' and 'returns' keys, since users are discouraged from directly using the constructor method.
 #      'short_description' of the constructor method will be given by the string "Constructor.
@@ -73,7 +73,7 @@
 
 
 ## **** modifying exposure code while setting up docstrings ****
-#   While setting up the docstings, it is your responsibility to work over the exposure of the code that is being
+#   While setting up the docstrings, it is your responsibility to work over the exposure of the code that is being
 #      documented and make the necessary adjustments. This includes:
 #      - breaking down the exposure to its lowest level, meaning that each module exposure function shall be defined in its own file
 #      - if a class to be documented has a constructor exposed (.def(py::init< >, .. )), comment out the exposure
@@ -168,7 +168,7 @@ classes:
 #      <XXX> = Ephemeris
 #      <xxy> = directSpiceEphemerisSettings (FF)
 
-# Public attributes & methods from <XXX> base class do not have to be re-documented in dervied class (are inherited in API)
+# Public attributes & methods from <XXX> base class do not have to be re-documented in derived class (are inherited in API)
 
 
   - name: <XXY>Settings

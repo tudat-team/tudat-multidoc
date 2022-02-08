@@ -94,7 +94,7 @@ enums:
         description: The interpolation scheme is extended beyond the range `t_{0}...t_{N}` without any warning.
           That is, the mathematical equation used to compute the value of :math:`x` in the range :math:`[t_{0}..t_{1}]`
           is used without any checks for :math:`t<t_{0}`  (and equivalently for :math:`t>t_{N}`).
-          Warnin, using this setting can result in divergent/unrealistic behaviour
+          Warning, using this setting can result in divergent/unrealistic behaviour
 
       - name: extrapolate_at_boundary_with_warning
         description: Same as ``extrapolate_at_boundary``, but with a warning printed.
@@ -102,18 +102,18 @@ enums:
   - name: AvailableLookupScheme
     short_summary: "Enumeration of types of behaviour to be used beyond the edges of the interpolation domain."
     extended_summary: |
-      When the interpolation is performed, the interpolator scheme will typically start by finding the nearest neighbour of
-      the requested value of the independent varibale :math:`t` in the data set :math:`[t_{0}..t_{N}]`.
+      When the interpolation is performed, the interpolator scheme will typically start by finding the nearest neighbor of
+      the requested value of the independent variable :math:`t` in the data set :math:`[t_{0}..t_{N}]`.
       The choice of lookup scheme can have a significant influence on computational efficiency for large data sets and/or simple
       interpolation algorithms
 
     members:
       - name: hunting_algorithm
-        description: With this option, the interpolator 'remembers' which value of :math:`t_{i}` was the nearest neighbour
+        description: With this option, the interpolator 'remembers' which value of :math:`t_{i}` was the nearest neighbor
           during the previous call to the interpolate function, and starts looking at/near this entry of the data set
-          :math:`[t_{i}]` to find the nearest neighbour.
+          :math:`[t_{i}]` to find the nearest neighbor.
       - name: binary_search
-        description: With this option, the algorithm uses a binary search algorithm to find the nearest neighbour, initially
+        description: With this option, the algorithm uses a binary search algorithm to find the nearest neighbor, initially
           starting with the full data range :math:`[t_{0}..t_{N}]`.
 
   - name: LagrangeInterpolatorBoundaryHandling
@@ -129,7 +129,7 @@ enums:
           full data set, and these cubic spline interpolators are used when an interpolation at :math:`t<t_{(m/2-1)}` or :math:`t<t_{N-(m/2)}` is called
 
       - name: lagrange_no_boundary_interpolation
-        description: he program will terminate with an error message when the :agrange interpolator is interrogated beyond its valid range
+        description: he program will terminate with an error message when the Lagrange interpolator is interrogated beyond its valid range
 
 functions:
 
@@ -138,13 +138,13 @@ functions:
     short_summary: "Function to create settings for linear interpolation."
     extended_summary: |
       Function to create settings for linear interpolation, where the interpolator
-      defines a linear curve between each two subequent intervals of the
+      defines a linear curve between each two subsequent intervals of the
       independent variable input data.
 
     parameters:
       - name: lookup_scheme # [py]
         type: AvailableLookupScheme, default=huntingAlgorithm # [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation  # [py]
@@ -167,7 +167,7 @@ functions:
     parameters:
       - name: lookup_scheme # [py]
         type: AvailableLookupScheme, default = huntingalgorithm# [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
@@ -183,7 +183,7 @@ functions:
     short_summary: "Function to create settings for cubic spline interpolation."
     extended_summary: |
       Function to create settings for cubic spline interpolation, where the interpolator
-      defines a cubic curve polynomial curve between each two subequent intervals of the
+      defines a cubic curve polynomial curve between each two subsequent intervals of the
       independent variable input data. The curve has continuous value, first derivative and
       second derivate between subsequent intervals. As boundary condition, the spline has
       a zero second derivative imposed at the upper and lower boundaries of the interpolation
@@ -192,7 +192,7 @@ functions:
     parameters:
       - name: lookup_scheme # [py]
         type: AvailableLookupScheme, default = huntingalgorithm# [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
@@ -218,7 +218,7 @@ functions:
     parameters:
       - name: lookup_scheme # [py]
         type: AvailableLookupScheme, default = huntingalgorithm# [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
@@ -240,7 +240,7 @@ functions:
       The algorithm that is used (see `here <https://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html>`_ for mathematical details
       on interpolating Lagrange polynomials) works as follows:
 
-      * The nearest lower neighbour of the data point :math:`t` at which the state :math:`\mathbf{x}` is to be interpolated is determined, and denoted :math:`t_{i}`.
+      * The nearest lower neighbor of the data point :math:`t` at which the state :math:`\mathbf{x}` is to be interpolated is determined, and denoted :math:`t_{i}`.
       * An interpolating Lagrange polynomial is constructed from the consecutive data points :math:`[t_{i-(m/2-1)}...t_{i+m}]`
       * This resulting interpolating polynomial is *only* used in the interval :math:`[t_{i}..t_{i+1}]`, to prevent `Runge's phenomenon <https://en.wikipedia.org/wiki/Runge%27s_phenomenon>`_.
 
@@ -252,7 +252,7 @@ functions:
 
       .. warning:: Issues can occur if the data point :math:`t` at which the interpolation is to be
                    performed is close to :math:`t_{0}` or :math:`t_{N}`. In those case, there is not sufficient
-                   data to constuct the interpolating polynomial *and* to only use this interpolating polynomial
+                   data to construct the interpolating polynomial *and* to only use this interpolating polynomial
                    between the middle two data points that were used to it. In these cases, the user has a number of
                    options (all defined by an entry of the :class:`LagrangeInterpolatorBoundaryHandling` variable,
                    used as input to this function). In short, interpolation between the first and last :math:`m/2`
@@ -266,7 +266,7 @@ functions:
 
       - name: lookup_scheme # [py]
         type: AvailableLookupScheme, default = huntingalgorithm # [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
@@ -303,7 +303,7 @@ functions:
       - name: data_to_interpolate
         type: dict[float, float] = dict()
         description: Key-value container with pairs of independent variables (key) and
-          firt derivative dependent variables w.r.t. indepdendent variable (value) from which
+          first derivative dependent variables w.r.t. independent variable (value) from which
           the interpolation is to be performed. This input is *only* required if the
           requested interpolation algorithm requires first derivatives as input.
 
@@ -329,7 +329,7 @@ functions:
       - name: data_to_interpolate
         type: dict[float, np.array] = dict()
         description: Key-value container with pairs of independent variables (key) and
-          firt derivative dependent variables w.r.t. indepdendent variable (value) from which
+          first derivative dependent variables w.r.t. independent variable (value) from which
           the interpolation is to be performed. This input is *only* required if the
           requested interpolation algorithm requires first derivatives as input.
 
@@ -355,7 +355,7 @@ functions:
       - name: data_to_interpolate
         type: dict[float, np.array] = dict()
         description: Key-value container with pairs of independent variables (key) and
-          firt derivative dependent variables w.r.t. indepdendent variable (value) from which
+          first derivative dependent variables w.r.t. independent variable (value) from which
           the interpolation is to be performed. This input is *only* required if the
           requested interpolation algorithm requires first derivatives as input.
 
