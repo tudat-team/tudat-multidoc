@@ -5,3 +5,4 @@ extended_summary: |
 
 modules:
   - transfer_trajectory
+  - shape_based_thrust
