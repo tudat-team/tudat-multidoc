@@ -15,10 +15,13 @@ modules:
 
 classes:
 
-  - name: SingleArcSimulator
-    short_summary: "Base class to define single arc dynamics simulator settings."
+  #####    SIMPLE SIMULATOR    #####
+
+  - name: SingleArcSimulator # [py]
+  - name: SingleArcSimulator # [cpp]
+    short_summary: "Class for consolidating single arc dynamics simulation functionality."
     extended_summary: |
-       Functional base class to define settings for single arc dynamics simulation.
+      Class for consolidating all functionality required to perform single arc dynamics simulations.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
         special_members: __init__
     properties:
@@ -395,3 +398,303 @@ classes:
 
 
 
+  #####  VARIATIONAL SIMULATOR #####
+
+  - name: SingleArcVariationalSimulator # [py]
+  - name: SingleArcVariationalEquationsSolver # [cpp]
+    short_summary: "Class for consolidating single arc variational dynamics functionality."
+    extended_summary: |
+      Class for consolidating all functionality required to perform single arc variational dynamics simulations.
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+      special_members: __init__
+    properties:
+
+      - name: parametersToEstimate_ # [cpp]
+        type: std::shared_ptr< estimatable_parameters::EstimatableParameterSet< > > # [cpp]
+      - name: parameter_vector # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet`  # [py]
+        readonly: No
+        description: |
+          Consolidated set of (estimatable) parameters
+          w.r.t. the variational dynamics in the Variational Simulator are defined.
+
+      - name: variationalEquationsSolution_ # [cpp]
+        type: std::vector< std::map< double, Eigen::MatrixXd > > # [cpp]
+      - name: state_transition_matrix_history # [py]
+        type: list[ dict[float, numpy.ndarray] ] # [py]
+        readonly: Yes
+        description: |
+          List containing the solution of the variational equations, i.e. the
+          state transition matrix history (first entry) and sensitivity matrix history (second vector entry).
+
+      - name: state_transition_matrix_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          State transition matrix history, given as epoch with propagation epochs as keys.
+          This is (alongside the `sensitivity_matrix_history`) the solution of the variational equations.
+
+      - name: sensitivity_matrix_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          Sensitivity matrix history, given as epoch with propagation epochs as keys.
+          This is (alongside the `state_transition_matrix_history`) the solution of the variational equations.
+
+      - name: state_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          State history, given as epoch with propagation epochs as keys.
+          This is the solution of the (propagated) equations of motion, describing the states along which
+          the variational dynamics are solved.
+
+
+      - name: dynamicsSimulator_ # [cpp]
+        type: std::shared_ptr< SingleArcDynamicsSimulator< > > # [cpp]
+      - name: dynamics_simulator # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          Simulator object containing all functionality for solving of the (regular) equations of motion.
+
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor through which the user can create instances of this class.
+          Defines environment, propagation and integrations models, as well as a number of settings related
+          to the (estimatable) parameters, w.r.t. which the variational equations are defined.
+
+          .. note:: When using default settings, creating an object of
+                    this type automatically triggers the propagation
+
+        parameters:
+          - name: bodies
+            type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`
+            description: |
+              Object defining the physical environment, with all
+              properties of artificial and natural bodies.
+
+          - name: integrator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the numerical integrator that is to be used for the integration of the equations of motion.
+
+          - name: propagator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the propagator that is to be used for the propagation of the dynamics.
+
+          - name: estimated_parameters # [py]
+            type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` # [py]
+            description: | # [py]
+              Object defining a consolidated set of (estimatable) parameters (w.r.t. variational equations are defined),
+              linked to the environment and acceleration settings of the simulation.
+
+          - name: integrate_equations_concurrently # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean defining whether equations of motion and variational equations are to be propagated concurrently
+              (if true) or sequentially (of false).
+
+          - name: variational_only_integrator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`, default = [] # [py]
+            description: |             # [py]
+              Settings to create the numerical integrator that is to be used for integration the variational equations.
+              If none is given (default), the numerical integration settings are taken to be the same as the ones applied
+              in the integration of the equations of motions (specified by the `integrator_settings` parameter).
+
+          - name: clear_numerical_solutions # [py]
+            type: Bool, default = False # [py]
+            description: |             # [py]
+              Boolean to determine whether to clear the raw numerical solution member variables
+              and to reset the state transition interface after propagation.
+
+          - name: integrate_on_creation # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean defining whether the propagation should be performed immediately (default), or at a later time
+              (when calling the :func:`integrate_full_equations` or :func:`integrate_equations_of_motion_only` member function).
+
+          - name: set_integrated_result # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean to determine whether to automatically use the integrated results to set ephemerides for the
+              propagated bodies.
+
+
+      - name: integrateDynamicalEquationsOfMotionOnly                     # [cpp]
+      - name: integrate_equations_of_motion_only                          # [py]
+        short_summary: |
+          Function to trigger the integration of the (regular) equations of motion.
+
+        extended_summary: |
+          Function to trigger the integration only of the (regular) equations of motion, resulting in a `state_history`.
+          This step does not yet use variational dynamics. In order to also solve the variational equations,
+          use the :func:`integrate_full_equations` member function.
+
+        returns:
+          type: None # [py]
+          description: Creates / modifies the `state_history` property of the VariationalSolver object. # [py]
+
+
+      - name: integrateVariationalAndDynamicalEquations         # [cpp]
+      - name: integrate_full_equations                          # [py]
+        short_summary: |
+          Function to trigger the integration of variational and dynamical equations (equations of motion).
+
+        parameters:
+          - name: initial_states
+            type: numpy.ndarray([m, 1])
+            description: |
+              Initial state to be used for the parameters in the equations of motion.
+
+          - name: integrate_equations_concurrently # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean defining whether equations of motion and variational equations are to be propagated concurrently
+              (if true) or sequentially (of false).
+
+
+        extended_summary: |
+          Function to trigger the integration of the (regular) equations of motion as well as the variational equations,
+          solving for `state_history` and `variational_equations_history`
+          (in its two components `state_transition_matrix_history` & `sensitivity_matrix_history`).
+
+        returns:
+          type: None # [py]
+          description: Creates / modifies the properties of the VariationalSolver object. # [py]
+
+
+  #####       ESTIMATOR        #####
+
+  - name: Estimator # [py]
+  - name: OrbitDeterminationManager # [cpp]
+    short_summary: "Class for consolidating all estimation functionality."
+    extended_summary: |
+       Class for consolidating all functionality required to perform an estimation.
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
+    properties:
+      # - name: equationsOfMotionNumericalSolution_ # [cpp]
+      #  type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: observation_simulators # [py]
+        type: list[ :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` ] # [py]
+        readonly: Yes
+        description: |
+          Observation simulators contained in the Estimator object. A single observation simulator hosts
+          the functionality for simulating a given observable over the defined link geometry.
+
+
+      - name: observationManagers_ # [cpp]
+        type: std::map< observation_models::ObservableType, std::shared_ptr< observation_models::ObservationManagerBase<  > > >  # [cpp]
+      - name: observation_managers # [py]
+        type: dict[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType`, :class:`~tudatpy.numerical_simulation.estimation.ObservationManager` ] # [py]
+        readonly: Yes
+        description: |
+          Observation managers contained in the Estimator object. A single observation manager can simulate observations and
+          calculate observation partials for all link ends involved in the given observable type.
+
+      - name: stateTransitionAndSensitivityMatrixInterface_ # [cpp]
+        type: std::shared_ptr< propagators::CombinedStateTransitionAndSensitivityMatrixInterface > # [cpp]
+      - name: state_transition_interface # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.CombinedStateTransitionAndSensitivityMatrixInterface` # [py]
+        readonly: Yes
+        description: |
+          State transition and sensitivity matrix interface, setting the variational equations/dynamics in the
+          Estimator object.
+
+      - name: variationalEquationsSolver_ # [cpp]
+        type: std::shared_ptr< propagators::VariationalEquationsSolver< > > # [cpp]
+      - name: variational_solver # [py]
+        type: :class:`~tudatpy.numerical_simulation.VariationalEquationsSolver` # [py]
+        readonly: Yes
+        description: |
+          Variational equations solver, which is used to manage and execute the numerical integration of
+          equations of motion and variational equations/dynamics in the Estimator object.
+
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor through which the user can create instances of this class.
+          Defines environment, propagation and integrations models, as well as a number of settings related
+          to the estimatable parameters and observation settings.
+
+          .. note:: When using default settings, creating an object of
+                    this type automatically triggers the propagation
+
+        parameters:
+          - name: bodies
+            type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`
+            description: |
+              Object defining the physical environment, with all
+              properties of artificial and natural bodies.
+
+          - name: estimated_parameters # [py]
+            type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` # [py]
+            description: | # [py]
+              Object defining a consolidated set of estimatable parameters,
+              linked to the environment and acceleration settings of the simulation.
+
+          - name: observation_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings`
+            description: | # [py]
+               List of settings objects, each object defining the observation model settings for one
+               combination of observable and link geometry that is to be simulated.
+
+          - name: integrator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the numerical integrator that is to be
+              used for the integration of the equations of motion
+
+          - name: propagator_settings # [py]
+            type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`  # [py]
+            description: |            # [py]
+              Settings to create the propagator that is to be
+              used for the propagation of dynamics
+
+          - name: integrate_on_creation # [py]
+            type: Bool, default = True # [py]
+            description: |             # [py]
+              Boolean defining whether the propagation should be
+              performed immediately (default), or at a later time
+              (when calling the :func:`perform_estimation` member function.
+
+
+      - name: estimateParameters                          # [cpp]
+      - name: perform_estimation                          # [py]
+        short_summary: |
+          Function to trigger the parameter estimation.
+
+        extended_summary: |
+          Function to trigger parameter estimation, including orbit determination, i.e. body initial states, from (simulated) observations
+          and a priori constraints.
+          All observable types and link ends per observable types that are included in the estimation input must have been
+          provided to the constructor of the Estimator object by the `observation_settings` parameter.
+
+        parameters:
+
+        - name: PodInput # [cpp]
+          type: simulation_setup::PodInput # [cpp]
+        - name: estimation_input # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput` # [py]
+          description: |
+            Object consolidating all inputs required to conduct an estimation.
+            This includes foremost the simulated observations, as well as a priori information about the estimatable parameters.
+
+        - name: EstimationConvergenceChecker # [cpp]
+          type: simulation_setup::EstimationConvergenceChecker # [cpp]
+        - name: EstimationConvergenceChecker # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` # [py]
+          description: |
+            Object defining the convergence criteria for the estimation.
+
+        returns:
+          type: simulation_setup::PodOutput # [cpp]
+          type: :class:`~tudatpy.numerical_simulation.estimation.PodOutput` # [py]
+          description:  Object containing all outputs from the estimation (Pod) process. # [py]

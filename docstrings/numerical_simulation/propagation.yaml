@@ -32,7 +32,7 @@ classes:
       - name: terminated_on_exact_condition # [py]
         type: bool # [py]
         description: | # [py]
-          Boolean defining whether the propagation was termined on an *exact* final condition,
+          Boolean defining whether the propagation was terminated on an *exact* final condition,
           or once the propagation went *past* the determined final condition. The choice of behaviour is
           defined by the termination settings provided as input to the Simulator object.
 

@@ -76,7 +76,7 @@ classes:
   - name: TransferTrajectory
     short_summary: "Class defining a transfer trajectory constituted by transfer legs and nodes."
     extended_summary:
-      Class defining a transfer trajectory constituted by transfer legs and nodes. The object is tipically created
+      Class defining a transfer trajectory constituted by transfer legs and nodes. The object is typically created
       using the `create_transfer_trajectory` function.
 
     properties: # [py]

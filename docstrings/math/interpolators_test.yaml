@@ -9,13 +9,13 @@ functions:
     short_summary: "Function to create settings for linear interpolation."
     extended_summary: |
       Function to create settings for linear interpolation, where the interpolator
-      defines a linear curve between each two subequent intervals of the
+      defines a linear curve between each two subsequent intervals of the
       independent variable input data.
 
     parameters:
       - name: lookup_scheme = huntingAlgorithm # [py]
         type: AvailableLookupScheme # [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
@@ -39,7 +39,7 @@ functions:
       parameters:
         - name: lookup_scheme = huntingAlgorithm # [py]
           type: AvailableLookupScheme # [py]
-          description: Algorithm used to find the nearest neighbour in the independent
+          description: Algorithm used to find the nearest neighbor in the independent
             variable input data when the interpolation scheme is called
 
         - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
@@ -55,7 +55,7 @@ functions:
     short_summary: "Function to create settings for cubic spline interpolation."
     extended_summary: |
       Function to create settings for cubic spline interpolation, where the interpolator
-      defines a cubic curve polynomial curve between each two subequent intervals of the
+      defines a cubic curve polynomial curve between each two subsequent intervals of the
       independent variable input data. The curve has continuous value, first derivative and
       second derivate between subsequent intervals. As boundary condition, the spline has
       a zero second derivative imposed at the upper and lower boundaries of the interpolation
@@ -64,7 +64,7 @@ functions:
     parameters:
       - name: lookup_scheme = huntingAlgorithm # [py]
         type: AvailableLookupScheme # [py]
-        description: Algorithm used to find the nearest neighbour in the independent
+        description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]
@@ -91,7 +91,7 @@ functions:
       parameters:
         - name: lookup_scheme = huntingAlgorithm # [py]
           type: AvailableLookupScheme # [py]
-          description: Algorithm used to find the nearest neighbour in the independent
+          description: Algorithm used to find the nearest neighbor in the independent
             variable input data when the interpolation scheme is called
 
         - name: boundary_interpolation = extrapolate_at_boundary_with_warning # [py]

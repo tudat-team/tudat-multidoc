@@ -19,7 +19,7 @@ enums:
     members:
 
       - name: torque_free # [cpp]
-      - name: underfined_torque # [cpp]
+      - name: undefined_torque # [cpp]
       - name: second_order_gravitational_torque # [cpp]
       - name: aerodynamic_torque # [cpp]
       - name: spherical_harmonic_gravitational_torque # [cpp]
@@ -28,7 +28,7 @@ enums:
       - name: custom_torque # [cpp]
 
       - name: torque_free_type # [py]
-      - name: underfined_torque_type # [py]
+      - name: undefined_torque_type # [py]
       - name: second_order_gravitational_torque_type # [py]
       - name: aerodynamic_torque_type # [py]
       - name: spherical_harmonic_gravitational_torque_type # [py]

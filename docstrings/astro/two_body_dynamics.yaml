@@ -27,7 +27,7 @@ functions:
       - name: root_finder # [py]
         type: RootFinder, default = None # [py]
         description: Root finder used to solve Kepler's equation when converting mean to eccentric anomaly.
-          When no root finder is specifiied, the default option of the mean to eccentric anomaly function is used
+          When no root finder is specified, the default option of the mean to eccentric anomaly function is used
           (see :func:`~mean_to_eccentric_anomaly').
 
     returns:
