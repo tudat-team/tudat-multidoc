@@ -1,0 +1,88 @@
+summary: "Functionalities for shape-based low-thrust trajectory design."
+
+extended_summary: |
+  This module provides the functionality for creating shape-based low-thrust trajectory design legs.
+  Without using any numerical propagation, this generates a preliminary low-thrust trajectory using
+  relatively simple (semi-)analytical methods
+
+
+
+#############################################################################
+# Enums
+#############################################################################
+enums:
+ 
+
+#############################################################################
+# Classes
+#############################################################################
+classes:
+  - name: BaseFunctionHodographicShaping
+
+    short_summary: "Base class for defining settings of the shape functions for Hodograph shaping method."
+    extended_summary: |
+      Base class for defining settings of the shape functions for Hodograph shaping method. Objects derived
+      from this class are created by calling the dedicated factory functions in this module
+
+
+#############################################################################
+# Functions
+#############################################################################
+functions:
+  
+  - name: hodograph_sine
+
+    short_summary: "Factory function for creating a constant contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a constant contribution to hodographic trajectory shaping. This adds a contribution 
+      :math:`K` to the selected velocity component, with :math:`K` a free parameter.
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a constant contribution to hodographic shaping."
+
+  - name: hodograph_sine
+
+    short_summary: "Factory function for creating a sine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a sine contribution to hodographic trajectory shaping. For a 
+      provided frequency :math:`f`, this adds a contribution :math:`K\sin(f\cdot T)` to the selected
+      velocity component, with :math:`T` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the sine contribution to the shape function."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a cosine contribution to hodographic shaping."
+
+  - name: hodograph_cosine
+
+    short_summary: "Factory function for creating a cosine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a cosine contribution to hodographic trajectory shaping. For a 
+      provided frequency :math:`f`, this adds a contribution :math:`K\cos(f\cdot T)` to the selected
+      velocity component, with :math:`T` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the cosine contribution to the shape function."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a cosine contribution to hodographic shaping."
+
+#############################################################################
+# References
+#############################################################################
+references: |
+  .. [1] Izzo, D. 1st ACT global trajectory optimisation competition: Problem
+        description and summary of the results. Acta Astronautica 61, 9 (2007).
+        https://doi.org/10.1016/j.actaastro.2007.03.003
+  .. [2] Musegaas, P. Optimization of Space Trajectories Including Multiple
+        Gravity Assists and Deep Space Maneuvers. Delft University of Technology,
+        MSc thesis (2012).
+        http://resolver.tudelft.nl/uuid:02468c77-5c64-4df8-9a24-1ed7ad9d1408
