@@ -504,7 +504,7 @@ classes:
             description: |             # [py]
               Settings to create the numerical integrator that is to be used for integration the variational equations.
               If none is given (default), the numerical integration settings are taken to be the same as the ones applied
-              in the integration of the equations of motions (specified by the `intergator_settings` parameter).
+              in the integration of the equations of motions (specified by the `integrator_settings` parameter).
 
           - name: clear_numerical_solutions # [py]
             type: Bool, default = False # [py]
@@ -673,8 +673,8 @@ classes:
 
         extended_summary: |
           Function to trigger parameter estimation, including orbit determination, i.e. body initial states, from (simulated) observations
-          and apriori constraints.
-          All observable types and link ends per obsevable types that are included in the estimation input must have been
+          and a priori constraints.
+          All observable types and link ends per observable types that are included in the estimation input must have been
           provided to the constructor of the Estimator object by the `observation_settings` parameter.
 
         parameters:
@@ -685,7 +685,7 @@ classes:
           type: :class:`~tudatpy.numerical_simulation.estimation.PodInput` # [py]
           description: |
             Object consolidating all inputs required to conduct an estimation.
-            This includes foremost the simulated observations, as well as apriori information about the estimatable parameters.
+            This includes foremost the simulated observations, as well as a priori information about the estimatable parameters.
 
         - name: EstimationConvergenceChecker # [cpp]
           type: simulation_setup::EstimationConvergenceChecker # [cpp]

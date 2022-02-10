@@ -5,7 +5,7 @@
 #    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
 #    ██      ██  ██████  ██████   ██████  ███████ ███████
 #########################################################################
-# Atmosphere Setup ( createAtmopshereModel.h )
+# Atmosphere Setup ( createAtmosphereModel.h )
 
 extended_summary: |
   This module contains a set of factory functions for setting up the

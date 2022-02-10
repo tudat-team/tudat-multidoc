@@ -28,7 +28,7 @@ classes:
   - name: EstimatableParameterSet
     short_summary: "Class containing a consolidated set of estimatable parameters."
     extended_summary: |
-      Class containing a consolidated set of estimatable parameters, linked to the environment and acceleration settings of the simualtion.
+      Class containing a consolidated set of estimatable parameters, linked to the environment and acceleration settings of the simulation.
       The user typically creates instances of this class via the :func:`~tudatpy.numerical_simulation.estimation_setup.create_parameters_to_estimate` factory function.
 
     properties: # [py]
@@ -78,7 +78,7 @@ classes:
 
         parameters: # [py]
         - name: parameter_type # [py] (%!)
-          type: Tuple[ :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatebleParameterTypes`, Tuple[str, str] ] # [py]
+          type: Tuple[ :class:`~tudatpy.numerical_simulation.estimation_setup.parameter.EstimatableParameterTypes`, Tuple[str, str] ] # [py]
           description: help  # [py]
 
         returns: # [py]
@@ -116,7 +116,7 @@ classes:
 
         returns:
           type: bool
-          descrption: True if observation is viable, false if not.
+          description: True if observation is viable, false if not.
 
   - name: ObservationViabilityCalculator_1
     short_summary: "Class which conducts viability calculations on simulated observations of size 1."
@@ -215,7 +215,7 @@ classes:
         parameters:
         - name: time
           type: float
-          description: Time at which concatenated state transition and sensitivity matrix are to be retreived.
+          description: Time at which concatenated state transition and sensitivity matrix are to be retrieved.
 
         returns:
           type: numpy.ndarray[numpy.float64[m, n]]
@@ -232,7 +232,7 @@ classes:
         parameters:
         - name: time                                              
           type: float                                         
-          description: Time at which full concatenated state transition and sensitivity matrix are to be retreived.   # [py]
+          description: Time at which full concatenated state transition and sensitivity matrix are to be retrieved.   # [py]
 
         returns:
           type: numpy.ndarray[numpy.float64[m, n]]
@@ -258,7 +258,7 @@ classes:
     short_summary: Class for consolidating all inputs to the estimation.
     extensive_summary: |
       Class for consolidating all inputs required to conduct an estimation. This includes foremost the simulated observations,
-      as well as apriori information about the estimatable parameters.
+      as well as a priori information about the estimatable parameters.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
        special_members: __init__
 
@@ -352,7 +352,7 @@ classes:
 
         - name: save_residuals_and_parameters_per_iteration
           type: bool, default = True
-          descriptoon: |
+          description: |
             Boolean denoting whether the residuals and parameters from the each iteration are to be saved.
 
         - name: save_state_history_per_iteration
@@ -427,7 +427,7 @@ classes:
 
       - name: final_residuals
         type: numpy.ndarray[numpy.float64[m, 1]]
-        description: Vector of postfit observation residuals.
+        description: Vector of post-fit observation residuals.
         readonly: True
 
     methods: # [cpp]
@@ -505,7 +505,7 @@ functions:
           Times at which the propagated covariance matrix shall be reported.
           Note that this argument has no impact on the integration time-steps of the covariance propagation,
           which always adheres to the integrator settings that the `state_transition_interface` links to.
-          Output times which do not coincide with integration timesteps are calculated via interpolation.
+          Output times which do not coincide with integration time steps are calculated via interpolation.
 
     returns:
       type: Dict[ float, numpy.ndarray[numpy.float64[m, n]] ]  # [py]
@@ -539,7 +539,7 @@ functions:
           Times at which the propagated covariance matrix shall be reported.
           Note that this argument has no impact on the integration time-steps of the covariance propagation,
           which always adheres to the integrator settings that the `state_transition_interface` links to.
-          Output times which do not coincide with integration timesteps are calculated via interpolation.
+          Output times which do not coincide with integration time steps are calculated via interpolation.
 
     returns:
       type: Dict[ float, numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
@@ -573,5 +573,5 @@ functions:
 
     returns:
         type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence criteria for an estimation.
 

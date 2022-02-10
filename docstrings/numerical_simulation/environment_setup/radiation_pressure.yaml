@@ -158,7 +158,7 @@ functions:
          std::vector< std::string > occultingBodies; # [cpp]
          occultingBodies.push_back( "Earth" ); # [cpp]
          // create radiation pressure interface and add to "Spacecraft" body # [cpp]
-         bodySettings[ "Sacecraft" ]->radiationPressureSettings[ sourceBody ] = std::make_shared< CannonBallRadiationPressureInterfaceSettings >( # [cpp]
+         bodySettings[ "Spacecraft" ]->radiationPressureSettings[ sourceBody ] = std::make_shared< CannonBallRadiationPressureInterfaceSettings >( # [cpp]
          sourceBody, area, radiationPressureCoefficient, occultingBodies ); # [cpp]
 
 
@@ -245,7 +245,7 @@ functions:
         # add radiation pressure interface to "Spacecraft" body # [py]
         environment_setup.add_radiation_pressure_interface( bodies, "Vehicle", radiation_pressure_settings ) # [py]
 
-      # [cpp] cpp code snippet unavailabel (outdated on tudat-space)
+      # [cpp] cpp code snippet unavailable (outdated on tudat-space)
 
   #######################################################################
   # missing (w.r.t) tudat-space:

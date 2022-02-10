@@ -55,7 +55,7 @@ enums:
     - name: single_torque_dependent_variable # [cpp]
     - name: body_fixed_groundspeed_based_velocity_variable # [cpp]
     - name: keplerian_state_dependent_variable # [cpp]
-    - name: modified_equinocial_state_dependent_variable # [cpp]
+    - name: modified_equinoctial_state_dependent_variable # [cpp]
     - name: spherical_harmonic_acceleration_terms_dependent_variable # [cpp]
     - name: spherical_harmonic_acceleration_norm_terms_dependent_variable # [cpp]
     - name: body_fixed_relative_cartesian_position # [cpp]
@@ -312,8 +312,8 @@ functions:
     extended_summary: "Function to add the groundspeed velocity vector to the dependent variables to save.
     The groundspeed velocity vector is *not provided in an inertial frame*, but instead a frame centered on,
     and fixed to, the central body. It defines the velocity vector of a body w.r.t. 'the ground' or
-    (alternatively and identically) the relative atosphere in the case the atmosphere would be perfectly
-    corotating with the central body."
+    (alternatively and identically) the relative atmosphere in the case the atmosphere would be perfectly
+    co-rotating with the central body."
     parameters:
       - name: associatedBody # [cpp]
         type: std::str # [cpp]
@@ -799,7 +799,7 @@ functions:
     extended_summary: "Function to add single degree/order contributions of a spherical harmonic acceleration vector
     to the dependent variables to save. The spherical harmonic acceleration consists of a (truncated) summation
     of contributions at degree :math:`l` and order :math:`m`. Using this function, you can save the contributions
-    of seperate :math:`l,m` entries to the total acceleration. For instance, when requesting dependent variables
+    of separate :math:`l,m` entries to the total acceleration. For instance, when requesting dependent variables
     for :math:`l,m=2,2`, the contribution due to the combined influence of :math:`\bar{C}_{22}` and `\bar{S}_{22}` are provided "
 
 
@@ -964,7 +964,7 @@ functions:
     extended_summary: "Function to add the geodetic latitude, in the body-fixed frame
     of a central body, to the dependent variables to save. If the central body has a spherical
     shape model, this value is identical to the latitude. If the central body has an
-    oblate spheroid shape model, the calulcation of the geodetic latitude uses the flattening
+    oblate spheroid shape model, the calculation of the geodetic latitude uses the flattening
     of the this shape model to determine the geodetic latitude"
 
     parameters:
@@ -1288,7 +1288,7 @@ functions:
   - name: tnw_to_inertial_rotation_matrix # [py]
     short_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save."
     extended_summary: "Function to add the rotation matrix from the TNW to the inertial frame to the dependent variables to save.
-    It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vecotr, and the y-axis
+    It has the x-axis pointing along the velocity vector, the z-axis along the orbital angular momentum vector, and the y-axis
     completing the right-handed system. NOTE: a rotation matrix is returned as a nine-entry vector in the dependent variable output, where entry :math:`(i,j)` of the matrix is stored in
     entry :math:`(3i+j)` of the vector (with :math:`i,j=0,1,2`),"
 
@@ -1304,7 +1304,7 @@ functions:
         type: std::str # [cpp]
       - name: central_body # [py]
         type: str # [py]
-        description: Body with respect to which the TNW frame is determned.
+        description: Body with respect to which the TNW frame is determined.
 
     returns:
         type: SingleDependentVariableSaveSettings
@@ -1331,7 +1331,7 @@ functions:
         type: std::str # [cpp]
       - name: central_body # [py]
         type: str # [py]
-        description: Body with respect to which the TNW frame is determned.
+        description: Body with respect to which the TNW frame is determined.
 
     returns:
         type: SingleDependentVariableSaveSettings

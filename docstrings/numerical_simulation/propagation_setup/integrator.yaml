@@ -512,12 +512,12 @@ functions:
         description: BulirschStoerIntegratorSettings object.
 
 
- # Adams-Bashorth-Moulton integrator
+ # Adams-Bashforth-Moulton integrator
   - name: adamsBashforthMoultonSettings # [cpp]
   - name: adams_bashforth_moulton # [py]
-    short_summary: "Creates the settings for the Adams-Bashorth-Moulton integrator."
+    short_summary: "Creates the settings for the Adams-Bashforth-Moulton integrator."
     extended_summary: |
-      Factory function to create settings for the Adams-Bashorth-Moulton integrator.
+      Factory function to create settings for the Adams-Bashforth-Moulton integrator.
       For this integrator, the step size is varied based on the tolerances and safety factor provided.
       The tolerance is composed of an absolute and a relative part.
 
@@ -586,7 +586,7 @@ functions:
         type: double, default=200.0 # [cpp]
       - name: bandwidth # [py]
         type: float, default=200.0 # [py]
-        description: Maximum error factor for doubling the stepsize.
+        description: Maximum error factor for doubling the step size.
 
     returns:
         type: AdamsBashforthMoultonSettings

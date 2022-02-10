@@ -29,9 +29,9 @@ extended_summary: |
 
 enums:
 
-  #    py::enum_< tep::EstimatebleParametersEnum >
-  #        enum tudat::estimatable_parameters::EstimatebleParametersEnum
-  - name: EstimatebleParameterTypes
+  #    py::enum_< tep::EstimatableParametersEnum >
+  #        enum tudat::estimatable_parameters::EstimatableParametersEnum
+  - name: EstimatableParameterTypes
     short_summary: |
       Enumeration of model parameters that are available for estimation.
       In order to establish a parameter estimation settings for a parameter of a certain type, use the factory function dedicated to this parameter type.
@@ -613,7 +613,7 @@ functions:
     short_summary: "Function for defining parameter settings for an absolute observation bias."
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for an observation's absolute bias parameter, typically used for variational equation propagation and estimation.
-      Using the absoute observation bias as estimatable parameter requires
+      Using the absolute observation bias as estimatable parameter requires
         * the observation model (corresponding to the `link_ends` and `observable_type`) to include an absolute bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.absolute_bias`)
       The applicable observation bias model is presented under :func:`~tudatpy.numerical_simulation.estimation_setup.observation.absolute_bias`.
 
@@ -665,7 +665,7 @@ functions:
     short_summary: "Function for defining parameter settings for arc-wise absolute observation bias."
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the arc-wise treatment of an observation's absolute bias parameter, typically used for variational equation propagation and estimation.
-      Using the arc-wise absoute observation bias as estimatable parameter requires
+      Using the arc-wise absolute observation bias as estimatable parameter requires
         * the observation model (corresponding to the `link_ends` and `observable_type`) to include an arc-wise absolute bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.arcwise_absolute_bias`)
         * the propagator settings to define arc-wise propagation
       The applicable observation bias model is presented under :func:`~tudatpy.numerical_simulation.estimation_setup.observation.absolute_bias`.
@@ -724,7 +724,7 @@ functions:
         * at least one observation model to rely on the specified ground station
 
     parameters:
-      - name: body # [py]   # is called body, but has std::string& body --> inconsitent with previous observation
+      - name: body # [py]   # is called body, but has std::string& body --> inconsistent with previous observation
         type: str # [py]
         description: Body name identifying the body, with which the ground station is associated.
 

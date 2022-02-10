@@ -1,0 +1,449 @@
+summary: "Functionalities for shape-based low-thrust trajectory design."
+
+extended_summary: |
+  This module provides the functionality for creating shape-based low-thrust trajectory design legs.
+  Without using any numerical propagation, this generates a preliminary low-thrust trajectory using
+  relatively simple (semi-)analytical methods
+
+
+
+#############################################################################
+# Enums
+#############################################################################
+enums:
+ 
+
+#############################################################################
+# Classes
+#############################################################################
+classes:
+
+  - name: BaseFunctionHodographicShaping
+
+    short_summary: "Base class for defining settings of the shape functions for Hodograph shaping method."
+    extended_summary: |
+      Base class for defining settings of the shape functions for Hodograph shaping method. Objects derived
+      from this class are created by calling the dedicated factory functions in this module
+
+
+  - name: LowThrustLeg
+    short_summary: "Base class for calculating the properties of a low-thrust trajectory."
+    methods:
+
+      - name: get_trajectory  # [py]
+        short_summary: |
+          This function returns the Cartesian states of the vehicle along the low-thrust trajectory, at the requested list of times since departure
+        parameters:
+          - name: times # [py]
+            type: list[float] # [py]
+            description: |
+              List of times since departure at which the state along the trajectory is to be provided
+
+        returns:
+          type: dict[float,numpy.ndarray]  # [py]
+          description: "Dictionary of times since departure (key) with the calculated Cartesian state along the trajectory"
+
+
+      - name: get_state  # [py]
+        short_summary: |
+          This function returns the Cartesian state of the vehicle along the low-thrust trajectory, at the requested time since departure
+        parameters:
+          - name: time # [py]
+            type: float # [py]
+            description: |
+              Time since departure at which the state along the trajectory is to be provided
+
+        returns:
+          type: numpy.ndarray # [py]
+          description: "Calculated Cartesian state along the trajectory, at the requested time"
+
+      - name: compute_delta_v  # [py]
+        short_summary: |
+          This function returns total :math:`\Delta V` that must be expended to fly along the trajectory
+
+        returns:
+          type: float # [py]
+          description: Total :math:`\Delta V` that must be expended to fly along the trajectory
+
+  - name: ShapeBasedMethod
+    short_summary: "`LowThrustLeg`-derived base class for calculating the properties of a shape-based low-thrust trajectory."
+
+
+
+  - name: HodographicShaping
+
+    short_summary: "`ShapeBasedMethod`-derived class for calculating the properties of a hodographically shaped low-thrust trajectory"
+    extended_summary: |
+      Class for calculating the properties of a hodographically shaped low-thrust trajectory, as per reference [1]
+      The calculations performed in this class do not involve any numerical integration, and are solved by (semi-)analytical models
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Class constructor, creates the trajectory from the provided shape functions and free parameters.
+          Note that shape functions with at least 6 degrees of freedom must be provided (which is required to
+          solve for a trajectory that satisfies the boundary conditions). This model assumes that the central
+          body is located at the origin, with a constant gravitational parameter.	
+
+        parameters:
+          - name: initial_state # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Cartesian state at departure (w.r.t. central body)
+
+          - name: final_state # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Cartesian state at arrival (w.r.t. central body)
+
+          - name: central_body_gravitational_parameter # [py]
+            type: float # [py]
+            description: |
+              Gravitational parameter of central body
+
+          - name: radial_velocity_functions # [py]
+            type: list[BaseFunctionHodographicShaping] # [py]
+            description: |
+              List of shaping functions to use for determining the radial velocity profile
+
+          - name: normal_velocity_functions # [py]
+            type: list[BaseFunctionHodographicShaping] # [py]
+            description: |
+              List of shaping functions to use for determining the normal velocity profile
+
+          - name: axial_velocity_functions # [py]
+            type: list[BaseFunctionHodographicShaping] # [py]
+            description: |
+              List of shaping functions to use for determining the axial velocity profile
+
+          - name: radial_free_coefficients # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Values of free coefficients to use for the radial shaping functions
+
+          - name: normal_free_coefficients # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Values of free coefficients to use for the normal shaping functions
+
+          - name: axial_free_coefficients # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Values of free coefficients to use for the axial shaping functions
+
+      - name: get_thrust                       # [py]
+        short_summary: |
+          This function returns the thrust acceleration vector at a single point along the trajectory
+
+        parameters:
+          - name: time_since_departure # [py]
+            type: float # [py]
+            description: |
+              Time since departure from initial_state at which the acceleration is to be retrieveds
+
+        returns:
+          type: numpy.ndarray  # [py]
+          description: "Required thrust acceleration along low-thrust trajectory at requested time"
+
+
+#############################################################################
+# Functions
+#############################################################################
+functions:  
+  
+  - name: recommended_radial_hodograph_functions
+
+    short_summary: "Factory function for creating the default radial hodographic trajectory shaping functions."
+    extended_summary: |
+      Factory function for creating the default radial hodographic trajectory shaping functions. This function 
+      (and its counterparts normal and axial components) provided three shaping functions that have been found in
+      literature to work well for this method. For a given time-of-flight :math:`T`, this function returns a list of
+      three shaping functions:
+
+      * Constant term, see :func:`hodograph_constant` 
+      * Power function, see :func:`hodograph_power`, with exponent = 1.0, scale_factor = :math:`1/T`
+      * Power function, see :func:`hodograph_power`, with exponent = 2.0, scale_factor = :math:`1/T`
+    
+    parameters:
+      - name: time_of_flight # [py]
+        type: float # [py]
+        description: "Total time of flight (in seconds) of the trajectory that is to be generated."
+
+    returns:
+      type: list[BaseFunctionHodographicShaping] # [py]
+      description: "List of default settings object for radial hodographic shaping"
+
+
+
+  - name: recommended_normal_hodograph_functions
+
+    short_summary: "Factory function for creating the default normal hodographic trajectory shaping functions."
+    extended_summary: |
+      Factory function for creating the default normal hodographic trajectory shaping functions. This function 
+      (and its counterparts radial and axial components) provided three shaping functions that have been found in
+      literature to work well for this method. For a given time-of-flight :math:`T`, this function returns a list of
+      three shaping functions:
+
+      * Constant term, see :func:`hodograph_constant` 
+      * Power function, see :func:`hodograph_power`, with exponent = 1.0, scale_factor = :math:`1/T`
+      * Power function, see :func:`hodograph_power`, with exponent = 2.0, scale_factor = :math:`1/T`
+    
+    parameters:
+      - name: time_of_flight # [py]
+        type: float # [py]
+        description: "Total time of flight (in seconds) of the trajectory that is to be generated."
+
+    returns:
+      type: list[BaseFunctionHodographicShaping] # [py]
+      description: "List of default settings object for normal hodographic shaping"
+ 
+
+    returns:
+      type: list[BaseFunctionHodographicShaping] # [py]
+      description: "List of default settings object for axial hodographic shaping"
+
+
+
+  - name: recommended_axial_hodograph_functions
+
+    short_summary: "Factory function for creating the default axial hodograph	ic trajectory shaping functions."
+    extended_summary: |
+      Factory function for creating the default axial hodographic trajectory shaping functions. This function 
+      (and its counterparts radial and normal components) provided three shaping functions that have been found in
+      literature to work well for this method. For a given time-of-flight :math:`T` and number of revolutions :math:`N`, this function returns a list of
+      three shaping functions:
+
+      * Cosine term, see :func:`hodograph_cosine` with frequency = :math:`\frac{2\pi(N+1/2)}{T}`
+      * Power cosine function term, see :func:`hodograph_power_cosine` with  exponent = 3.0, frequency = :math:`\frac{2\pi(N+1/2)}{T}`, scale_factor = :math:`1/T`
+      * Power sine function term, see :func:`hodograph_power_sine` with  exponent = 3.0, frequency = :math:`\frac{2\pi(N+1/2)}{T}`, scale_factor = :math:`1/T`
+
+    parameters:
+      - name: time_of_flight # [py]
+        type: float # [py]
+        description: "Total time of flight (in seconds) of the trajectory that is to be generated."
+
+
+      - name: number_of_revolutions # [py]
+        type: int # [py]
+        description: "Number of full revolutions around the central body that are to be used."
+ 
+
+    returns:
+      type: list[BaseFunctionHodographicShaping] # [py]
+      description: "List of default settings object for axial hodographic shaping"
+ 
+
+    returns:
+      type: list[BaseFunctionHodographicShaping] # [py]
+      description: "List of default settings object for axial hodographic shaping"
+
+
+
+
+  - name: hodograph_constant
+
+    short_summary: "Factory function for creating a constant contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a constant contribution to hodographic trajectory shaping. This adds a contribution 
+      :math:`K` to the selected velocity component, with :math:`K` a free parameter.
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a constant contribution to hodographic shaping."
+
+
+
+  - name: hodograph_sine
+
+    short_summary: "Factory function for creating a sine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a sine contribution to hodographic trajectory shaping. For a 
+      provided frequency :math:`f`, this adds a contribution :math:`K\sin(f\cdot t)` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the sine contribution to the shape function."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a cosine contribution to hodographic shaping."
+
+
+
+  - name: hodograph_cosine
+
+    short_summary: "Factory function for creating a cosine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a cosine contribution to hodographic trajectory shaping. For a 
+      provided frequency :math:`f`, this adds a contribution :math:`K\cos(f\cdot T)` to the selected
+      velocity component, with :math:`T` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the cosine contribution to the shape function."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a cosine contribution to hodographic shaping."
+
+  - name: hodograph_exponential
+
+    short_summary: "Factory function for creating a exponential contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a exponential contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r` and (optional) scale factor :math:`c`, this adds a contribution :math:`K\exp(cr\cdot t)` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the exponential contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the exponent :math:`r`."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a exponential contribution to hodographic shaping."
+
+
+  - name: hodograph_exponential_sine
+
+    short_summary: "Factory function for creating a exponential sine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a exponential sine contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r`, scale factor :math:`c` and frequency :math:`f`, this adds a contribution :math:`K\sin(f\cdot t)\exp(cr\cdot t)` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the sine contribution to the shape function."
+
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the exponential contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the exponent :math:`r`."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a exponential sine contribution to hodographic shaping."
+
+
+
+  - name: hodograph_exponential_cosine
+
+    short_summary: "Factory function for creating a exponential cosine contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a exponential cosine contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r`, scale factor :math:`c`  and frequency :math:`f`, this adds a contribution :math:`K\cos(f\cdot t)\exp(cr\cdot t)` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the cosine contribution to the shape function."
+
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the exponential contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the exponent :math:`r`."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a exponential cosine contribution to hodographic shaping."
+
+
+
+  - name: hodograph_power
+
+    short_summary: "Factory function for creating a power function contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a power function contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r` and (optional) scale factor :math:`c` this adds a contribution :math:`K\cdot c\cdot t^{r}` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the power function contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the free parameter :math:`K`."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a power function contribution to hodographic shaping."
+
+
+  - name: hodograph_power_sine
+
+    short_summary: "Factory function for creating a power sine function contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a power sine function contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r`, (optional) scale factor :math:`c` and frequency :math:`f`, this adds a contribution :math:`K\cdot c\sin(f\cdot t)\cdot t^{r}` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the sine contribution to the shape function."
+
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the power function contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the free parameter :math:`K`."
+
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a power sine function contribution to hodographic shaping."
+
+
+  - name: hodograph_power_cosine
+
+    short_summary: "Factory function for creating a power cosine function contribution to hodographic trajectory shaping."
+    extended_summary: |
+      Factory function for creating a power cosine function contribution to hodographic trajectory shaping. For a 
+      provided exponent :math:`r`, (optional) scale factor :math:`c` and frequency :math:`f`, this adds a contribution :math:`K\cdot c\cos(f\cdot t)\cdot t^{r}` to the selected
+      velocity component, with :math:`t` the time since departure, and :math:`K` a free parameter.
+
+    parameters:
+      - name: frequency # [py]
+        type: float # [py]
+        description: "Frequency of the cosine contribution to the shape function."
+
+      - name: exponent # [py]
+        type: float # [py]
+        description: "Exponent of the power function contribution to the shape function."
+
+      - name: scale_factor # [py]
+        type: float, default = 1.0 # [py]
+        description: "Optional scale factor, which can be used to scale the physical meaning of the free parameter :math:`K`."
+
+    returns:
+      type: BaseFunctionHodographicShaping # [py]
+      description: "Settings object for a power cosine function contribution to hodographic shaping."
+
+#############################################################################
+# References
+#############################################################################
+references: |
+  .. [1] Gondelach, David J., and Ron Noomen. "Hodographic-shaping method for 
+         low-thrust interplanetary trajectory design." Journal of Spacecraft and Rockets 52.3 (2015): 728-738.

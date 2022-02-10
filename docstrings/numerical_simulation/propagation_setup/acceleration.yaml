@@ -67,7 +67,7 @@ classes:
       Class for providing settings for acceleration model. This class is a functional (base) class for
       settings of acceleration models that  require no information in addition to their type.
       Classes defining settings for acceleration models requiring additional information must be derived from this class.
-      Bodies exerting and undergong acceleration are set externally from this class.
+      Bodies exerting and undergoing acceleration are set externally from this class.
       This class can be used for the easy setup of acceleration models
       (see createAccelerationModels.h), but users may also chose to do so manually.
       (Derived) Class members are all public, for ease of access and modification.
@@ -125,7 +125,7 @@ classes:
     short_summary: "`AccelerationSettings`-derived class to define settings for the empirical acceleration."
     extended_summary: |
       Class to provide settings for empirical accelerations. These are expressed in the
-      RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
+      RSW frame, for which the magnitude is determined empirically (typically during an orbit determination process).
       The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
       a constant, sine and cosine term (with true anomaly as argument) for each of the three independent directions of
       the RSW frame.
@@ -580,7 +580,7 @@ functions:
     short_summary: "Creates settings for empirical acceleration."
     extended_summary: |
       Creates settings for empirical accelerations. These are expressed in the
-      RSW frame, for which the mangitude is determined empirically (typically during an orbit determination process).
+      RSW frame, for which the magnitude is determined empirically (typically during an orbit determination process).
       The acceleration components are defined according to Montenbruck and Gill (2000), with a total of 9 components:
       a constant, sine and cosine term (with true anomaly as argument) for each of the three independent directions of
       the RSW frame. The empirical acceleration is calculated as:
@@ -621,7 +621,7 @@ functions:
     examples: |
       In this example, we define the empirical acceleration acting on the vehicle. The body that 'exerts' the acceleration
       is here used to determine the body w.r.t. which the true anomaly has o be calculated when determining the sine/cosine
-      contributions. This central body must be endowed with a gravity field (so that it possesses a gravitaional parameter
+      contributions. This central body must be endowed with a gravity field (so that it possesses a gravitational parameter
       for the Cartesian to Keplerian conversion)
 
       .. code-block:: python # [py]
@@ -693,7 +693,7 @@ functions:
 
       .. code-block:: python # [py]
          # [py]
-         # Define custom functiton # [py]
+         # Define custom function # [py]
          def custom_function( current_time ): # [py]
              period = 86400.0 # [py]
              reference_time = 0.0 # [py]
@@ -812,7 +812,7 @@ functions:
 
       .. code-block:: python # [py]
          # [py]
-         # Define the quasio-impulsive shot settings # [py]
+         # Define the quasi-impulsive shot settings # [py]
          mid_times = [ 86400.0, 2.0 * 86400.0] # [py]
          delta_v_values = [ np.array([1.0E-3, 0.0, 0.0]), np.array([0.0, 1.0E-3, 0.0]) ] # [py]
          maneuver_duration = 30 # [py]
@@ -890,7 +890,7 @@ functions:
     short_summary: "Creates settings for thrust acceleration using a custom user-defined thrust function."
     extended_summary: |
       Creates settings for thrust acceleration from a user-defined function providing the thrust as a function of time.
-      This function may be defined in any number of ways, such as an interpolator, or a custom function that directly acceses the
+      This function may be defined in any number of ways, such as an interpolator, or a custom function that directly accesses the
       environment. The custom thrust function returns the total thrust force vector in the specified frame (default inertial, *e.g.*
       axes along the global orientation of the environment).
 
