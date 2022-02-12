@@ -477,6 +477,48 @@ functions:
       type: :class:`~tudatpy.numerical_simulation.estimation.ObservationCollection`  # [py]
       description: Object collecting all products of the observation simulation.
 
+  - name: compute_target_angles_and_range # [py]
+    short_summary: "Function to compute the azimuth angle, elevation angle and range at a ground station."
+    extended_summary: |
+      Function to compute the azimuth angle, elevation angle and range at a ground station. This functions is provided as a function of
+      convenience, to prevent users having to manually define the relevant settings for this often-needed functionality. This function
+      takes an observing station and a target body as input, and provides the observed angles and current range (without correction for aberrations, with correction for light time)
+      as observed at that station   
+
+    parameters:
+
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: |
+         System of bodies that defines the full physical environment
+
+      - name: station_id # [py]
+        type: tuple[ str, str] # [py]
+        description: |
+          Identifier for the observing station, as a pair of strings: the body name and the station name.
+
+      - name: target_body # [py]
+        type: str # [py]
+        description: |
+          Name of body which is observed by ground station
+
+      - name: observation_times # [py]
+        type: list[float] # [py]
+        description: |
+          List of times at which the ground station observations are to be analyzed
+
+      - name: is_station_transmitting # [py]
+        type: Bool # [py]
+        description: |
+          Boolean defining whether the observation times define times at which the station is transmitting to, or receiving from, the ground station. 
+          This has an impact on the whether the light-time is computed forward or backward in time from the ground station to the target
+
+    returns:
+      type: dict[float,numpy.ndarray[numpy.float64[3, 1]]]  # [py]
+      description: 
+        Dictionary with the required output. Key defines the observation time, the value is an array of size three containing 
+        entry 0 - elevation angle, entry 1 - azimuth angle, entry 2 - range
+
 
   #################        COVARIANCES       ################################
 
