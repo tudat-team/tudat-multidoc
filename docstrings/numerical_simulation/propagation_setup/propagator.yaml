@@ -770,17 +770,17 @@ functions:
   # Dependent variable termination
   - name: propagationDependentVariableTerminationSettings # [cpp]
   - name: dependent_variable_termination # [py]
-    short_summary: "Factory function to create CPU time termination settings for the propagation."
+    short_summary: "Factory function to create termination settings for the propagation based on a dependent variable."
     extended_summary: |
-      Factory function to create CPU time termination settings for the propagation.
-      The propagation is stopped when the final CPU time provided is reached.
-      The simulator will normally finish the final time-step, which may cause the termination time to be slightly exceeded.
+      Factory function to create termination settings for the propagation based on the value of a dependent variable.
+      The propagation is stopped when a provided upper or lower limit value is reached.
+      The simulator will normally finish the final time-step, which may cause the dependent variable to be slightly exceeded.
       This behaviour can be suppressed by providing the optional input argument
       ``terminate_exactly_on_final_condition=True``, in which case the final propagation step will be *exactly* on the
-      specified time.
+      specified dependent variable value.
 
     notes: |
-      To reach *exactly* the final time, state derivative function evaluations beyond the final
+      To reach *exactly* the final dependent variable value, state derivative function evaluations beyond the final
       time may be required by the propagator. Reaching the final condition exactly is an iterative process and
       very minor deviations from the specified final condition can occur.
 
@@ -823,7 +823,8 @@ functions:
       Below, an example is shown for termination on a given vehicle altitude. The exact termination condition is defined
       in the ``termination_settings``. The propagation is terminated once the *lower* limit of 25 km in altitude is
       reached (as the ``use_as_lower_limit`` is set to ``True``). To use the above settings to terminate when an
-      *upper* limit of 25 km is reached, set this boolean to ``False``.
+      *upper* limit of 25 km is reached, set this boolean to ``False``. In this example, we also want to stop exactly
+      at 25 km, so we set ``terminate_exactly_on_final_condition`` to ``True``, and we specify ``termination_root_finder_settings``.
 
       .. code-block:: python
 
@@ -833,7 +834,13 @@ functions:
         termination_settings = propagation_setup.propagator.dependent_variable_termination(
           dependent_variable_settings = termination_variable,
           limit_value = 25.0E3,
-          use_as_lower_limit = True)
+          use_as_lower_limit = True,
+          terminate_exactly_on_final_condition=True,
+          termination_root_finder_settings=root_finders.secant(
+              maximum_iteration=5,
+              maximum_iteration_handling=root_finders.MaximumIterationHandling.accept_result)
+          )
+        )
 
 
   # Custom termination
