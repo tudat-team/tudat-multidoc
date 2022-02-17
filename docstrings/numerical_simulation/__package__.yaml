@@ -453,7 +453,7 @@ classes:
       - name: dynamicsSimulator_ # [cpp]
         type: std::shared_ptr< SingleArcDynamicsSimulator< > > # [cpp]
       - name: dynamics_simulator # [py]
-        type: dict[float, numpy.ndarray] # [py]
+        type: :class:`~tudatpy.numerical_simulation.SingleArcDynamicsSimulator` # [py]
         readonly: Yes
         description: |
           Simulator object containing all functionality for solving of the (regular) equations of motion.

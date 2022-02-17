@@ -238,7 +238,7 @@ functions:
         type: std::str # [cpp]
       - name: body # [py]
         type: str # [py]
-        description: Body whose Mach altitude is to be saved.
+        description: Body whose altitude is to be saved.
 
       - name: centralBody # [cpp]
         type: std::str # [cpp]
