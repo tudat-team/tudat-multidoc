@@ -300,6 +300,13 @@ classes:
                         :py:attr:`~dependent_variable_ids`
                         property.
 
+          - name: print_state_data # [py]
+            type: bool, default = True # [py]
+            description: |    # [py]
+              Boolean defining whether the meaning and indices of the
+              entries of the state vector are to be printed to
+              the console.
+
       - name: integrateEquationsOfMotion                          # [cpp]
       - name: integrate_equations_of_motion                       # [py]
         short_summary: |
