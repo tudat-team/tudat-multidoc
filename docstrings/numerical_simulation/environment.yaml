@@ -48,7 +48,101 @@ enums:
         description: "Can be used for a custom coefficient interface with other variables, at the expense of being able to use the FlightConditions class to automatically updates the aerodynamic coefficients during propagation."
 
 
+
 classes:
+
+  - name: HypersonicLocalInclinationAnalysis
+    short_summary: "Class to calculate the hypersonic aerodynamic coefficients using local inclination methods."
+    extended_summary: |
+       Class to calculate the hypersonic aerodynamic coefficients using local inclination methods. This class
+       implements several local inclination methods, and calculates the aerodynamic force and moment coefficients
+       as a function of angle of attack, sideslip angle and Mach number
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+        special_members: __init__
+    methods:
+      - name: ctor
+        short_summary: "Class constructor, taking the shape of the vehicle, and various analysis options as input."
+
+        parameters:
+          - name: independent_variable_points  # [py]
+            type: list[list[float]] # [py]
+            description: |
+              List containing three lists, with each sublist containing the data points of each of the 
+              independent variables for the coefficient generation. The physical meaning of each of the 
+              three independent variables is: 0 = mach number, 1 = angle of attack, 2 = angle of sideslip. 
+              Each of the subvectors must be sorted in ascending order.
+
+          - name: body_shape  # [py]
+            type: SurfaceGeometry # [py]
+            description: |
+              Class that defines the shape of the vehicle as a continuous surface. The local inclination analysis
+              discretizes the surface of the vehicle into quadrilateral panels, defined by the other inputs to
+              this constructor. In case the :class:`tudat.geometry.SurfaceGeometry` object is made up of multiple
+              sub-shapes, different settings may be used for each
+
+          - name: number_of_lines  # [py]
+            type: List[ float ] # [py]
+            description: |
+              Number of discretization points in the first independent surface variable of each of the subparts of body_shape. 	
+              The size of this list should match the number of parts of which the body_shape is composed. The first independent
+              variable of a subpart typically runs along the longitudinal vehicle direction
+
+          - name: number_of_points  # [py]
+            type: List[ float ] # [py]
+            description: |
+              Number of discretization points in the second independent surface variable of each of the subparts of body_shape. 	
+              The size of this list should match the number of parts of which the body_shape is composed. The first independent
+              variable of a subpart typically runs along the lateral vehicle direction
+
+          - name: invert_orders  # [py]
+            type: List[ bool ] # [py]
+            description: |
+              Booleans to denote whether the surface normals of the panels of each discretized body_shape subpart are to be inverted
+              (i.e. inward-facing->outward facing or vice versa). The size of this list should match the number of parts of which the body_shape is composed. 
+
+          - name: selected_methods  # [py]
+            type: List[ List[ int ] ] # [py]
+            description: |
+              Double list of selected local inclination methods, the first index (outer list) represents compression or expansion (0 and 1), 
+              the second index (inner list) denotes the vehicle part index. The size of this inner list should match the number of parts of which the body_shape is composed. 
+              The int defining the method type is interpreted as follows. 
+              For the compression methods, the following are available:
+              *  0: Newtonian Method.
+              *  1: Modified Newtonian.
+              *  2 and 3: not available at this moment.
+              *  4: Tangent-wedge method.
+              *  5: Tangent-cone method.
+              *  6: Modified Dahlem-Buck method.
+              *  7: VanDyke unified pressure method.
+              *  8: Smyth Delta Wing method.
+              *  9: Hankey flat surface method
+              The expansion method has the following options:
+              *  0: Vacuum Pressure coefficient method.
+              *  1: Zero Pressure function.
+              *  4: High Mach base pressure method.
+              *  3 or 5: Prandtl-Meyer method.
+              *  6: ACM empirical pressure coefficient.
+
+          - name: reference_area # [py]
+            type: float # [py]
+            description: |
+               Reference area used to non-dimensionalize aerodynamic forces and moments.
+
+          - name: reference_length # [py]
+            type: float # [py]
+            description: |
+               Reference length used to non-dimensionalize aerodynamic moments.
+
+            name: moment_reference_point  # [py]
+            type: numpy.ndarray # [py]
+            description: |
+              Reference point wrt which aerodynamic moments are calculated.
+
+          - name: save_pressure_coefficients  # [py]
+            type: Bool # [py]
+            description: |
+              Boolean denoting whether to save the pressure coefficients that are computed to files
+
   - name: FlightConditions
     short_summary: |
        Object that calculates various state-derived quantities typically
@@ -532,3 +626,42 @@ classes:
           type: numpy.ndarray # [py]
           description: |
             Name of the Body that is to be removed.
+
+ 
+ 
+  ##############################################################################
+  #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+  #  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+  #  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+  #  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+  #  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+  ##############################################################################
+
+functions:
+
+  - name: save_vehicle_mesh_to_file # [py]
+    short_summary: "Function to save the mesh used for a hypersonic local inclination analysis to a file."
+    extended_summary: |
+      Function to save the mesh used for a hypersonic local inclination analysis to a file. This function saves 
+      two files to the specified directory, with filenames: "ShapeFile.dat" and "SurfaceNormalFile.dat", where these
+      files names may be prefixed by an optional string (see below). The first of these files contains four columns defining
+      the surface points that define mesh, with Column 0: point index; Column 1: x-position of point; Column 1: y-position of point; 
+      Column 2: z-position of point. The second file contains four columns with Column 0: point index; Column 1: x-component of surface normal; 
+      Column 1: y-position of surface normal; Column 2: z-position of surface normal.
+
+    parameters:
+
+      - name: local_inclination_analysis_object # [py]
+        type: HypersonicLocalInclinationAnalysis # [py]
+        description: |
+          Object used to calculate the aerodynamics of the vehicle
+
+      - name: output_directory # [py]
+        type: str # [py]
+        description: |
+          Directory to which the files are to be saved
+
+      - name: output_file_prefix # [py]
+        type: str, default='' # [py]
+        description: |
+          Optional prefix of output file names
