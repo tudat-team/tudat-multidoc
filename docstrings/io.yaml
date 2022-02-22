@@ -1,0 +1,104 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+summary: |
+  Interfacing of Tudat(py) to and from other applications.
+
+extended_summary: |
+  This module provides with different functionalities that allow to export results from Tudat(py)
+  to other softwares such as MATLAB, to post-process results. A set of methods are also provided
+  to read inputs from other softwares and integrate them with Tudat(py).
+  
+#########################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████
+#########################################################################
+functions:
+#######################################################################
+# PYTHON FUNCTIONS
+#######################################################################
+  - name: save2txt
+  - name: save_time_history_to_file
+#######################################################################
+# CPP FUNCTIONS
+#######################################################################
+  - name: get_resource_path
+    short_summary: "Get the path at which tudat resources are located."
+    extended_summary: ""
+
+    returns:
+        name: resource_path
+        type: str
+        description: "Local path at which tudat resources are located."
+
+#######################################################################
+  - name: get_ephemeris_path
+    short_summary: "Get the path at which the ephemeris used by tudat are located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which the tudat ephemeris resources are located."
+#######################################################################
+  - name: get_earth_orientation_path
+    short_summary: "Get the path at which the Earth orientation resources used by tudat are located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which tudat Earth orientation resources are located."
+#######################################################################
+  - name: get_quadrature_path
+    short_summary: "Get the path at which the Gaussian quadrature resources are located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which tudat Gaussian quadrature resources are located."
+#######################################################################
+  - name: get_spice_kernel_path
+    short_summary: "Get the path at which the SPICE kernel used by tudat is located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which the SPICE kernel is located."
+#######################################################################
+  - name: get_atmosphere_tables_path
+    short_summary: "Get the path at which tudat atmosphere tables are located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which tudat atmosphere tables are located."
+#######################################################################
+  - name: get_gravity_models_path
+    short_summary: "Get the path at which tudat gravity models are located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which tudat gravity models are located."
+#######################################################################
+  - name: get_space_weather_path
+    short_summary: "Get the path at which tudat space weather is located."
+
+    extended_summary: ""
+
+    returns:
+        type: str
+        description: "Local path at which tudat space weather is located."
+#######################################################################
