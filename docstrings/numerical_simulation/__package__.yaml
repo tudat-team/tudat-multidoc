@@ -427,7 +427,7 @@ classes:
 
       - name: variationalEquationsSolution_ # [cpp]
         type: std::vector< std::map< double, Eigen::MatrixXd > > # [cpp]
-      - name: state_transition_matrix_history # [py]
+      - name: variational_equations_history # [py]
         type: list[ dict[float, numpy.ndarray] ] # [py]
         readonly: Yes
         description: |
@@ -460,7 +460,7 @@ classes:
       - name: dynamicsSimulator_ # [cpp]
         type: std::shared_ptr< SingleArcDynamicsSimulator< > > # [cpp]
       - name: dynamics_simulator # [py]
-        type: :class:`~tudatpy.numerical_simulation.SingleArcDynamicsSimulator` # [py]
+        type: :class:`~tudatpy.numerical_simulation.SingleArcSimulator` # [py]
         readonly: Yes
         description: |
           Simulator object containing all functionality for solving of the (regular) equations of motion.
@@ -544,7 +544,7 @@ classes:
 
         returns:
           type: None # [py]
-          description: Creates / modifies the `state_history` property of the VariationalSolver object. # [py]
+          description: Creates / modifies the `state_history` property of the :class:`~tudatpy.numerical_simulation.SingleArcVariationalSolver` object. # [py]
 
 
       - name: integrateVariationalAndDynamicalEquations         # [cpp]
@@ -616,7 +616,7 @@ classes:
       - name: variationalEquationsSolver_ # [cpp]
         type: std::shared_ptr< propagators::VariationalEquationsSolver< > > # [cpp]
       - name: variational_solver # [py]
-        type: :class:`~tudatpy.numerical_simulation.VariationalEquationsSolver` # [py]
+        type: :class:`~tudatpy.numerical_simulation.SingleArcVariationalSolver` # [py]
         readonly: Yes
         description: |
           Variational equations solver, which is used to manage and execute the numerical integration of
