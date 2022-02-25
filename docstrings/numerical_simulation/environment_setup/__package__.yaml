@@ -19,7 +19,7 @@ modules:
   - atmosphere
   - ephemeris
   - gravity_field
-# - gravity_field_variation
+  - gravity_field_variation
   - radiation_pressure
   - rotation_model
   - shape
