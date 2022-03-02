@@ -1,0 +1,315 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+summary: |
+  Interfacing of Tudat(py) to and from other applications.
+
+extended_summary: |
+  This module provides with different functionalities that allow to export results from Tudat(py)
+  to other softwares such as MATLAB, to post-process results. A set of methods are also provided
+  to read inputs from other softwares and integrate them with Tudat(py).
+
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
+enums:
+  - name: StaticCoefficientNames
+    short_summary: "Enumeration of Missile DATCOM static aerodynamic coefficient types."
+
+    members:
+      - name: cn
+        description: "Normal force coefficient."
+      - name: cm
+        description: "Pitching moment coefficient."
+      - name: ca
+        description: "Axial force coefficient."
+      - name: cy
+        description: "Side force coefficient."
+      - name: cln
+        description: "Yawing moment coefficient."
+      - name: cll
+        description: "Rolling moment coefficient."
+      - name: cna
+        description: "Normal force coefficient change w.r.t. angle of attack."
+      - name: cma
+        description: "Pitching moment coefficient change w.r.t. angle of attack."
+      - name: cyb
+        description: "Side force coefficient change w.r.t. sideslip angle."
+      - name: cnb
+        description: "Yawing moment coefficient change w.r.t. sideslip angle."
+      - name: clb
+        description: "Rolling moment coefficient change w.r.t. sideslip angle."
+
+  - name: DynamicCoefficientNames
+    short_summary: "Enumeration of Missile DATCOM dynamic aerodynamic coefficient types."
+
+    members:
+      - name: cnq
+        description: "Normal force coefficient change w.r.t. pitch rate."
+      - name: cmq
+        description: "Pitching moment coefficient change w.r.t. pitch rate."
+      - name: caq
+        description: "Pitching moment coefficient change w.r.t. pitch rate."
+      - name: cyq
+        description: "Side force coefficient change w.r.t. pitch rate."
+      - name: clnq
+        description: "Yawing moment coefficient change w.r.t. pitch rate."
+      - name: cllq
+        description: "Rolling moment coefficient change w.r.t. pitch rate."
+      - name: cnr
+        description: "Normal force coefficient change w.r.t. yaw rate."
+      - name: cmr
+        description: "Pitching moment coefficient change w.r.t. yaw rate."
+      - name: car
+        description: "Pitching moment coefficient change w.r.t. yaw rate."
+      - name: cyr
+        description: "Side force coefficient change w.r.t. yaw rate."
+      - name: clnr
+        description: "Yawing moment coefficient change w.r.t. yaw rate."
+      - name: cllr
+        description: "Rolling moment coefficient change w.r.t. yaw rate."
+      - name: cnp
+        description: "Normal force coefficient change w.r.t. roll rate."
+      - name: cmp
+        description: "Pitching moment coefficient change w.r.t. roll rate."
+      - name: cap
+        description: "Pitching moment coefficient change w.r.t. roll rate."
+      - name: cyp
+        description: "Side force coefficient change w.r.t. roll rate."
+      - name: clnp
+        description: "Yawing moment coefficient change w.r.t. roll rate."
+      - name: cllp
+        description: "Rolling moment coefficient change w.r.t. roll rate."
+      - name: cnad
+        description: "Normal force coefficient change w.r.t. angle of attack change rate."
+      - name: cmad
+        description: "Pitching moment coefficient change w.r.t. angle of attack change rate."
+
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
+
+classes:
+  - name: missile_DATCOM_data
+    short_summary: "Class containing data and methods interfacing the Missile DATCOM software."
+    extended_summary: |
+      This class is the main method that can be used to interface tudat with the Missile DATCOM software.
+      It can be initialised with the output file from Missile DATCOM, and provides methods to convert these results
+      into tudat-compatible data.
+
+      .. note:: The Missile DATCOM software from which outputs can be interfaced to TUDAT is an entirely separate software from Tudat(Py).
+                Please refer to Missile DATCOM user manuals for information on how to use it. These can be accessed on the US Defence Technical
+                Information Center at accession numbers `ADA267447 <https://apps.dtic.mil/sti/citations/ADA267447>`_ and
+                `ADA503576 <https://apps.dtic.mil/sti/citations/ADA503576>`_.
+
+      .. note:: The interfacing of Missile DATCOM to tudat assumes that aerodynamic coefficients are computed as a function of both
+                Mach number and angle of attack.
+
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+      special_members: __init__
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Function used to construct and initialise the class. In essence, it can be used to read and extract the aerodynamic coefficients
+          computed by Missile DATCOM, and save them in different formats.
+
+        parameters:
+          - name: file_name_and_path
+            type: str
+            description: "Full path and file name of the `for004.dat` Missile DATCOM results output file."
+
+      - name: get_static_coefficient
+        short_summary: "Get a specific static coefficient from the result database."
+        parameters:
+          - name: mach_index
+            type: int
+            description: "Index of the Mach number for which to get the static coefficient."
+          - name: angle_of_attack_index
+            type: int
+            description: "Index of the angle of attack for which to get the static coefficient."
+          - name: coefficient_index
+            type: tudatpy.io.StaticCoefficientNames
+            description: "Type of the static aerodynamic coefficient."
+        returns:
+            type: float
+            description: "Static aerodynamic coefficient."
+
+      - name: get_dynamic_coefficient
+        short_summary: "Get a specific dynamic coefficient from the result database."
+        parameters:
+          - name: mach_index
+            type: int
+            description: "Index of the Mach number for which to get the static coefficient."
+          - name: angle_of_attack_index
+            type: int
+            description: "Index of the angle of attack for which to get the static coefficient."
+          - name: coefficient_index
+            type: tudatpy.io.DynamicCoefficientNames
+            description: "Type of the dynamic aerodynamic coefficient."
+        returns:
+            type: float
+            description: "Dynamic aerodynamic coefficient."
+            
+      - name: get_angle_of_attacks
+        short_summary: "Get the list of angle of attacks at which Missile DATCOM has been run."
+        returns:
+            type: numpy.ndarray
+            description: "List of angle of attacks."
+            
+      - name: get_mach_numbers
+        short_summary: "Get the list of Mach numbers at which Missile DATCOM has been run."
+        returns:
+            type: numpy.ndarray
+            description: "List of Mach numbers."
+            
+      - name: get_Reynolds_numbers
+        short_summary: "Get the list of Reynolds numbers at which Missile DATCOM has been run."
+        returns:
+            type: numpy.ndarray
+            description: "List of Reynolds numbers."
+
+      - name: write_all_coefficients_to_files
+        short_summary: "Write all the aerodynamic coefficients to CSV files."
+        parameters:
+          - name: file_name_base
+            type: str
+            description: "Full base path and name of the file that will be saved. The name of each aerodynamic coefficient will be included at the end of the file name."
+          - name: base_precision
+            type: int, optional, default=15
+            description: "Number of digits to represent the base of the floating-point number."
+          - name: exponent_width
+            type: int, optional, default=2
+            description: "Number of digits to represent the exponent of the floating-point number."
+
+      - name: write_force_and_moment_coefficients_to_files
+        short_summary: "Write the force and moment coefficients to a file in the format taken by the :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.tabulated_from_files` function."
+        parameters:
+          - name: file_name_base
+            type: str
+            description: "Full base path and name of the file that will be saved. The name of each aerodynamic coefficient will be included at the end of the file name."
+          - name: base_precision
+            type: int, optional, default=15
+            description: "Number of digits to represent the base of the floating-point number."
+          - name: exponent_width
+            type: int, optional, default=2
+            description: "Number of digits to represent the exponent of the floating-point number."
+
+#########################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████
+#########################################################################
+functions:
+  #######################################################################
+  # PYTHON FUNCTIONS
+  #######################################################################
+  - name: save2txt
+  - name: save_time_history_to_file
+  #######################################################################
+  # CPP FUNCTIONS
+  #######################################################################
+  - name: get_resource_path
+    short_summary: "Get the path at which tudat resources are located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat resources are located."
+  #######################################################################
+  - name: get_ephemeris_path
+    short_summary: "Get the path at which the ephemeris used by tudat are located."
+
+    returns:
+        type: str
+        description: "Local path at which the tudat ephemeris resources are located."
+  #######################################################################
+  - name: get_earth_orientation_path
+    short_summary: "Get the path at which the Earth orientation resources used by tudat are located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat Earth orientation resources are located."
+  #######################################################################
+  - name: get_quadrature_path
+    short_summary: "Get the path at which the Gaussian quadrature resources are located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat Gaussian quadrature resources are located."
+  #######################################################################
+  - name: get_spice_kernel_path
+    short_summary: "Get the path at which the SPICE kernel used by tudat is located."
+
+    returns:
+        type: str
+        description: "Local path at which the SPICE kernel is located."
+  #######################################################################
+  - name: get_atmosphere_tables_path
+    short_summary: "Get the path at which tudat atmosphere tables are located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat atmosphere tables are located."
+  #######################################################################
+  - name: get_gravity_models_path
+    short_summary: "Get the path at which tudat gravity models are located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat gravity models are located."
+  #######################################################################
+  - name: get_space_weather_path
+    short_summary: "Get the path at which tudat space weather is located."
+
+    returns:
+        type: str
+        description: "Local path at which tudat space weather is located."
+  #######################################################################
+  - name: read_vector_history_from_file
+    short_summary: "Read a vector history from a file."
+
+    parameters:
+      - name: vector_size
+        type: int
+        description: "Size of the vector at each epoch."
+      - name: file_name
+        type: str
+        description: "Name of the file containing the vector history."
+
+    returns:
+        type: Dict[float, numpy.ndarray]
+        description: "Dictionary mapping epochs to the vector at the given epoch."
+  #######################################################################
+  - name: read_matrix_history_from_file
+    short_summary: "Read a matrix history from a file."
+
+    parameters:
+      - name: matrix_rows
+        type: int
+        description: "Number of rows in the matrix at each epoch."
+      - name: matrix_columns
+        type: int
+        description: "Number of columns in the matrix at each epoch."
+      - name: file_name
+        type: str
+        description: "Name of the file containing the matrix history."
+
+    returns:
+        type: Dict[float, numpy.ndarray]
+        description: "Dictionary mapping epochs to the matrix at the given epoch."
+  #######################################################################
