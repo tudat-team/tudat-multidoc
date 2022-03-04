@@ -243,6 +243,21 @@ functions:
         type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`  # [py]
         description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
 
+  - name: create_simplified_system_of_bodies # [py]
+    short_summary: "Function that creates a simplified System of bodies." # [py]
+    extended_summary: | # [py]
+      Function that creates a simplified System of bodies. The following bodies are created in this system: the Sun, all planets of the Solar system, and Pluto. # [py]
+      All bodies in this system use Gtop ephemerides and point mass gravity. The Earth is setup with a spherical shape model and a simple rotation model. # [py]
+
+    parameters: # [py]
+      - name: initial_time # [py]
+        type: float, optional, default=0 # [py]
+        description: "Initial system time in seconds since J2000." # [py]
+
+    returns: # [py]
+        type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`  # [py]
+        description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
+
 
   - name: add_radiation_pressure_interface # [py]
     short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
