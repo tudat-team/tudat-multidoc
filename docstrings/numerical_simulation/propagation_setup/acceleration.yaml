@@ -257,7 +257,7 @@ functions:
       Creates settings for the aerodynamic acceleration. The acceleration is computed from:
 
       .. math::
-         \mathbf{a}=-\frac{\mathbf{R}^{(I/\text{Aero})}\left(\frac{1}{2}\rho v_{\text{air}}^{2}S_{ref}\begin{pmatrix} C_{D} \\ C_{S} \\ C_{L}\end{pmatrix}\right)}{m}
+         \mathbf{a}=-\frac{1}{m}\mathbf{R}^{(I/\text{Aero})}\left(\frac{1}{2}\rho v_{\text{air}}^{2}S_{ref}\begin{pmatrix} C_{D} \\ C_{S} \\ C_{L}\end{pmatrix}\right)
 
       with :math:`\mathbf{R}^{(I/\text{Aero})}` the rotation matrix from the aerodynamic frame of the body undergoing acceleration to the inertial frame (computed from the body's current state, and the rotation of the body exerting the acceleration), :math:`\rho` the local freesream atmospheric density, :math:`v_{\text{air}}` the airspeed,  :math:`C_{D,S,L}` the drag, side and lift coefficients (which may depend on any number of properties of the body/environment) with reference area :math:`S_{ref}`, and :math:`m` the mass of the body undergoing acceleration
       The body exerting the acceleration needs to have an
@@ -293,7 +293,7 @@ functions:
 
       .. math::
 
-         \mathbf{a}}=\left(\frac{P}{4\pi c}\right)\left(\frac{C_{r}S_{ref}}{m}\right)\frac{\hat{\mathbf{r}}}{r^{2}} 
+         \mathbf{a}=\left(\frac{P}{4\pi c}\right)\left(\frac{C_{r}S_{ref}}{m}\right)\frac{\hat{\mathbf{r}}}{r^{2}} 
 
       with :math:`P` the total emitted radiation power for the body exerting the acceleration, :math:`C_{r}` the radiation pressure coefficient with reference area :math:`S_{ref}`, :math:`\mathbf{r}` the vector from the body exerting the acceleration to the body undergoing the acceleration, and :math:`m` the mass of the body undergoing acceleration
       

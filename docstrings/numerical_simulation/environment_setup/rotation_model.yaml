@@ -183,7 +183,7 @@ functions:
       Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` (:math:`\omega`) float variable (in rad/s). The rotation matrix is computed from:
 
       .. math::
-         \mathbf{R}^{(B/I)}(t)=mathbf{R}_{z}(\omega(t-t_{0}))(t_{0})\mathbf{R}^{(B/I)}(t_{0})
+         \mathbf{R}^{(B/I)}(t)=\mathbf{R}_{z}(\omega(t-t_{0}))(t_{0})\mathbf{R}^{(B/I)}(t_{0})
 
       where :math:`\mathbf{R}^{(B/I)}` denotes the rotation matrix from inertial to body-fixed frame, and :math:`\mathbf{R}_{z}` denotes a rotaion matrix about the z-axis.
 
