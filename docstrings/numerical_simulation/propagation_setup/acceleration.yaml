@@ -216,10 +216,18 @@ functions:
   - name: point_mass_gravity # [py]
     short_summary: "Creates settings for the point-mass gravity acceleration."
     extended_summary: |
-      Creates settings for the point-mass gravity acceleration. The body exerting the acceleration needs to have a
-      gravity field model defined.
+      Creates settings for the point-mass gravity acceleration. The direct acceleration (acceleration w.r.t. an inertial frame) is computed from:
 
-    returns:
+      .. math::
+         \mathbf{a}=\frac{\mu}{{r}^{2}}\hat{\mathbf{r}}
+
+      with :math:`\mathbf{r}` the position vector measured from the center of mass of the body exerting the acceleration. 
+
+      The body exerting the acceleration needs to have a gravity field model (:ref:`\`\`gravity_field\`\`` module) defined to use this acceleration. 
+
+      Depending on the body undergoing the acceleration :math:`A`, the body exerting the acceleration :math:`B`, and the central body of propagation \math:`C`, choosing this option may create a direct point-mass attraction (:math:`\mu=\mu_{B}`), a central point-mass attraction (:math:`\mu=\mu_{B}+\mu_{A}`) or a third-body point-mass attraction (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/propagation_setup/acceleration_models/third_body_acceleration.html>`_ for more details).
+
+    returns: 
         type: AccelerationSettings
         description: Acceleration settings object.
 
@@ -246,8 +254,14 @@ functions:
   - name: aerodynamic # [py]
     short_summary: "Creates settings for the aerodynamic acceleration."
     extended_summary: |
-      Creates settings for the aerodynamic acceleration. The body exerting the acceleration needs to have an
-      atmosphere defined.
+      Creates settings for the aerodynamic acceleration. The acceleration is computed from:
+
+      .. math::
+         \mathbf{a}=-\frac{\mathbf{R}^{(I/\text{Aero})}\left(\frac{1}{2}\rho v_{\text{air}}^{2}S_{ref}\begin{pmatrix} C_{D} \\ C_{S} \\ C_{L}\end{pmatrix}\right)}{m}
+
+      with :math:`\mathbf{R}^{(I/\text{Aero})}` the rotation matrix from the aerodynamic frame of the body undergoing acceleration to the inertial frame (computed from the body's current state, and the rotation of the body exerting the acceleration), :math:`\rho` the local freesream atmospheric density, :math:`v_{\text{air}}` the airspeed,  :math:`C_{D,S,L}` the drag, side and lift coefficients (which may depend on any number of properties of the body/environment) with reference area :math:`S_{ref}`, and :math:`m` the mass of the body undergoing acceleration
+      The body exerting the acceleration needs to have an
+      atmosphere (:ref:`\`\`gravity_field\`\`` module), shape (:ref:`\`\`shape\`\`` module) and rotation model (:ref:`\`\`rotation_model\`\`` module) defined. The body undergoing the acceleration needs to have aerodynamic coefficients (:ref:`\`\`aerodynamic_coefficients\`\`` module) defined.
 
     returns:
         type: AccelerationSettings
@@ -269,16 +283,24 @@ functions:
 #         // Add the acceleration to the map # [cpp]
 #         accelerationSettings["Vehicle"]["Earth"].push_back(std::make_shared< AccelerationSettings >( aerodynamic ) ); # [cpp]
 
-
+    
   # Cannonball radiation pressure
   - name: cannonBallRadiationPressureAcceleration # [cpp]
   - name: cannonball_radiation_pressure # [py]
     short_summary: "Creates settings for the cannonball radiation pressure acceleration."
     extended_summary: |
-      Creates settings for the radiation pressure acceleration, for which a cannonball model is used. In this model,
+      Creates settings for the radiation pressure acceleration, for which a cannonball model is used. The acceleration is computed from:
+
+      .. math::
+
+         \mathbf{a}}=\left(\frac{P}{4\pi c}\right)\left(\frac{C_{r}S_{ref}}{m}\right)\frac{\hat{\mathbf{r}}}{r^{2}} 
+
+      with :math:`P` the total emitted radiation power for the body exerting the acceleration, :math:`C_{r}` the radiation pressure coefficient with reference area :math:`S_{ref}`, :math:`\mathbf{r}` the vector from the body exerting the acceleration to the body undergoing the acceleration, and :math:`m` the mass of the body undergoing acceleration
+      
+      In this model,
       the effective acceleration is colinear with the vector connecting the source of radiation and the target.
       The body undergoing the acceleration needs to have a radiation pressure model defined, while the body emitting
-      radiation needs to have radiative properties defined (the Sun has default ones).
+      radiation needs to have radiative properties defined.
 
     returns:
         type: AccelerationSettings
@@ -306,9 +328,17 @@ functions:
   - name: spherical_harmonic_gravity # [py]
     short_summary: "Creates settings for the spherical harmonic gravity acceleration."
     extended_summary: |
-      Creates settings for the spherical harmonic gravity acceleration, accounting for a finite (given) number
-      of degree and order. The body exerting the acceleration needs to have a spherical harmonic gravity field model
-      defined.
+      Creates settings for the spherical harmonic gravity acceleration, accounting for a finite (given as input) number
+      of degrees and orders. The direct acceleration (acceleration w.r.t. an inertial origin) is computed from:
+
+      .. math::
+         \mathbf{a}=\mathbf{R}^{(I/B)}\nabla^{(B)}U(\mathbf{r})
+
+      with :math:`\mathbf{r}` the position vector measured from the center of mass of the body exerting the acceleration, :math:`\mathbf{R}^{(I/B)}` the rotation matrix from body-fixed to inertial frame, and :math:`\nabla^{(B)}` the gradient operator in a body-fixed frame, and :math:`U` the spherical harmonic gravitational potential, expanded up to the provided ``maximum_degree`` and ``maximum_order``. 
+
+      The body exerting the acceleration needs to have a spherical harmonic gravity field model (see :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`) and a rotation model (:ref:`\`\`rotation_model\`\`` module) defined. 
+
+      Depending on the body undergoing the acceleration :math:`A`, the body exerting the acceleration :math:`B`, and the central body of propagation :math:`C`, choosing this option may create a direct spherical harmonic attraction (:math:`\mu=\mu_{B}`), a central spherical harmonic attraction (:math:`\mu=\mu_{B}+\mu_{A}`) or a third-body spherical harmonic attraction (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/propagation_setup/acceleration_models/third_body_acceleration.html>`_ for more details).
 
     parameters:
       - name: maximumDegree # [cpp]
@@ -355,14 +385,24 @@ functions:
 
   # Mutual spherical harmonic gravity
   - name: mutualSphericalHarmonicAcceleration # [cpp]
-  - name: mutual_spherical_harmonic_gravity # [py]
+  - name: mutual_spherical_harmonic_gravity # [py]    
     short_summary: "Creates settings for the mutual spherical harmonic gravity acceleration."
     extended_summary: |
-      Creates settings for the mutual spherical harmonic gravity acceleration, accounting for a finite (given) number
-      of degree and order for both bodies. Both the body exerting the acceleration and the body undergoing it need to
-      have spherical harmonic gravity field models defined. In addition, the body undergoing the acceleration needs to
-      have a rotational model defined. For the case where a third-body mutual spherical harmonic acceleration,
-      additional parameters have to be provided that denote the expansion degree/order of the central body.
+      Creates settings for the mutual spherical harmonic gravity acceleration. This model computes the total spherical harmonic acceleration exerted by a body :math:`B` on a body :math:`A`, where the influence of the gravity field coefficients of body :math:`A` itself has been included. The model includes couplings between the mass of each body, and the gravity field coefficients of the other body. It does not include the 'figure-figure' interactions (coupling between the two-bodies' gravity field coefficients). It corresponds to the model presented by Lainey et al. (2004); Dirkx et al. (2016).  
+      The model combines the spherical harmonic accelerations of the two bodies (see :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.spherical_harmonic`) on each other. The direct acceleration (acceleration w.r.t. an inertial origin) is computed from:
+
+      .. math::
+
+         \mathbf{a}={-\frac{\mu_{_{B}}}{{r}^{2}}\hat{\mathbf{r}}}+{\mathbf{R}^{(I/B)}\nabla^{(B)}U_{\hat{B}}(\mathbf{r})}-{\frac{\mu_{_{B}}}{\mu_{_{A}}}\mathbf{R}^{(I/A)}\nabla^{(A)}U_{\hat{A}}(-\mathbf{r})}
+
+      where :math:`U_{\hat{B}}` and :math:`U_{\hat{A}}` denote the spherical harmonic gravity fields a degree :math:`>=1` of bodies :math:`B` and :math:`A`, respectively.
+      Both the body exerting the acceleration and the body undergoing it need to
+      have spherical harmonic gravity field and rotation models defined.
+
+      Depending on the body undergoing the acceleration :math:`A`, the body exerting the acceleration :math:`B`, and the central body of propagation :math:`C`, choosing this option may create a direct spherical harmonic attraction (as above), a central spherical harmonic attraction (:math:`\mu_{B}\rightarrow\mu_{B}+\mu_{A}`, in the above equation and in :math:`U_{\hat{B}}`) or a third-body spherical harmonic attraction (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/propagation_setup/acceleration_models/third_body_acceleration.html>`_ for more details).
+
+      For the case where a third-body mutual spherical harmonic acceleration,
+      additional parameters have to be provided that denote the expansion degree/order of the central body (``maximum_degree_central_body`` and ``maximum_order_central_body``)
 
     parameters:
       - name: maximumDegreeOfBodyExertingAcceleration # [cpp]

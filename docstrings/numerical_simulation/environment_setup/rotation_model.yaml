@@ -179,9 +179,19 @@ functions:
     short_summary: "Factory function for creating simple rotation model settings."
     extended_summary: |
       Factory function for settings object, defining a basic rotation model with constant orientation of the rotation axis and constant rotation rate about this axis.
-      Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` is defined by the ``initial_orientation`` rotation matrix.
-      Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` float variable (in rad/s).
+      Rotation from original (inertial) to target (body-fixed) frame at some reference time ``initial_time`` (:math:`t_{0}`) is defined by the ``initial_orientation`` (:math:`\mathbf{R}^{(B/I)}(t_{0})`) rotation matrix.
+      Rotation about the body-fixed z-axis is defined by the ``rotation_rate`` (:math:`\omega`) float variable (in rad/s). The rotation matrix is computed from:
 
+      .. math::
+         \mathbf{R}^{(B/I)}(t)=mathbf{R}_{z}(\omega(t-t_{0}))(t_{0})\mathbf{R}^{(B/I)}(t_{0})
+
+      where :math:`\mathbf{R}^{(B/I)}` denotes the rotation matrix from inertial to body-fixed frame, and :math:`\mathbf{R}_{z}` denotes a rotaion matrix about the z-axis.
+
+      The matrix :math:`\mathbf{R}^{(B/I)}(t_{0})` is sometimes parameterized by pole right ascension and declination (:math:`\alpha` and :math:`\delta`), as well as the meridian of date :math:`W_{0}` with
+ 
+      .. math::
+         \mathbf{R}^{(B/I)}(t_{0})=\mathbf{R}_{z}(W_{0})\mathbf{R}_{x}(\pi/2-\delta)\mathbf{R}_{z}(\pi/2+\alpha)
+     
     parameters:
       - name: base_frame # [py]
         type: str # [py]
@@ -256,7 +266,7 @@ functions:
   - name: simpleRotationModelFromSpiceSettings # [cpp]
     short_summary: "Factory function for creating simple rotation model settings using initial orientation and rotation rates from Spice."
     extended_summary: |
-      Factory function for settings object, defining a simple rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
+      Factory function for settings object, defining a :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple` rotation model with the added functionality that the initial orientation and rotation rate are extracted from Spice, as opposed to provided manually.
       Note that `only` the initial orientation and rotation rate ( at the time defined by ``initial_time`` ) are extracted from Spice - for
       the full Spice rotation model see :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.spice`.
       Also note the distinction between the ``target_frame`` and ``target_frame_spice`` parameters.

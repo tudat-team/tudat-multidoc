@@ -11,6 +11,9 @@ extended_summary: |
   This module contains a set of factory functions for setting up the
   gravitational potential models of celestial bodies in an environment.
 
+references: |
+  .. [1] Balmino, G. (1994). Gravitational potential harmonics from the shape of an homogeneous body. Celestial Mechanics and Dynamical Astronomy, 60(3), 331-364.
+
 #########################################################################
 #  ███████ ███   ██ ██    ██ ███    ███  ██████
 #  ██      ████  ██ ██    ██ ████  ████ █
@@ -293,7 +296,13 @@ functions:
   - name: centralGravitySettings # [cpp]
     short_summary: "Factory function for central gravity field settings object."
     extended_summary: |
-      Factory function for settings object, defining a point-mass gravity field model with user-defined gravitational parameter.
+      Factory function for settings object, defining a point-mass gravity field model with user-defined gravitational parameter :math:`\mu`. The gravitational potential is the defined as:
+
+      .. math::
+         U(\mathbf{r})=\frac{\mu}{||\mathbf{r}||}
+
+      with :math:`\mathbf{r}` the position vector measured from the body's center of mass.
+
     parameters:
       - name: gravitational_parameter # [py]
         type: float # [py]
@@ -327,7 +336,7 @@ functions:
   - name: centralGravityFromSpiceSettings # [cpp]
     short_summary: "Factory function to create central gravity field settings from Spice settings."
     extended_summary: |
-      Factory function for settings object, defining a point-mass gravity field model with gravitational parameter from Spice.
+      Factory function for settings object, defining a point-mass gravity field model. This function provides the same model as :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.central`), but with gravitational parameter :math:`\mu` from Spice.
     parameters:
     returns:
         type: GravityFieldSettings
@@ -355,7 +364,15 @@ functions:
       Factory function for settings object, defining a gravity field model through spherical harmonic expansion.
       The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
       It represents the frame in which the spherical harmonic field is defined.
-      Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
+      
+      The gravitational potential is the defined as:
+
+      .. math::
+         U(\mathbf{r})=\sum_{l=0}^{l_{max}}\sum_{m=0}^{l}\mu\left(\frac{{R}^{l}}{r^{l+1}}\right)\bar{P}_{lm}(\sin\phi)\left(\bar{C}_{lm}\cos m\theta+\bar{S}_{lm}\sin m\theta\right)
+
+      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, and :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math`l/m`).
+
+      Note: Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
       To normalize un-normalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
 
     parameters:
@@ -363,27 +380,27 @@ functions:
         type: float # [py]
       - name: gravitationalParameter # [cpp]
         type: double # [cpp]
-        description: Gravitational parameter of gravity field.
+        description: Gravitational parameter :math:`\mu` of gravity field.
 
       - name: reference_radius # [py]
         type: float # [py]
       - name: referenceRadius # [cpp]
         type: double # [cpp]
-        description: Reference radius of spherical harmonic field expansion.
+        description: Reference radius :math:`R` of spherical harmonic field expansion.
 
       - name: normalized_cosine_coefficients # [py]
         type: numpy.ndarray # [py]
       - name: cosineCoefficients # [cpp]
         type: Eigen::MatrixXd # [cpp]
         description: |
-          Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j.
+          Cosine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient :math:`\bar{C}_{ij}` at degree i and order j.
           As such, note that entry (0,0) of cosine coefficients should be equal to 1.
 
       - name: normalized_sine_coefficients # [py]
         type: numpy.ndarray # [py]
       - name: sineCoefficients # [cpp]
         type: Eigen::MatrixXd # [cpp]
-        description: "Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient at degree i and order j."
+        description: "Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient :math:`\bar{S}_{ij}` at degree i and order j."
 
       - name: associated_reference_frame # [py]
         type: str # [py]
@@ -444,10 +461,10 @@ functions:
   - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
     short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters."
     extended_summary: |
-      Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid.
+      Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid, same as :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`
       The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
       Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
-      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
+      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes. This function implements the models of (see Balmino [1]_).
 
     parameters:
       - name: axis_a # [py]

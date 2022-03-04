@@ -288,8 +288,8 @@ classes:
           description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
 
         returns:
-          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`
-          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` class, defining the convergence critera for an estimation.
+          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.PodInput` class, defining the data and other settings to be used for the estimation.
 
 
       - name: set_constant_weight # [py]
