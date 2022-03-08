@@ -938,3 +938,27 @@ functions:
         # Create hybrid termination settings
         termination_settings = propagation_setup.propagator.hybrid_termination( termination_settings_list, fulfill_single_condition = True )
 
+
+  - name: add_dependent_variable_settings # [py]
+    short_summary: "Function to add dependent variables to existing propagator settings."
+
+    extended_summary: |
+      Function to add dependent variables to existing :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.SingleArcPropagatorSettings`
+      object. This function is added as an alternative to teh regular manner in which to defined dependent variables (use of input to factory
+      functions for single-arc propagator settings :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.translational`,
+      :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.rotational`, :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.mass`,
+      :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.multitype`). Typically, this function is used to modify
+      existing propagator settings in a loop when running multiple simulations
+
+    parameters:
+      - name: dependent_variable_settings # [py]
+        type: List[ SingleDependentVariableSaveSettings ] # [py]
+        description: List of dependent variable settings that are to be added to propagator settings. Note that this function
+          adds settings, and does not replace any existing settings (nor does it check for duplicate settings).
+
+      - name: propagator_settings # [py]
+        type: SingleArcPropagatorSettings # [py]
+        description: Propagator settings to which the additional dependent variables settings are to be added.
+
+    returns:
+      type: None # [py]
