@@ -185,6 +185,7 @@ functions:
          # [py]
          tide_raising_body = "Earth"
          love_numbers = dict( ) # [py]
+         love_numbers[ 2 ] = list( ) # [py]
          love_numbers[ 2 ].append( 0.024615 ) # [py]
          love_numbers[ 2 ].append( 0.023915 ) # [py]
          love_numbers[ 2 ].append( 0.024852 ) # [py]
