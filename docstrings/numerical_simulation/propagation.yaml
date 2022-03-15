@@ -35,7 +35,8 @@ classes:
         description: | # [py]
           Boolean defining whether the propagation was terminated on an *exact* final condition,
           or once the propagation went *past* the determined final condition. The choice of behaviour is
-          defined by the termination settings provided as input to the Simulator object.
+          defined by the termination settings provided as input to the Simulator object. This variable only
+          has a meaningful definition if the ``termination_reason`` has value ``termination_condition_reached``
 
 functions:
 
