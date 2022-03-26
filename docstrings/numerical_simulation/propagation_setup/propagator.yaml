@@ -607,6 +607,10 @@ functions:
       only the termination and output settings provided here are used, any such settings in the
       constituent propagator settings are ignored
 
+      .. note:: The propagated state contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
+                When propagating two bodies, an example of what the output state would look like is for instance:
+                [ **T** Body 1, **T** Body 2, **R** Body 1, **R** Body 2, **M** Body 1, **M** Body 2 ]
+
     parameters:
       - name: propagatorSettingsVector # [cpp]
         type: std::vector<SingleArcPropagatorSettings> # [cpp]
