@@ -7,6 +7,8 @@ functions:
   - name: result2array
   - name: compare_results
   - name: pareto_optimums
+  - name: split_history
+  - name: vector2matrix
 
 classes:
   - name: redirect_std
