@@ -422,6 +422,12 @@ functions:
         description: |
           Minimum increase between consecutive time steps, expressed as the factor between new and old step size.
 
+      - name: throw_exception_if_minimum_step_exceeded # [py]
+        type: bool, default=true # [py]
+        description: |
+          If set to false, the variable step integrator will use the minimum step size specified when the algorithm
+          computes the optimum one to be lower, instead of throwing an exception.
+
     returns:
         type: RungeKuttaVariableStepSettingsScalarTolerances # [py]
         description: RungeKuttaVariableStepSettingsScalarTolerances object. # [py]
@@ -518,6 +524,12 @@ functions:
         type: double, default=0.1 # [cpp]
         description: |
           Minimum increase between consecutive time steps, expressed as the factor between new and old step size.
+
+      - name: throw_exception_if_minimum_step_exceeded # [py]
+        type: bool, default=true # [py]
+        description: |
+          If set to false, the variable step integrator will use the minimum step size specified when the algorithm
+          computes the optimum one to be lower, instead of throwing an exception.
 
     returns:
         type: RungeKuttaVariableStepSizeSettingsVectorTolerances # [py]
