@@ -1,23 +1,23 @@
-summary: "Functionalities for multiple-leg transfer trajectories."
+summary: "Functionalities for multiple-leg interplanetary transfer trajectories."
 
 extended_summary: |
   This module provides the functionality for creating transfer trajectories consisting of
-  multiple transfer legs separated by transfer nodes. In particular, this allows the definition of multi-gravity assist
-  (MGA) transfers with deep space maneuvers (DSM).
-
+  multiple transfer legs separated by transfer nodes. In particular, this allows defining multi-gravity assist
+  transfers with high-thrust legs, low-thrust legs or a mix of the two.
 
 
 #############################################################################
 # Attribute
 #############################################################################
+# TODO: Rendering properly?
 # Multidoc needs to be updated for the constant keyword to render properly
-#constant:
-#  - name: DEFAULT_MINIMUM_PERICENTERS
-#    short_summary: "Default minimum pericenter radii during fly-by."
-#    extended_summary:
-#      Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
-#      value. Values from Izzo [1]_.
-#    type: dict[string, float] # [py]
+constant:
+  - name: DEFAULT_MINIMUM_PERICENTERS
+    short_summary: "Default minimum pericenter radii during fly-by."
+    extended_summary:
+      Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+      value. Values from Izzo (2007) [1]_, specified for Mercury, Venus, Earth, Mars, Saturn and Jupiter.
+    type: dict[string, float] # [py]
 
 #############################################################################
 # Enums
@@ -30,20 +30,39 @@ enums:
     members:
       - name: unpowered_unperturbed_leg_type # [py]
       - name: unpowered_unperturbed_leg # [cpp]
-        description: "Unpowered leg."
 
       - name: dsm_position_based_leg_type # [py]
       - name: dsm_position_based_leg # [cpp]
-        description: "Leg with 1 deep space maneuver described using the position formulation [2]_."
 
       - name: dsm_velocity_based_leg_type # [py]
       - name: dsm_velocity_based_leg # [cpp]
-        description: "Leg with 1 deep space maneuver described using the velocity formulation [2]_."
+
+      - name: spherical_shaping_low_thrust_leg # [py]
+      - name: spherical_shaping_low_thrust_leg # [cpp]
+
+      - name: hodographic_low_thrust_leg # [py]
+      - name: hodographic_low_thrust_leg # [cpp]
 
 #############################################################################
 # Classes
 #############################################################################
 classes:
+  - name: TransferLeg
+    short_summary: "Base class for defining a transfer leg."
+    extended_summary: |
+      Functional (base) class for transfer legs, requiring the leg type, departure body ephemeris and arrival body ephemeris.
+      Transfer node classes requiring additional information must be created using an object derived from this class.
+
+  - name: SphericalShapingLeg
+      short_summary: "Class for defining low-thrust spherical-shaping leg."
+      extended_summary: |
+        `TransferLeg` derived class for defining a low-thrust leg described using spherical shaping [3]_.
+
+  - name: HodographicShapingLeg
+      short_summary: "Class for defining low-thrust hodographic-shaping leg."
+      extended_summary: |
+        `TransferLeg` derived class for defining a low-thrust leg described using hodographic shaping [4]_.
+
   - name: TransferNodeSettings
     short_summary: "Base class for providing settings for transfer nodes."
     extended_summary: |
@@ -53,19 +72,19 @@ classes:
   - name: SwingbyNodeSettings
     short_summary: "Class for defining settings of swingby node."
     extended_summary: |
-      `TransferNodeSettings` derived class for providing settings for swingby nodes, including the minimum periapsis
+      `TransferNodeSettings` derived class for providing settings for swingby nodes, which consist of the minimum periapsis
       radius.
 
   - name: EscapeAndDepartureNodeSettings
     short_summary: "Class for defining settings of escape and departure node."
     extended_summary: |
-      `TransferNodeSettings` derived class for providing settings for escape and departure nodes, including the
+      `TransferNodeSettings` derived class for providing settings for escape and departure nodes, which consist of the
       departure semi-major axis and eccentricity.
 
   - name: CaptureAndInsertionNodeSettings
     short_summary: "Class for defining settings of capture and insertion node."
     extended_summary: |
-      `TransferNodeSettings` derived class for providing settings for capture and insertion nodes, including the
+      `TransferNodeSettings` derived class for providing settings for capture and insertion nodes, which consist of the
       capture semi-major axis and eccentricity.
 
   - name: TransferLegSettings
@@ -97,7 +116,7 @@ classes:
 
       - name: delta_v_per_leg # [py]
         type: list[float] # [py]
-        description: List of the Delta V applied in each leg (corresponding to each deep space maneuver). # [py]
+        description: List of the Delta V applied in each leg. # [py]
         readonly: True # [py]
 
       - name: number_of_nodes # [py]
@@ -117,8 +136,6 @@ classes:
         extended_summary: |
           Function to evaluate the transfer trajectory, which consists of computing the transfer Delta V and time of
           flight, for the specified set of parameters.
-          A full explanation of the node and leg free parameters used to define each transfer trajectory (which depends
-          on the leg type) is given by Musegaas [2]_.
 
         parameters:
           - name: node_times # [py]
@@ -151,14 +168,14 @@ classes:
 
       - name: single_node_delta_v # [py]
       - name: getNodeDeltaV # [cpp]
-        short_summary: "Retrieves the Delta V at the specified node."
-        #extended_summary:
+        short_summary: "Retrieves the Delta V applied in the specified node."
 
         parameters:
           - name: node_index # [py]
             type: int # [py]
           - name: nodeIndex # [cpp]
             type: int # [cpp]
+            description: Index of the node for which the Delta V to be is retrieved.
 
         returns:
           type: float # [py]
@@ -167,14 +184,14 @@ classes:
 
       - name: single_leg_delta_v # [py]
       - name: getLegDeltaV # [cpp]
-        short_summary: "Retrieves the Delta V of the specified leg (corresponding to a deep space maneuver)."
-        #extended_summary:
+        short_summary: "Retrieves the Delta V applied in the specified leg."
 
         parameters:
           - name: leg_index # [py]
             type: int # [py]
           - name: legIndex # [cpp]
             type: int # [cpp]
+            description: Index of the leg for which the Delta V is to be retrieved.
 
         returns:
           type: float # [py]
@@ -186,17 +203,37 @@ classes:
         short_summary: "Returns the state history throughout the trajectory."
         extended_summary: |
           Function that returns the state history throughout the trajectory, using the same number of data points in
-          each leg. For each leg, the retrieved states are equally spaced in time. Each state is computed by
-          propagating the leg's initial state as a Kepler orbit until the desired time.
+          each leg. For each leg, the retrieved states are equally spaced in time.
 
         parameters:
           - name: number_of_data_points_per_leg # [py]
             type: int # [py]
           - name: numberOfDataPointsPerLeg # [cpp]
             type: int # [py]
+            description: Number of data points used to describe each leg.
 
         returns:
           type: std::map< double, Eigen::Vector6d > # [cpp]
+          type: tuple[numpy.ndarray,numpy.ndarray] # [py]
+          description: Tuple of (state history, time history). # [py]
+
+      - name: thrust_accelerations_along_trajectory # [py]
+      - name: getThrustAccelerationsAlongTrajectory # [cpp]
+        short_summary: "Returns the thrust acceleration history throughout the trajectory."
+        extended_summary: |
+          Function that returns the thrust acceleration history throughout the trajectory, using the same number of data points in
+          each leg. For each leg, the retrieved thrust accelerations are equally spaced in time.
+          For high-thrust legs (where only impulsive Delta Vs are applied) the thrust acceleration is always zero.
+
+        parameters:
+          - name: number_of_data_points_per_leg # [py]
+            type: int # [py]
+          - name: numberOfDataPointsPerLeg # [cpp]
+            type: int # [py]
+            description: Number of data points used to describe each leg.
+
+        returns:
+          type: std::map< double, Eigen::Vector3d > # [cpp]
           type: tuple[numpy.ndarray,numpy.ndarray] # [py]
           description: Tuple of (state history, time history). # [py]
 
@@ -228,7 +265,7 @@ classes:
           description: Delta V per node. # [cpp]
 
       - name: getDeltaVPerLeg # [cpp]
-        short_summary: "Returns the Delta V applied in each leg (corresponding to each deep space maneuver)."  # [cpp]
+        short_summary: "Returns the Delta V applied in each leg."  # [cpp]
         #extended_summary:
         parameters: # [cpp]
           - name: None # [cpp]
@@ -258,20 +295,18 @@ classes:
 # Functions
 #############################################################################
 functions:
-  - name: mga_transfer_settings # [py]
-  - name: getMgaTransferTrajectorySettings # [cpp]
+  - name: mga_settings_unpowered_unperturbed_legs # [py]
+  - name: getMgaTransferTrajectorySettingsWithoutDsm # [cpp]
 
     short_summary: |
-      Function to get the settings of the legs and nodes constituting the specified multi-gravity assist transfer
-      trajectory.
+      Function to get the legs and nodes settings of a transfer with just upowered legs.
     extended_summary: |
-      Function determines the settings of the legs and nodes constituting the multi-gravity assist transfer trajectory.
-      The transfer
-      trajectory consists of a series of nodes, each of them associated with a body (list of bodies needs to be provided
-      as an argument), connected by a series of legs (the type of which is specified as an argument).
-      If the departure orbit and arrival orbit are provided as arguments, the transfer trajectory is constituted by
-      a departure node, a sequence of swingby nodes and a capture node. If the departure/arrival orbit is not specified,
-      the first/last node is also defined as a swingby node.
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), unpowered transfer leg(s) connected by swingby nodes, one final
+      (capture or swingby) node.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
 
     parameters:
       - name: body_order # [py]
@@ -280,11 +315,322 @@ functions:
         type: std::vector< std::string > # [cpp]
         description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
 
-      - name: leg_type # [py]
-        type: TransferLegTypes # [py]
-      - name: identicalTransferLegType # [cpp]
-        type: TransferLegTypes # [cpp]
-        description: "Type of transfer leg between bodies."
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: mga_settings_dsm_velocity_based_legs # [py]
+  - name: getMgaTransferTrajectorySettingsWithVelocityBasedDsm # [cpp]
+
+    short_summary: |
+      Function to get the legs and nodes settings of a transfer constituted by legs with 1 deep space maneuver (DSM)
+      described using the velocity formulation.
+    extended_summary: |
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), velocity-based DSM transfer leg(s) connected by swingby nodes, one final
+      (capture or swingby) node.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: mga_settings_dsm_position_based_legs # [py]
+  - name: getMgaTransferTrajectorySettingsWithPositionBasedDsm # [cpp]
+
+    short_summary: |
+      Function to get the legs and nodes settings of a transfer constituted by legs with 1 deep space maneuver (DSM)
+      described using the position formulation.
+    extended_summary: |
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), position-based DSM transfer leg(s) connected by swingby nodes, one final
+      (capture or swingby) node.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: mga_settings_spherical_shaping_legs # [py]
+  - name: getMgaTransferTrajectorySettingsWithSphericalShapingThrust # [cpp]
+
+    short_summary: |
+      Function to get the legs and nodes settings of a transfer constituted by low-thrust spherical shaping legs.
+    extended_summary: |
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), spherical shaping leg(s) connected by swingby nodes, one final
+      (capture or swingby) node.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: root_finder_settings # [py]
+        type: RootFinderSettings # [py]
+      - name: rootFinderSettings # [cpp]
+        type: RootFinderSettings # [cpp]
+        description: |
+          Settings of the root finder used by the spherical shaping leg when computing the value of the free coefficient
+          that allows meeting the desired time of flight.
+
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: lower_bound_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: lowerBoundFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Lower bound of the possible values for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of a lower bound.
+
+      - name: upper_bound_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: upperBoundFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Upper bound of the possible values for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of an upper bound.
+
+      - name: initial_value_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: initialValueFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Initial guess for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of an initial guess.
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: mga_settings_hodographic_shaping_legs # [py]
+  - name: getMgaTransferTrajectorySettingsWithHodographicShapingThrust # [cpp]
+
+    short_summary: |
+      Function to get the legs and nodes settings of a transfer constituted by low-thrust hodographic shaping legs,
+      with user-provided velocity shaping functions.
+    extended_summary: |
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), hodographic shaping leg(s) connected by swingby nodes, one final
+      (capture or swingby) node.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: radial_velocity_function_components_per_leg # [py]
+        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+      - name: radialVelocityFunctionComponentsPerLeg # [cpp]
+        type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
+        description: |
+          List with the lists of radial velocity function components used in each leg.
+
+      - name: normal_velocity_function_components_per_leg # [py]
+        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+      - name: normalVelocityFunctionComponentsPerLeg # [cpp]
+        type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
+        description: |
+          List with the lists of normal velocity function components used in each leg.
+
+      - name: axial_velocity_function_components_per_leg # [py]
+        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+      - name: axialVelocityFunctionComponentsPerLeg # [cpp]
+        type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
+        description: |
+          List with the lists of axial velocity function components used in each leg.
+
+      - name: departure_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: departureOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the departure orbit. The default values define the first
+          node as a swingby node (instead of a departure node).
+
+      - name: arrival_orbit # [py]
+        type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
+      - name: arrivalOrbit # [cpp]
+        type: std::pair< double, double >, default=std::make_pair(TUDAT_NAN, TUDAT_NAN) # [cpp]
+        description: |
+          Tuple of (semi-major axis, eccentricity) specifying the arrival orbit. The default values define the last
+          node as a swingby node (instead of a capture node).
+
+      - name: minimum_pericenters # [py]
+        type: dict[str, float], default=DEFAULT_MINIMUM_PERICENTERS # [py]
+      - name: minimumPericenterRadii # [cpp]
+        type: std::map< std::string, double >, default=tms::DEFAULT_MINIMUM_PERICENTERS # [cpp]
+        description: |
+          Minimum pericenter radii, where each body is specified as key and the respective minimum pericenter radius as
+          value. Default values from Izzo [1]_.
+
+    returns:
+      type: std::pair< std::vector< std::shared_ptr< TransferLegSettings > >, std::vector< std::shared_ptr< TransferNodeSettings > > > # [cpp]
+      type: tuple[ list[TransferLegSettings], list[TransferNodeSettings] ] # [py]
+      description: "Tuple specifying the settings of each transfer leg and node."
+
+  - name: mga_settings_hodographic_shaping_legs_with_recommended_functions # [py]
+  - name: getMgaTransferTrajectorySettingsWithHodographicShapingThrust # [cpp]
+
+    short_summary: |
+      Function to get the legs and nodes settings of a transfer constituted by low-thrust hodographic shaping legs,
+      using the recommended velocity shaping functions.
+    extended_summary: |
+      Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
+      one initial node (departure or swingby), hodographic shaping leg(s) connected by swingby nodes, one final
+      (capture or swingby) node. Hodographic shaping legs use the velocity-shaping functions recommended by Musegaas,
+      2012 [2]_.
+      If the departure orbit and arrival orbit are provided as arguments, the initial node is a departure node, and the
+      final node a capture node. If the departure/arrival orbit is not specified, the initial/final node is a swingby
+      node.
+
+    parameters:
+      - name: body_order # [py]
+        type: list[str] # [py]
+      - name: fullBodiesList # [cpp]
+        type: std::vector< std::string > # [cpp]
+        description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
+
+      - name: time_of_flight_per_leg # [py]
+        type: list[float] # [py]
+      - name: timeOfFlightPerLeg # [cpp]
+        type: std::vector< double > # [cpp]
+        description: |
+          List with the time of flight of each leg.
+
+      - name: time_of_flight_per_leg # [py]
+        type: list[float] # [py]
+      - name: number_of_revolutions_per_leg # [cpp]
+        type: std::vector< double > # [cpp]
+        description: |
+          List with the number of revolutions of each leg.
 
       - name: departure_orbit # [py]
         type: tuple[float, float], default=(TUDAT_NAN, TUDAT_NAN) # [py]
@@ -321,7 +667,11 @@ functions:
     short_summary: |
       Factory function for creating the settings of an unpowered leg.
     extended_summary: |
-      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+      Factory function for creating the settings of an unpowered leg; the settings consist of just the leg type.
+      Given the departure and arrival position, this leg computes the departure and arrival velocity using a Lambert
+      targeter.
+      The calculations performed in this leg do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
 
     returns:
       type: TransferLegSettings
@@ -331,10 +681,16 @@ functions:
   - name: dsmPositionBasedLeg # [cpp]
 
     short_summary: |
-      Factory function for creating the settings of a transfer leg with 1 deep space maneuver described using
+      Factory function for creating the settings of a transfer leg with 1 deep space maneuver (DSM) described using
       the position formulation.
     extended_summary: |
-      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+      Factory function for creating the settings of a transfer leg with 1 position-based DSM; the settings consist of just the leg type.
+      Given the departure position and the DSM position this leg uses a Lambert targeter to compute the departure
+      velocity and the velocity before the DSM. Given the DSM position and the arrival position, the leg also uses
+      a Lambert targeter to compute the velocity after the DSM and the arrival velocity. The Delta V applied in the
+      DSM is computed using the velocity before and after the DSM.
+      The calculations performed in this leg do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
 
     returns:
       type: TransferLegSettings
@@ -344,10 +700,119 @@ functions:
   - name: dsmVelocityBasedLeg # [cpp]
 
     short_summary: |
-      Factory function for creating the settings of a transfer leg with 1 deep space maneuver described using
+      Factory function for creating the settings of a transfer leg with 1 deep space maneuver (DSM) described using
       the velocity formulation.
     extended_summary: |
-      Factory function for creating the settings of a transfer leg. The settings consist of just the leg type.
+      Factory function for creating the settings of a transfer leg with 1 velocity-based DSM; the settings consist of just the leg type.
+      Given the departure position and velocity this leg "propagates" the Kepler elements until the instant of application
+      of the DSM (giving the position at the DSM and the velocity before the DSM). Given the position of the DSM
+      and the arrival position, it computes the velocity after the DSM
+      (which is used to compute the Delta V applied in the DSM) and the arrival velocity using a Lambert targeter.
+      The calculations performed in this leg do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
+
+    returns:
+      type: TransferLegSettings
+      description: Transfer leg settings.
+
+  - name: spherical_shaping_leg # [py]
+  - name: sphericalShapingLeg # [cpp]
+
+    short_summary: |
+      Factory function for creating the settings of a low-thrust spherical shaping leg.
+    extended_summary: |
+      Factory function for creating the settings of a low-thrust spherical shaping leg; the settings consist of
+      variables necessary for setting up the root finder and variable to set up an interpolator.
+      The trajectory is determined via spherical shaping, which shapes the position and time history throughout the
+      transfer. The trajectory depends on a single parameter, which is selected using the root finder in order to meet
+      a user-specified time of flight.
+      The calculations performed in this leg do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Roegiers, 2014 [3]_.
+
+    parameters:
+      - name: root_finder_settings # [py]
+        type: RootFinderSettings # [py]
+      - name: rootFinderSettings # [cpp]
+        type: RootFinderSettings # [cpp]
+        description: |
+          Settings of the root finder used by the spherical shaping leg when computing the value of the free coefficient
+          that allows meeting the desired time of flight.
+
+      - name: lower_bound_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: lowerBoundFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Lower bound of the possible values for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of a lower bound.
+
+      - name: upper_bound_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: upperBoundFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Upper bound of the possible values for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of an upper bound.
+
+      - name: initial_value_free_coefficient # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: initialValueFreeCoefficient # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Initial guess for the free coeficient. Parameter is potentially used by the root finder:
+          it must be specified if the selected root finder requires the definition of an initial guess.
+
+      - name: time_to_azimuth_interpolator_step_size # [py]
+        type: float, default=physical_constants::JULIAN_DAY # [py] # TODO: specified correctly?
+      - name: timeToAzimuthInterpolatorStepSize # [cpp]
+        type: double, default=physical_constants::JULIAN_DAY # [cpp] # TODO: specified correctly?
+        description: |
+          Time step size used as reference to define the azimuth values at which the epoch is computed, when defining an
+          interpolator to convert between epoch and azimuth.
+
+    returns:
+      type: TransferLegSettings
+      description: Transfer leg settings.
+
+
+  - name: hodographic_shaping_leg # [py]
+  - name: hodographicShapingLeg # [cpp]
+
+    short_summary: |
+      Factory function for creating the settings of a low-thrust hodographic shaping leg.
+    extended_summary: |
+      Factory function for creating the settings of a low-thrust hodographic shaping leg; the settings consist of
+      the functions used to shape the velocity throughout the transfer.
+      Note that shape functions with at least 3 terms (i.e. 3 degrees of freedom) must be provided for each velocity
+      component (radial, normal and axial); this is required to obtain a trajectory that satisfies the boundary
+      conditions.
+      The calculations performed in this leg do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Gondelach, 2012 [4]_.
+
+    parameters:
+      - name: radial_velocity_function_components # [py]
+        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+      - name: radialVelocityFunctionComponents # [cpp]
+        type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
+        description: |
+          List with components of the radial velocity shaping function, which determine the radial velocity profile
+          throughout the transfer.
+
+      - name: normal_velocity_function_components # [py]
+        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+      - name: normalVelocityFunctionComponents # [cpp]
+        type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
+        description: |
+          List with components of the normal velocity shaping function, which determine the normal velocity profile
+          throughout the transfer.
+
+      - name: axial_velocity_function_components # [py]
+        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+      - name: axialVelocityFunctionComponents # [cpp]
+        type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
+        description: |
+          List with components of the axial velocity shaping function, which determine the axial velocity profile
+          throughout the transfer.
 
     returns:
       type: TransferLegSettings
@@ -360,6 +825,15 @@ functions:
     extended_summary: |
       Factory function for creating the settings of a swingby node. The settings consist consist of the minimum
       allowed periapsis radius.
+      The minimum periapsis radius can be set to infinity. In that case, the swingby does not affect the velocity of the
+      spacecraft (e.g. might be relevant for swingbys of small bodies).
+      The exact behavior of this node depends on the types of legs that precede and follow it. Given a known incoming
+      and unknown outgoing velocity, the node forward propagates the gravity assist, possibly with a Delta V at
+      the a periapsis. Given an unknown incoming and known outgoing velocity, the node backward propagates the
+      gravity assist, possibly with a Delta V at the a periapsis. Given known incoming and outgoing velocities,
+      the node computes the Delta V required to meet those.
+      The calculations performed in this node do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
 
     parameters:
       - name: minimum_periapsis # [py]
@@ -379,6 +853,10 @@ functions:
     extended_summary: |
       Factory function for creating the settings of an escape or departure node. The settings consist of the
       departure orbit eccentricity and semi-major axis.
+      Given the initial orbit and the departure velocity, the node computes the Delta V that needs to be applied
+      at the periapsis of the initial orbit to enter the escape trajectory.
+      The calculations performed in this node do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
 
     parameters:
       - name: departure_semi_major_axis # [py]
@@ -404,6 +882,10 @@ functions:
     extended_summary: |
       Factory function for creating the settings of a capture or insertion node. The settings consist of the
       capture orbit eccentricity and semi-major axis.
+      Given the the arrival velocity and the final orbit, the node computes the Delta V that needs to be applied
+      at the periapsis of the final orbit to exit the capture trajectory.
+      The calculations performed in this node do not involve any numerical integration, and are solved by
+      (semi-)analytical models. For details see Musegaas, 2012 [2]_.
 
     parameters:
       - name: capture_semi_major_axis # [py]
@@ -506,3 +988,10 @@ references: |
         Gravity Assists and Deep Space Maneuvers. Delft University of Technology,
         MSc thesis (2012).
         http://resolver.tudelft.nl/uuid:02468c77-5c64-4df8-9a24-1ed7ad9d1408
+  .. [3] Roegiers, T. Application of the Spherical Shaping Method to a Low-Thrust Multiple Asteroid Rendezvous
+        Mission: Implementation, Limitations and Solutions. Delft University of Technology,
+        MSc thesis (2014).
+        http://resolver.tudelft.nl/uuid:9994980c-e1df-47a6-880a-3a226797e34a
+  .. [4] Gondelach, D. A Hodographic-Shaping Method for Low-Thrust Trajectory Design.
+        Delft University of Technology, MSc thesis (2012).
+        http://resolver.tudelft.nl/uuid:6a4f1673-88b1-4823-b2ef-9d864c84ab11
