@@ -54,14 +54,14 @@ classes:
       Transfer node classes requiring additional information must be created using an object derived from this class.
 
   - name: SphericalShapingLeg
-      short_summary: "Class for defining low-thrust spherical-shaping leg."
-      extended_summary: |
-        `TransferLeg` derived class for defining a low-thrust leg described using spherical shaping [3]_.
+    short_summary: "Class for defining low-thrust spherical-shaping leg."
+    extended_summary: |
+      `TransferLeg` derived class for defining a low-thrust leg described using spherical shaping [3]_.
 
   - name: HodographicShapingLeg
-      short_summary: "Class for defining low-thrust hodographic-shaping leg."
-      extended_summary: |
-        `TransferLeg` derived class for defining a low-thrust leg described using hodographic shaping [4]_.
+    short_summary: "Class for defining low-thrust hodographic-shaping leg."
+    extended_summary: |
+      `TransferLeg` derived class for defining a low-thrust leg described using hodographic shaping [4]_.
 
   - name: TransferNodeSettings
     short_summary: "Base class for providing settings for transfer nodes."
