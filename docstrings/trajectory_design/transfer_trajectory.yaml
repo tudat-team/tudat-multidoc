@@ -9,8 +9,6 @@ extended_summary: |
 #############################################################################
 # Attribute
 #############################################################################
-# TODO: Rendering properly?
-# Multidoc needs to be updated for the constant keyword to render properly
 constant:
   - name: DEFAULT_MINIMUM_PERICENTERS
     short_summary: "Default minimum pericenter radii during fly-by."
@@ -547,21 +545,21 @@ functions:
         description: "List of bodies to visit, including departure body, swingby bodies and arrival body."
 
       - name: radial_velocity_function_components_per_leg # [py]
-        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+        type: list[list[BaseFunctionHodographicShaping]] # [py]
       - name: radialVelocityFunctionComponentsPerLeg # [cpp]
         type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
         description: |
           List with the lists of radial velocity function components used in each leg.
 
       - name: normal_velocity_function_components_per_leg # [py]
-        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+        type: list[list[BaseFunctionHodographicShaping]] # [py]
       - name: normalVelocityFunctionComponentsPerLeg # [cpp]
         type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
         description: |
           List with the lists of normal velocity function components used in each leg.
 
       - name: axial_velocity_function_components_per_leg # [py]
-        type: list[list[BaseFunctionHodographicShaping]] # [py] # TODO: check if rendering properly
+        type: list[list[BaseFunctionHodographicShaping]] # [py]
       - name: axialVelocityFunctionComponentsPerLeg # [cpp]
         type: std::vector< tsbm::HodographicBasisFunctionList > # [cpp]
         description: |
@@ -763,9 +761,9 @@ functions:
           it must be specified if the selected root finder requires the definition of an initial guess.
 
       - name: time_to_azimuth_interpolator_step_size # [py]
-        type: float, default=physical_constants::JULIAN_DAY # [py] # TODO: specified correctly?
+        type: float, default=physical_constants::JULIAN_DAY # [py]
       - name: timeToAzimuthInterpolatorStepSize # [cpp]
-        type: double, default=physical_constants::JULIAN_DAY # [cpp] # TODO: specified correctly?
+        type: double, default=physical_constants::JULIAN_DAY # [cpp]
         description: |
           Time step size used as reference to define the azimuth values at which the epoch is computed, when defining an
           interpolator to convert between epoch and azimuth.
@@ -791,7 +789,7 @@ functions:
 
     parameters:
       - name: radial_velocity_function_components # [py]
-        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+        type: list[BaseFunctionHodographicShaping] # [py]
       - name: radialVelocityFunctionComponents # [cpp]
         type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
         description: |
@@ -799,7 +797,7 @@ functions:
           throughout the transfer.
 
       - name: normal_velocity_function_components # [py]
-        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+        type: list[BaseFunctionHodographicShaping] # [py]
       - name: normalVelocityFunctionComponents # [cpp]
         type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
         description: |
@@ -807,7 +805,7 @@ functions:
           throughout the transfer.
 
       - name: axial_velocity_function_components # [py]
-        type: list[BaseFunctionHodographicShaping] # [py]   # TODO: linking properly?
+        type: list[BaseFunctionHodographicShaping] # [py]
       - name: axialVelocityFunctionComponents # [cpp]
         type: std::vector< std::shared_ptr< shape_based_methods::BaseFunctionHodographicShaping > > # [cpp]
         description: |
