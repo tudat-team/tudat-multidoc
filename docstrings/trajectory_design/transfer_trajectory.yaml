@@ -215,11 +215,51 @@ classes:
           type: tuple[numpy.ndarray,numpy.ndarray] # [py]
           description: Tuple of (state history, time history). # [py]
 
-      - name: thrust_accelerations_along_trajectory # [py]
-      - name: getThrustAccelerationsAlongTrajectory # [cpp]
-        short_summary: "Returns the thrust acceleration history throughout the trajectory."
+      - name: inertial_thrust_accelerations_along_trajectory # [py]
+      - name: getInertialThrustAccelerationsAlongTrajectory # [cpp]
+        short_summary: "Returns the inertial thrust acceleration history throughout the trajectory."
         extended_summary: |
-          Function that returns the thrust acceleration history throughout the trajectory, using the same number of data points in
+          Function that returns the inertial thrust acceleration history throughout the trajectory, using the same number of data points in
+          each leg. For each leg, the retrieved thrust accelerations are equally spaced in time.
+          For high-thrust legs (where only impulsive Delta Vs are applied) the thrust acceleration is always zero.
+
+        parameters:
+          - name: number_of_data_points_per_leg # [py]
+            type: int # [py]
+          - name: numberOfDataPointsPerLeg # [cpp]
+            type: int # [py]
+            description: Number of data points used to describe each leg.
+
+        returns:
+          type: std::map< double, Eigen::Vector3d > # [cpp]
+          type: tuple[numpy.ndarray,numpy.ndarray] # [py]
+          description: Tuple of (state history, time history). # [py]
+
+      - name: rsw_thrust_accelerations_along_trajectory # [py]
+      - name: getRswThrustAccelerationsAlongTrajectory # [cpp]
+        short_summary: "Returns the thrust acceleration history in the RSW frame throughout the trajectory."
+        extended_summary: |
+          Function that returns the thrust acceleration history in the RSW frame throughout the trajectory, using the same number of data points in
+          each leg. For each leg, the retrieved thrust accelerations are equally spaced in time.
+          For high-thrust legs (where only impulsive Delta Vs are applied) the thrust acceleration is always zero.
+
+        parameters:
+          - name: number_of_data_points_per_leg # [py]
+            type: int # [py]
+          - name: numberOfDataPointsPerLeg # [cpp]
+            type: int # [py]
+            description: Number of data points used to describe each leg.
+
+        returns:
+          type: std::map< double, Eigen::Vector3d > # [cpp]
+          type: tuple[numpy.ndarray,numpy.ndarray] # [py]
+          description: Tuple of (state history, time history). # [py]
+
+      - name: tnw_thrust_accelerations_along_trajectory # [py]
+      - name: getTnwThrustAccelerationsAlongTrajectory # [cpp]
+        short_summary: "Returns the thrust acceleration history in the TNW frame throughout the trajectory."
+        extended_summary: |
+          Function that returns the thrust acceleration history in the TNW frame throughout the trajectory, using the same number of data points in
           each leg. For each leg, the retrieved thrust accelerations are equally spaced in time.
           For high-thrust legs (where only impulsive Delta Vs are applied) the thrust acceleration is always zero.
 
