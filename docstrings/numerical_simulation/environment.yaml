@@ -435,7 +435,12 @@ classes:
         description: |
           Ephemeris model of this body, used to calculate its current state as a function of time.
           Depending on the selected type of model, the type of this attribute
-              is of type Ephemeris, or a derived class thereof.
+          is of type Ephemeris, or a derived class thereof.
+
+      - name: flight_conditions # [py]
+        type: FlightConditions # [py]
+        description: |
+          Current flight conditions of the body, which can be accessed during the propagation to get the current altitude, aerodynamic angle calculator, longitude, etc.
 
       - name: atmosphere_model # [py]
         type: AtmosphereModel # [py]
