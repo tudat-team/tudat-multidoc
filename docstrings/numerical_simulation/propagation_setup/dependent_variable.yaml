@@ -907,6 +907,12 @@ functions:
         type: str # [py]
         description: Body undergoing acceleration.
 
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body exerting acceleration (e.g. body with atmosphere).
+
     returns:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
@@ -927,6 +933,12 @@ functions:
       - name: body # [py]
         type: str # [py]
         description: Body undergoing acceleration.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body exerting acceleration (e.g. body with atmosphere).
 
     returns:
         type: SingleDependentVariableSaveSettings
@@ -1385,6 +1397,12 @@ functions:
       - name: target_frame # [py]
         type: AerodynamicsReferenceFrames # [py]
         description: Target reference frame for the rotation.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Central body w.r.t. which the state of the body is considered.
 
     returns:
         type: SingleDependentVariableSaveSettings
