@@ -574,6 +574,7 @@ functions:
     short_summary: "Function to add a single acceleration to the dependent variables to save."
     extended_summary: "Function to add a single acceleration vector to the dependent variables to save.
     The requested acceleration is defined by its type, and the bodies undergoing and exerting the acceleration.
+    This acceleration vector represents the acceleration in 3D in the inertial reference frame.
     NOTE: When requesting a third-body perturbation be saved, you may use either the direct acceleration
     type, or the third body type. For instance, for saving a point-mass third-body perturbation,
     you may specify either ``point_mass_gravity_type`` or ``third_body_point_mass_gravity_type`` as acceleration type."
