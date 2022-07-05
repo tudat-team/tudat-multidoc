@@ -49,6 +49,7 @@ enums:
     - name: total_mass_rate_dependent_variables # [cpp]
     - name: tnw_to_inertial_frame_rotation_dependent_variable # [cpp]
     - name: periapsis_altitude_dependent_variable # [cpp]
+    - name: apoapsis_altitude_dependent_variable # [cpp]
     - name: total_torque_norm_dependent_variable # [cpp]
     - name: single_torque_norm_dependent_variable # [cpp]
     - name: total_torque_dependent_variable # [cpp]
@@ -95,6 +96,7 @@ enums:
     - name: total_mass_rate_type # [py]
     - name: tnw_to_inertial_frame_rotation_type # [py]
     - name: periapsis_altitude_type # [py]
+    - name: apoapsis_altitude_type # [py]
     - name: total_torque_norm_type # [py]
     - name: single_torque_norm_type # [py]
     - name: total_torque_type # [py]
@@ -1428,6 +1430,31 @@ functions:
       - name: central_body # [py]
         type: str # [py]
         description: Body with respect to which the altitude of periapsis is computed.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+  # Altitude of apoapsis
+  - name: apoapsisAltitudeVariable # [cpp]
+  - name: apoapsis_altitude # [py]
+    short_summary: "Function to add the altitude of apoapsis to the dependent variables to save."
+    extended_summary: "Function to add the apoapsis altitude of the current osculating orbit to the dependent variables to save.
+    The altitude depends on the shape of the central body. This function takes the current (osculating) orbit of the body w.r.t.
+    the central body, and uses this Kepler orbit to extract the position/altitude of apoapsis."
+
+    parameters:
+      - name: associatedBody # [cpp]
+        type: std::str # [cpp]
+      - name: body # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: centralBody # [cpp]
+        type: std::str # [cpp]
+      - name: central_body # [py]
+        type: str # [py]
+        description: Body with respect to which the altitude of apoapsis is computed.
 
     returns:
         type: SingleDependentVariableSaveSettings
