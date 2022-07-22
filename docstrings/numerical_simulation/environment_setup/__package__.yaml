@@ -246,8 +246,9 @@ functions:
   - name: create_simplified_system_of_bodies # [py]
     short_summary: "Function that creates a simplified System of bodies." # [py]
     extended_summary: | # [py]
-      Function that creates a simplified System of bodies. The following bodies are created in this system: the Sun, all planets of the Solar system, and Pluto. # [py]
+      Function that creates a simplified system of bodies. The following bodies are created in this system: the Sun, all planets of the Solar system, and Pluto. # [py]
       All bodies in this system use Gtop ephemerides and point mass gravity. The Earth is setup with a spherical shape model and a simple rotation model. # [py]
+      The reference frame used to setup this simplified system of bodies has its origin at the SSB, and has an ECLIPJ2000 orientation.
 
     parameters: # [py]
       - name: initial_time # [py]
