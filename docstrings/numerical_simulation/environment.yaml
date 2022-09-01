@@ -316,8 +316,69 @@ classes:
           the aerodynamic coefficients.
 
     #methods:
-      
 
+  - name: AerodynamicAngleCalculator
+    short_summary: |
+       Object to calculate (aerodynamic) orientation angles, and frame transformations,
+       from current vehicle state.
+    extended_summary: |
+       Object to calculate (aerodynamic) orientation angles (list given by the `~AerodynamicsReferenceFrameAngles` enum)
+       and transformations between frames (list given by the `~AerodynamicsReferenceFrames` enum) from current vehicle state.
+       
+       
+    methods:
+      
+      - name: getRotationMatrixBetweenFrames                           # [cpp]
+      - name: get_rotation_matrix_between_frames                       # [py]
+        short_summary: |
+          Function to get the rotation matrix between two frames. 
+        extended_summary: |
+          Function to get the rotation matrix between two frames. This function
+          is meant to be used only *during* a numerical propagation, in particular
+          for the definition of a custom (e.g. guidance) model.
+
+        parameters:
+        - name: originalFrame # [cpp]
+          type: AerodynamicsReferenceFrames # [cpp]
+        - name: original_frame # [py]
+          type: AerodynamicsReferenceFrames # [py]
+          description: |
+            The frame :math:`A` from which the rotation matrix is to be calculated
+    
+        - name: targetFrame # [cpp]
+          type: AerodynamicsReferenceFrames # [cpp]
+        - name: target_frame # [py]
+          type: AerodynamicsReferenceFrames # [py]
+          description: |
+            The frame :math:`B` to which the rotation matrix is to be calculated
+
+        returns:
+          type: np.ndarray # [py]
+          type: Eigen::Matrix3d # [coo]
+          description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
+
+      - name: getAngle                           # [cpp]
+      - name: get_angle                       # [py]
+        short_summary: |
+          Function to get a single orientation angle
+        extended_summary: |
+          Function to get a single orientation angle. This function
+          is meant to be used only *during* a numerical propagation, in particular
+          for the definition of a custom (e.g. guidance) model.
+      
+        parameters:
+        - name: originalFrame # [cpp]
+          type: AerodynamicsReferenceFrameAngles # [cpp]
+        - name: original_frame # [py]
+          type: AerodynamicsReferenceFrameAngles # [py]
+          description: |
+            The identifier for the angle that is to be returnd
+
+        returns:
+          type: float # [py]
+          type: double # [py]
+          description: Value of requested angle
+      
   - name: Body
     short_summary: |
        Object that stores the environment properties and current state of

@@ -802,7 +802,7 @@ functions:
 
   #######################################################################
 
-  - name: custom # [py]
+  - name: custom_ephemeris # [py]
   - name: customEphemerisSettings # [cpp]
     short_summary: "Factory function for creating custom ephemeris model settings."
     extended_summary: |

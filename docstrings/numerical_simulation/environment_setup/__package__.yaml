@@ -307,3 +307,27 @@ functions:
         type: str # [py]
         description: "Name of the cenral body w.r.t. which the flight conditions are to be created (typically, but not necesarilly, the central body of propagation)/" # [py]
 
+  - name: add_rotation_model # [py]
+    short_summary: "Function that creates a rotation model, and adds it to an existing body."
+    extended_summary: |
+      This function can be used to add  a :class:`~tudatpy.numerical_simulation.environment.RotationalEphemeris` object to an existing body.
+      Typically, the ``RotationalEphemeris`` is created along with the `~tudatpy.numerical_simulation.environment.Body` itself However, in some cases it may be useful
+      to create a rotation model after the Body objects have been created. This function requires
+      settings for the rotation model, created using one of the factory functions from the :ref:`~tudatpy.numerical_simulation_environment_setup.rotation_model` module.
+      This function creates the actual coefficient interface from these settings, and assigns it to the
+      selected body. In addition to the identifier for the body to which it is assigned, this function
+      requires the full :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` as input, to facilitate
+      inter-body dependencies in the radiation model
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the rotation model is to be assigned" # [py]
+
+      - name: rotation_model_settings # [py]
+        description: "Settings defining the rotation model that is to be created." # [py]
+

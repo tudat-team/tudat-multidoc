@@ -715,50 +715,39 @@ functions:
         type: float # [py]
         description: Value of the constant specific impulse, used to link the thrust model to the mass propagation.
 
-      - name: bodyFixedThrustDirection # [cpp]
-        type: Eigen::Vector3d, default=Eigen::Vector3d::UnitX() # [cpp]
-      - name: body_fixed_thrust_direction # [py]
-        type: numpy.ndarray, default=numpy.ndarray([])  # [py]
-        description: Constant body-fixed thrust direction (positive x-direction by default). Note that this should be a unit-vector representing the direction opposite to the nozzle direction.
-
     returns:
         type: ConstantThrustMagnitudeSettings
         description: Constant thrust magnitude settings object.
 
     examples: | # [py]
-      In this example, we define constant thrust magnitude of 1.5 kN, with a constant deviation from the body-fixed x-axis of 0.1 rad, and a specific impulse of 315 s. # [py]
+      In this example, we define constant thrust magnitude of 1.5 kN and a specific impulse of 315 s. # [py]
 
       .. code-block:: python # [py]
         # [py]
-        # Define constant thrust magnitude settings of 1.5kN, an Isp of 315s, and a deviation from the body-fixed x-axis of 0.1 rad. # [py]
+        # Define constant thrust magnitude settings of 1.5kN, an Isp of 315s # [py]
         thrust.constant_thrust_magnitude( # [py]
             thrust_magnitude=1.5e3, # [py]
-            specific_impulse=315, # [py]
-            body_fixed_thrust_direction=[np.cos(0.1), np.sin(0.1), 0] # [py]
+            specific_impulse=315 # [py]
         ) # [py]
 
 
   # Custom thrust magnitude
   - name: fromFunctionThrustMagnitudeSettings # [cpp]
   - name: custom_thrust_magnitude # [py]
-    short_summary: "Create thrust magnitude settings from a custom thrust magnitude function."
+    short_summary: "Create thrust magnitude settings from a custom thrust force magnitude function."
     extended_summary: |
-      Factory function that creates thrust magnitude from a custom thrust magnitude function.
-      This model defines a thrust force and specific impulse that can vary with time. The specific impulse is also
-      provided to apply a mass rate model in the propagation the vehicle dynamics, relating the thrust to the mass
-      decrease of the vehicle. Note that, if you wish to use a constant value for any or all of the first three
-      arguments, lambda expression can be used. Presently, the definition of the thrust direction in the body-fixed
-      frame is also defined through these derived classes. In essence, the ThrustMagnitudeSettings defines all local
-      (to the vehicle systems) settings for the thrust, while ThrustDirectionGuidanceSettings defines how the full
-      vehicle must orient itself in space for the required thrust direction to be achieved. At present, there is no
-      direct option for thrust-vector control (i.e. modifying the thrust direction in the body-fixed frame).
+      Factory function that creates thrust magnitude from a custom thrust force magnitude function.
+      This model defines a thrust force and specific impulse that can vary with time. The thrust acceleration
+      is computed during the propagation by dividing the thrust force by the current vehicle mass.
+      The specific impulse can be used to apply a mass rate model in the propagation the vehicle dynamics, relating the thrust to the mass
+      decrease of the vehicle.
 
     parameters:
       - name: thrustMagnitudeFunction # [cpp]
         type: std::function<double(double)> # [cpp]
       - name: thrust_magnitude_function # [py]
         type: callable[[float], float] # [py]
-        description: Function of time returning the value of the thrust magnitude.
+        description: Function of time returning the value of the thrust force magnitude.
 
       - name: specificImpulseFunction # [cpp]
         type: std::function<double(double)> # [cpp]
@@ -766,30 +755,12 @@ functions:
         type: callable[[float], float] # [py]
         description: Function of time returning the value of the specific impulse, useful to link the mass propagation to the thrust model.
 
-      - name: isEngineOnFunction # [cpp]
-        type: std::function<bool(double)>, default=[](double){return true;} # [cpp]
-      - name: is_engine_on_function # [py]
-        type: "callable[[float], bool], default=lambda t: true"  # [py]
-        description: Function of time returning a boolean, denoting  whether the thrust should be engaged at all (e.g. thrust is 0 N if it returns false). It is useful to link the mass propagation to the thrust model.
-
-      - name: bodyFixedThrustDirection # [cpp]
-        type: std::function<Eigen::Vector3d()>, , default=[](){return Eigen::Vector3d::UnitX();} # [cpp] # [cpp]
-      - name: body_fixed_thrust_direction # [py]
-        type: "callable[[], numpy.ndarray], default=lambda t: numpy.ndarray([])" # [py]
-        description: Constant body-fixed thrust direction (positive x-direction by default). Note that this function should be a unit-vector representing the direction opposite to the nozzle direction. This setting can be used to incorporate thrust-vector control (TVC) into the thrust.
-
-      - name: customThrustResetFunction # [cpp]
-        type: std::function<void(const double)>, default=std::function<void(const double)>() # [cpp]
-      - name: custom_thrust_reset_function # [py]
-        type: "callable[[float], ], default=lambda t: None" # [py]
-        description: Function of time that updates any relevant aspects of the environment/system models, called before retrieving the thrust magnitude, specific impulse, and body-fixed thrust direction.
-
     returns:
         type: FromFunctionThrustMagnitudeSettings
         description: From function thrust magnitude settings object.
 
     examples: | # [py]
-      In this example, we define a thrust magnitude based on a set of custom functions. # [py]
+      In this example, we define a thrust force magnitude based on a set of custom functions. # [py]
       The magnitude itself starts from 500N, and linearly increases with time. # [py]
       The specific impulse is constant, at 350s. Note that we use a `lambda` function to achieve this neatly. # [py]
       Finally, the engine is setup to work for 50s, and be turned off afterwards. # [py]
@@ -803,12 +774,68 @@ functions:
         # Define a lambda specific impulse function: constant at 350s # [py]
         specific_impulse_function = lambda time: 350 # [py]
 
-        # Define the "engine on" function: engine is off after 50s # [py]
-        def is_engine_on_function(time): # [py]
-            return time < 50 # [py]
-
         # Define the custom thrust magnitude settings based on the pre-defined functions # [py]
-        thrust.custom_thrust_magnitude(thrust_magnitude_function, specific_impulse_function, is_engine_on_function) # [py]
+        thrust.custom_thrust_magnitude(thrust_magnitude_function, specific_impulse_function ) # [py]
+
+  # Custom thrust magnitude
+  - name: custom_thrust_magnitude_fixed_isp # [py]
+    short_summary: "Same as `custom_thrust_magnitude`, but with a fixed value for the specific impulse."
+
+    parameters:
+      - name: thrustMagnitudeFunction # [cpp]
+        type: std::function<double(double)> # [cpp]
+      - name: thrust_magnitude_function # [py]
+        type: callable[[float], float] # [py]
+        description: Function of time returning the value of the thrust force magnitude.
+
+      - name: specificImpulse # [cpp]
+        type: double # [cpp]
+      - name: specific_impulse # [py]
+        type: float # [py]
+        description: Constant value for specific impulse, useful to link the mass propagation to the thrust model.
+
+    returns:
+        type: FromFunctionThrustMagnitudeSettings
+        description: From function thrust magnitude settings object.
 
 
+
+# Custom thrust magnitude
+- name: custom_thrust_acceleration_magnitude # [py]
+  short_summary: "Create thrust magnitude settings from a custom thrust acceleration magnitude function."
+  extended_summary: |
+    Factory function that creates thrust magnitude from a custom thrust acceleration magnitude function.
+    This model is similar to the `custom_thrust_magnitude`, with the difference being that this function
+    directly provides the thrust *acceleration*, not the thrust *force*.
+
+  parameters:
+    - name: thrust_acceleration_magnitude_function # [py]
+      type: callable[[float], float] # [py]
+      description: Function of time returning the value of the thrust acceleration magnitude.
+
+    - name: specific_impulse_function # [py]
+      type: callable[[float], float] # [py]
+      description: Function of time returning the value of the specific impulse, useful to link the mass propagation to the thrust model.
+
+  returns:
+      type: FromFunctionThrustMagnitudeSettings
+      description: From function thrust magnitude settings object.
+
+
+# Custom thrust magnitude
+- name: custom_thrust_acceleration_magnitude_fixed_isp # [py]
+  short_summary: "Same as `custom_thrust_acceleration_magnitude`, but with a fixed value for the specific impulse."
+
+  parameters:
+    - name: thrust_acceleration_magnitude_function # [py]
+      type: callable[[float], float] # [py]
+      description: Function of time returning the value of the thrust acceleration magnitude.
+
+    - name: specific_impulse # [py]
+      type: float # [py]
+      description: Constant value for specific impulse, useful to link the mass propagation to the thrust model.
+
+  returns:
+      type: FromFunctionThrustMagnitudeSettings
+      description: From function thrust magnitude settings object.
         

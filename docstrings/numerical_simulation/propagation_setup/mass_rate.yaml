@@ -102,7 +102,7 @@ functions:
 
   # Custom
   - name: customMassRate # [cpp]
-  - name: custom # [py]
+  - name: custom_mass_rate # [py]
     short_summary: "Creates the settings for a mass rate model defined from a thrust model."
     extended_summary: |
       Creates the settings for a custom mass rate model defined through a mass rate function. The function must have

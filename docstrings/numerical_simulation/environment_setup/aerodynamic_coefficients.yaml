@@ -158,7 +158,7 @@ functions:
   #######################################################################
   # (%!) not on tudat-space
 
-  - name: custom # [py]
+  - name: custom_aerodynamic_force_coefficients # [py]
   - name: customAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings from custom coefficients."
     extended_summary: |
@@ -233,7 +233,67 @@ functions:
         ) # [py]
         # Assign the aerodynamic coefficient interface to the vehicle # [py]
         environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
+  
+  - name: custom_aerodynamic_force_and_moment_coefficients # [py]
+  - name: customAerodynamicCoefficientSettings # [cpp]
+    short_summary: "Factory function for creating aerodynamic interface model settings from custom coefficients."
+    extended_summary: |
+      Factory function for settings object, defining aerodynamic interface model via a custom force coefficient function
+      (function of independent variable).
 
+    parameters:
+      - name: force_coefficient_function # [py]
+        type: callable[[list[float]], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Function that is defining the aerodynamic force coefficients as function of an independent variable (see arg independent_variable_names). # [py]
+
+      - name: moment_coefficient_function # [py]
+        type: callable[[list[float]], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: Function that is defining the aerodynamic moment coefficients as function of an independent variable (see arg independent_variable_names). # [py]
+
+      - name: reference_area # [py]
+        type: float # [py]
+      - name: referenceArea # [cpp]
+        type: double # [cpp]
+        description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
+
+      - name: reference_length # [py]
+        type: float # [py]
+      - name: referenceLength# [cpp]
+        type: double # [cpp]
+        description: "Reference length with which aerodynamic moments are non-dimensionalized."
+
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
+        description: "Reference point in the body-fixed frame w.r.t. which the moments are provided."
+
+      - name: independent_variable_name # [py]
+        type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
+      - name: independentVariableNames # [cpp]
+        type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
+        description: "Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined."
+
+      - name: are_coefficients_in_aerodynamic_frame # [py]
+        type: bool, default = True # [py]
+      - name: areCoefficientsInAerodynamicFrame # [cpp]
+        type: bool, default = true # [cpp]
+        description: |
+          Boolean to define whether the aerodynamic coefficients are defined in the aerodynamic frame
+          (drag, side, lift force) or in the body frame (typically denoted as Cx, Cy, Cz).
+
+      - name: are_coefficients_in_negative_axis_direction # [py]
+        type: bool, default = True # [py]
+      - name: areCoefficientsInNegativeAxisDirection # [cpp]
+        type: bool, default = true # [cpp]
+        description: |
+          Boolean to define whether the aerodynamic coefficients are positive along the positive axes of the body or
+          aerodynamic frame (see arg areCoefficientsInAerodynamicFrame). # [cpp]
+          aerodynamic frame (see arg are_coefficients_in_aerodynamic_frame). # [py]
+          Note that for drag, side and lift force, the coefficients are typically defined in negative direction.
+
+    returns:
+        type: CustomAerodynamicCoefficientSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.CustomAerodynamicCoefficientSettings` class
+    
   #######################################################################
   # (%!) no example on tudat-space
 

@@ -693,7 +693,7 @@ functions:
 
   # Custom
   - name: customAccelerationSettings # [cpp]
-  - name: custom # [py]
+  - name: custom_acceleration # [py]
     short_summary: "Creates settings for custom acceleration."
     extended_summary: |
       Creates settings for a custom accelerations, this acceleration must be parameterized as a function of time,
