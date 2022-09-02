@@ -283,7 +283,7 @@ classes:
         type: float # [py]
         readonly: Yes
         description: | # [py]
-          The freestream Mach number of the body
+          The freestream Mach number of the body.
 
       - name: aero_coefficient_independent_variables # [py]
         type: numpy.ndarray # [py]
@@ -322,8 +322,8 @@ classes:
        Object to calculate (aerodynamic) orientation angles, and frame transformations,
        from current vehicle state.
     extended_summary: |
-       Object to calculate (aerodynamic) orientation angles (list given by the `~AerodynamicsReferenceFrameAngles` enum)
-       and transformations between frames (list given by the `~AerodynamicsReferenceFrames` enum) from current vehicle state.
+       Object to calculate (aerodynamic) orientation angles (list given by the :class:`~AerodynamicsReferenceFrameAngles` enum)
+       and transformations between frames (list given by the :class:`~AerodynamicsReferenceFrames` enum) from current vehicle state.
        
        
     methods:

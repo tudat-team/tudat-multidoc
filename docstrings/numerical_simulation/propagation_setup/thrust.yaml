@@ -779,7 +779,7 @@ functions:
 
   # Custom thrust magnitude
   - name: custom_thrust_magnitude_fixed_isp # [py]
-    short_summary: "Same as `custom_thrust_magnitude`, but with a fixed value for the specific impulse."
+    short_summary: "Same as :func:`~custom_thrust_magnitude`, but with a fixed value for the specific impulse."
 
     parameters:
       - name: thrustMagnitudeFunction # [cpp]
@@ -805,7 +805,7 @@ functions:
     short_summary: "Create thrust magnitude settings from a custom thrust acceleration magnitude function."
     extended_summary: |
       Factory function that creates thrust magnitude from a custom thrust acceleration magnitude function.
-      This model is similar to the `custom_thrust_magnitude`, with the difference being that this function
+      This model is similar to the :func:`~custom_thrust_magnitude`, with the difference being that this function
       directly provides the thrust *acceleration*, not the thrust *force*.
 
     parameters:
@@ -824,7 +824,7 @@ functions:
 
   # Custom thrust magnitude
   - name: custom_thrust_acceleration_magnitude_fixed_isp # [py]
-    short_summary: "Same as `custom_thrust_acceleration_magnitude`, but with a fixed value for the specific impulse."
+    short_summary: "Same as :func:`~custom_thrust_acceleration_magnitude`, but with a fixed value for the specific impulse."
 
     parameters:
       - name: thrust_acceleration_magnitude_function # [py]

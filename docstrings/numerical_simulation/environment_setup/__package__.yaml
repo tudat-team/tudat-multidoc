@@ -100,31 +100,31 @@ classes:
         description: | # [py]
           Object that defines the settings of the atmosphere model that is to be created. Note that wind model settings
           may be defined inside this object. A variable of this type is typically assigned by using a factory function from the
-          :ref:`~tudatpy.numerical_simulation.environment_setup.atmosphere` module.
+          :ref:`\`\`atmosphere\`\`` module.
 
       - name: ephemeris_settings # [py]
         type: EphemerisSettings # [py]
         description: | # [py]
           Object that defines the settings of the ephemeris model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.ephemeris` module.
+          assigned by using a factory function from the :ref:`\`\`ephemeris\`\`` module.
 
       - name: gravity_field_settings # [py]
         type: GravityFieldSettings # [py]
         description: | # [py]
           Object that defines the settings of the gravity field model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.gravity_field` module.
+          assigned by using a factory function from the :ref:`\`\`gravity_field\`\`` module.
 
       - name: rotation_model_settings # [py]
         type: RotationModelSettings # [py]
         description: | # [py]
           Object that defines the settings of the rotation model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.rotation_model` module.
+          assigned by using a factory function from the :ref:`\`\`rotation_model\`\`` module.
 
       - name: shape_settings # [py]
         type: BodyShapeSettings # [py]
         description: | # [py]
           Object that defines the settings of the shape model that is to be created. A variable of this type is typically
-          assigned by using a factory function from the :ref:`~tudatpy.numerical_simulation.environment_setup.shape` module.
+          assigned by using a factory function from the :ref:`\`\`shape\`\`` module.
 
 
 ##############################################################################
@@ -263,7 +263,7 @@ functions:
     short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
     extended_summary: |
       This function can be used to add an radiation pressure interface to an existing body. It requires
-      settings for the radiation pressure interface, created using one of the factory functions from the :ref:`~tudatpy.numerical_simulation_environment_setup.radiation_pressure` module.
+      settings for the radiation pressure interface, created using one of the factory functions from the :ref:`\`\`radiation_pressure\`\`` module.
       This function creates the actual coefficient interface from these settings, and assigns it to the
       selected body. In addition to the identifier for the body to which it is assigned, this function
       requires the full :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` as input, to facilitate
@@ -331,3 +331,69 @@ functions:
       - name: rotation_model_settings # [py]
         description: "Settings defining the rotation model that is to be created." # [py]
 
+  - name: add_engine_model # [py]
+    short_summary: "Function that creates an engine model (to be used for thrust calculations), and adds it to an existing body."
+    extended_summary: |
+      Function that creates an engine model (to be used for thrust calculations), and adds it to an existing body. It creates and
+      object of class :class:`~tudatpy.numerical_simulation.environment.EngineModel`, and adds it to an existing body. Properties
+      assigned to this engine model are:
+      * The (constant) direction in body-fixed frame in which the engine is pointing (e.g. the body-fixed thrust direction when the engine is on)
+      * Settings for computing the thrust magnitude (as a function of time and/or other parameters), using a suitable function from the :ref:`\`\`thrust\`\`` submodule
+
+
+    parameters:
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: Name of the body to which the engine is to be added.
+
+      - name: engine_name # [py]
+        type: str # [py]
+        description: Name (e.g. unique identifier) of the engine that is to be added to the body
+
+      - name: thrust_magnitude_settings # [py]
+        type: ThrustMagnitudeSettings # [py]
+        description: Settings for computing the thrust magnitude (and specific impulse) as a function of time
+
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the rotation model is to be assigned" # [py]
+
+      - name: body_fixed_thrust_direction # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]], default = [1,0,0] # [py]
+        description: "Unit vector along which the thrust from the engine will point in a body-fixed frame" # [py]
+
+  - name: add_variable_direction_engine_model # [py]
+    short_summary: "Function that creates an engine model (to be used for thrust calculations), and adds it to an existing body."
+    extended_summary: |
+      Same as :func:`add_engine_model`, but with a time-variable body-fixed thrust direction
+
+    parameters:
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: Name of the body to which the engine is to be added.
+
+      - name: engine_name # [py]
+        type: str # [py]
+        description: Name (e.g. unique identifier) of the engine that is to be added to the body
+
+      - name: thrust_magnitude_settings # [py]
+        type: ThrustMagnitudeSettings # [py]
+        description: Settings for computing the thrust magnitude (and specific impulse) as a function of time
+
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of the body to which the rotation model is to be assigned" # [py]
+
+      - name: body_fixed_thrust_direction_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
+        description: "Function returning a unit vector, as a function of time, along which the thrust from the engine will point in a body-fixed frame" # [py]

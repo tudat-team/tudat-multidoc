@@ -570,14 +570,16 @@ functions:
       simulating the dynamics of a (guided) re-entry vehicle. It calculates the rotation matrix from inertial frame to the body-fixed frame
       of the current body B (typically a vehicle) w.r.t. the body-fixed frame of a central body C (e.g., the body at which the re-entry is taking place.
       The full algorithm for :math:`R^{(I/B)}` is described by Mooij (1994), and is composed of:
-      * The rotation from inertial frame to the body fixed frame of body C, using the existing rotation model of body C
-      * The rotation from body-fixed frame of body C to the vehicle's vertical frame V. This rotation uses the current latitude and longitude angles.
-      * The rotation of the vehicle's vertical frame V to its trajectory frame T. This rotation uses the current heading and flight path angles.
-      * The rotation of the vehicle's trajectory frame T to its aerodynamic frame A. This rotation uses the current bank angle
-      * The rotation of the vehicle's aerodynamic frame A to its body-fixed frame. This rotation uses the current angle of attack and sideslip angles
+
+      *  The rotation from inertial frame to the body fixed frame of body C, using the existing rotation model of body C
+      *  The rotation from body-fixed frame of body C to the vehicle's vertical frame V. This rotation uses the current latitude and longitude angles.
+      *  The rotation of the vehicle's vertical frame V to its trajectory frame T. This rotation uses the current heading and flight path angles.
+      *  The rotation of the vehicle's trajectory frame T to its aerodynamic frame A. This rotation uses the current bank angle
+      *  The rotation of the vehicle's aerodynamic frame A to its body-fixed frame. This rotation uses the current angle of attack and sideslip angles
+
       In the above algorithm, the latitude, longitude, heading and flight-path angles are computed from the vehicle's current translational state, in the body-fixed
       frame of body C. The angle of attack, sideslip angle and bank angle are to be defined by the user, through a single custom function that is passed to
-      the `angle_funcion` argument of this functions
+      the ``angle_function`` argument of this functions
 
 
     parameters:
@@ -597,7 +599,7 @@ functions:
         type: std::string # [cpp]
         description: Name of the target frame of rotation model.
 
-      - name: angle_funcion # [py]
+      - name: angle_function # [py]
         type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]], default = None # [py]
       - name: initialOrientation # [cpp]
         type: Eigen::Matrix3d # [cpp]
@@ -613,7 +615,7 @@ functions:
     short_summary: "Factory function for creating rotation model settings based on an angle of attack calculated from pitch-trim, and custom aerodynamic angles sideslip, bank."
     extended_summary: |
       Factory function for creating rotation model settings based on an angle of attack calculated from pitch-trim, and custom aerodynamic angles sideslip, bank. This function is
-      largely identical to the `aerodynamic_angle_based`, with the difference that the angle of attack :math:`\alpha` is not provided as a custom value by the user, but is
+      largely identical to the :func:`~aerodynamic_angle_based`, with the difference that the angle of attack :math:`\alpha` is not provided as a custom value by the user, but is
       calculated from the body's aerodynamic moment coefficients, such that we have :math:`C_{m}=0`. This requires aerodynamic moment coefficients to be defined for the vehicle that
       depend on (among others) the body's angle of attack
 
@@ -653,10 +655,13 @@ functions:
     extended_summary: |
       Factory function for creating rotation model settings where the body-fixed x-axis is imposed to lie in a user-defined inertial direction :math:`\hat{\mathbf{T}}_{I}`. Specifically, it ensures
       that the rotation matrix from body-fixed to inertial frame is set up such that :math:`\hat{\mathbf{T}}_{I}=R^{(I/B)}\hat{\mathbf{i}}` (where :math:`\mathbf{i}` is the unit-vector in local x-direction).
-      The complete rotation matrix requires an additional angle :math:`\phi` (rotation of the body about its body-fixed x-axis), which is set to 0 by default. The full rotation matrix is computed from a 3-2-1 Euler angle rotation
-      :math:`R^{(I/B)=R_{z}(\psi)R_{y}(\theta)R_{x}(\phi)`, with :math:`\psi` and `\theta` computed from the suitable decomposition of :math:`\hat{\mathbf{T}}_{I}`.
+      The complete rotation matrix requires an additional angle :math:`\phi` (rotation of the body about its body-fixed x-axis), which is set to 0 by default.
+
+      The full rotation matrix is computed from a 3-2-1 Euler angle rotation
+      :math:`R^{(I/B)}=R_{z}(\psi)R_{y}(\theta)R_{x}(\phi)`, with :math:`\psi` and :math:`\theta` computed from the suitable decomposition of :math:`\hat{\mathbf{T}}_{I}`.
       This function is typically used for simulating the (guided) dynamics of a spacecraft under thrust, where the thrust is provided in the x-direction of the body-fixed frame. By providing a suitable
-      `inertial_body_axis_direction`, this thrust can be defined to point in an arbitrary direction (typically defined by a guidance algorithm) in the inertial frame as a function of time.
+      ``inertial_body_axis_direction``, this thrust can be defined to point in an arbitrary direction (typically defined by a guidance algorithm) in the inertial frame as a function of time.
+
       NOTE: this function may be extended in the future to allow an arbitrary body-fixed direction to align with an arbitrary inertial direction. At present, its functionality is limited to imposing the inertial direction of the body-fixed x-axis.
 
     parameters:
@@ -690,9 +695,9 @@ functions:
     short_summary: "Factory function for creating rotation model settings where the body-fixed x-axis is imposed to lie in the direction of a relative position or velocity vector."
     extended_summary: |
       Factory function for creating rotation model settings where the body-fixed x-axis is imposed to lie in the direction of a relative position or velocity vector. This function is
-      similar to the `custom_inertial_direction_based` function, with the exception that the `\hat{\mathbf{T}}_{I}` vector is not defined by thee user, but is defined by the
-      relative position vector :math:`\mathfbf{r}_{C}` or velocity vector :math:`\mathfbf{r}_{C}` of the vehicle w.r.t. some body C. The inputs to this function allow `\hat{\mathbf{T}}_{I}` to
-      be set to :math:`\pm\mathfbf{r}_{C}` or :math:`\pm\mathfbf{v}_{C}`, for any body C. It is typically used for simplified or preliminary thrust analyses.
+      similar to the :func:`~custom_inertial_direction_based` function, with the exception that the :math:`\hat{\mathbf{T}}_{I}` vector is not defined by thee user, but is defined by the
+      relative position vector :math:`\mathbf{r}_{C}` or velocity vector :math:`\mathbf{r}_{C}` of the vehicle w.r.t. some body C. The inputs to this function allow :math:`\hat{\mathbf{T}}_{I}` to
+      be set to :math:`\pm\mathbf{r}_{C}` or :math:`\pm\mathbf{v}_{C}`, for any body C. It is typically used for simplified or preliminary thrust analyses.
 
     parameters:
       - name: central_body # [py]

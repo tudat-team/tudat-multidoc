@@ -784,15 +784,15 @@ functions:
   - name: momentumWheelDesaturationAcceleration # [cpp]
   - name: quasi_impulsive_shots_acceleration # [py]
     short_summary: "Creates settings for incorporating quasi-impulsive shots into the acceleration."
-    extended_summary: |
+    extended_summary:
       The acceleration model is purpose-built to represent short bursts of thrust, such as a momentum wheel desaturation.
       A typical use case is precise orbit determination, but the functionality can be used just as well in propagation
       (for instance to model an impulsive manuever in a continuous manner when going from preliminary modelling to
-      'full' modelling). The thrust is modelled similarly to Fig. 3 of Alessi et al. (2012), with the main difference
+      full modelling). The thrust is modelled similarly to Fig. 3 of Alessi et al. (2012), with the main difference
       being that a third-order polynomial to go from zero acceleration to the maximum acceleration level is employed.
       By using a 3rd-order polynomial and imposing continuity in the value and first derivative of the acceleration,
-      defining the 'rise time' (time it takes acceleration to go from 0 to its maximum level), the total time where
-      there is non-zero thrust ('total maneuver time'), and the total Delta V exerted by a single maneuver,
+      defining the rise time (time it takes acceleration to go from 0 to its maximum level), the total time where
+      there is non-zero thrust (total maneuver time), and the total Delta V exerted by a single maneuver,
       the acceleration profile is fully defined.
 
     parameters:
