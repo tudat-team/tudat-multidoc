@@ -48,14 +48,14 @@ enums:
     extended_summary: |
       Enumeration of spherical harmonics models supported by tudat.
     members:
-      - name: customModel # [cpp]
-      - name: custom_model # [py]
       - name: egm96
       - name: ggm02c
       - name: ggm02s
       - name: glgm3150
       - name: lpe200
       - name: jgmro120d
+      - name: jgmess160a
+      - name: shgj180u
 
 
 #########################################################################
@@ -531,3 +531,37 @@ functions:
       # cpp code snippet unavailable # [cpp]
 
   #######################################################################
+
+
+  - name: from_file_spherical_harmonic # [py]
+    short_summary: "Factory function for spherical harmonics gravity field settings of a predefined model."
+    extended_summary: |
+      Factory function for spherical harmonics gravity field settings of a predefined model
+
+    parameters:
+      - name: predefined_model # [py]
+        type: PredefinedSphericalHarmonicsModel # [py]
+        description: Identified for gravity field model that is to be loaded
+
+      - name: maximum_degree # [py]
+        type: int, default = -1 # [py]
+        description: Maximum degree and order to which the coefficients are to be loaded. If value is negative, all coefficients for the specified gravity field are loaded
+
+
+    returns:
+        type: SphericalHarmonicsGravityFieldSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using EGM96 spherical harmonics gravity model, up to degree and order 32:
+
+      .. code-block:: python # [py]
+        # [py]
+        # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic_triaxial_body( # [py]
+            environment_setup.gravity_field.egm96, # [py]
+            32 ) # [py]
+
+      # cpp code snippet unavailable # [cpp]
+
+#######################################################################
