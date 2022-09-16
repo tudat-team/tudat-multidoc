@@ -170,7 +170,7 @@ functions:
 
   # Custom
   - name: customTorqueSettings # [cpp]
-  - name: custom # [py]
+  - name: custom_torque # [py]
     short_summary: "Creates the settings for a custom torque."
     extended_summary: |
       Creates settings for a custom torque. This torque must be parameterized as a function of time

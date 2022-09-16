@@ -419,7 +419,6 @@ functions:
       This bias setting differs from the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.absolute_bias` setting only through the option of setting the `bias_value` :math:`K` to a different values for each arc.
 
     parameters:
-
       - name: arc_start_times # [py]
         type: List[ float ] # [py]
         description: |

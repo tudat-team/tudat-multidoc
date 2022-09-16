@@ -10,12 +10,12 @@ extended_summary: |
 
 notes: |
 
-  In general, unless specified otherwise, the Keplerian elements are ordered as:
+  Unless specified otherwise, the Keplerian elements are ordered as:
 
   +-------+--------------------------------------------------------------------------------------+
   | Index | Keplerian Element                                                                    |
   +-------+--------------------------------------------------------------------------------------+
-  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semi-latus rectum |
+  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semilatus rectum) |
   +-------+--------------------------------------------------------------------------------------+
   | ``1`` | Eccentricity                                                                         |
   +-------+--------------------------------------------------------------------------------------+
@@ -26,6 +26,25 @@ notes: |
   | ``4`` | Longitude of ascending node                                                          |
   +-------+--------------------------------------------------------------------------------------+
   | ``5`` | True anomaly                                                                         |
+  +-------+--------------------------------------------------------------------------------------+
+
+  Unless specified otherwise, the Modified equinoctial elements (MEE; see `here <https://arc.aiaa.org/doi/pdf/10.2514/1.32237>`_, element set *k*) are ordered as follows.
+  The element :math:`I`, which defines the location of the MEE singularity is not treated as a state element, but is provided/determined separately:
+
+  +-------+--------------------------------------------------------------------------------------+
+  | Index | Modified equinoctial Element                                                         |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``0`` | Semi-parameter                                                                       |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``1`` | f-element                                                                            |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``2`` | g-element                                                                            |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``3`` | h-element                                                                            |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``4`` | k-element                                                                            |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``5`` | True longitude                                                                       |
   +-------+--------------------------------------------------------------------------------------+
 
 functions:
@@ -132,6 +151,405 @@ functions:
     returns:
         type: numpy.ndarray # [py]
         description: Keplerian elements, as computed from Cartesian element input. 
+
+  - name: mean_to_true_anomaly # [py]
+    short_summary: "Convert mean to true anomaly."
+    extended_summary: |
+      Convert the mean anomaly of the orbit to its true anomaly. This conversion first converts mean to eccentric anomaly
+      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1), and subsequently to true anomaly.
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: mean_anomaly # [py]
+        type: float # [py]
+        description: Value of the mean anomaly
+
+      - name: use_default_initial_guess # [py]
+        type: bool, default = True # [py]
+        description: Boolean to determine whether the user-defined initial guess (for mean-to-eccentric anomaly conversion) is used, or an automatically generated one.
+
+      - name: non_default_initial_guess # [py]
+        type: float, default = NaN # [py]
+        description: User-defined initial guess for mean-to-eccentric anomaly conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+
+      - name: root_finder # [py]
+        type: RootFinder, default = None # [py]
+        description: User-defined root finder, overriding default root-finding algorithm for mean-to-eccentric anomaly conversion (default is used if this input is left empty)
+
+    returns:
+        type: float # [py]
+        description: Value of the true anomaly
+
+
+  - name: true_to_mean_anomaly # [py]
+    short_summary: "Convert true to mean anomaly."
+    extended_summary: |
+      Convert the true anomaly of the orbit to its mean anomaly. This conversion first converts true to eccentric anomaly
+      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1),
+      and subsequently to mean anomaly.
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: true_anomaly # [py]
+        type: float # [py]
+        description: Value of the true anomaly
+
+    returns:
+        type: float # [py]
+        description: Value of the mean anomaly
+
+
+  - name: true_to_eccentric_anomaly # [py]
+    short_summary: "Convert true to eccentric anomaly."
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: true_anomaly # [py]
+        type: float # [py]
+        description: Value of the true anomaly
+
+    returns:
+        type: float # [py]
+        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+
+  - name: true_to_eccentric_anomaly # [py]
+    short_summary: "Convert true to eccentric anomaly."
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: true_anomaly # [py]
+        type: float # [py]
+        description: Value of the true anomaly
+
+    returns:
+        type: float # [py]
+        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+
+
+  - name: eccentric_to_true_anomaly # [py]
+    short_summary: "Convert eccentric to true anomaly."
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: eccentric_anomaly # [py]
+        type: float # [py]
+        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+
+    returns:
+        type: float # [py]
+        description: Value of the true anomaly
+
+  - name: eccentric_to_mean_anomaly # [py]
+    short_summary: "Convert eccentric to mean anomaly."
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: eccentric_anomaly # [py]
+        type: float # [py]
+        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+
+    returns:
+        type: float # [py]
+        description: Mean of the true anomaly
+
+  - name: mean_to_eccentric_anomaly # [py]
+    short_summary: "Convert mean to eccentric anomaly."
+
+    parameters:
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
+      - name: mean_anomaly # [py]
+        type: float # [py]
+        description: Value of the mean anomaly
+
+      - name: use_default_initial_guess # [py]
+        type: bool, default = True # [py]
+        description: Boolean to determine whether the user-defined initial guess is used for conversion, or an automatically generated one.
+
+      - name: non_default_initial_guess # [py]
+        type: float, default = NaN # [py]
+        description: User-defined initial guess for conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+
+      - name: root_finder # [py]
+        type: RootFinder, default = None # [py]
+        description: User-defined root finder, overriding default root-finding algorithm for conversion (default is used if this input is left empty)
+
+    returns:
+        type: float # [py]
+        description: Value of the eccentric anomaly
+
+
+  - name: elapsed_time_to_delta_mean_anomaly # [py]
+    short_summary: "Convert elapsed time to the corresponding change in mean anomaly along a Keplerian orbit."
+
+    parameters:
+      - name: elapsed_time # [py]
+        type: float # [py]
+        description: Elapsed time (in seconds)
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+      - name: semi_major_axis # [py]
+        type: float # [py]
+        description: Semi-major axis of orbit
+
+    returns:
+        type: float # [py]
+        description: Total change in mean anomaly along the Kepler orbit, accumulated in the provided time.
+
+
+  - name: delta_mean_anomaly_to_elapsed_time # [py]
+    short_summary: "Convert change in mean anomaly along a Keplerian orbit to the corresponding elapsed time."
+
+    parameters:
+      - name: mean_anomaly_change # [py]
+        type: float # [py]
+        description: Total change in mean anomaly along the Kepler orbit
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+      - name: semi_major_axis # [py]
+        type: float # [py]
+        description: Semi-major axis of orbit
+
+    returns:
+        type: float # [py]
+        description: Time required for the provided mean anomaly change to be accumulated
+
+  - name: mean_motion_to_semi_major_axis # [py]
+    short_summary: "Convert mean motion to corresponding semi-major axis (in a Keplerian orbit)."
+
+    parameters:
+      - name: mean_motion # [py]
+        type: float # [py]
+        description: Orbital mean motion
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+    returns:
+        type: float # [py]
+        description: Semi-major axis corresponding to mean motion
+
+  - name: semi_major_axis_to_mean_motion # [py]
+    short_summary: "Convert semi-major axis to corresponding mean motion (along a Keplerian orbit)."
+
+    parameters:
+      - name: semi_major_axis # [py]
+        type: float # [py]
+        description: Semi-major axis of orbit
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+    returns:
+        type: float # [py]
+        description: Semi-major axis corresponding to mean motion
+
+
+
+  - name: keplerian_to_mee_manual_singularity # [py]
+    short_summary: "Convert Keplerian to Modified equinoctial elements."
+    extended_summary: |
+      Convert Keplerian to Modified equinoctial elements (without intermediate step to Cartesian elements). The singularity-flipping
+      element :math:`I` is to be provided manually for this function
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: keplerian_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Keplerian elements that are to be converted to Modified equinoctial elements
+
+      - name: singularity_at_zero_inclination # [py]
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements, as computed from Keplerian element input.
+
+
+  - name: keplerian_to_mee # [py]
+    short_summary: "Convert Keplerian to Modified equinoctial elements."
+    extended_summary: |
+      Convert Keplerian to Modified equinoctial elements (without intermediate step to Cartesian elements). The singularity-flipping
+      element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: keplerian_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Keplerian elements that are to be converted to Modified equinoctial elements
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements, as computed from Keplerian element input (with element :math:`I` defined by :func:`flip_mee_singularity`).
+
+  - name: flip_mee_singularity # [py]
+    short_summary: "Function to determine 'optimal' location of the singularity-flipping modified equinoctial element."
+    extended_summary: |
+      Function to determine 'optimal' location of the singularity-flipping modified equinoctial element :math:`I`, if orbit inclination is less than
+      90 degrees, it puts the singularity at 180 degrees, if it is larger than 90 degrees, it puts it at 0 degrees.
+
+
+    parameters:
+      - name: keplerian_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Keplerian elements that are to be converted to Modified equinoctial elements
+
+    returns:
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+
+  - name: mee_to_keplerian # [py]
+    short_summary: "Convert Modified equinoctial to Keplerian elements."
+    extended_summary: |
+      Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: modified_equinoctial_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements that are to be converted to Keplerian elements
+
+      - name: singularity_at_zero_inclination # [py]
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, as computed from Modified equinoctial element input.
+
+  - name: mee_to_keplerian # [py]
+    short_summary: "Convert Modified equinoctial to Keplerian elements."
+    extended_summary: |
+      Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: modified_equinoctial_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements that are to be converted to Keplerian elements
+
+      - name: singularity_at_zero_inclination # [py]
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Keplerian elements, as computed from Modified equinoctial element input.
+
+
+  - name: cartesian_to_mee # [py]
+    short_summary: "Convert Cartesian to Modified equinoctial elements."
+    extended_summary: |
+      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: cartesian_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Cartesian elements that are to be converted to Modified equinoctial elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements, as computed from Cartesian element input.
+
+  - name: cartesian_to_mee_manual_singularity # [py]
+    short_summary: "Convert Cartesian to Modified equinoctial elements."
+    extended_summary: |
+      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      element :math:`I` is to be provided manually for this function
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: cartesian_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Cartesian elements that are to be converted to Modified equinoctial elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+      - name: singularity_at_zero_inclination # [py]
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements, as computed from Cartesian element input.
+
+
+  - name: mee_to_cartesian # [py]
+    short_summary: "Convert Modified equinoctial to Cartesian elements."
+    extended_summary: |
+      Convert Modified equinoctial to Cartesian elements
+      .. note:: See module level documentation for the standard ordering
+                convention of Modified Equinoctial elements used.
+
+
+    parameters:
+      - name: modified_equinoctial_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Modified equinoctial elements that are to be converted to Cartesian elements
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of central body
+
+      - name: singularity_at_zero_inclination # [py]
+        type: bool # [py]
+        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Cartesian elements, as computed from Modified equinoctial element input.
+
+
 
   - name: quaternion_entries_to_rotation_matrix # [py]
   - name: convertVectorQuaternionToMatrixFormat # [cpp]

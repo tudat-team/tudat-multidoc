@@ -61,7 +61,7 @@ functions:
       - name: parameter_settings # [py]
         type: list( :class:`~tudatpy.numerical_simulation.estimation_setup.EstimatableParameterSettings` ) # [py]
         description: |
-          List of objects that define the settings for the parameters that are to be created. Each entry in this list is typically created by a call to a factory function in the :ref:`~tudatpy.numerical_simulation.estimation_setup.parameter` module
+          List of objects that define the settings for the parameters that are to be created. Each entry in this list is typically created by a call to a factory function in the :ref:`\`\`parameter\`\`` module
 
       - name: bodies # [py]
         type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` # [py]
