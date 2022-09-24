@@ -12,7 +12,11 @@ extended_summary: |
   gravitational potential models of celestial bodies in an environment.
 
 references: |
-  .. [1] Balmino, G. (1994). Gravitational potential harmonics from the shape of an homogeneous body. Celestial Mechanics and Dynamical Astronomy, 60(3), 331-364.
+  .. [1] Balmino, G. (1994). Gravitational potential harmonics from the shape of an homogeneous body. Celestial
+        Mechanics and Dynamical Astronomy, 60(3), 331-364.
+  .. [2] Werner, R. A., and Scheeres, D. J. (1997). Exterior Gravitation of a Polyhedron Derived and Compared With
+        Harmonic and Mascon Gravitation Representations of Asteroid 4769 Castalia. Celestial Mechanics and Dynamical
+        Astronomy, 65, 313-344.
 
 #########################################################################
 #  ███████ ███   ██ ██    ██ ███    ███  ██████
@@ -35,10 +39,12 @@ enums:
       - name: central # [cpp]
       - name: central_spice # [cpp]
       - name: spherical_harmonic # [cpp]
+      - name: polyhedron # [cpp]
 
       - name: central_gravity # [py]
       - name: central_spice_gravity # [py]
       - name: spherical_harmonic_gravity # [py]
+      - name: polyhedron_gravity # [py]
 
   #    py::enum_<tss::SphericalHarmonicsModel>
   #        enum tudat::simulation_setup::SphericalHarmonicsModel
@@ -273,6 +279,139 @@ classes:
 
   #######################################################################
 
+  - name: PolyhedronGravityFieldSettings
+    short_summary: "`GravityFieldSettings` derived class defining settings of a polyhedron gravity field representation."
+    extended_summary: |
+      Derived class of `GravityFieldSettings` for gravity fields, which are defined by a polyhedron gravity field representation.
+
+    properties: # [py]
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+        description: Gravitational parameter of gravity field. # [py]
+
+      - name: density # [py]
+        type: float # [py]
+        description: Density of the polyhedron. # [py]
+
+      - name: associated_reference_frame # [py]
+        type: str # [py]
+        description: Identifier for body-fixed reference frame with which the vertices coordinates are associated. # [py]
+
+      - name: vertices_coordinates # [py]
+        type: numpy.ndarray # [py]
+        description: |
+          Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+          row per vertex, 3 columns). # [py]
+
+      - name: vertices_defining_each_facet # [py]
+        type: numpy.ndarray # [py]
+        description: |
+          Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+          the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+          when seen from the outside of the polyhedron. # [py]
+
+    methods:
+      - name: ctor # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: "Instances of the `PolyhedronGravityFieldSettings` class should be created through the `polyhedronGravitySettings` factory function." # [cpp]
+
+      - name: getGravitationalParameter # [cpp]
+        short_summary: "Retrieve gravitational parameter." # [cpp]
+        extended_summary: "Function to retrieve gravitational parameter of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Gravitational parameter of gravity field. # [cpp]
+
+      - name: resetGravitationalParameter # [cpp]
+        short_summary: "Reset gravitational parameter." # [cpp]
+        extended_summary: "Function to reset gravitational parameter of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: gravitationalParameter # [cpp]
+            type: double # [cpp]
+            description: Gravitational parameter of gravity field that is to be created from the settings object. # [cpp]
+
+      - name: getDensity # [cpp]
+        short_summary: "Retrieve density." # [cpp]
+        extended_summary: "Function to retrieve the polyhedron density of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: Density of the polyhedron. # [cpp]
+
+      - name: resetDensity # [cpp]
+        short_summary: "Reset density." # [cpp]
+        extended_summary: "Function to reset the polyhedron density of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: density # [cpp]
+            type: double # [cpp]
+            description: Density of the polyhedron for which the gravity field is to be created from the settings object. # [cpp]
+
+      - name: getAssociatedReferenceFrame # [cpp]
+        short_summary: "Retrieve associated reference frame." # [cpp]
+        extended_summary: "Function to retrieve the reference frame with which the polyhedron vertices of the settings object are associated." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: std::string # [cpp]
+          description: Identifier for body-fixed reference frame with which the polyhedron vertices of the settings object are associated. # [cpp]
+
+      - name: resetAssociatedReferenceFrame # [cpp]
+        short_summary: "Reset associated reference frame." # [cpp]
+        extended_summary: "Function to reset the reference frame with which the polyhedron vertices of the settings object are associated." # [cpp]
+        parameters: # [cpp]
+          - name: associatedReferenceFrame # [cpp]
+            type: std::string # [cpp]
+            description: Identifier for body-fixed reference frame with which the polyhedron vertices of the settings object are associated. # [cpp]
+
+      - name: getVerticesCoordinates # [cpp]
+        short_summary: "Retrieve vertices coordinates." # [cpp]
+        extended_summary: "Function to retrieve the coordinates of the polyhedron vertices from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: Eigen::MatrixXd # [cpp]
+          description: |
+            Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+            row per vertex, 3 columns). # [cpp]
+
+      - name: resetVerticesCoordinates # [cpp]
+        short_summary: "Reset vertices coordinates." # [cpp]
+        extended_summary: "Function to reset the coordinates of the polyhedron vertices of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: verticesCoordinates # [cpp]
+            type: Eigen::MatrixXd # [cpp]
+            description: |
+              Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+              row per vertex, 3 columns). # [cpp]
+
+      - name: getVerticesDefiningEachFacet # [cpp]
+        short_summary: "Retrieve vertices defining each facet." # [cpp]
+        extended_summary: "Function to retrieve the indices of the vertices defining each polyhedron facet from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: Eigen::MatrixXi # [cpp]
+          description: |
+            Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+            the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+            when seen from the outside of the polyhedron. # [cpp]
+
+      - name: resetVerticesDefiningEachFacet # [cpp]
+        short_summary: "Reset vertices defining each facet." # [cpp]
+        extended_summary: "Function to reset the indices of the vertices defining each polyhedron facet of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: verticesDefiningEachFacet # [cpp]
+            type: Eigen::MatrixXi # [cpp]
+            description: |
+              Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+              the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+              when seen from the outside of the polyhedron. # [cpp]
+
+  #######################################################################
+
   # skip for now
   #  - name: FromFileSphericalHarmonicsGravityFieldSettings
   #    short_summary: "`SphericalHarmonicsGravityFieldSettings` derived class defining settings from a spherical harmonics model file."
@@ -400,7 +539,9 @@ functions:
         type: numpy.ndarray # [py]
       - name: sineCoefficients # [cpp]
         type: Eigen::MatrixXd # [cpp]
-        description: "Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient :math:`\bar{S}_{ij}` at degree i and order j."
+        description: |
+          Sine spherical harmonic coefficients (geodesy normalized). Entry (i,j) denotes coefficient :math:`\bar{S}_{ij}`
+          at degree i and order j.
 
       - name: associated_reference_frame # [py]
         type: str # [py]
@@ -457,14 +598,16 @@ functions:
 
   #######################################################################
 
-  - name: spherical_harmonic_triaxial_body # [py]
+  - name: spherical_harmonic_triaxial_ellipsoid_from_density # [py]
   - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
-    short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters."
+    short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters, using the density to define the mass distribution."
     extended_summary: |
       Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid, same as :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`
       The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
       Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
-      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes. This function implements the models of (see Balmino [1]_).
+      The constant mass distribution is defined by the density and gravitational constant (optional).
+      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
+      This function implements the models of (see Balmino [1]_).
 
     parameters:
       - name: axis_a # [py]
@@ -509,6 +652,12 @@ functions:
         type: std::string # [cpp]
         description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
 
+      - name: gravitational_constant # [py]
+        type: float, default=physical_constants::GRAVITATIONAL_CONSTANT # [py]
+      - name: gravitationalConstant # [cpp]
+        type: double, default=physical_constants::GRAVITATIONAL_CONSTANT # [cpp]
+        description: Gravitational constant G of the gravity field.
+
     returns:
         type: SphericalHarmonicsGravityFieldSettings
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
@@ -519,7 +668,7 @@ functions:
       .. code-block:: python # [py]
         # [py]
         # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
-        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic_triaxial_body( # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic_triaxial_ellipsoid_from_density( # [py]
             axis_a=6378171.88, # [py]
             axis_b=6378102.03, # [py]
             axis_c=6356752.24, # [py]
@@ -529,6 +678,66 @@ functions:
             associated_reference_frame="IAU_Earth" ) # [py]
 
       # cpp code snippet unavailable # [cpp]
+
+  #######################################################################
+
+  - name: spherical_harmonic_triaxial_ellipsoid_from_gravitational_parameter # [py]
+  - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
+    short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters, using the gravitational parameter to define the mass distribution.."
+    extended_summary: |
+      Factory function for settings object, defining a gravity field model through spherical harmonic expansion of a homogeneous triaxial ellipsoid, same as :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`
+      The constant mass distribution in the specified ellipsoid shape is expanded to obtain a spherical harmonic coefficient representation.
+      Gravity fields from this setting object are expressed in normalized spherical harmonic coefficients.
+      The constant mass distribution is defined by the gravitational parameter.
+      The body-fixed x-, y- and z- axes are assumed to be along the A-, B- and C- axes.
+      This function implements the models of (see Balmino [1]_).
+
+    parameters:
+      - name: axis_a # [py]
+        type: float # [py]
+      - name: axisA # [cpp]
+        type: double # [cpp]
+        description: Dimension of largest axis of triaxial ellipsoid.
+
+      - name: axis_b # [py]
+        type: float # [py]
+      - name: axisB # [cpp]
+        type: double # [cpp]
+        description: Dimension of intermediate axis of triaxial ellipsoid.
+
+      - name: axis_c # [py]
+        type: float # [py]
+      - name: axisC # [cpp]
+        type: double # [cpp]
+        description: Dimension of smallest axis of triaxial ellipsoid.
+
+      - name: maximum_degree # [py]
+        type: int # [py]
+      - name: maximumDegree # [cpp]
+        type: int # [cpp]
+        description: Maximum degree of spherical harmonics expansion.
+
+      - name: maximum_order # [py]
+        type: int # [py]
+      - name: maximumOrder # [cpp]
+        type: int # [cpp]
+        description: Maximum order of spherical harmonics expansion.
+
+      - name: associated_reference_frame # [py]
+        type: str # [py]
+      - name: associatedReferenceFrame # [cpp]
+        type: std::string # [cpp]
+        description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
+
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+      - name: ellipsoidGravitationalParameter # [cpp]
+        type: double # [cpp]
+        description: Gravitational parameter :math:`\mu` of gravity field.
+
+    returns:
+      type: SphericalHarmonicsGravityFieldSettings
+      description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
 
   #######################################################################
 
@@ -563,5 +772,121 @@ functions:
             32 ) # [py]
 
       # cpp code snippet unavailable # [cpp]
+
+  #######################################################################
+
+  - name: polyhedron_from_gravitational_parameter # [py]
+  - name: polyhedronGravitySettings # [cpp]
+    short_summary: "Factory function for creating a polyhedron gravity field settings object, using the gravitational parameter."
+    extended_summary: |
+      Factory function for settings object, defining a gravity field model through a polyhedron.
+      The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
+      It represents the frame in which the polyhedron field is defined.
+
+      The gravitational potential, acceleration, Laplacian of potential and Hessian of potential are computed according
+      to Werner and Scheeres [2]_.
+
+      This function uses the gravitational parameter to define the gravity field. To instead use the density and gravitational
+      constant see :func:`~tudatpy.astro.gravitation.polyhedron_from_gravitational_constant_and_density`.
+
+    parameters:
+      - name: gravitational_parameter # [py]
+        type: float # [py]
+      - name: gravitationalParameter # [cpp]
+        type: double # [cpp]
+        description: Gravitational parameter :math:`\mu` of gravity field.
+
+      - name: vertices_coordinates # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesCoordinates # [cpp]
+        type: Eigen::MatrixXd # [cpp]
+        description: |
+          Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+          row per vertex, 3 columns).
+
+      - name: vertices_defining_each_facet # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesDefiningEachFacet # [cpp]
+        type: Eigen::MatrixXd # [cpp]
+        description: |
+          Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+          the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+          when seen from the outside of the polyhedron. # [py]
+
+      - name: associated_reference_frame # [py]
+        type: str # [py]
+      - name: associatedReferenceFrame # [cpp]
+        type: std::string # [cpp]
+        description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
+
+      - name: density # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: density # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Density of the polyhedron. If specified, it is used to define the inertia tensor of the body with the gravity
+          field in the class:`~tudatpy.numerical_simulation.environment.Body` class.
+
+    returns:
+        type: PolyhedronGravityFieldSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.PolyhedronGravityFieldSettings` class
+
+  #######################################################################
+
+  - name: polyhedron_from_gravitational_constant_and_density # [py]
+  - name: polyhedronGravitySettings # [cpp]
+    short_summary: "Factory function for creating a polyhedron gravity field settings object, using the gravitational constant and density."
+    extended_summary: |
+      Factory function for settings object, defining a gravity field model through a polyhedron.
+      The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
+      It represents the frame in which the polyhedron field is defined.
+
+      The gravitational potential, acceleration, Laplacian of potential and Hessian of potential are computed according
+      to Werner and Scheeres [2]_.
+
+      This function uses the density and gravitational constant to define the gravity field. To instead use the
+      gravitational parameter see :func:`~tudatpy.astro.gravitation.polyhedron_from_gravitational_parameter`.
+
+    parameters:
+      - name: gravitational_constant # [py]
+        type: float # [py]
+      - name: gravitationalConstant # [cpp]
+        type: double # [cpp]
+        description: Gravitational constant G of the gravity field.
+
+      - name: density # [py]
+        type: float, default=TUDAT_NAN # [py]
+      - name: density # [cpp]
+        type: double, default=TUDAT_NAN # [cpp]
+        description: |
+          Density of the polyhedron.
+
+      - name: vertices_coordinates # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesCoordinates # [cpp]
+        type: Eigen::MatrixXd # [cpp]
+        description: |
+          Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+          row per vertex, 3 columns).
+
+      - name: vertices_defining_each_facet # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesDefiningEachFacet # [cpp]
+        type: Eigen::MatrixXd # [cpp]
+        description: |
+          Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+          the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+          when seen from the outside of the polyhedron. # [py]
+
+      - name: associated_reference_frame # [py]
+        type: str # [py]
+      - name: associatedReferenceFrame # [cpp]
+        type: std::string # [cpp]
+        description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
+
+    returns:
+        type: PolyhedronGravityFieldSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.PolyhedronGravityFieldSettings` class
+
 
 #######################################################################
