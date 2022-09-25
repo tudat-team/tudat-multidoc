@@ -69,6 +69,8 @@ enums:
     - name: euler_angles_to_body_fixed_313 # [cpp]
     - name: current_body_mass_dependent_variable # [cpp]
     - name: radiation_pressure_coefficient_dependent_variable # [cpp]
+    - name: gravity_field_potential_dependent_variable # [cpp]
+    - name: gravity_field_laplacian_of_potential_dependent_variable # [cpp]
 
     - name: mach_number_type # [py]
     - name: altitude_type # [py]
@@ -116,6 +118,8 @@ enums:
     - name: euler_angles_to_body_fixed_type # [py]
     - name: current_body_mass_type # [py]
     - name: radiation_pressure_coefficient_type # [py]
+    - name: gravity_field_potential_type # [py]
+    - name: gravity_field_laplacian_of_potential_type # [py]
 
   ######
 
@@ -1611,6 +1615,54 @@ functions:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
+
+  # Gravitational potential
+  - name: gravityFieldPotentialDependentVariable # [cpp]
+  - name: gravity_field_potential # [py]
+    short_summary: "Function to add the gravitational potential to the dependent variables to save."
+    extended_summary: "Function to add the gravitational potential to the dependent variables to save. The gravitational
+      potential is defined by the bodies undergoing and exerting the acceleration."
+
+    parameters:
+      - name: bodyUndergoingAcceleration # [cpp]
+        type: std::str # [cpp]
+      - name: body_undergoing_acceleration # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: bodyExertingAcceleration # [cpp]
+        type: std::str # [cpp]
+      - name: body_exerting_acceleration # [py]
+        type: str # [py]
+        description: Body exerting acceleration.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
+
+  # Laplacian of the gravitational potential
+  - name: gravityFieldLaplacianOfPotentialDependentVariable # [cpp]
+  - name: gravity_field_laplacian_of_potential # [py]
+    short_summary: "Function to add the laplacian of the gravitational potential to the dependent variables to save."
+    extended_summary: "Function to add the laplacian of the gravitational potential to the dependent variables to save.
+      The laplacian is defined by the bodies undergoing and exerting the acceleration."
+
+    parameters:
+      - name: bodyUndergoingAcceleration # [cpp]
+        type: std::str # [cpp]
+      - name: body_undergoing_acceleration # [py]
+        type: str # [py]
+        description: Body whose dependent variable should be saved.
+
+      - name: bodyExertingAcceleration # [cpp]
+        type: std::str # [cpp]
+      - name: body_exerting_acceleration # [py]
+        type: str # [py]
+        description: Body exerting acceleration.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
 
 
