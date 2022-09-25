@@ -269,7 +269,7 @@ Next, the problematic instances of data classes are stated
 classes -> 0 -> methods -> 1 -> returns -> description
   field required (type=value_error.missing)
 ```
-This reads as "in fist instance (index 0) of a `class` data model, second (index 1) instance of a `method` data model,
+This reads as "in first instance (index 0) of a `class` data model, second (index 1) instance of a `method` data model,
 the `return` entry is missing a data field (named `description`), which is required by the `return` data model."
 The count of instances at the highest level (i.e. in this case `classes -> 0`) refers to the counts of `class`
 data structures within the aforementioned file ```ephemeris.yaml```.
