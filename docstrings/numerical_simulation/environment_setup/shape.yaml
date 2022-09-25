@@ -114,6 +114,230 @@ classes:
       #        short_summary: "Constructor."
       #        extended_summary: "Instances of the `ScaledEphemerisSettings` class should be created through the `scaled` factory functions." # [py]
 
+  #######################################################################
+
+  - name: PolyhedronBodyShapeSettings
+    short_summary: "Class for defining model settings of a polyhedron body shape."
+    extended_summary: "`BodyShapeSettings` derived class for polyhedron body shape model settings."
+
+    properties: # [py]
+      - name: vertices_coordinates # [py]
+        type: numpy.ndarray # [py]
+        description: |
+          Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+          row per vertex, 3 columns). # [py]
+
+      - name: vertices_defining_each_facet # [py]
+        type: numpy.ndarray # [py]
+        description: |
+          Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+          the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+          when seen from the outside of the polyhedron. # [py]
+
+      - name: compute_altitude_with_sign # [py]
+        type: bool, default=True # [py]
+        description: |
+          Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
+          having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is
+          recommended, as it reduces the CPU time for computing the altitude. # [py]
+
+      - name: just_compute_distance_to_vertices # [py]
+        type: bool, default=False # [py]
+        description: |
+          Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
+          is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
+          *false*). Depending on the application, it might be useful to set the flag to *true* for medium to high
+          altitudes, as it allows significantly reducing the CPU time (the resulting altitude errors depend on the
+          resolution of the used polyhedron and altitude itself). # [py]
+
+    methods:       # [cpp]
+      - name: ctor # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: "Instances of the `PolyhedronBodyShapeSettings` class should be created through the `polyhedronBodyShapeSettings` factory function." # [cpp]
+
+      - name: getVerticesCoordinates # [cpp]
+        short_summary: "Retrieve vertices coordinates." # [cpp]
+        extended_summary: "Function to retrieve the coordinates of the polyhedron vertices from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: Eigen::MatrixXd # [cpp]
+          description: |
+            Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+            row per vertex, 3 columns). # [cpp]
+
+      - name: resetVerticesCoordinates # [cpp]
+        short_summary: "Reset vertices coordinates." # [cpp]
+        extended_summary: "Function to reset the coordinates of the polyhedron vertices of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: verticesCoordinates # [cpp]
+            type: Eigen::MatrixXd # [cpp]
+            description: |
+              Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+              row per vertex, 3 columns). # [cpp]
+
+      - name: getVerticesDefiningEachFacet # [cpp]
+        short_summary: "Retrieve vertices defining each facet." # [cpp]
+        extended_summary: "Function to retrieve the indices of the vertices defining each polyhedron facet from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: Eigen::MatrixXi # [cpp]
+          description: |
+            Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+            the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+            when seen from the outside of the polyhedron. # [cpp]
+
+      - name: resetVerticesDefiningEachFacet # [cpp]
+        short_summary: "Reset vertices defining each facet." # [cpp]
+        extended_summary: "Function to reset the indices of the vertices defining each polyhedron facet of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: verticesDefiningEachFacet # [cpp]
+            type: Eigen::MatrixXi # [cpp]
+            description: |
+              Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+              the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+              when seen from the outside of the polyhedron. # [cpp]
+
+      - name: getComputeAltitudeWithSign # [cpp]
+        short_summary: "Retrieve flag indicating whether to compute signed altitude." # [cpp]
+        extended_summary: "Function to retrieve the flag indicating whether to compute signed altitude from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: bool # [cpp]
+          description: |
+            Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
+            having always a positive value. # [cpp]
+
+      - name: resetComputeAltitudeWithSign # [cpp]
+        short_summary: "Reset flag indicating whether to compute signed altitude." # [cpp]
+        extended_summary: "Function to reset the flag indicating whether to compute signed altitude of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: computeAltitudeWithSign # [cpp]
+            type: bool # [cpp]
+            description: |
+              Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
+              having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is
+              recommended, as it reduces the CPU time for computing the altitude. # [cpp]
+
+      - name: getJustComputeDistanceToVertices # [cpp]
+        short_summary: "Retrieve flag indicating whether to compute altitude just with respect to vertices." # [cpp]
+        extended_summary: "Function to retrieve the flag indicating whether to compute altitude just with respect to vertices from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: bool # [cpp]
+          description: |
+            Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
+            is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
+            *false*). # [cpp]
+
+      - name: resetJustComputeDistanceToVertices # [cpp]
+        short_summary: "Reset flag indicating whether to compute altitude just with respect to vertices." # [cpp]
+        extended_summary: "Function to reset the flag indicating whether to compute altitude just with respect to vertices of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: justComputeDistanceToVertices # [cpp]
+            type: bool # [cpp]
+            description: |
+              Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
+              is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
+              *false*). Depending on the application, it might be useful to set the flag to *true* for medium to high
+              altitudes, as it allows significantly reducing the CPU time (the resulting altitude errors depend on the
+              resolution of the used polyhedron and altitude itself). # [cpp]
+
+  #######################################################################
+
+  - name: HybridBodyShapeSettings
+    short_summary: "Class for defining model settings of a hybrid body shape."
+    extended_summary: "`BodyShapeSettings` derived class for hybrid body shape model settings."
+
+    properties: # [py]
+      - name: low_resolution_body_shape_settings # [py]
+        type: BodyShapeSettings # [py]
+        description: |
+          Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
+          altitude).
+
+      - name: high_resolution_body_shape_settings # [py]
+        type: BodyShapeSettings # [py]
+        description: |
+          Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
+          altitude).
+
+      - name: switchover_altitude # [py]
+        type: float # [py]
+        description: |
+          Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
+          altitudes below the switchover altitude, the low-resolution model for altitudes above it.
+
+    methods:       # [cpp]
+      - name: ctor # [cpp]
+        short_summary: "Constructor." # [cpp]
+        extended_summary: "Instances of the `HybridBodyShapeSettings` class should be created through the `hybridBodyShapeSettings` factory function." # [cpp]
+
+      - name: getLowResolutionBodyShapeSettings # [cpp]
+        short_summary: "Retrieve the low-resolution body shape settings." # [cpp]
+        extended_summary: "Function to retrieve the low-resolution body shape settings from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: std::shared_ptr< BodyShapeSettings > # [cpp]
+          description: |
+            Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
+            altitude). # [cpp]
+
+      - name: resetLowResolutionBodyShapeSettings # [cpp]
+        short_summary: "Reset the low-resolution body shape settings." # [cpp]
+        extended_summary: "Function to reset the low-resolution body shape settings of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: lowResolutionBodyShapeSettings # [cpp]
+            type: std::shared_ptr< BodyShapeSettings > # [cpp]
+            description: |
+              Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
+              altitude). # [cpp]
+
+      - name: getHighResolutionBodyShapeSettings # [cpp]
+        short_summary: "Retrieve the high-resolution body shape settings." # [cpp]
+        extended_summary: "Function to retrieve the high-resolution body shape settings from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: std::shared_ptr< BodyShapeSettings > # [cpp]
+          description: |
+            Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
+            altitude). # [cpp]
+
+      - name: resetHighResolutionBodyShapeSettings # [cpp]
+        short_summary: "Reset the high-resolution body shape settings." # [cpp]
+        extended_summary: "Function to reset the high-resolution body shape settings of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: highResolutionBodyShapeSettings # [cpp]
+            type: std::shared_ptr< BodyShapeSettings > # [cpp]
+            description: |
+              Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
+              altitude). # [cpp]
+
+      - name: getSwitchoverAltitude # [cpp]
+        short_summary: "Retrieve switchover altitude." # [cpp]
+        extended_summary: "Function to retrieve the switchover altitude from the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: None # [cpp]
+        returns: # [cpp]
+          type: double # [cpp]
+          description: |
+            Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
+            altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
+
+      - name: resetSwitchoverAltitude # [cpp]
+        short_summary: "Reset switchover altitude." # [cpp]
+        extended_summary: "Function to reset the switchover altitude of the settings object." # [cpp]
+        parameters: # [cpp]
+          - name: switchoverAltitude # [cpp]
+            type: double # [cpp]
+            description: |
+              Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
+              altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
 
 ##############################################################################
 #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
@@ -231,5 +455,109 @@ functions:
          double bodyFlattening = 1.0 / 300.0; # [cpp]
          // create shape model settings  # [cpp]
          bodySettings[ "Earth" ]->shapeModelSettings = std::make_shared< OblateSphericalBodyShapeSettings >( bodyRadius, bodyFlattening ); # [cpp]
+
+  #######################################################################
+  - name: polyhedron # [py]
+  - name: polyhedronBodyShapeSettings # [cpp]
+    short_summary: "Factory function for creating a polyhedron body shape model settings."
+    extended_summary: |
+      Factory function for settings object, defining a polyhedron shape model.
+
+      Note: The evaluation of the altitude with a polyhedron model tends to be computationally expensive. To reduce the
+      computational time, it might be useful to instead define a hybrid shape model (see
+      :func:`~tudatpy.numerical_simulation.environment_setup.shape.hybrid`), which allows using a high-resolution
+      polyhedron (with a large number of facets) at low altitudes and a low-resolution one (with smaller number of facets)
+      at high-altitudes.
+
+    parameters:
+      - name: vertices_coordinates # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesCoordinates # [cpp]
+        type: Eigen::MatrixXd # [cpp]
+        description: |
+          Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
+          row per vertex, 3 columns).
+
+      - name: vertices_defining_each_facet # [py]
+        type: numpy.ndarray # [py]
+      - name: verticesDefiningEachFacet # [cpp]
+        type: Eigen::MatrixXi # [cpp]
+        description: |
+          Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
+          the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
+          when seen from the outside of the polyhedron.
+
+      - name: compute_altitude_with_sign # [py]
+        type: bool, default=True # [py]
+      - name: computeAltitudeWithSign # [cpp]
+        type: bool, default=true # [cpp]
+        description: |
+          Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
+          having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is
+          recommended, as it reduces the CPU time for computing the altitude.
+
+      - name: just_compute_distance_to_vertices # [py]
+        type: bool, default=False # [py]
+      - name: justComputeDistanceToVertices # [cpp]
+        type: bool, default=false # [cpp]
+        description: |
+          Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
+          is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
+          *false*). Depending on the application, it might be useful to set the flag to *true* for medium to high
+          altitudes, as it allows significantly reducing the CPU time (the resulting altitude errors depend on the
+          resolution of the used polyhedron and altitude itself).
+
+    returns:
+        type: PolyhedronBodyShapeSettings
+        description: |
+          Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived
+          :class:`~tudatpy.numerical_simulation.environment_setup.shape.PolyhedronBodyShapeSettings` class
+
+  #######################################################################
+  - name: hybrid # [py]
+  - name: hybridBodyShapeSettings # [cpp]
+    short_summary: "Factory function for creating hybrid body shape model settings."
+    extended_summary: |
+      Factory function for settings object, defining a hybrid shape model.
+
+      The hybrid shape model is constituded by two shape models: a low-resolution model which is used at high altitudes
+      (above the switchover altitude) and a high-resolution model used at low altitudes (below the switchover altitude).
+      In each computation of the altitude, the altitude is first computed with the low-resolution model. The
+      low-resolution altitude is then compared to the switchover altitude to decide whether to compute the high-resolution
+      altitude.
+
+      The hybrid shape model is useful when the evaluation of the high-resolution model is computationally expensive
+      (e.g. polyhedron model).
+
+    parameters:
+      - name: low_resolution_body_shape_settings # [py]
+        type: BodyShapeSettings # [py]
+      - name: lowResolutionBodyShapeSettings # [cpp]
+        type: std::shared_ptr< BodyShapeSettings > # [cpp]
+        description: |
+          Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
+          altitude).
+
+      - name: high_resolution_body_shape_settings # [py]
+        type: BodyShapeSettings # [py]
+      - name: highResolutionBodyShapeSettings # [cpp]
+        type: std::shared_ptr< BodyShapeSettings > # [cpp]
+        description: |
+          Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
+          altitude).
+
+      - name: switchover_altitude # [py]
+        type: float # [py]
+      - name: switchoverAltitude # [cpp]
+        type: double # [cpp]
+        description: |
+          Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
+          altitudes below the switchover altitude, the low-resolution model for altitudes above it.
+
+    returns:
+        type: hybridBodyShapeSettings
+        description: |
+          Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived
+          :class:`~tudatpy.numerical_simulation.environment_setup.shape.hybridBodyShapeSettings` class
 
   #######################################################################
