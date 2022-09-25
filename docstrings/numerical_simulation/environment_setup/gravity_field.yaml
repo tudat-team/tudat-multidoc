@@ -807,11 +807,11 @@ functions:
       - name: vertices_defining_each_facet # [py]
         type: numpy.ndarray # [py]
       - name: verticesDefiningEachFacet # [cpp]
-        type: Eigen::MatrixXd # [cpp]
+        type: Eigen::MatrixXi # [cpp]
         description: |
           Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
           the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
-          when seen from the outside of the polyhedron. # [py]
+          when seen from the outside of the polyhedron.
 
       - name: associated_reference_frame # [py]
         type: str # [py]
@@ -872,7 +872,7 @@ functions:
       - name: vertices_defining_each_facet # [py]
         type: numpy.ndarray # [py]
       - name: verticesDefiningEachFacet # [cpp]
-        type: Eigen::MatrixXd # [cpp]
+        type: Eigen::MatrixXi # [cpp]
         description: |
           Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
           the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
