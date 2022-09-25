@@ -494,7 +494,7 @@ functions:
         description: |
           Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
           having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is
-          recommended, as it reduces the CPU time for computing the altitude.
+          recommended, as it reduces the CPU time.
 
       - name: just_compute_distance_to_vertices # [py]
         type: bool, default=False # [py]
