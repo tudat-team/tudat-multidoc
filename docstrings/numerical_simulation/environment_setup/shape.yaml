@@ -558,6 +558,6 @@ functions:
         type: hybridBodyShapeSettings
         description: |
           Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived
-          :class:`~tudatpy.numerical_simulation.environment_setup.shape.hybridBodyShapeSettings` class
+          :class:`~tudatpy.numerical_simulation.environment_setup.shape.HybridBodyShapeSettings` class
 
   #######################################################################
