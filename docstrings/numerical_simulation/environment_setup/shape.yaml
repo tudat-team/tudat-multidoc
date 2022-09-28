@@ -463,11 +463,17 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a polyhedron shape model.
 
-      Note: The evaluation of the altitude with a polyhedron model tends to be computationally expensive. To reduce the
+      Note 1: The evaluation of the altitude with a polyhedron model tends to be computationally expensive. To reduce the
       computational time, it might be useful to instead define a hybrid shape model (see
       :func:`~tudatpy.numerical_simulation.environment_setup.shape.hybrid`), which allows using a high-resolution
       polyhedron (with a large number of facets) at low altitudes and a low-resolution one (with smaller number of facets)
       at high-altitudes.
+
+      Note 2: If the goal of using the shape model is only to detect collisions with the surface and not to explicitly
+      obtain the altitude, it is instead recommended to use the Laplacian of the gravitational potential (see
+      :func:`~tudatpy.numerical_simulation.environment_setup.dependent_variable.yaml.gravity_field_laplacian_of_potential`).
+      This allows reducing the computational time, but is only valid if the same polyhedron model that is used to define
+      the gravitational acceleration should also be used to detect the impacts.
 
     parameters:
       - name: vertices_coordinates # [py]
