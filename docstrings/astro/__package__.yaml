@@ -10,3 +10,4 @@ modules:
   - element_conversion
   - time_conversion # [py]
   - two_body_dynamics
+  - polyhedron_utilities
