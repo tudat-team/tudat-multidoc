@@ -591,7 +591,7 @@ functions:
 
   #######################################################################
 
-  - name: spherical_harmonic_triaxial_ellipsoid_from_density # [py]
+  - name: sh_triaxial_ellipsoid_from_density # [py]
   - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
     short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters, using the density to define the mass distribution."
     extended_summary: |
@@ -674,7 +674,7 @@ functions:
 
   #######################################################################
 
-  - name: spherical_harmonic_triaxial_ellipsoid_from_gravitational_parameter # [py]
+  - name: sh_triaxial_ellipsoid_from_gravitational_parameter # [py]
   - name: createHomogeneousTriAxialEllipsoidGravitySettings # [cpp]
     short_summary: "Factory function for spherical harmonics gravity field settings object from triaxial ellipsoid parameters, using the gravitational parameter to define the mass distribution.."
     extended_summary: |
@@ -774,13 +774,13 @@ functions:
     extended_summary: |
       Factory function for settings object, defining a gravity field model through a polyhedron.
       The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
-      It represents the frame in which the polyhedron field is defined.
+      It represents the frame in which the polyhedron field is defined. 
 
       The gravitational potential, acceleration, Laplacian of potential and Hessian of potential are computed according
       to Werner and Scheeres [2]_.
 
-      This function uses the gravitational parameter to define the gravity field. To instead use the density and gravitational
-      constant see :func:`~tudatpy.astro.gravitation.polyhedron_from_gravitational_constant_and_density`.
+      This function uses the gravitational parameter to define the gravity field. To instead use the density 
+      constant see :func:`~tudatpy.astro.gravitation.polyhedron_from_density`.
 
     parameters:
       - name: gravitational_parameter # [py]
@@ -812,13 +812,12 @@ functions:
         type: std::string # [cpp]
         description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
 
-      - name: density # [py]
-        type: float, default=TUDAT_NAN # [py]
+      - name: gravitational_constant # [py]
+        type: float, default=GRAVITATIONAL_CONSTANT # [py]
       - name: density # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
+        type: double, default=GRAVITATIONAL_CONSTANT # [cpp]
         description: |
-          Density of the polyhedron. If specified, it is used to define the inertia tensor of the body with the gravity
-          field in the class:`~tudatpy.numerical_simulation.environment.Body` class.
+          Newton's gravitational constant G, used to computed the density
 
     returns:
         type: PolyhedronGravityFieldSettings
@@ -826,9 +825,9 @@ functions:
 
   #######################################################################
 
-  - name: polyhedron_from_gravitational_constant_and_density # [py]
+  - name: polyhedron_from_density # [py]
   - name: polyhedronGravitySettings # [cpp]
-    short_summary: "Factory function for creating a polyhedron gravity field settings object, using the gravitational constant and density."
+    short_summary: "Factory function for creating a polyhedron gravity field settings object, using the density."
     extended_summary: |
       Factory function for settings object, defining a gravity field model through a polyhedron.
       The ``associated_reference_frame`` must be the same frame ID as the target frame of the body’s rotation model.
@@ -837,16 +836,10 @@ functions:
       The gravitational potential, acceleration, Laplacian of potential and Hessian of potential are computed according
       to Werner and Scheeres [2]_.
 
-      This function uses the density and gravitational constant to define the gravity field. To instead use the
+      This function uses the density to define the gravity field. To instead use the
       gravitational parameter see :func:`~tudatpy.astro.gravitation.polyhedron_from_gravitational_parameter`.
 
     parameters:
-      - name: gravitational_constant # [py]
-        type: float # [py]
-      - name: gravitationalConstant # [cpp]
-        type: double # [cpp]
-        description: Gravitational constant G of the gravity field.
-
       - name: density # [py]
         type: float, default=TUDAT_NAN # [py]
       - name: density # [cpp]
@@ -876,6 +869,13 @@ functions:
       - name: associatedReferenceFrame # [cpp]
         type: std::string # [cpp]
         description: Identifier for body-fixed reference frame with which the spherical harmonics coefficients are associated.
+
+      - name: gravitational_constant # [py]
+        type: float, default=GRAVITATIONAL_CONSTANT # [py]
+      - name: density # [cpp]
+        type: double, default=GRAVITATIONAL_CONSTANT # [cpp]
+        description: |
+          Newton's gravitational constant G, used to computed the gravitational parameter
 
     returns:
         type: PolyhedronGravityFieldSettings
