@@ -386,7 +386,7 @@ functions:
   - name: getMgaTransferTrajectorySettingsWithVelocityBasedDsm # [cpp]
 
     short_summary: |
-      Function to get the legs and nodes settings of a transfer constituted by legs with 1 deep space maneuver (DSM)
+      Function to get the legs and nodes settings of a transfer constituted by legs with 1 impulsive deep space maneuver (DSM)
       described using the velocity formulation.
     extended_summary: |
       Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
@@ -436,7 +436,7 @@ functions:
   - name: getMgaTransferTrajectorySettingsWithPositionBasedDsm # [cpp]
 
     short_summary: |
-      Function to get the legs and nodes settings of a transfer constituted by legs with 1 deep space maneuver (DSM)
+      Function to get the legs and nodes settings of a transfer constituted by legs with 1 impulsive deep space maneuver (DSM)
       described using the position formulation.
     extended_summary: |
       Function determines the legs and nodes settings of a multi-gravity assist transfer trajectory consisting of:
@@ -719,7 +719,7 @@ functions:
   - name: dsmPositionBasedLeg # [cpp]
 
     short_summary: |
-      Factory function for creating the settings of a transfer leg with 1 deep space maneuver (DSM) described using
+      Factory function for creating the settings of a transfer leg with 1 impulsive deep space maneuver (DSM) described using
       the position formulation.
     extended_summary: |
       Factory function for creating the settings of a transfer leg with 1 position-based DSM; the settings consist of just the leg type.
@@ -738,7 +738,7 @@ functions:
   - name: dsmVelocityBasedLeg # [cpp]
 
     short_summary: |
-      Factory function for creating the settings of a transfer leg with 1 deep space maneuver (DSM) described using
+      Factory function for creating the settings of a transfer leg with 1 impulsive deep space maneuver (DSM) described using
       the velocity formulation.
     extended_summary: |
       Factory function for creating the settings of a transfer leg with 1 velocity-based DSM; the settings consist of just the leg type.
@@ -875,10 +875,12 @@ functions:
 
     parameters:
       - name: minimum_periapsis # [py]
-        type: float # [py]
+        type: float, default=TUDAT_NAN # [py]
       - name: minimumPeriapsisDistance # [cpp]
-        type: double # [cpp]
-        description: Minimum periapsis radius.
+        type: double,default=TUDAT_NAN # [cpp]
+        description: |
+          Minimum periapsis radius. The minimum periapsis only needs to be specified if the types of swignby nodes that 
+          requires it is used. If that is the case and no minimum periapsis was selected an error is thrown.
 
     returns:
       type: SwingbyNodeSettings
