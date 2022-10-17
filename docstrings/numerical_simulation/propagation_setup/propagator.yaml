@@ -481,8 +481,10 @@ classes:
   - name: PropagatorProcessingSettings
     short_summary: "Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)"
     
+    methods:
+
     attributes:
-    - name: clear_numerical_solutions # [py]
+    - name: clear_numerical_solution # [py]
       type: Bool
       description: |    # [py]
         Boolean defining whether the propagation results should be
@@ -490,7 +492,7 @@ classes:
         done, the :py:attr:`~state_history`,
         :py:attr:`~unprocessed_state_history` and
         :py:attr:`~dependent_variable_history` will not be
-        accessible. Putting this setting to True (deleting the
+        available in the :py:class:`~tudatpy.numerical_simulation.propagator.SingleArcPropagatorResults` class. Putting this setting to True (deleting the
         results) is only sensible when the
         :py:attr:`~set_integrated_result` is set to True. In that
         case, the propagated states are *not* accessible directly
@@ -505,7 +507,7 @@ classes:
         be used to update the environment. If this variable is set
         to False, the numerical propagation results can be
         retrieved from this object (provided the
-        :py:attr:`~clear_numerical_solutions` is set to False),
+        :py:attr:`~clear_numerical_solution` is set to False),
         but the (for instance) Ephemeris of the propagated body
         is not updated with the propagation results. If this
         variable is set to True, the properties of the propagated
