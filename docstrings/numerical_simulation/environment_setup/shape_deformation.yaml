@@ -96,9 +96,10 @@ functions:
       In this example, we create a settings for degree 2 tidal deformation of the Earth due to the Sun and Moon:
 
       .. code-block:: python 
+
         # Create Love numbers  
         love_numbers = dict()
-        love_numbers[2] = (0.6, 0.07)
+        love_numbers[2] = (0.6, 0.08)
 
         # Create Love numbers  
         tide_raising_bodies = ["Sun", "Moon"]
@@ -142,6 +143,7 @@ functions:
       In this example, we create a settings for degree 2 tidal deformation of the Earth due to the Sun and Moon:
 
       .. code-block:: python 
+
         # Create Love numbers  
         h2_love_number = 0.6
         l2_shida_number = 0.08

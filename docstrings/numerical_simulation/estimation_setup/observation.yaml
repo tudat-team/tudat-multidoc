@@ -105,12 +105,24 @@ classes:
   # - make distinction between struct and class ?
   # - I decided to explicitly refer to factory functions from derived classes? multitude of base and derived classes now...
 
+  - name: LinkEndId
+    short_summary: "Object serving as identifier of a specific link end."
+
+  - name: LinkDefinition
+    short_summary: "Object storing the link ends involved in a given observation."
+
+    properties: # [py]
+      - name: link_ends # [py]
+        type: dict[LinkEndType,LinkEndId] # [py]
+        description: Dictionary of link ends, with the key denoting the role in the observaton, and the associated value the identifier for the link end. # [py]
+
+
   # breaking up grouping of all base and all derived classes, instead grouping by heritage
   #######################################################################
 
   - name: DopplerProperTimeRateSettings
     short_summary: "Base class to defining proper time rate settings."
-    extended_summary: |
+    extended_summary: |f
       Functional (base) class for settings of proper time rate (at a single link end) for one-way Doppler observation model settings.
       Specific proper time rate settings must be defined using an object derived from this class.
       The derived classes are made accessible via dedicated factory functions.
@@ -276,8 +288,66 @@ classes:
 functions:
 
   ###############    LINK ENDS           ################################
-  # (%!) will need to be worked over after typedefs are turned to classes
-  # module functions
+
+
+  - name: link_definition # [py]
+    short_summary: "Function to create a link definition object."
+
+    parameters:
+      - name: link_ends # [py]
+        type: dict[LinkEndType,LinkEndId] # [py]
+        description: Dictionary of link ends, with the key denoting the role in the observaton, and the associated value the identifier for the link end. # [py]
+
+    returns:
+      type: LinkDefinition # [py]
+      description: ``LinkDefinition`` object storing the link ends of the observation
+
+  #######################################################################
+
+  - name: body_origin_link_end_id # [py]
+    short_summary: "Function to create a link end identifier for the origin (typically center of mass) of a body."
+    extended_summary: |
+      Function to create a link end identifier for the origin (typically center of mass) of a body.
+      Using this option will simulate the origin of a body transmitter, receiving, etc. the observation.
+      Although this is typically not physically realistic, it can be a useful approximation, in particular for simulation studies.
+
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: |
+          Name of the body   
+
+    returns:
+      type: LinkEndId # [py]
+      description: |
+        A LinkEndId object representing the center of mass of a body
+
+  #######################################################################
+
+  - name: body_reference_point_link_end_id # [py]
+    short_summary: "Function to create a link end identifier for a reference point on a body."
+    extended_summary: |
+      Function to create a link end identifier for a reference point on a body, where the reference point
+      is typically the identifier of a ground stations
+
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: |
+          Name of the body on which the reference point is located  
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: |
+          Name of the reference point on the body.  
+
+
+    returns:
+      type: LinkEndId # [py]
+      description: |
+        A LinkEndId object representing a reference point on a body
+
+  #######################################################################
 
   - name: one_way_downlink_link_ends # [py]
     short_summary: "Function for defining one-way downlinks via LinkEnds types."
