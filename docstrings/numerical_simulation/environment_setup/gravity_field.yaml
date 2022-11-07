@@ -768,8 +768,8 @@ functions:
 
   #######################################################################
 
-  - name: polyhedron_from_gravitational_parameter # [py]
-  - name: polyhedronGravitySettings # [cpp]
+  - name: polyhedron_from_mu # [py]
+  - name: polyhedronGravitySettingsFromMu # [cpp]
     short_summary: "Factory function for creating a polyhedron gravity field settings object, using the gravitational parameter."
     extended_summary: |
       Factory function for settings object, defining a gravity field model through a polyhedron.
@@ -837,7 +837,7 @@ functions:
       to Werner and Scheeres [2]_.
 
       This function uses the density to define the gravity field. To instead use the
-      gravitational parameter see :func:`~tudatpy.astro.gravitation.polyhedron_from_gravitational_parameter`.
+      gravitational parameter see :func:`~tudatpy.astro.gravitation.polyhedron_from_mu`.
 
     parameters:
       - name: density # [py]
