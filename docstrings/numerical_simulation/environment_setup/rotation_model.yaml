@@ -734,3 +734,27 @@ functions:
 
   #######################################################################
 
+  - name: mars_high_accuracy # [py]
+    short_summary: "Factory function for creating a high-accuracy Mars rotation model."
+    extended_summary: |
+      Factory function for creating a high-accuracy Mars rotation model, as per `Konopliv et al. (2016) <https://www.sciencedirect.com/science/article/abs/pii/S0019103516001305>`_
+      Note that, at the moment, all parameters in this rotation model are hard coded, and cannot be adapted by the user (except by estimating a number of its constituent parameters, see :ref:`\`\`parameter\`\`` module )
+      As such, this model is at present applicable to Mars rotation only. If you require more fine-grained control of the parameters, please contact the Tudat support team      
+
+    parameters:
+
+    returns:
+        type: RotationModelSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.RotationModelSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.rotation_model.PlanetaryRotationModelSettings` class, which defines the required settings for the rotation model.
+
+
+  #######################################################################
+
+
+
+
+
+
+
+
+
