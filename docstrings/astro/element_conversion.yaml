@@ -643,16 +643,7 @@ functions:
         type: numpy.ndarray # [py]
         description: Cartesian elements, as computed from spherical element input. 
 
-  m.def("spherical_to_cartesian_elementwise",
-          py::overload_cast<
-          double, double, double, double, double, double >(
-              &toec::convertSphericalOrbitalToCartesianState< double > ),
-          py::arg("radial_distance"),
-          py::arg("latitude"),
-          py::arg("longitude"),
-          py::arg("speed"),
-          py::arg("flight_path_angle"),
-          py::arg("heading_angle"),
+
 
   - name: spherical_to_cartesian_elementwise # [py]
     short_summary: "Convert Spherical elements to Cartesian, with elementwise input."
