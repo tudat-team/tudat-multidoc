@@ -1,5 +1,5 @@
 extended_summary: |
-  Functions for performing numerical interpolation using various algorithms.
+  Functions for performing numerical interpolation using various algorithms. More details on the usage of these functions is given in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/math/interpolators.html>`_
 
 classes:
 
@@ -23,7 +23,7 @@ classes:
         - name: independent_variable_value # [py]
           type: float # [py]
           description: |
-            Value of independent variable at which the interpolation is to be performed.
+            Value of independent variable at which the interpolation is to bse performed.
 
         returns:
           type: float
