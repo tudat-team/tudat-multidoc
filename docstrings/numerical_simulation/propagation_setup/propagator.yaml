@@ -527,6 +527,7 @@ functions:
       of which define the relative translational states for which a differential equation is to be solved. The propagator
       input defines the formulation in which the differential equations are set up
       The dynamical models are defined by an ``AccelerationMap``, as created by :func:`~create_acceleration_models` function.
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/translational.html>`_
 
 
     parameters:
@@ -609,6 +610,7 @@ functions:
       inertial and body-fixed frame are to be solved. The propagator input defines the
       formulation in which the differential equations are set up. The dynamical models are
       defined by an ``TorqueModelMap``, as created by ``create_torque_models`` function.
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/rotational.html>`_
 
     parameters:
       - name: torqueModelMap # [cpp]
@@ -671,6 +673,7 @@ functions:
       each body. In this function, the dependent variables to save are provided
       as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
       through the termination settings object provided.
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/mass.html>`_
 
     parameters:
       - name: bodiesWithMassToPropagate # [cpp]
@@ -723,6 +726,7 @@ functions:
       It works by providing a list of SingleArcPropagatorSettings objects. When using this function,
       only the termination and output settings provided here are used, any such settings in the
       constituent propagator settings are ignored
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/multi_type.html>`_
 
       .. note:: The propagated state contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
                 When propagating two bodies, an example of what the output state would look like is for instance:
