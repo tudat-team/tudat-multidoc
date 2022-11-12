@@ -483,7 +483,7 @@ classes:
     
     methods:
 
-    attributes:
+    properties:
     - name: clear_numerical_solution # [py]
       type: Bool
       description: |    # [py]
