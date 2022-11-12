@@ -28,6 +28,24 @@ notes: |
   | ``5`` | True anomaly                                                                         |
   +-------+--------------------------------------------------------------------------------------+
 
+  Unless specified otherwise, the sphreical elements are ordered as:
+
+  +-------+--------------------------------------------------------------------------------------+
+  | Index | Spherical State Element                                                              |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``0`` | Radial distance                                                                      |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``1`` | Latitude                                         s                                    |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``2`` | Longitude                                                                            |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``3`` | Speed                                                                                |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``4`` | Flight-path angle                                                                    |
+  +-------+--------------------------------------------------------------------------------------+
+  | ``5`` | Heading angle                                                                        |
+  +-------+--------------------------------------------------------------------------------------+
+
   Unless specified otherwise, the Modified equinoctial elements (MEE; see `here <https://arc.aiaa.org/doi/pdf/10.2514/1.32237>`_, element set *k*) are ordered as follows.
   The element :math:`I`, which defines the location of the MEE singularity is not treated as a state element, but is provided/determined separately:
 
@@ -96,7 +114,7 @@ functions:
 
     returns:
         type: numpy.ndarray # [py]
-        description: Keplerian elements, as computed from Cartesian element input. 
+        description: Cartesian elements, as computed from Keplerian element input. 
 
 
   - name: keplerian_to_cartesian_elementwise # [py]
@@ -150,7 +168,7 @@ functions:
 
     returns:
         type: numpy.ndarray # [py]
-        description: Keplerian elements, as computed from Cartesian element input. 
+        description: Cartesian elements, as computed from Keplerian element input. 
 
   - name: mean_to_true_anomaly # [py]
     short_summary: "Convert mean to true anomaly."
@@ -586,3 +604,79 @@ functions:
     returns:
         type: numpy.ndarray # [py]
         description: Equivalent quaternion elements, as per the convention used in the `Eigen library <https://eigen.tuxfamily.org/dox/classEigen_1_1Quaternion.html>`_
+
+
+
+
+
+- name: cartesian_to_spherical # [py]
+    short_summary: "Convert Cartesian to spherical elements."
+    extended_summary: |
+      .. note:: See module level documentation for the standard ordering
+                convention of spherical state elements used.
+
+
+    parameters:
+      - name: cartesian_elements # [py]
+        type: numpy.ndarray # [py]
+      - name: cartesianElements # [cpp]
+        type: Eigen::Vector6d # [cpp]
+        description: Cartesian state that is to be converted to spherical elements
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Spherial elements, as computed from Cartesian element input. 
+
+
+  - name: spherical_to_cartesian # [py]
+    short_summary: "Convert spherical elements to Cartesian."
+    extended_summary: |
+      .. note:: See module level documentation for the standard ordering
+                convention of spherical state elements used.
+
+    parameters:
+      - name: spherical_elements # [py]
+        type: numpy.ndarray # [py]
+        description: Spherical state that is to be converted to Cartesian elements
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Cartesian elements, as computed from spherical element input. 
+
+
+
+  - name: spherical_to_cartesian_elementwise # [py]
+    short_summary: "Convert Spherical elements to Cartesian, with elementwise input."
+
+    parameters:
+      - name: radial_distance # [py]
+        type: float # [py]
+        description: Distance from origin of central body
+
+      - name: latitude # [py]
+        type: float # [py]
+        description: Central body-fixed latitude
+
+      - name: longitude # [py]
+        type: float # [py]
+        description: Central body-fixed longitude
+
+      - name: speed # [py]
+        type: float # [py]
+        description: Central body-fixed speed (norm of velocity vector). Note that this is *not* the norm of the inertial velocity
+
+      - name: flight_path_angle # [py]
+        type: float # [py]
+        description: Flight-path angle (of central body-fixed velocity vector)
+
+      - name: heading_angle # [py]
+        type: float # [py]
+        description: Heading angle (of central body-fixed velocity vector)
+
+
+    returns:
+        type: numpy.ndarray # [py]
+        description: Cartesian elements, as computed from spherical element input. 
+
+
+
