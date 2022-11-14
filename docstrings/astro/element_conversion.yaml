@@ -609,7 +609,7 @@ functions:
 
 
 
-- name: cartesian_to_spherical # [py]
+  - name: cartesian_to_spherical # [py]
     short_summary: "Convert Cartesian to spherical elements."
     extended_summary: |
       .. note:: See module level documentation for the standard ordering
