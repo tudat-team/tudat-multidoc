@@ -72,7 +72,8 @@ classes:
         description: |
           History of cumulative computation time in seconds needed during the propagation as key-value
           pairs. At each epoch (key) the computation time (value) in seconds is the total computation time
-          used up to and including that time step.
+          used up to and including that time step. This includes the total time up to and including the current time step,
+          since the beginning of the (single-arc) propagation.
 
       - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
         type: std::map<double, int> # [cpp]
@@ -81,7 +82,8 @@ classes:
         readonly: Yes
         description: |
           This function returns the history of cumulative number of function evaluations taken during the propagation as key-value
-          pairs. At each epoch (key), the number of computed function evaluations (value) are given up to and including that time step.
+          pairs. At each epoch (key), the total number of computed function evaluations (value) are given up to and including that time step.
+          This includes all function evaluations up to and including the current time step, since the beginning of the (single-arc) propagation.
 
       - name: termination_details # [py]
         type: PropagationTerminationDetails
