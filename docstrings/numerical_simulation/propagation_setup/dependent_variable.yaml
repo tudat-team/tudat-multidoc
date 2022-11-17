@@ -1664,8 +1664,64 @@ functions:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
+  # Minimum inter-body distance
+  - name: minimum_body_distance # [py]
+    short_summary: "Function to compute the minimum distance between a given body, and a set of other bodies."
+    extended_summary: "Function to compute the minimum distance between a given body, and a set of other bodies.
+      This function takes the instantaneous position of body ``body_name``, and each body in the list ``bodies_to_check``,
+      and computes the body from this list closest to ``body_name``. In this calculation, the positions of the bodies
+      are evaluated at the current propagation time, and therefore **light time is ignored**. In addition, this functions
+      does not consider visbility requirements (e.g. is a planet between two bodies). The dependent variable is of size 2, and 
+      consists of: (0) The distance between the body, and the closest other body; (1) The index from ``bodies_to_check`` for
+      which the distance (given by the first index) is closest to ``body``
+      Typically, this function is used to compute the closest body in a constellation of satellites. "
+
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: Body for which the distance to other bodies is to be computed.
+
+      - name: bodies_to_check # [py]
+        type: list[ str ] # [py]
+        description: List of bodies for which it is to be checked which of these bodies is closest to ``body_name``.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
 
+  # Minimum inter-body distance
+  - name: minimum_visible_station_body_distances # [py]
+    short_summary: "Function to compute the minimum distance between a ground station, and a set of other bodies visible from that station."
+    extended_summary: "Function to compute the minimum distance between a ground station, and a set of other bodies visible from that station
+      This function takes the instantaneous position of the ground station ``station_name`` on ``body_name``, and each body in the list ``bodies_to_check``,
+      and computes the body from this list closest to this ground station, only taking into account those bodies from this list which are visible from teh ground 
+      station. For this function, visibility is defined by a single elevation angle cutoff (at the ground station) below which a body is deemed to not be visible.
+      In this calculation, the positions of the bodies
+      are evaluated at the current propagation time, and therefore **light time is ignored**. The dependent variable is of size 3, and 
+      consists of: (0) The distance between the ground station, and the closest visible body; (1) The index from ``bodies_to_check`` for
+      which the distance (given by the first index) is closest to thee ground station, and the body is visible. (2) Elevation angle for closest body.
+      In case, no body is visible from the station, this function returns [NaN, -1, NaN].
+      Typically, this function is used to compute the closest body between a ground staion and a constellation of satellites. "
 
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: Body on which ground station is located, for which the distance to other bodies is to be computed.
 
+      - name: station_name # [py]
+        type: str # [py]
+        description: Name of ground station, for which the distance to other bodies is to be computed.
+
+      - name: bodies_to_check # [py]
+        type: list[ str ] # [py]
+        description: List of bodies for which it is to be checked which of these bodies is closest to ``station_name`` on ``body_name``.
+
+      - name: minimum_elevation_angle # [py]
+        type: float # [py]
+        description: Minimum elevation angle (at ground station) below which the distance to the ``bodies_to_check`` is not considered.
+
+    returns:
+        type: SingleDependentVariableSaveSettings
+        description: Dependent variable settings object.
 
