@@ -177,8 +177,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for constant drag coefficients.
       Using the constant drag coefficient as an estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the `body` parameter
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.aerodynamic` acceleration
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the ``body`` parameter
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.aerodynamic` acceleration
 
     parameters:
       - name: body # [py]
@@ -198,8 +198,8 @@ functions:
     extended_summary: |
       Factory function for creating (linear sensitivity) parameter settings object for arc-wise constant drag coefficients (arc-wise version of :func:``~tudatpy.numerical_simulation.estimation_setup.parameter.constant_drag_coefficient`).
       Using the arc-wise constant drag coefficient as an estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the `body` parameter
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.aerodynamic` acceleration
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.constant` aerodynamic interface to be defined for the body specified by the ``body`` parameter
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.aerodynamic` acceleration
 
       Note: This parameter may be estimated for a single-arc propagation, or a multi-arc propagation. In the latter case, the arcs selected for the estimation of the drag coefficient may, but need not, correspond to the arcs used for a multi-arc propagation.  
 
@@ -227,8 +227,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a radiation pressure coefficient.
       Using the radiation pressure coefficient as an estimatable parameter requires
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.cannonball` radiation pressure interface to be defined for the body specified by the `body` parameter
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.cannonball_radiation_pressure` acceleration
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.cannonball` radiation pressure interface to be defined for the body specified by the ``body`` parameter
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.cannonball_radiation_pressure` acceleration
 
     parameters:
       - name: body # [py]
@@ -248,8 +248,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for arc-wise radiation pressure coefficients (arc-wise version of :func:``~tudatpy.numerical_simulation.estimation_setup.parameter.radiation_pressure_coefficient`).
       Using the radiation pressure coefficient as an estimatable parameter requires
-        * a :func:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.cannonball` radiation pressure interface to be defined for the body specified by the `body` parameter
-        * the body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.cannonball_radiation_pressure` acceleration
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.radiation_pressure.cannonball` radiation pressure interface to be defined for the body specified by the ``body`` parameter
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.cannonball_radiation_pressure` acceleration
       The radiation pressure coefficient is defined according to the universal convention for a cannonball model and thus no further model information is given.
 
       Note: This parameter may be estimated for a single-arc propagation, or a multi-arc propagation. In the latter case, the arcs selected for the estimation of the radiation pressure coefficient may, but need not, correspond to the arcs used for a multi-arc propagation.  
@@ -279,7 +279,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for empirical acceleration magnitudes.
       Using the empirical acceleration terms as estimatable parameters requires
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.empirical` acceleration, which include constant (in RSW frame) terms
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.empirical` acceleration, which include constant (in RSW frame) terms
 
     parameters:
       - name: body # [py]
@@ -293,7 +293,7 @@ functions:
           Name of the central body of the empirical acceleration model (of which the gravitational parameter is extracted to compute the true anomaly, and w.r.t. which the RSW directions are determined). This body is the same as the body considered to be 'exerting' the empirical acceleration
 
       - name: acceleration_components # [py]
-        type: Dict[ EmpiricalAccelerationComponents, List[ EmpiricalAccelerationFunctionalShapes] ] # [py]
+        type: dict[ EmpiricalAccelerationComponents, list[ EmpiricalAccelerationFunctionalShapes] ] # [py]
         description: |
           Dictionary of components of the empirical acceleration which are to be estimated. There are two 'degrees of freedom' in these components: the direction of the acceleration (e.g. R, S or W direction) and the temporal signature (constant, sine of true anomaly or cosine of true anomaly). With this input, any subset may be selected. This parameter is a dictionary, with the key denoting the direction of the acceleration, and the value a list of the temporal signatures to estimate for this empirical acceleration direction.
 
@@ -310,7 +310,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for arc-wise empirical acceleration magnitudes (arc-wise version of :func:``~tudatpy.numerical_simulation.estimation_setup.parameter.empirical_accelerations`).
       Using the empirical acceleration terms as estimatable parameters requires
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.empirical` acceleration, which include constant (in RSW frame) terms
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.empirical` acceleration, which include constant (in RSW frame) terms
       
       Note: This parameter may be estimated for a single-arc propagation, or a multi-arc propagation. In the latter case, the arcs selected for the estimation of the radiation pressure coefficient may, but need not, correspond to the arcs used for a multi-arc propagation.  
 
@@ -404,7 +404,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for so-called 'quasi-impulsive shots', such as desaturation maneuvers. With this parameter, the total :math:`\Delta V` vector of a set of such shots/maneuvers can be estimated.
       Using the quasi-impulsive shots as an estimatable parameter requires
-        * The body specified by the `body` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.quasi_impulsive_shots_acceleration` acceleration
+        * The body specified by the ``body`` parameter to undergo :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.quasi_impulsive_shots_acceleration` acceleration
       Note: this parameter considers *all* shots/maneuvers used in the above acceleration model, and estimates the value of the 'delta_v_values' input of this acceleration.
 
     parameters:
@@ -426,8 +426,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the gravitational parameter of massive bodies.
       Using the gravitational parameter as estimatable parameter requires
-        * The body specified by the `body` parameter to be endowed with a gravity field (see :ref:`\`\`gravity_field\`\`` module for options)
-        * Any dynamical or observational model to depend on the gravitational parameter of the body specified by the `body` parameter
+        * The body specified by the ``body`` parameter to be endowed with a gravity field (see :ref:`\`\`gravity_field\`\`` module for options)
+        * Any dynamical or observational model to depend on the gravitational parameter of the body specified by the ``body`` parameter
 
     parameters:
       - name: body # [py]
@@ -447,9 +447,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the spherical harmonics cosine-coefficients (:math:`\bar{C}_{lm}`) of a hody with a spherical harmonic gravity field. Using this function, a 'full' set of spherical harmonic coefficients between an minimum/maximum degree/order are estimated. For instance, for minimum degree/order of 2/0, and maximum degree/order 4/4, all spherical harmonic cosine coefficients of degrees 2, 3 and 4 are estimated. If the maximum degree/order is set to 4/2, only coefficients with an order of 0, 1 and 2 are included. The entries in the parameter are sorted first by degree, and then by order (both in ascending order)
       Using the spherical harmonics cosine coefficients as estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic` (or derived) gravity model to be defined for the body specified by the `body` parameter
-        * Any dynamical or observational model to depend on the estimated cosine coefficients of the body specified by the `body` parameter. Typically, this dependency will be a :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.spherical_harmonic` acceleration 
-    #(%!) Model information on parametrization of spherical harmonics gravity coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic` (or derived) gravity model to be defined for the body specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the estimated cosine coefficients of the body specified by the ``body`` parameter. Typically, this dependency will be a :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.spherical_harmonic` acceleration
 
     parameters:
       - name: body # [py]
@@ -486,9 +485,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the spherical harmonics sine-coefficients (:math:`\bar{S}_{lm}`) of a hody with a spherical harmonic gravity field. Using this function, a 'full' set of spherical harmonic coefficients between an minimum/maximum degree/order are estimated. For instance, for minimum degree/order of 2/1 (there is no order 0 sine coefficient), and maximum degree/order 4/4, all spherical harmonic sine coefficients of degrees 2, 3 and 4 are estimated. If the maximum degree/order is set to 4/2, only coefficients with an order of 1 and 2 are included. The entries in the parameter are sorted first by degree, and then by order (both in ascending order)
       Using the spherical harmonics cosine coefficients as estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic` (or derived) gravity model to be defined for the body specified by the `body` parameter
-        * Any dynamical or observational model to depend on the estimated cosine coefficients of the body specified by the `body` parameter. Typically, this dependency will be a :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.spherical_harmonic` acceleration 
-    #(%!) Model information on parametrization of spherical harmonics gravity coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic` (or derived) gravity model to be defined for the body specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the estimated cosine coefficients of the body specified by the ``body`` parameter. Typically, this dependency will be a :func:`~tudatpy.numerical_simulation.propagation_setup.acceleration.spherical_harmonic` acceleration
 
     parameters:
       - name: body # [py]
@@ -575,10 +573,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's constant rotation rate parameter.
       Using the constant rotation rate as estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple` or :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple_from_spice` rotation model specified by the `body` parameter
-        * Any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple` or :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple_from_spice` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
       - name: body # [py]
@@ -598,10 +594,8 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's rotation pole position, parameterized by the constant pole rotation angles (:math:`alpha` and :math:`\delta`).
       Using the rotation pole position as estimatable parameter requires:
-        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple` or :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple_from_spice` rotation model specified by the `body` parameter
-        * Any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple` or :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.simple_from_spice` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
       - name: body # [py]
@@ -622,8 +616,7 @@ functions:
       Factory function for creating a (linear sensitivity) parameter settings object for a body's mean moment of inertia. 
       In most cases, the mean moment of inertia will not influence the dynamics/observation directly and sensitivity to this parameter will not be included. The dynamics/observation will be sensitive to this parameter if the rotational dynamics of a relevant body is estimated.
       Using the mean moment of inertia as estimatable parameter requires
-        * The estimation of an initial rotational state of the body specified by the `body` parameter
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * The estimation of an initial rotational state of the body specified by the ``body`` parameter
 
     parameters:
       - name: body # [py]
@@ -643,13 +636,11 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's periodic spin variation parameters.
       Using the mean moment of inertia as estimatable parameter requires
-        * a sufficiently sophisticated rotation model to be defined for the body specified by the `body` parameter
-        * any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.mars_high_accuracy` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
-      - name: body # [py]   # (%!) different from usual body. on c++ there is a difference (const std::string& associatedBody vs const std::string BodyName)
+      - name: body # [py]
         type: str # [py]
         description: |
           Name of the body, with whose rotation model the estimatable parameter is associated.
@@ -666,13 +657,11 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's polar motion amplitudes.
       Using the polar motion amplitudes as estimatable parameter requires
-        * a sufficiently sophisticated rotation model to be defined for the body specified by the `body` parameter
-        * any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.mars_high_accuracy` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
-      - name: body # [py]   # (%!) different from usual body. on c++ there is a difference (const std::string& associatedBody vs const std::string BodyName)
+      - name: body # [py]
         type: str # [py]
         description: |
           Name of the body, with whose rotation model the estimatable parameter is associated.
@@ -689,13 +678,11 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's core factor.
       Using the core factor as estimatable parameter requires
-        * a sufficiently sophisticated rotation model to be defined for the body specified by the `body` parameter
-        * any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.mars_high_accuracy` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
-      - name: body # [py]   # (%!) different from usual body. on c++ there is a difference (const std::string& associatedBody vs const std::string BodyName)
+      - name: body # [py]
         type: str # [py]
         description: |
           Name of the body, with whose rotation model the estimatable parameter is associated.
@@ -712,13 +699,11 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for a body's free core nutation rate.
       Using the free core nutation rate as estimatable parameter requires
-        * a sufficiently sophisticated rotation model to be defined for the body specified by the `body` parameter
-        * any dynamical or observational model to depend on the rotation model of the body specified by the `body` parameter
-    #(%!) help!
-    #(%!) Model information _________(on which model?)_________  coming soon.
+        * A :func:`~tudatpy.numerical_simulation.environment_setup.rotation_model.mars_high_accuracy` rotation model specified by the ``body`` parameter
+        * Any dynamical or observational model to depend on the rotation model of the body specified by the ``body`` parameter
 
     parameters:
-      - name: body # [py]   # (%!) different from usual body. on c++ there is a difference (const std::string& associatedBody vs const std::string BodyName)
+      - name: body # [py]
         type: str # [py]
         description: |
           Name of the body, with whose rotation model the estimatable parameter is associated.
@@ -761,7 +746,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for an observation's relative bias parameter.
       Using the relative observation bias as estimatable parameter requires
-        * the observation model (corresponding to the `link_ends` and `observable_type`) to include a relative bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.relative_bias`)
+        * The observation model (corresponding to the `link_ends` and `observable_type`) to include a relative bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.relative_bias`)
       Note: This parameter may be estimated for a single-arc propagation, or a multi-arc propagation. In the latter case, the arcs selected for the estimation of the bias may, but need not, correspond to the arcs used for a multi-arc propagation.  
 
     parameters:
@@ -787,7 +772,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the arc-wise treatment of an observation's absolute bias parameter.
       Using the arc-wise absolute observation bias as estimatable parameter requires
-        * the observation model (corresponding to the `link_ends` and `observable_type`) to include an arc-wise absolute bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.arcwise_absolute_bias`)
+        * The observation model (corresponding to the `link_ends` and `observable_type`) to include an arc-wise absolute bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.arcwise_absolute_bias`)
 
     parameters:
       - name: link_ends # [py]
@@ -820,7 +805,7 @@ functions:
     extended_summary: |
       Factory function for creating a (linear sensitivity) parameter settings object for the arc-wise treatment of an observation's relative bias parameter.
       Using the arc-wise relative observation bias as estimatable parameter requires
-        * the observation model (corresponding to the `link_ends` and `observable_type`) to include an arc-wise relative bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.arcwise_relative_bias`)
+        * The observation model (corresponding to the `link_ends` and `observable_type`) to include an arc-wise relative bias (:func:`~tudatpy.numerical_simulation.estimation_setup.observation.arcwise_relative_bias`)
       Note: This parameter may be estimated for a single-arc propagation, or a multi-arc propagation. In the latter case, the arcs selected for the estimation of the bias may, but need not, correspond to the arcs used for a multi-arc propagation.  
 
     parameters:
@@ -849,7 +834,6 @@ functions:
 
   #######################################################################
 
-  #(%!) only applicable to actual ground stations? or link ends in general?
   - name: ground_station_position # [py]
     short_summary: "Function for defining parameter settings for ground station position bias."
     extended_summary: |
