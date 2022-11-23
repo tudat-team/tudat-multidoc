@@ -677,35 +677,63 @@ classes:
               (when calling the :func:`perform_estimation` member function.
 
 
-      - name: estimateParameters                          # [cpp]
+      - name: compute_covariance                          # [py]
+        short_summary: |
+          Function to perform a covariance analysis for the given observations and parameters
+        extended_summary: | 
+          Function to perform a covariance analysis for the given observations and parameters. The observations are provided through the 
+          ``covariance_analysis_input`` input, as are the weights :math:`\mathbf{W}` and inverse a priori covariance :math:`(\mathbf{P}_{0})^{-1}`.
+          Calling this function uses the environment and propagator settings provided to the constructor of this `Estimator` class to simulate
+          the dynamics of any relevant bodies for the observations (and associated variational equations). The observations are then
+          computed using the observation models created by the settings provided to the constructor of this `Estimator` class, as is the
+          associated design matrix :math:`\mathbf{H}`. This function then produces the covariance :math:`\mathbf{P}` (omitting the normalization used
+          internally for numerical stability)
+
+          .. math::
+             \mathbf{P}=\left(\mathbf{H}^{T}\mathbf{W}\mathbf{H}+(\mathbf{P}_{0})^{-1}\right)^{-1}
+          
+          Note that, although the actual observations are formally not required for a covariance analysis, all additional data (e.g. observation time, type, link ends, etc.)
+          are. And, as such, the ``covariance_analysis_input`` does require the full set of observations and associated information, for consistency purposes (e.g., same input as
+          ``perform_estimation`` function) .
+
+        parameters:
+        - name: covariance_analysis_input # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` # [py]
+          description: |
+            Object consolidating all relevant settings for the covariance analysis
+            This includes foremost the simulated observations, as well as a priori information about the estimatable parameters
+
+        returns:
+          type: :class:`~tudatpy.numerical_simulation.estimation.vOutput` # [py]
+          description:  Object containing all outputs from the estimation process. # [py]
+
       - name: perform_estimation                          # [py]
         short_summary: |
           Function to trigger the parameter estimation.
-
         extended_summary: |
-          Function to trigger parameter estimation, including orbit determination, i.e. body initial states, from (simulated) observations
-          and a priori constraints.
-          All observable types and link ends per observable types that are included in the estimation input must have been
-          provided to the constructor of the Estimator object by the `observation_settings` parameter.
+          Function to trigger the parameter estimation. Much of the process and requirements are similar to those described in the 
+          :func:`~tudatpy.numerical_simulation.Estimator.compute_covariance` function. This function uses an iterative least-squares
+          estimate process to fit the data (inside ``estimation_input``) to the model defined by the inputs to the ``Estimator`` constructor.s
 
         parameters:
-
-        - name: PodInput # [cpp]
-          type: simulation_setup::PodInput # [cpp]
         - name: estimation_input # [py]
-          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput` # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationInput` # [py]
           description: |
-            Object consolidating all inputs required to conduct an estimation.
-            This includes foremost the simulated observations, as well as a priori information about the estimatable parameters.
-
-        - name: EstimationConvergenceChecker # [cpp]
-          type: simulation_setup::EstimationConvergenceChecker # [cpp]
-        - name: EstimationConvergenceChecker # [py]
-          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker` # [py]
-          description: |
-            Object defining the convergence criteria for the estimation.
+            Object consolidating all relevant settings for the estimation
+            This includes foremost the simulated observations, as well as a priori information about the estimatable parameters and convergence criteria for the least squares estimation.
 
         returns:
-          type: simulation_setup::PodOutput # [cpp]
-          type: :class:`~tudatpy.numerical_simulation.estimation.PodOutput` # [py]
-          description:  Object containing all outputs from the estimation (Pod) process. # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationOutput` # [py]
+          description:  Object containing all outputs from the estimation process. # [py]
+
+
+
+
+
+
+
+
+
+
+
+

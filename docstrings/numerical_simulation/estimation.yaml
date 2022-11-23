@@ -359,9 +359,9 @@ classes:
   ##############################################################################
 
   - name: EstimationInput
-    short_summary: Class for consolidating all inputs to the estimation.
+    short_summary: Class for defining all inputs to the estimation.
     extensive_summary: |
-      Class for consolidating all inputs required to conduct an estimation, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
+      Class for defining all inputs required to conduct an estimation, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
       This class is derived from :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` class, and includes settings on the iteration
       and convergence, in addition to those for the covariance analysis
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
@@ -439,75 +439,102 @@ classes:
 
   ##############################################################################
 
-  - name: PodOutput
-    short_summary: Class collecting all outputs from the estimation process.
+  - name: CovarianceAnalysisOutput
+    short_summary: Class collecting all outputs from the covariance analysis process.
     extensive_summary: |
-      Class collecting all outputs from the estimation (Pod) process.
-      Instances of this class are typically created by calling the `perform_estimation` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      Class collecting all outputs from the covariance analysi process.
+      Instances of this class are typically created by calling the `compute_covariance` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      Many members of this class can be retrieved in normalized or unnormalized form. See TODO for details.
 
     properties:
 
       - name: inverse_covariance
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: (Unnormalized) inverse estimation covariance matrix.
+        description: (Unnormalized) inverse estimation covariance matrix :math:`\mathbf{P}^{-1}`.
         readonly: True
 
       - name: covariance
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: (Unnormalized) estimation covariance matrix.
+        description: (Unnormalized) estimation covariance matrix :math:`\mathbf{P}`.
+        readonly: True
+
+      - name: inverse_normalized_covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: Normalized inverse estimation covariance matrix :math:`\mathbf{\tilde{P}}^{-1}`.
+        readonly: True
+
+      - name: normalized_covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: Normalized estimation covariance matrix :math:`\mathbf{\tilde{P}}`.
         readonly: True
 
       - name: formal_errors
-        type: numpy.ndarray[numpy.float64[m, 1]]
-        description: Formal error vector of the estimation result. Correlation matrix of the estimation result.
+        type: numpy.ndarray[numpy.float64[m, 1]]s
+        description: Formal error vector :math:`\boldsymbol{\sigma}` of the estimation result (e.g. square root of diagonal entries of covariance)s
         readonly: True
 
       - name: correlations
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: Correlation matrix of the estimation result.
-        readonly: True
-
-      - name: residual_history
-        type: numpy.ndarray[numpy.float64[m, n]]
-        description: Residual vectors, concatenated per iteration into a matrix.
-        readonly: True
-
-      - name: parameter_history
-        type: numpy.ndarray[numpy.float64[m, n]]
-        description: Parameter vectors, concatenated per iteration into a matrix. Column 0 contains pre-estimation values.
+        description: Correlation matrix of the estimation result. Entry :math:`i,j` is equal to :math:`P_{i,j}/(\sigma_{i}\sigma_{j})`
         readonly: True
 
       - name: design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of unnormalized partial derivatives.
+        description: Matrix of unnormalized partial derivatives :math:`\mathbf{H}=\frac{\partial\mathbf{h}}{\partial\mathbf{p}}`.
         readonly: True
 
       - name: normalized_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of partial derivatives.
+        description: Matrix of normalized partial derivatives :math:`\tilde{\mathbf{H}}`.
         readonly: True
 
       - name: weighted_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of weighted partial derivatives.
+        description: Matrix of weighted partial derivatives, equal to :math:`\mathbf{W}^{1/2}{\mathbf{H}}`
         readonly: True
 
       - name: weighted_normalized_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of weighted, normalized partial derivatives.
+        description: Matrix of weighted, normalized partial derivatives, equal to :math:`\mathbf{W}^{1/2}\tilde{\mathbf{H}}`
         readonly: True
+
+      - name: normalization_terms
+        type: numpy.ndarray[numpy.float64[m, 1]]
+        description: Vector of normalization terms used for covariance and design matrix
+        readonly: True
+
+
+  ##############################################################################
+
+  - name: EstimationOutput
+    short_summary: Class collecting all outputs from the iterative estimation process.
+    extensive_summary: |
+      Class collecting all outputs from the iterative estimation process.
+      Instances of this class are typically created by calling the `perform_estimation` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      This class is derived from :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisOutput` class, and includes all members from that class.
+
+
+    properties:
+      - name: residual_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Residual vectors, concatenated per iteration into a matrix; the :math:`i^{th}` column has the residuals from the :math:`i^{th}` iteration.
+        readonly: True
+
+      - name: parameter_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Parameter vectors, concatenated per iteration into a matrix. Column 0 contains pre-estimation values. The :math:`(i+1)^{th}` column has the residuals from the :math:`i^{th}` iteration.
+        readonly: True
+
+      - name: simulation_results_per_iteration
+        type: list[SimulationResults]
+        description: List of complete numerical propagation results, with the :math:`i^{th}` entry of thee list thee results of the :math:`i^{th}` propagation 
+        readonly: True
+
 
       - name: final_residuals
         type: numpy.ndarray[numpy.float64[m, 1]]
         description: Vector of post-fit observation residuals.
         readonly: True
-
-    methods: # [cpp]
-      - name: ctor # [cpp]
-        short_summary: "Constructor." # [cpp]
-        extended_summary: "Instances of this class are typically not generated by the user, but result from the `performEstimation` function. " # [cpp]
-
-
 
 
   ##############################################################################
