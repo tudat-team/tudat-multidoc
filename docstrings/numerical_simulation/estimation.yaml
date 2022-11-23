@@ -252,44 +252,37 @@ classes:
         short_summary: "Constructor." # [cpp]
         extended_summary: The user typically does not use the constructor, but creates instances of this class via the `createEstimationConvergenceChecker` factory function. # [cpp]
 
+
   ##############################################################################
 
-  - name: PodInput
-    short_summary: Class for consolidating all inputs to the estimation.
+  - name: CovarianceAnalysisInput
+    short_summary: Class for defining all specific inputs to a covariance analysis.
     extensive_summary: |
-      Class for consolidating all inputs required to conduct an estimation. This includes foremost the simulated observations,
-      as well as a priori information about the estimatable parameters.
+      Class for defining all specific inputs required to conduct a covariance analysis, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
+      This includes foremost the simulated observations, as well as possible a priori information about the estimatable parameters.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
        special_members: __init__
-
 
     methods:
       - name: ctor
         short_summary: "Class constructor."
         extended_summary: |
-          Constructor through which the user can create instances of this class.
+          Constructor through which the user can create instances of this class. Note that the weight are all initiated as 1.0, and the default settings of ``define_covariance_settings`` are used.
 
         parameters:
 
         - name: observations_and_times              # [py]
           type: ObservationCollection               # [py]
-          description: "Total data structure of observations and associated times/link ends/type."             # [py]
-
-        - name: parameter_size             # [py]
-          type: int                        # [py]
-          description: "Size of vector of estimated parameters."              # [py]
+          description: "Total data structure of observations and associated times/link ends/type/etc."             # [py]
 
         - name: inverse_apriori_covariance              # [py]
           type: numpy.ndarray[numpy.float64[m, n]], default = [ ]           # [py]
-          description: "A priori covariance matrix (unnormalized) of estimated parameters."             # [py]
-
-        - name: apriori_parameter_correction              # [py]
-          type: numpy.ndarray[numpy.float64[m, 1]], default = [ ]                         # [py]
-          description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
+          description: A priori covariance matrix (unnormalized) of estimated parameters. This should be either a size 0x0 matrix (no a priori information), or a square matrix
+            with the same size as the number of parameters that are considered # [py]
 
         returns:
-          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput`
-          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.PodInput` class, defining the data and other settings to be used for the estimation.
+          type: :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` class, defining the data and other settings to be used for the covariance analysis.
 
 
       - name: set_constant_weight # [py]
@@ -323,33 +316,112 @@ classes:
           type: None
           description: Function modifies the object in-place.
 
-      - name: define_estimation_settings # [py]
-        short_summary: Function to define specific settings for estimation process
+      - name: define_covariance_settings # [py]
+        short_summary: Function to define specific settings for covariance analysis process
         extended_summary: |
-          Function to define specific settings for estimation process
+          Function to define specific settings for covariance analysis process
 
         parameters:
-        - name: reintegrate_equations_on_first_iteration
+        - name: reintegrate_equations
           type: bool, default = True
           description: |
-            Boolean denoting whether the dynamics and variational equations are to be reintegrated on first iteration,
+            Boolean denoting whether the dynamics and variational equations are to be reintegrated
             or if existing values are to be used to perform first iteration.
 
         - name: reintegrate_variational_equations
           type: bool, default = True
           description: |
-            Boolean denoting whether the variational equations are to be reintegrated during estimation.
+            Boolean denoting whether the variational equations are to be reintegrated during estimation 
+            (if this is set to False, and ``reintegrate_equations`` to true, only the dynamics are re-integrated)
 
         - name: save_design_matrix
           type: bool, default = True
           description: |
-            Boolean denoting whether to save the partials matrix in the output.
+            Boolean denoting whether to save the partials matrix (also called design matrix) :math:`\mathbf{H}` in the output. Setting this to false makes the
+            :math:`\mathbf{H}` matrix unavailable to the user, with the advantage of lower RAM usage.
 
         - name: print_output_to_terminal
           type: bool, default = True
           description: |
-            Boolean denoting whether to print output to th terminal when running the estimation.
+            Boolean denoting whether to print covariance-analysis-specific output to the terminal when running the estimation.
 
+        returns:
+          type: None
+          description: Function modifies the object in-place.
+
+
+    properties: # [py]
+      - name: weight_matrix_diagonal # [py]
+        type: numpy.ndarray[numpy.float64[n, 1]] # [py]
+        description: Complete diagonal of the weights matrix that is to be used # [py]
+        readonly: True # [py]
+
+  ##############################################################################
+
+  - name: EstimationInput
+    short_summary: Class for consolidating all inputs to the estimation.
+    extensive_summary: |
+      Class for consolidating all inputs required to conduct an estimation, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
+      This class is derived from :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` class, and includes settings on the iteration
+      and convergence, in addition to those for the covariance analysis
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+       special_members: __init__
+
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor through which the user can create instances of this class.
+
+        parameters:
+
+        - name: observations_and_times              # [py]
+          type: ObservationCollection               # [py]
+          description: "Total data structure of observations and associated times/link ends/type/etc."             # [py]
+
+        - name: inverse_apriori_covariance              # [py]
+          type: numpy.ndarray[numpy.float64[m, n]], default = [ ]           # [py]
+          description: A priori covariance matrix (unnormalized) of estimated parameters. This should be either a size 0x0 matrix (no a priori information), or a square matrix
+            with the same size as the number of parameters that are considered # [py]
+
+        - name: convergence_checker              # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`, default = :func:`~tudatpy.numerical_simulation.estimation.estimation_convergence_checker` # [py]
+          description: "Object defining when the estimation is converged."        # [py]
+
+        returns:
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationInput`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationInput` class, defining the data and other settings to be used for the estimation.
+
+      - name: define_estimation_settings # [py]
+        short_summary: Function to define specific settings for the estimation process
+        extended_summary: |
+          Function to define specific settings for covariance analysis process
+
+        parameters:
+        - name: reintegrate_equations_on_first_iteration
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the dynamics and variational equations are to be reintegrated
+            or if existing values are to be used to perform first iteration.
+
+        - name: reintegrate_variational_equations
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the variational equations are to be reintegrated during estimation 
+            (if this is set to False, and ``reintegrate_equations_on_first_iteration`` to true, only the dynamics are re-integrated)
+
+        - name: save_design_matrix
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to save the partials matrix (also called design matrix) :math:`\mathbf{H}` in the output. Setting this to false makes the
+            :math:`\mathbf{H}` matrix unavailable to the user, with the advantage of lower RAM usage.
+
+        - name: print_output_to_terminal
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to print covariance-analysis-specific output to the terminal when running the estimation.
+       
         - name: save_residuals_and_parameters_per_iteration
           type: bool, default = True
           description: |
@@ -358,7 +430,7 @@ classes:
         - name: save_state_history_per_iteration
           type: bool, default = False
           description: |
-            Boolean denoting whether the state history is to be saved on each iteration.
+            Boolean denoting whether the state history and dependent variables are to be saved on each iteration.
 
         returns:
           type: None

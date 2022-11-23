@@ -1480,7 +1480,7 @@ functions:
       For more information about the characteristics of the resulting settings objects, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
 
       Note that this interface does not allow noise functions to be considered during creation of the simulation settings object.
-      For adding noise functions, please use the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_settings` function.
+      For adding noise functions, specific factory functions are provided in TODO.
 
     parameters:
       - name: link_ends_per_observable # [py]
@@ -1510,15 +1510,38 @@ functions:
 
 
   ############## ADDING TO SIMULATION SETTINGS   ###########################
-  # module functions
 
-  - name: add_gaussian_noise_to_settings # [py]
-    short_summary: "Function for adding gaussian noise function to existing observation simulation settings."
+  - name: add_gaussian_noise_to_all # [py]
+    short_summary: "Function for adding gaussian noise function to all existing observation simulation settings."
     extended_summary: |
       Function for including simple time-independent and time-uncorrelated Gaussian noise function to the simulation settings of one or more observable(s).
-      Out of the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) in the `observation_simulation_settings` parameter, the modification is only applied to the ones
-      which match the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` given by the `observable_type` parameter.
-      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+      The noise settings are added to all :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) in the `observation_simulation_settings` 
+      list.
+      
+      Note: the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place by this function, 
+      and thus the function does not return anything.
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: noise_amplitude # [py]
+        type: float # [py]
+        description: Standard deviation defining the un-biased Gaussian distribution for the noise.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+  #######################################################################
+
+  - name: add_gaussian_noise_to_observable # [py]
+    short_summary: "Function for adding gaussian noise function to existing observation simulation settings of a given observable type."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_all`, except that the function only adds noise to entries of the 
+      `observation_simulation_settings` list that matches the specified `observable_type`.  
 
     parameters:
       - name: observation_simulation_settings # [py]
@@ -1541,13 +1564,46 @@ functions:
 
   #######################################################################
 
-  - name: add_viability_check_to_settings # [py]
+  - name: add_gaussian_noise_to_observable_for_link_ends # [py]
+    short_summary: "Function for adding gaussian noise function to existing observation simulation settings of a given observable type and link definition."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_gaussian_noise_to_all`, except that the function only adds noise to entries of the 
+      `observation_simulation_settings` list that matches the specified `observable_type` and `link_definition`.  
+
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+      - name: noise_amplitude # [py]
+        type: float # [py]
+        description: Standard deviation defining the un-biased Gaussian distribution for the noise.
+
+      - name: observable_type # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` # [py]
+        description: |
+          Identifies the observable type in the observation simulation settings to which the noise is to be added.
+
+      - name: link_definition # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkDefinition` # [py]
+        description: |
+          Identifies the link definition in the observation simulation settings for which the noise is to be added.
+
+    returns:
+      type: None  # [py]
+      description: |
+        The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+
+  #######################################################################
+
+  - name: add_viability_check_to_all # [py]
     short_summary: "Function for including viability checks into existing observation simulation settings."
     extended_summary: |
-      Function for including viability checks into the simulation settings of one or more observable(s).
-      Modifications are applied to all given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s),
-      matching each :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object with the corresponding :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` entry in the `viability_settings` parameter.
-      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+      Function for adding viability checks to the observation simulation settings, such that only observations meeting certain conditions are retained.
+      The noise settings are added to all :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) in the `observation_simulation_settings` 
+      list.      
+      Note: the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place by this function, 
+      and thus the function does not return anything.
 
     parameters:
       - name: observation_simulation_settings # [py]
@@ -1569,10 +1625,8 @@ functions:
   - name: add_viability_check_to_settings # [py]
     short_summary: "Function for including viability checks into existing observation simulation settings."
     extended_summary: |
-      Function for including viability checks into the simulation settings of one or more observable(s).
-      Each of the given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects is matched with the corresponding :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` entry in the `viability_settings` parameter,
-      but *modifications are only applied* to those :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` which match the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservableType` given by the `observable_type` parameter.
-      Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+      As :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_viability_check_to_all`, except that the function only adds viabilitt settings to entries of the 
+      `observation_simulation_settings` list that matches the specified `observable_type`.  
 
     parameters:
       - name: observation_simulation_settings # [py]
@@ -1596,33 +1650,65 @@ functions:
 
   #######################################################################
 
-  - name: add_dependent_variables_to_settings # [py]
-    short_summary: "Function for including dependent variables into existing observation simulation settings."
+  - name: add_viability_check_to_observable_for_link_ends # [py]
+    short_summary: "Function for including viability checks into existing observation simulation settings."
     extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.estimation_setup.observation.add_viability_check_to_all`, except that the function only adds noise to entries of the 
+      `observation_simulation_settings` list that matches the specified `observable_type` and `link_definition`. 
 
-      Function for including the computation and reporting of dependent variables into the observation simulation settings of one or more observable(s).
-      Note: The associated functionality is not yet mature enough for the end user. Function is exposed for development purposes only.
+    parameters:
+      - name: observation_simulation_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+        description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
 
-  #   Modifications are applied to all given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s),
-  #   matching each :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object with the corresponding :class:`ObservationDependentVariableSettings` entry in the `dependent_variable_settings` parameter.
-  #   Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+      - name: viability_settings # [py]
+        type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` ] # [py]
+        description: |
+          List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationViabilitySettings` objects, defining the viability checks to be included.
 
-  # parameters:
-  #   - name: observation_simulation_settings # [py]
-  #     type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
-  #     description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+      - name: observable_type # [py]
+        type: :class:`ObservableType` # [py]
+        description: |
+          Identifies the observable type in the observation simulation settings for which the viability checks are to be considered.
 
-  #   - name: dependent_variable_settings # [py]
-  #     type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` ] # [py]
-  #     description: |
-  #       List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` objects, defining the dependent variables to be considered.
+      - name: link_definition # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkDefinition` # [py]
+        description: |
+          Identifies the link definition in the observation simulation settings for which the viability checks are to be considered.
 
-  #   - name: bodies # [py]
-  #     type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
-  #     description: |
-  #       Object consolidating all bodies and environment models that constitute the physical environment.
+    returns:
+      type: None  # [py]
+      description: |
+        The :class
+  #######################################################################
 
-  # returns:
-  #   type: None  # [py]
-  #   description: |
-  #     The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
+  #- name: add_dependent_variables_to_settings # [py]
+    #short_summary: "Function for including dependent variables into existing observation simulation settings."
+    #extended_summary: |
+
+      #Function for including the computation and reporting of dependent variables into the observation simulation settings of one or more observable(s).
+      #Note: The associated functionality is not yet mature enough for the end user. Function is exposed for development purposes only.
+
+  ##   Modifications are applied to all given :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s),
+  ##   matching each :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object with the corresponding :class:`ObservationDependentVariableSettings` entry in the `dependent_variable_settings` parameter.
+  ##   Note that the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects are modified in-place and thus the function does not return anything.
+
+  ## parameters:
+  ##   - name: observation_simulation_settings # [py]
+  ##     type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` ]
+  ##     description: Observation simulation settings, given by a list of one or more existing :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` objects.
+
+  ##   - name: dependent_variable_settings # [py]
+  ##     type: List[ :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` ] # [py]
+  ##     description: |
+  ##       List of one or more :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationDependentVariableSettings` objects, defining the dependent variables to be considered.
+
+  ##   - name: bodies # [py]
+  ##     type: :class:`~tudatpy.numerical_simulation.environment_setup.SystemOfBodies` # [py]
+  ##     description: |
+  ##       Object consolidating all bodies and environment models that constitute the physical environment.
+
+  ## returns:
+  ##   type: None  # [py]
+  ##   description: |
+  ##     The :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` object(s) are changed in-place.
