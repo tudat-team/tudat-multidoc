@@ -122,7 +122,7 @@ classes:
 
   - name: DopplerProperTimeRateSettings
     short_summary: "Base class to defining proper time rate settings."
-    extended_summary: |f
+    extended_summary: |
       Functional (base) class for settings of proper time rate (at a single link end) for one-way Doppler observation model settings.
       Specific proper time rate settings must be defined using an object derived from this class.
       The derived classes are made accessible via dedicated factory functions.
@@ -300,7 +300,7 @@ functions:
 
     returns:
       type: LinkDefinition # [py]
-      description: ``LinkDefinition`` object storing the link ends of the observation
+      description: The ``LinkDefinition`` object storing the link ends of the observation
 
   #######################################################################
 
@@ -368,7 +368,7 @@ functions:
           List of `LinkEndId` types (tuple of strings), where for each tuple the first entrance identifies the body and the second entry the reference point of the receiver link end(s).
 
     returns:
-      type: List[ Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] ]  # [py]
+      type: List[ LinkDefinition ]  # [py]
       description: |
         List of one or more `LinkEnds` types, each defining the geometry for one one-way downlink.
         A `LinkEnds` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
@@ -394,7 +394,7 @@ functions:
           `LinkEndId` type (tuple of strings), where the first entrance identifies the body and the second entry the reference point of the single receiver link end.
 
     returns:
-      type: List[ Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] ]  # [py]
+      type: List[ LinkDefinition ]  # [py]
       description: |
         List of one or more `LinkEnds` types, each defining the geometry for one one-way uplink.
         A `LinkEnds` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
@@ -625,12 +625,24 @@ functions:
   - name: one_way_range # [py]
     short_summary: "Factory function for creating settings for a one-way range observable."
     extended_summary: |
-      Factory function for creating observation model settings of one-way range type observables.
-      Each combination of observable type and link geometry (link_ends) needs a dedicated :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` object.
-
+      Factory function for creating observation model settings of one-way range type observables, for a single link definition. The associated observation model creates
+      a single-valued observable :math:`h_{_{\text{1-range}}}` as follows (in the unbiased case):
+      
+      .. math::
+         h_{_{\text{1-range}}}(t_{R},t_{T})=|\mathbf{r}_{R}(t_{R})-\mathbf{r}_{T}(t_{T})| + \Delta s
+      
+      where :math:`\mathbf{r}_{R}`, :math:`\mathbf{r}_{T}`, :math:`t_{R}` and :math:`t_{T}` denote the position function of receiver and transmitter, and evaluation time 
+      of receiver and transmitter. The term :math:`\Delta s` denotes light-time corrections due to e.g relativistic, atmospheric effects (as defined by the ``light_time_correction_settings`` input).
+      The transmission and reception time are related to the light-time :math:`T=t_{R}-t_{T}`, which is in turn related to the one-way range as :math:`T=h/c`
+      As a result, the calculation of the one-way range (and light-time) requires the iterative solution of the equation:
+     
+      .. math::
+         t_{R}-t_{T}=c\left(|\mathbf{r}_{R}(t_{R})-\mathbf{r}(t_{R})| + \Delta s\right)
+      
+      
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires the
           `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
@@ -656,14 +668,27 @@ functions:
   - name: n_way_range # [py]
     short_summary: "Factory function for creating settings for a n-way range observable."
     extended_summary: |
-      Factory function for creating observation model settings of n-way range type observables.
-      Each combination of observable type and link geometry (link_ends) needs a dedicated :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` object.
+      Factory function for creating observation model settings of n-way range type observables, for a single link definition. The associated observation model creates
+      a single-valued observable :math:`h_{_{\text{N-range}}}` by combining together a series :math:`n` one-way range observations    
+      (see :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`). By default, the reception time of the :math:`i^{th}` one-way range is set as the 
+      transmission time of the :math:`(i+1)^{th}` one-way range. A retransmission delay may be defined by ancilliary settings (see TODO) when creating observation
+      simulation setings.
+
+      For this factory function, the settings for each constituent one-way range (with the exception of the link end identifiers) are equal.
 
     parameters:
-      - name: one_way_range_settings # [py]
-        type: List[ :class:`ObservationModelSettings` ] # [py]
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
         description: |
-          List of observation model settings for each of the n components of the n-way range observable.
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined, as well
+          as a `retransmitter1`, `retransmitter2`, .... (with the number of retransmitters to be defined by the user). 
+
+      - name: light_time_correction_settings # [py]
+        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used for each constituent one-way range. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
 
       - name: bias_settings # [py]
         type: :class:`ObservationBiasSettings`, default = None # [py]
@@ -671,10 +696,64 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
           Note that only one bias setting is applied to the n-way observable.
 
-      - name: retransmission_times_function # [py]
-        type: Callable[[float], List[float]]], default = None # [py]
+    returns:
+      type: :class:`NWayRangeObservationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`NWayRangeObservationSettings` class.
+
+  #######################################################################
+
+  - name: n_way_range_from_one_way_links # [py]
+    short_summary: "Factory function for creating settings for a n-way range observable."
+    extended_summary: |
+      Factory function for creating observation model settings of n-way range type observables, for a single link definition. The
+      implementation is the same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_range`, with the difference
+      that the constituent one-way ranges may have different settings.s
+
+    parameters:
+      - name: one_way_range_settings # [py]
+        type: List[ :class:`ObservationModelSettings` ] # [py]
         description: |
-          Function that provides a list of retransmission delay of each intermediate link end as a function of the observation time at the retransmitting link end.
+          List of observation model settings for each of the :math:`n` constituent one-way ranges of the n-way range observable.
+          The ``LinkDefinition`` of this n-way range observable is created from this list, with the ``transmitter`` and ``retransmitter1`` defined by the
+          ``transmitter`` and ``receiver`` of the first entry in this list. The ``retransmitter``(n-1) and ``receiver`` are defined by the
+          ``transmitter`` and ``receiver`` of the :math:`n`^{th} entry of this list.
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
+          Note that only one bias setting is applied to the n-way observable.
+
+    returns:
+      type: :class:`NWayRangeObservationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`NWayRangeObservationSettings` class.
+
+#######################################################################
+
+  - name: two_way_range # [py]
+    short_summary: "Factory function for creating settings for a two-way range observable."
+    extended_summary: |
+      Same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_range`, with :math:`n=2`. This function is provided
+      for convenience.
+
+    parameters:
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter`, `retransmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined
+
+      - name: light_time_correction_settings # [py]
+        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used for each constituent one-way range. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
+          Note that only one bias setting is applied to the n-way observable.
 
     returns:
       type: :class:`NWayRangeObservationSettings`  # [py]
@@ -682,27 +761,101 @@ functions:
 
   #######################################################################
 
-  - name: one_way_open_loop_doppler # [py]
-    short_summary: "Factory function for creating settings for a one-way open-loop Doppler observable."
+  - name: two_way_range_from_one_way_links # [py]
+    short_summary: "Factory function for creating settings for a two-way range observable."
     extended_summary: |
-      Factory function for creating observation model settings of one-way open-loop Doppler type observables.
-      The observable is *approximately* equal to
-      the range-rate between the link ends, divided by *c*. The full model one-way Doppler observable :math:`h_{D(1),AB}` from 
-      link end *A* to link end *B* is computed from: 
-    
+      Same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_range_from_one_way_links`, with :math:`n=2`. This function is provided
+      for convenience.
+
+    parameters:
+      - name: one_way_range_settings # [py]
+        type: List[ :class:`ObservationModelSettings` ] # [py]
+        description: |
+          List of observation model settings of size two, with the first entry the one-way range settings for the uplink, and the second entry the one-way range settings for the downlink.
+          The ``LinkDefinition`` of this two-way range observable is created from this list, with the ``transmitter`` and ``retransmitter1`` defined by the
+          ``transmitter`` and ``receiver`` of the first entry in this list. The ``retransmitter`` and ``receiver`` are defined by the
+          ``transmitter`` and ``receiver`` of the second entry of this list.
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
+          Note that only one bias setting is applied to the n-way observable.
+
+    returns:
+      type: :class:`NWayRangeObservationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`NWayRangeObservationSettings` class.
+
+  #######################################################################
+
+  - name: angular_position # [py]
+    short_summary: "Factory function for creating settings for an angular position observable."
+    extended_summary: |
+      Factory function for creating observation model settings of angular position type observables (as right ascension :math:`\alpha` and declination :math:`\delta`), 
+      for a single link definition. The associated observation model creates an observable :math:`\mathbf{h}_{_{\text{ang.pos.}}}` of type two as follows (in the unbiased case):
+      
       .. math::
-         h_{D(1),AB}=\frac{d\tau_{A}}{dt_{A}}\frac{t_{A}}{dt_{B}}\frac{dt_{B}}{d\tau_{B}}-1
-         
-      where :math:`t` and :math:`\tau` denote coordinate and proper time of the transmitter A and receiver B, respectively. The
-      resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
-      This observable represents the 'instantaneous (non-integrated)' Doppler observable, as obtained from open-loop observations.
-      It should *not* be used for the modelling of the typical closed-loop observations used in deep space tracking. The coordinate
-      time derivative :math:`\frac{t_{A}}{dt_{B}}` is always computed when generating this observable. Settings for the proper time
-      rates :math:`\frac{d\tau}{dt}` should be specified by the user through this function.
+         \Delta\mathbf{r}=\mathbf{r}_{R}(t_{R})-\mathbf{r}_{T}(t_{T})\\
+         \tan\alpha=\frac{\Delta r_{y}}{\Delta r_{x}}\\
+         \delta=\frac{\Delta r_{z}}{\sqrt{\Delta r_{x}^{2}+\Delta r_{y}^{2}}}\\
+         \mathbf{h}_{_{\text{ang.pos.}}} = [\alpha;\delta]
+      
+      The relative position vector :math:`\Delta\mathbf{r}` is computed identically as described for the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`
+      The angular position observable can be used for optical astrometry, VLBI, etc. Due to the definition of this observable, the xy-plane is defined by the global frame orientation of the 
+      environment.
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+
+      - name: light_time_correction_settings # [py]
+        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+
+    returns:
+        type: :class:`ObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
+          defining the settings for the angular position observable.
+
+  #######################################################################
+
+  - name: one_way_doppler_instantaneous # [py]
+    short_summary: "Factory function for creating settings for a one-way instantaneous Doppler observable."
+    extended_summary: |
+      Factory function for creating settings for a one-way instantaneous Doppler observable for a single link definition. The associated observation model creates
+      a single-valued observable :math:`h_{_{\text{1-Dopp.}}}` as follows (in the unbiased case):
+ 
+      .. math::
+         h_{_{\text{1-Dopp.}}}=c\left(\frac{d\tau_{T}}{dt_{T}}\frac{t_{T}}{dt_{R}}\frac{dt_{R}}{d\tau_{R}}-1\right)
+         
+      where :math:`t` and :math:`\tau` denote coordinate and proper time of the transmitter T and receiver R, respectively.
+      The receiver and transmitter position and coordinate time are computed identically as described for the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`.
+      The detailed mathematical implementation are described on TODO.
+
+      This observable represents the 'instantaneous (non-integrated)' Doppler observable, as obtained from open-loop observations.
+      It should *not* be used for the modelling of the typical closed-loop observations used in deep space tracking (for which the 
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_doppler_averaged` should be used)
+
+      The coordinate
+      time derivative :math:`\frac{t_{A}}{dt_{B}}` is always computed when generating this observable. Settings for the proper time
+      rates :math:`\frac{d\tau}{dt}` can be specified by the user through the ``transmitter_proper_time_rate_settings`` and ``receiver_proper_time_rate_settings``
+      inputs. Whene these are left empty, the proper time rates are omitted (set to 1.0).
+
+      The observable may be non-dimensionalized by the speed of light :math:`c`, which results in the observable being equal to thee received and transmitted signal frequencies :math:`f_{R}/f_{T}-1`.
+   
+    parameters:
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires that the
           `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
@@ -728,26 +881,92 @@ functions:
         description: |
           Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
 
+      - name: normalized_with_speed_of_light # [py]
+        type: bool, default = false # [py]
+        description: |
+          Option to non-dimensionalize the observable with speed of light :math:`c`
+
     returns:
         type: :class:`OneWayDopplerObservationSettings`  # [py]
         description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`OneWayDopplerObservationSettings` class
           defining the settings for the one-way open doppler observable observable.
 
+
   #######################################################################
 
-  - name: two_way_open_loop_doppler_from_one_way_links # [py]
-    short_summary: "Factory function for creating settings for a two-way open-loop Doppler observable."
+  - name: two_way_doppler_instantaneous # [py]
+    short_summary: "Factory function for creating settings for a two-way instantaneous Doppler observable."
     extended_summary: |
-      Factory function for creating observation model settings of two-way open-loop Doppler type observables.
-      The observable is *approximately* equal to the two-way range-rate between the link ends, divided by *c*. This model uses two combined one-way open-loop observables,
-      defined by the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` function.  The combined effect
-      from two one-way Doppler effects: one from link end :math:`A` to link end  :math:`B`, and one from :math:`B` to :math:`C`, computed as:  
+
+      Factory function for creating settings for a two-way instantaneous Doppler observable for a single link definition. The associated observation model creates
+      a single-valued observable :math:`h_{_{\text{2-Dopp.}}}` as follows (in the unbiased case), by combining the up- and downlink one-way 
+      instantanenous Doppler observable :math:`h_{_{\text{1-Dopp.}}}` 
+      (both normalized by speed of light c, see :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_doppler_instantaneous`) as follows:
     
       .. math::
-         h_{D(2),ABC}=(h_{D(1),AB}+1)(h_{D(1),BC}+1)-1
+         h_{_{\text{2-Dopp.}}}=c\left((\left(h_{_{\text{1-Dopp.}}}\right)_{\text{up}}+1)(\left(h_{_{\text{1-Dopp.}}}\right)_{\text{down}}+1)-1\right)
 
       The resulting observable is non-dimensional (but can be converted to an observed range-rate by multiplying with speed of light :math:`c`)
 
+      This observable represents the 'instantaneous (non-integrated)' Doppler observable, as obtained from open-loop observations.
+      It should *not* be used for the modelling of the typical closed-loop observations used in deep space tracking (for which the 
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.two_way_doppler_averaged` should be used)
+
+      The observable may be non-dimensionalized by the speed of light :math:`c`,
+      which results in the observable being equal to the received and transmitted signal frequencies :math:`f_{R}/f_{T}-1`.
+
+    parameters:
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter`, `retransmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined
+
+      - name: light_time_correction_settings # [py]
+        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used for each constituent one-way range. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
+          Note that only one bias setting is applied to the n-way observable.s
+
+      - name: transmitter_proper_time_rate_settings # [py]
+        type: :class:`DopplerProperTimeRateSettings`, default = None # [py]
+        description: |
+          Settings for computing the transmitter proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+
+      - name: receiver_proper_time_rate_settings # [py]
+        type: :class:`DopplerProperTimeRateSettings`, default = None # [py]
+        description: |
+          Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+
+      - name: normalized_with_speed_of_light # [py]
+        type: bool, default = false # [py]
+        description: |
+          Option to non-dimensionalize the observable with speed of light :math:`c`
+
+    returns:
+        type: :class:`TwoWayDopplerObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`TwoWayDopplerObservationSettings` class
+          defining the settings for the two-way open doppler observable.
+
+  #######################################################################
+
+  - name: two_way_doppler_instantaneous_from_one_way_links # [py]
+    short_summary: "Factory function for creating settings for a two-way instantaneous Doppler observable."
+    extended_summary: |
+
+      Factory function for creating settings for a two-way instantaneous Doppler observable for a single link definition. The
+      implementation is the same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.two_way_doppler_instantaneous`, with the difference
+      that the constituent one-way ranges may have different settings.
+         
+      The observable may be non-dimensionalized by the speed of light :math:`c` (in the constituent one-way Doppler observable settings),
+      which results in the observable being equal to the received and transmitted signal frequencies :math:`f_{R}/f_{T}-1`.
+   
     parameters:
       - name: uplink_doppler_settings # [py]
         type: :class:`OneWayDopplerObservationSettings` # [py]
@@ -772,24 +991,27 @@ functions:
 
   #######################################################################
 
-  - name: one_way_closed_loop_doppler # [py]
-    short_summary: "Factory function for creating settings for a one-way closed-loop Doppler observable."
+  - name: one_way_doppler_averaged # [py]
+    short_summary: "Factory function for creating settings for a one-way averaged Doppler observable."
     extended_summary: |
-      Factory function for creating observation model settings of one-way closed-loop Doppler type observables.
-      This interface only allows for one constant integration time in the observations model.
+      Factory function for creating observation model settings for one-way averaged Doppler observables, for a single link definition. The associated observation model creates
+      a single-valued observable :math:`h_{_{\text{1-\bar{Dopp}}}}` as follows (in the unbiased case):
+      .. math::
+         h_{_{\text{1-\bar{Dopp}}}}&=c\int_{t-\Delta t}^{t+\Delta t}\frac{t_{T}}{dt_{R}}d\bar{t}\\
+                                   &=\frac{h_{_{\text{1-range}}}(t_{R}=t+\Delta t,t_{T})-h_{_{\text{1-range}}}(t_{R}=t,t_{T})}{\Delta t}
+
+      where, in the latter formulation (which is the one that is implemented), the observable is referenced to the receiver time. This averaged Doppler observable
+      is computed as the difference of two one-way range observables (see :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`), 
+      with the reference time shifted by :math:`\Delta t`. As such, it is sensitive to numerical errors for small :math:`\Delta t`
+
+      The integration time :math:`\Delta t` is defined in the ancilliary settings when simulating the observations (with 60 s as default).
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires that the
           `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
-
-      - name: integration_time # [py]
-        type: float # [py]
-        description: |
-          Integration time that is to be used for the observable. NOTE: This setting is to be moved to the :class:`ObservationSimulationSettings` class and
-          associated factory functions.
 
       - name: light_time_correction_settings # [py]
         type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
@@ -809,56 +1031,22 @@ functions:
 
   #######################################################################
 
-  - name: one_way_closed_loop_doppler # [py]   # overload
-    short_summary: "Factory function for creating settings for a one-way closed-loop Doppler observable."
+  - name: n_way_doppler_averaged # [py]
+    short_summary: "Factory function for creating settings for an n-way averaged Doppler observable."
     extended_summary: |
-      Factory function for creating observation model settings of one-way closed-loop Doppler type observables.
-      This interface only allows for variable (as a function of observation time) integration times in the observations model.
+      Factory function for creating observation model settings for n-way averaged Doppler observables, for a single link definition. The implemenation is
+      analogous to the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_doppler_averaged` observable. But, in the present case
+      the observable is computed from the difference of two n-way range observables, with the reference time shifted by :math:`\Delta t`.
+
+      The integration time :math:`\Delta t` is defined in the ancilliary settings when simulating the observations (with 60 s as default).
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
-
-      - name: integration_time_function # [py]
-        type: Callable[float, float] # [py]
-        description: |
-          Integration time that is to be used for the observable as a function of observation time. NOTE: This setting is to be moved to the :class:`ObservationSimulationSettings` class and
-          associated factory functions.
-
-      - name: light_time_correction_settings # [py]
-        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
-        description: |
-          List of corrections for the light-time that are to be used. Default is none, which will result
-          in the signal being modelled as moving in a straight line with the speed of light
-
-      - name: bias_settings # [py]
-        type: :class:`ObservationBiasSettings`, default = None # [py]
-        description: |
-          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
-
-    returns:
-      type: :class:`OneWayDifferencedRangeRateObservationSettings`  # [py]
-      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived :class:`OneWayDifferencedRangeRateObservationSettings` class
-        defining the settings for the one-way closed-loop doppler observable.
-
-  #######################################################################
-
-  - name: angular_position # [py]
-    short_summary: "Factory function for creating settings for an angular position observable."
-    extended_summary: |
-      Factory function for creating observation model settings of angular position type observables.
-      This observable can be used for optical astrometry, VLBI, etc. and
-      computes the relative angular position in terms of right ascension :math:`alpha` and declination :math:`delta`
-
-    parameters:
-      - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
-        description: |
-          Set of link ends that define the geometry of the observation. This observable requires that the
-          `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined, as well
+          as a `retransmitter1`, `retransmitter2`, .... (with the number of retransmitters to be defined by the user). 
 
       - name: light_time_correction_settings # [py]
         type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
@@ -873,8 +1061,95 @@ functions:
 
     returns:
         type: :class:`ObservationSettings`  # [py]
-        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` class
-          defining the settings for the angular position observable.
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `NWayDifferencedRangeRateObservationSettings` class
+          defining the settings for the one-way closed-loop doppler observable.
+
+  #######################################################################
+
+  - name: n_way_doppler_averaged_from_one_way_links # [py]
+    short_summary: "Factory function for creating settings for an n-way averaged Doppler observable."
+    extended_summary: |
+      Factory function for creating observation model settings for n-way averaged Doppler observables, for a single link definition. 
+      The implementation is the same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_doppler_averaged`, with the difference
+      that the constituent one-way range observables may have different settings.
+
+    parameters:
+      - name: one_way_range_settings # [py]
+        type: List[ :class:`ObservationModelSettings` ] # [py]
+        description: |
+          List of observation model settings for each of the :math:`n` constituent one-way ranges of the n-way averaged range rate observable.
+          The ``LinkDefinition`` of this n-way range observable is created from this list, with the ``transmitter`` and ``retransmitter1`` defined by the
+          ``transmitter`` and ``receiver`` of the first entry in this list. The ``retransmitter``(n-1) and ``receiver`` are defined by the
+          ``transmitter`` and ``receiver`` of the :math:`n`^{th} entry of this list.
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+
+    returns:
+        type: :class:`ObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `NWayDifferencedRangeRateObservationSettings` class
+          defining the settings for the one-way closed-loop doppler observable.
+
+ #######################################################################
+
+  - name: two_way_doppler_averaged # [py]
+    short_summary: "Factory function for creating settings for a two-way averaged Doppler observable."
+    extended_summary: |
+      Factory function for creating settings for a two-way averaged Doppler observable. Same as :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_doppler_averaged`,       
+      with :math:`n=2`. This function is provided for convenience.
+
+    parameters:
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
+        description: |
+          Set of link ends that define the geometry of the observation. This observable requires the
+          `transmitter`, `retransmitter` and `receiver` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined
+
+      - name: light_time_correction_settings # [py]
+        type: List[ :class:`LightTimeCorrectionSettings` ], default = list() # [py]
+        description: |
+          List of corrections for the light-time that are to be used. Default is none, which will result
+          in the signal being modelled as moving in a straight line with the speed of light
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+
+    returns:
+        type: :class:`ObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `NWayDifferencedRangeRateObservationSettings` class
+          defining the settings for the one-way closed-loop doppler observable.
+
+  #######################################################################
+
+  - name: two_way_doppler_averaged_from_one_way_links # [py]
+    short_summary: "Factory function for creating settings for a two-way averaged Doppler observable."
+    extended_summary: |
+      Factory function for creating settings for a two-way averaged Doppler observable. Same as 
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.n_way_doppler_averaged_from_one_way_links`,       
+      with :math:`n=2`. This function is provided for convenience.
+
+    parameters:
+      - name: one_way_range_settings # [py]
+        type: List[ :class:`ObservationModelSettings` ] # [py]
+        description: |
+          List of observation model settings of size two, with the first entry the one-way range settings for the uplink, and the second entry the one-way range settings for the downlink.
+          The ``LinkDefinition`` of this two-way range observable is created from this list, with the ``transmitter`` and ``retransmitter1`` defined by the
+          ``transmitter`` and ``receiver`` of the first entry in this list. The ``retransmitter`` and ``receiver`` are defined by the
+          ``transmitter`` and ``receiver`` of the second entry of this list.
+
+      - name: bias_settings # [py]
+        type: :class:`ObservationBiasSettings`, default = None # [py]
+        description: |
+          Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+
+    returns:
+        type: :class:`ObservationSettings`  # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationModelSettings` derived `NWayDifferencedRangeRateObservationSettings` class
+          defining the settings for the one-way closed-loop doppler observable.
 
   #######################################################################
 
@@ -888,7 +1163,7 @@ functions:
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires that the
           `observed_body`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
@@ -915,7 +1190,7 @@ functions:
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires that the
           `observed_body`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
@@ -943,7 +1218,7 @@ functions:
 
     parameters:
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: |
           Set of link ends that define the geometry of the observation. This observable requires that the
           `observed_body`` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` entries to be defined.
@@ -1169,7 +1444,7 @@ functions:
         description: Observable type of which observations are to be simulated.
 
       - name: link_ends # [py]
-        type: Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str] # [py]
+        type: LinkDefinition # [py]
         description: Link ends for which observations are to be simulated.
 
       - name: simulation_times # [py]
@@ -1209,7 +1484,7 @@ functions:
 
     parameters:
       - name: link_ends_per_observable # [py]
-        type: Dict[:class:`ObservableType`, List[Dict[:class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType`, Tuple[str, str]]]]  # [py]
+        type: Dict[:class:`ObservableType`, List[LinkDefinition]]]  # [py]
         description: Link geometry per observable type of which observations are to be simulated.
 
       - name: simulation_times # [py]
