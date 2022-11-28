@@ -128,6 +128,23 @@ functions:
         		body_settings.get( "Earth" ).ground_station_settings.append( ground_station_settings ) # [py]
 
 
+  #######################################################################
+
+  - name: dsn_stations # [py]
+    short_summary: "Factory function for creating settings for all DSN stations"
+    extended_summary: |
+      Factory function for creating settings for all DSN stations, defined by nominal positions and linear velocities, as defined
+      by Cartesian elements in *DSN No. 810-005, 301, Rev. K*,  see `this link <https://deepspace.jpl.nasa.gov/dsndocs/810-005/301/301K.pdf>`_.
+      Note that calling these settings will use the Cartesian elements provided in this document (in ITRF93) and apply them to the Earth-fixed
+      station positions, regardless of the selected Earth rotation model.
+
+    parameters:
+
+    returns:
+        type: list[ GroundStationMotionSettings ]
+        description: 
+          List of settings to create DSN stationss
+
  
   #######################################################################
 
