@@ -195,7 +195,7 @@ classes:
         description: Dictionary defining per obervable type (dict key), the index in the full observation vector (:func:`concatenated_observations`) where the given observable
           type starts, and the number of subsequent entries in this vector containing a value of an observable of this type   # [py]
         readonly: True # [py]	
-	
+
       - name: observation_set_start_index_and_size # [py]
         type: dict[ ObservableType, dict[ int, list[ int, int ] ] ] # [py]
         description: The nested dictionary/list
@@ -212,11 +212,59 @@ classes:
           class. Specifics on the storage order are given in the user guide (TODO)  # [py]
         readonly: True # [py]	
 
+      - name: observation_vector_size # [py]
+        type: int # [py]
+        description:  Length of the total vector of observations # [py]
+        readonly: True # [py]	
+
+
   ##############################################################################
 
   - name: SingleObservationSet
-    short_summary: "Class collecting a single sett of observations and associated data, of a given observable type, link ends, and ancilliary data.."
+    short_summary: "Class collecting a single set of observations and associated data, of a given observable type, link ends, and ancilliary data."
 
+    properties: # [py]
+
+      - name: observable_type # [py]
+        type: ObservableType # [py]
+        description: Type of observable for which the object stores observations # [py]
+        readonly: True # [py]
+
+      - name: link_definition # [py]
+        type: LinkDefinition # [py]
+        description: Definition of the link ends for which the object stores observations   # [py]
+        readonly: True # [py]
+
+      - name: reference_link_end # [py]
+        type: LinkEndType # [py]
+        description: Reference link end for all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: ancilliary_settings # [py]
+        type: ObservationAncilliarySimulationSettings # [py]
+        description: Ancilliary settings all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: concatenated_observations # [py]
+        type: numpy.ndarray[numpy.float64[m, 1]]  # [py]
+        description: Concatenated vector of all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: list_of_observations # [py]
+        type: list[ numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
+        description: List of separate stored observations. Each entry of this list is a vector containing a single observation. In cases where the observation 
+          is single-valued (range, Doppler), the vector is size 1, but for multi-valued observations such as angular position, each vector in the list will have size >1  # [py]
+        readonly: True # [py]
+
+      - name: observation_times # [py]
+        type: list[ float]  # [py]
+        description: Reference time for each of the observations in ``list_of_observations``   # [py]
+        readonly: True # [py]
+
+      - name: observations_history # [py]
+        type: dict[ float, numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
+        description: Dictionary of observations sorted by time. Created by making a dictionaty with ``observation_times`` as keys and  ``list_of_observations`` as values  # [py]
+        readonly: True # [py]
 
   ################# VARIATIONAL EQUATIONS ######################################
 
