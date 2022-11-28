@@ -123,7 +123,7 @@ classes:
   - name: DopplerProperTimeRateSettings
     short_summary: "Base class to defining proper time rate settings."
     extended_summary: |
-      Functional (base) class for settings of proper time rate (at a single link end) for one-way Doppler observation model settings.
+      Functional (base) class for settings of proper time rate (at a single link end) for instantaneous Doppler observation model settings.
       Specific proper time rate settings must be defined using an object derived from this class.
       The derived classes are made accessible via dedicated factory functions.
 
@@ -142,9 +142,10 @@ classes:
     extended_summary: |
       Functional (base) class for settings of observation models.
       Observation model settings define at least the type and geometry of a given observation.
-      They can furthermore set observation biases and/or corrections.
+      They can furthermore set observation biases and/or light-time corrections.
       Simple observation models settings that are fully characterised by these elements can be managed by this base class, which can be instantiated through dedicated factory functions, such as
-      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.cartesian_position`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.angular_position`, etc.
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_range`, :func:`~tudatpy.numerical_simulation.estimation_setup.observation.cartesian_position`, 
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.angular_position`, etc.
       Model settings for specific observation models that require additional information such as integration time, retransmission time, etc. must be defined using an object derived from this class.
       The derived classes are made accessible through further factory functions.
 
@@ -158,11 +159,11 @@ classes:
 
 
   - name: OneWayDopplerObservationSettings
-    short_summary: "Class for defining the settings of one-way Doppler observation models."
+    short_summary: "Class for defining the settings of one-way instantaneous Doppler observation models."
     extended_summary: |
-      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings` derived class for one-way Doppler observation model settings.
+      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSettings` derived class for one-way instantaneous Doppler observation model settings.
       Settings object can account for additional observation model aspects such as light time corrections and proper time rate settings.
-      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_open_loop_doppler` factory function.
+      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.one_way_doppler_instantaneous` factory function.
 
     # attributes: none exposed
 
@@ -179,7 +180,8 @@ classes:
       Functional (base) class for settings of light time corrections.
       This class is not used for calculations of corrections, but is used for the purpose of defining the light time correction properties.
       Specific light time correction settings must be defined using an object derived from this class.
-      The derived classes are made accessible via dedicated factory functions, such as e.g. :func:`~tudatpy.numerical_simulation.estimation_setup.observation.first_order_relativistic_light_time_correction`
+      The derived classes are made accessible via dedicated factory functions, such as e.g. 
+      :func:`~tudatpy.numerical_simulation.estimation_setup.observation.first_order_relativistic_light_time_correction`
 
     # attributes: none exposed
 
@@ -207,12 +209,12 @@ classes:
 
 
   - name: ObservationSimulationSettings
-    short_summary: "Base structure for defining observation simulation settings."
+    short_summary: "Base class for defining settings for simulating observations."
     extended_summary: |
-      Functional (base) structure for settings of observation simulation.
-      A simulation settings object defines observation times, noise and viability criteria for the :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` object to which it is applied during the simulation of observations.
-      Therefore, one simulation settings object can only refer to one combination of observable type and link geometry (LinkEnds).
-      Typically, the user does not interact with this class directly, but defines specific observation simulation settings using an object derived from this class.
+      Base class for defining settings for simulating observations.
+      This simulation settings object defines observation times, noise and viability criteria, *etc.* at which observations are to be simulated.
+      Therefore, one simulation settings object of this type can only refer to one combination of observable type and link geometry (LinkDefinition).
+      The user does not interact with this class directly, but defines specific observation simulation settings using an object derived from this class (created through the associated factory function).
 
     # attributes: none exposed
 
@@ -224,14 +226,14 @@ classes:
 
 
   - name: TabulatedObservationSimulationSettings
-    short_summary: "Structure for setting a list of observation times."
+    short_summary: "Class for defining settings for simulating observations at a predefined set of times."
     extended_summary: |
-      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived structure for settings of observation simulation.
-      A simulation settings object defines observation times, noise and viability criteria for the :class:`~tudatpy.numerical_simulation.estimation.ObservationSimulator` object to which it is applied during the simulation of observations.
-      Therefore, one simulation settings object can only refer to one combination of observable type and link geometry (LinkEnds).
-
-      In this structure, discrete time instances at which applicable observations are to be simulated are defined and stored in a rigid, "tabulated" form. Some observation times may be discarded due to the use of viability settings.
-      Instances of this class can be created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings` and :func:`~tudatpy.numerical_simulation.estimation_setup.observation.create_tabulated_simulation_settings` factory functions. # [py]
+      :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived class for defining settings for simulating observations
+      at a predefined set of times
+      This type defines predefined time epochs at which applicable observations are to be simulated, stored in a rigid, "tabulated" form. 
+      Some observation times may be discarded due to the use of viability settings.
+      Instances of this class are typicall created via the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings` 
+      and :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings_list` factory functions. # [py]
 
     # attributes: none exposed
 
@@ -350,11 +352,11 @@ functions:
   #######################################################################
 
   - name: one_way_downlink_link_ends # [py]
-    short_summary: "Function for defining one-way downlinks via LinkEnds types."
+    short_summary: "Function for defining one-way downlinks via LinkDefinition types."
     extended_summary: |
       Function for defining single or multiple one-way downlinks.
       Multiple downlinks share the same transmitters, but may each have a different receiver.
-      For each downlink, the returned list will contain an additional `LinkEnds` type.
+      For each downlink, the returned list will contain an additional `LinkDefinition` type.
 
     parameters:
       - name: transmitter # [py]
@@ -370,17 +372,17 @@ functions:
     returns:
       type: List[ LinkDefinition ]  # [py]
       description: |
-        List of one or more `LinkEnds` types, each defining the geometry for one one-way downlink.
-        A `LinkEnds` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
+        List of one or more `LinkDefinition` types, each defining the geometry for one one-way downlink.
+        A `LinkDefinition` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
 
   #######################################################################
 
   - name: one_way_uplink_link_ends # [py]
-    short_summary: "Function for defining one-way uplinks via LinkEnds types."
+    short_summary: "Function for defining one-way uplinks via LinkDefinition types."
     extended_summary: |
       Function for defining single or multiple one-way uplinks.
       Multiple uplinks share the same receiver, but may each have a different transmitter.
-      For each uplink, the returned list will contain an additional `LinkEnds` type.
+      For each uplink, the returned list will contain an additional `LinkDefinition` type.
 
     parameters:
       - name: transmitters # [py]
@@ -396,8 +398,8 @@ functions:
     returns:
       type: List[ LinkDefinition ]  # [py]
       description: |
-        List of one or more `LinkEnds` types, each defining the geometry for one one-way uplink.
-        A `LinkEnds` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
+        List of one or more `LinkDefinition` types, each defining the geometry for one one-way uplink.
+        A `LinkDefinition` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
 
 
   ############### LIGHT-TIME CORRECTIONS ################################
@@ -1467,10 +1469,12 @@ functions:
 
   - name: tabulated_simulation_settings # [py]
 
-    short_summary: "Factory function for creating settings object for observation simulation."
+    short_summary: "Factory function for creating settings object for observation simulation, using a predefined list of observation times."
     extended_summary: |
-      Factory function for creating single simulation settings object.
-      For more information about the characteristics of the resulting settings object, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
+      Factory function for creating single simulation settings object, using a predefined list of observation times.
+      The list of resulting observations may be reduced compared to the ``simulation_times`` provided here, as
+      only observations that meet the viability settings are retained during observation simulation (these may be
+      provide directly here through the ``viability_settings`` input, or added later to the resulting settings object). 
 
     parameters:
       - name: observable_type # [py]
@@ -1487,7 +1491,7 @@ functions:
 
       - name: reference_link_end_type # [py]
         type: :class:`LinkEndType`, default = :class:`LinkEndType`.receiver # [py]
-        description: Defines the link end (via the :class:`LinkEndType`) which is used as a reference for observation times.
+        description: Defines the link end (via the :class:`LinkEndType`) which is used as a reference time for the observation.
 
       - name: viability_settings # [py]
         type: List[ :class:`ObservationViabilitySettings` ], default = [ ] # [py]
@@ -1506,15 +1510,13 @@ functions:
 
   - name: tabulated_simulation_settings_list # [py] (%! name is not informative, in relation to simple tabulated_simulation_settings)
 
-    short_summary: "Factory function for creating multiple settings object, each defining observation simulation times."
+    short_summary: "Factory function for creating a list of settings object for observation simulation, using a predefined list of observation times."
     extended_summary: |
-      Factory function for creating multiple observation simulation settings objects in a list.
+      Factory function for creating multiple tabulated observation simulation settings objects in a list. This function is 
+      equivalent to calling the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings` repeatly, with the different 
+      observables and link definition provided here through `link_ends_per_observable`. 
       During a single call to this function, one simulation settings object is created for each combination of observable type and link geometry given by the `link_ends_per_observable` parameter.
-      All resulting simulation settings objects are created considering the same tabulated simulation times ( given by the `simulation_times` parameter), reference link end (`reference_link_end_type`) and viability criteria `viability_settings`.
-      For more information about the characteristics of the resulting settings objects, please refer to the description of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
 
-      Note that this interface does not allow noise functions to be considered during creation of the simulation settings object.
-      For adding noise functions, specific factory functions are provided in TODO.
 
     parameters:
       - name: link_ends_per_observable # [py]
@@ -1541,6 +1543,83 @@ functions:
     returns:
       type: List[ TabulatedObservationSimulationSettings ] # [py]
       description: List of :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` objects.
+
+  #######################################################################
+
+  - name: continuous_arc_simulation_settings # [py]
+
+    short_summary: "Factory function for creating settings object for observation simulation, using observation times according to a requirement for a continuous tracking arc."
+    extended_summary: |
+      Factory function for creating settings object for observation simulation. Unlike the :func:`~tudatpy.numerical_simulation.estimation_setup.observation.tabulated_simulation_settings`
+      function, the resulting settings do not define the observation times explicitly. Instead, this settings object determines the observation times adaptively during the
+      simulation of the observation, with the requirement that observations should be simulated over a set of contiguous arcs (if possible). The exact algorithm meets the following conditions:
+
+      * Observations are only simulated within the time span of ``start_time`` and ``end_time``
+      * A contiguous tracking arc has simulated observations separated by ``interval_between_observations``
+      * Starting from ``start_time``, an observation is simulated each ``interval_between_observations``. Once an observation is unviable, as defined by
+        the ``arc_limiting_constraints`` input, it is checked whether the arc up until that point 
+        is longer in duration than ``minimum_arc_duration``. If it is, the arc is added to the simulated observations. If not, the arc is discarded. In either case, a new arc is started once a 
+        viable is observation is encountered
+      * If the current arc reaching a duration greater than ``maximum_arc_duration``, the arc is added to the existing observations, and a new arc is started
+      * If defined (e.g. if not NaN), the current observation time is incremented by ``minimum_time_between_arcs`` when an arc has been added to the observations.
+
+      Nominally, this algorithm ensures that any arc of observations has a minimum and maximum duration. In addition, it ensures that (if desired) there is a minimum time interval 
+      between two tracking arcs. This behaviour can be modified by adding ``additional_viability_settings``, which are *not* used when computing the tracking arcs, but which are instead only used
+      to reduce the set of simulated observations afterwards.
+
+    parameters:
+      - name: observable_type # [py]
+        type: :class:`ObservableType` # [py]
+        description: Observable type of which observations are to be simulated.
+
+      - name: link_ends # [py]
+        type: LinkDefinition # [py]
+        description: Link ends for which observations are to be simulated.
+
+      - name: start_time # [py]
+        type: float # [py]
+        description: First time at which an observation is to be simulated (and checked for viability).
+
+      - name: end_time # [py]
+        type: float # [py]
+        description: Maximum time at which an observation is to be simulated (and checked for viability).
+
+      - name: interval_between_observations # [py]
+        type: float # [py]
+        description: Cadence (in seconds) of subsequent observations in an arc
+
+      - name: arc_limiting_constraints # [py]
+        type: List[ :class:`ObservationViabilitySettings` ], default = [ ] # [py]
+        description: |
+          List of settings for the creation of the viability criteria calculators, which are used to check if an observation is viable, and define
+          whether an arc should be terminated.
+
+      - name: minimum_arc_duration # [py]
+        type: float # [py]
+        description: Minimum permissible time for a tracking arc
+
+      - name: maximum_arc_duration # [py]
+        type: float # [py]
+        description: Maximum permissible time for a tracking arc
+
+      - name: minimum_time_between_arc # [py]
+        type: float, default = NaN # [py]
+        description: Minimum time between two tracking arcs. If NaN, this is effectively set to the ``interval_between_observations``
+         
+      - name: additional_viability_settings # [py]
+        type: List[ :class:`ObservationViabilitySettings` ], default = [ ] # [py]
+        description: |
+          Settings for the creation of the viability criteria calculators, which conduct viability checks on the simulated observations.
+          These settings are *not* used to determine whether an arc is to be terminated, but are instead applied after the arcs have been computed.
+
+      - name: noise_function # [py]
+        type: Callable[ [float], numpy.ndarray[numpy.float64[m, 1]] ], default = None # [py]
+        description: Function providing the observation noise factors as a function of observation time.
+
+    returns:
+      type: :class:`TabulatedObservationSimulationSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationSimulationSettings` derived :class:`~tudatpy.numerical_simulation.estimation_setup.observation.TabulatedObservationSimulationSettings` class.
+
 
 
   ############## ADDING TO SIMULATION SETTINGS   ###########################
