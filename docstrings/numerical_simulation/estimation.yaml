@@ -164,25 +164,43 @@ classes:
     extended_summary: |
       Class containing the full set of observations and associated data, typically for input into the estimation. When using simulated data,
       this class is instantiated via a call to the :func:`~tudatpy.numerical_simulation.estimation.simulate_observations` function. More information is provided
-      on the user guide TODO
+      on the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_
+
+    methods: # [py]
+
+      - name: get_single_link_and_type_observations # [py]
+        short_summary: Function to get all observation sets for a given observable type and link definition.
+
+        parameters:
+        - name: observable_type # [py]
+          type: :class:`ObservableType` # [py]
+          description: Observable type of which observations are to be simulated.
+
+        - name: link_ends # [py]
+          type: LinkDefinition # [py]
+          description: Link ends for which observations are to be simulated.
+
+        returns:
+          type: list[ SingleObservationSet ]
+          description: List of observation sets for given observable type and link definition.
 
     properties: # [py]
 
       - name: concatenated_times # [py]
         type: numpy.ndarray[numpy.float64[m, 1]] # [py]
-        description: Vector containing concatenated observation times. See user guide for details on storage order (TODO) # [py]
+        description: Vector containing concatenated observation times. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order # [py]
         readonly: True # [py]
 
       - name: concatenated_observations # [py]
         type: numpy.ndarray[numpy.float64[m, 1]] # [py]
-        description: Vector containing concatenated observable values. See user guide for details on storage order (TODO) # [py]
+        description: Vector containing concatenated observable values. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order # [py]
         readonly: True # [py]
 
       - name: concatenated_link_definition_ids # [py]
         type: numpy.ndarray[ int ] # [py]
         description: Vector containing concatenated indices identifying the link ends. Each set of link ends is assigned a unique 
           integer identifier (for a given instance of this class). The definition of a given integer identifier with the link ends is given by
-          this class' :func:`link_definition_ids` function. See user guide for details on storage order of the present vector (TODO) # [py]
+          this class' :func:`link_definition_ids` function. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order of the present vector. # [py]
         readonly: True # [py]	
 
       - name: link_definition_ids # [py]
@@ -209,7 +227,7 @@ classes:
       - name: sorted_observation_sets # [py]
         type: dict[ ObservableType, dict[ int, list[ SingleObservationSet ] ] ] # [py]
         description: The nested dictionary/list contains the list of `SingleObservationSet` objects, in the same method as they are stored internally in the present
-          class. Specifics on the storage order are given in the user guide (TODO)  # [py]
+          class. Specifics on the storage order are given in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_  # [py]
         readonly: True # [py]	
 
       - name: observation_vector_size # [py]
@@ -532,7 +550,7 @@ classes:
     extensive_summary: |
       Class collecting all outputs from the covariance analysi process.
       Instances of this class are typically created by calling the `compute_covariance` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
-      Many members of this class can be retrieved in normalized or unnormalized form. See TODO for details.
+      Many members of this class can be retrieved in normalized or unnormalized form. See  `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/runningEstimation.html#normalization>`_ for details.
 
     properties:
 
