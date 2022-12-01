@@ -39,7 +39,8 @@ enums:
       - name: central # [cpp]
       - name: central_spice # [cpp]
       - name: spherical_harmonic # [cpp]
-      - name: polyhedron # [cpp]
+      - name: polyhedron # [cpp
+
 
       - name: central_gravity # [py]
       - name: central_spice_gravity # [py]
@@ -49,19 +50,33 @@ enums:
   #    py::enum_<tss::SphericalHarmonicsModel>
   #        enum tudat::simulation_setup::SphericalHarmonicsModel
 
-  - name: SphericalHarmonicsModel
-    short_summary: "Enumeration of spherical harmonics models."
+  - name: PredefinedSphericalHarmonicsModel
+    short_summary: "Enumeration of predefined spherical harmonics models."
     extended_summary: |
-      Enumeration of spherical harmonics models supported by tudat.
+      Enumeration of predefined spherical harmonics models supported by tudat, for which thee coefficient files are automatically available (downloaded from
+      `here <https://github.com/tudat-team/tudat-resources/tree/master/resource/gravity_models>`_). The directory where these files are stored can be 
+      extracted using the :func:`~tudatpy.io.get_gravity_models_path` function.
     members:
       - name: egm96
+        description: "Coefficients for EGM96 Earth gravity field up to degree and order 200, (see `https://cddis.gsfc.nasa.gov/926/egm96/egm96.html`_ )" # [py]
       - name: ggm02c
+        description: "Coefficients for the combined GGM02 Earth gravity field up to degree and order 200, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
       - name: ggm02s
+        description: "Coefficients for the GRACE-only GGM02 Earth gravity field up to degree and order 160, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
+      - name: goco05c
+        description: "Coefficients for the GOCO05c combined Earth gravity field up to degree and order 719, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
       - name: glgm3150
+        description: "Coefficients for the GLGM3150 Moon gravity field up to degree and order 150, (see `https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0`_ )"
       - name: lpe200
+        description: "Coefficients for the LPE200 Moon gravity field up to degree and order 200, (see `https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0`_ )"
+      - name: gggrx1200
+        description: "Coefficients for the GRGM1200A Moon gravity field up to degree and order 1199, (see `https://pgda.gsfc.nasa.gov/products/50`_ )"
       - name: jgmro120d
+        description: "Coefficients for the MRO120D Moon gravity field up to degree and order 120, (see `https://pds-geosciences.wustl.edu/mro/mro-m-rss-5-sdp-v1/mrors_1xxx/data/shadr/`_ )"
       - name: jgmess160a
+        description: "Coefficients for the MESS160A Moon gravity field up to degree and order 160, (see `https://pds-geosciences.wustl.edu/messenger/mess-h-rss_mla-5-sdp-v1/messrs_1001/data/shadr/jgmess_160a_sha.lbl`_ )"
       - name: shgj180u
+        description: "Coefficients for the SHGJ180U Moon gravity field up to degree and order 180, (see `https://pds-geosciences.wustl.edu/mgn/mgn-v-rss-5-gravity-l2-v1/mg_5201/gravity/shgj120u.lbl`_ )"
 
 
 #########################################################################
@@ -735,7 +750,60 @@ functions:
   #######################################################################
 
 
+
   - name: from_file_spherical_harmonic # [py]
+    short_summary: "Factory function to load a custom spherical harmonics gravity field settings from a file."
+    extended_summary: |
+      Factory function to load a custom spherical harmonics gravity field settings from a file. The file should contain **fully normalized** spherical harmonic coefficients.
+      The associated gravitational paramerer and reference radius should be given in m^3/s^2 and m, respectively. The file format should be the same as that used for the files
+      in the directories `here <https://github.com/tudat-team/tudat-resources/tree/master/resource/gravity_models>`_. Specifically, the file should contain
+      
+      - The first line should be a series of text blocks (typically numerical data). Two of these blocks (by default the first and second one) should be the gravitational parameter and reference radius, respectively. The text block should be separated by spaces, tabs and/or commas
+      - Each subsequent line should contain a set of spherical harmonic coefficients (first ordered in ascending order by degree, then in ascending order by order), where the first, second, third and fourth value of the line should be: degree :math:`l`, order :math:`m`, normalized cosine coefficient :math:`\bar{C}_{lm}`, normalized sine coefficient :math:`\bar{S}_{lm}`. Additional entries (for instance with coefficient uncertainties) are ignored. 
+
+
+    parameters:
+      - name: file # [py]
+        type: str # [py]
+        description: Full file path and name where th gravity field file is located
+
+      - name: maximum_degree # [py]
+        type: int # [py]
+        description: Maximum degree of the coefficients that are to be loaded
+
+      - name: maximum_order # [py]
+        type: int # [py]
+        description: Maximum order of the coefficients that are to be loaded
+
+      - name: associated_reference_frame # [py]
+        type: str, default = "" # [py]
+        description: Name of the body-fixed reference frame to which the gravity field is to be fixed. If left empty, this reference frame
+          will automatically be set to the body-fixed frame defined by this body's rotation (see :ref:`\`\`rotation_model\`\`` for specifying rotation models).
+
+      - name: gravitational_parameter_index # [py]
+        type: int, default = 0 # [py]
+        description: Index of the values in the file header (first line of file) that contains the gravitational parameter
+
+      - name: reference_radius_index # [py]
+        type: int, default = 1 # [py]
+        description: Index of the values in the file header (first line of file) that contains the reference radius
+
+
+    returns:
+        type: SphericalHarmonicsGravityFieldSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
+
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using EGM96 spherical harmonics gravity model, up to degree and order 32:
+
+      .. code-block:: python # [py]
+        # [py]
+        # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.predefined_spherical_harmonic( # [py]
+            environment_setup.gravity_field.egm96, 32 ) # [py]
+
+
+  - name: predefined_spherical_harmonic # [py]
     short_summary: "Factory function for spherical harmonics gravity field settings of a predefined model."
     extended_summary: |
       Factory function for spherical harmonics gravity field settings of a predefined model
@@ -760,11 +828,9 @@ functions:
       .. code-block:: python # [py]
         # [py]
         # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
-        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.spherical_harmonic_triaxial_body( # [py]
-            environment_setup.gravity_field.egm96, # [py]
-            32 ) # [py]
+        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.predefined_spherical_harmonic( # [py]
+            environment_setup.gravity_field.egm96, 32 ) # [py]
 
-      # cpp code snippet unavailable # [cpp]
 
   #######################################################################
 
