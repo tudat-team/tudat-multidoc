@@ -58,25 +58,25 @@ enums:
       extracted using the :func:`~tudatpy.io.get_gravity_models_path` function.
     members:
       - name: egm96
-        description: "Coefficients for EGM96 Earth gravity field up to degree and order 200, (see `https://cddis.gsfc.nasa.gov/926/egm96/egm96.html`_ )" # [py]
+        description: "Coefficients for EGM96 Earth gravity field up to degree and order 200, (see `link <https://cddis.gsfc.nasa.gov/926/egm96/egm96.html>`_ )" # [py]
       - name: ggm02c
-        description: "Coefficients for the combined GGM02 Earth gravity field up to degree and order 200, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
+        description: "Coefficients for the combined GGM02 Earth gravity field up to degree and order 200, (see `link <https://www2.csr.utexas.edu/grace/gravity/ggm02/>`_ )"
       - name: ggm02s
-        description: "Coefficients for the GRACE-only GGM02 Earth gravity field up to degree and order 160, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
+        description: "Coefficients for the GRACE-only GGM02 Earth gravity field up to degree and order 160, (see `link <https://www2.csr.utexas.edu/grace/gravity/ggm02/>`_ )"
       - name: goco05c
-        description: "Coefficients for the GOCO05c combined Earth gravity field up to degree and order 719, (see `https://www2.csr.utexas.edu/grace/gravity/ggm02/`_ )"
+        description: "Coefficients for the GOCO05c combined Earth gravity field up to degree and order 719, (see `link <https://www2.csr.utexas.edu/grace/gravity/ggm02/>`_ )"
       - name: glgm3150
-        description: "Coefficients for the GLGM3150 Moon gravity field up to degree and order 150, (see `https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0`_ )"
+        description: "Coefficients for the GLGM3150 Moon gravity field up to degree and order 150, (see `link <https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0>`_ )"
       - name: lpe200
-        description: "Coefficients for the LPE200 Moon gravity field up to degree and order 200, (see `https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0`_ )"
+        description: "Coefficients for the LPE200 Moon gravity field up to degree and order 200, (see `link <https://pds.nasa.gov/ds-view/pds/viewProfile.jsp?dsid=LP-L-RSS-5-GLGM3/GRAVITY-V1.0>`_ )"
       - name: gggrx1200
-        description: "Coefficients for the GRGM1200A Moon gravity field up to degree and order 1199, (see `https://pgda.gsfc.nasa.gov/products/50`_ )"
+        description: "Coefficients for the GRGM1200A Moon gravity field up to degree and order 1199, (see `link <https://pgda.gsfc.nasa.gov/products/50>`_ )"
       - name: jgmro120d
-        description: "Coefficients for the MRO120D Moon gravity field up to degree and order 120, (see `https://pds-geosciences.wustl.edu/mro/mro-m-rss-5-sdp-v1/mrors_1xxx/data/shadr/`_ )"
+        description: "Coefficients for the MRO120D Moon gravity field up to degree and order 120, (see `link <https://pds-geosciences.wustl.edu/mro/mro-m-rss-5-sdp-v1/mrors_1xxx/data/shadr/>`_ )"
       - name: jgmess160a
-        description: "Coefficients for the MESS160A Moon gravity field up to degree and order 160, (see `https://pds-geosciences.wustl.edu/messenger/mess-h-rss_mla-5-sdp-v1/messrs_1001/data/shadr/jgmess_160a_sha.lbl`_ )"
+        description: "Coefficients for the MESS160A Moon gravity field up to degree and order 160, (see `link <https://pds-geosciences.wustl.edu/messenger/mess-h-rss_mla-5-sdp-v1/messrs_1001/data/shadr/jgmess_160a_sha.lbl>`_ )"
       - name: shgj180u
-        description: "Coefficients for the SHGJ180U Moon gravity field up to degree and order 180, (see `https://pds-geosciences.wustl.edu/mgn/mgn-v-rss-5-gravity-l2-v1/mg_5201/gravity/shgj120u.lbl`_ )"
+        description: "Coefficients for the SHGJ180U Moon gravity field up to degree and order 180, (see `link <https://pds-geosciences.wustl.edu/mgn/mgn-v-rss-5-gravity-l2-v1/mg_5201/gravity/shgj120u.lbl>`_ )"
 
 
 #########################################################################
