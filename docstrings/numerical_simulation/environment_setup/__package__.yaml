@@ -20,10 +20,11 @@ modules:
   - ephemeris
   - gravity_field
   - gravity_field_variation
+  - ground_station
   - radiation_pressure
   - rotation_model
   - shape
-
+  - shape_deformation
 
   #########################################################################
   #  ███████ ███   ██ ██    ██ ███    ███  ██████

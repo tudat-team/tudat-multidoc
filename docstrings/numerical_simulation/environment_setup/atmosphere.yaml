@@ -363,7 +363,7 @@ functions:
       - name: space_weather_file # [py]
         type: str, default = :func:`~tudatpy.io.get_space_weather_path` + 'sw19571001.txt' # [py]
         description: File to be used for space weather characteristics as a function of time (e.g. F10.7, Kp, etc.). The file is typically
-          taken from here `https://celestrak.org/SpaceData/sw19571001.txt`_ (note that the file in your resources path will not be the latest version
+          taken from here `celestrak <https://celestrak.org/SpaceData/sw19571001.txt>`_ (note that the file in your resources path will not be the latest version
           of this file; download and replace your existing file if required). Documentation on the file is given `here <https://celestrak.org/SpaceData/SpaceWx-format.php>`_
 
     examples: |
