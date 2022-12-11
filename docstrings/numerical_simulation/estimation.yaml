@@ -160,23 +160,129 @@ classes:
   ##############################################################################
 
   - name: ObservationCollection
-    short_summary: "Class collecting all products of the observation simulation."
+    short_summary: "Class collecting all observations and associated data for use in an estimation."
     extended_summary: |
-      Class containing all products of the observation simulation.
-      This class is instantiated via a call to the :func:`~tudatpy.numerical_simulation.estimation.simulate_observations` function.
+      Class containing the full set of observations and associated data, typically for input into the estimation. When using simulated data,
+      this class is instantiated via a call to the :func:`~tudatpy.numerical_simulation.estimation.simulate_observations` function. More information is provided
+      on the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_
+
+    methods: # [py]
+
+      - name: get_single_link_and_type_observations # [py]
+        short_summary: Function to get all observation sets for a given observable type and link definition.
+
+        parameters:
+        - name: observable_type # [py]
+          type: :class:`ObservableType` # [py]
+          description: Observable type of which observations are to be simulated.
+
+        - name: link_ends # [py]
+          type: LinkDefinition # [py]
+          description: Link ends for which observations are to be simulated.
+
+        returns:
+          type: list[ SingleObservationSet ]
+          description: List of observation sets for given observable type and link definition.
 
     properties: # [py]
 
       - name: concatenated_times # [py]
         type: numpy.ndarray[numpy.float64[m, 1]] # [py]
-        description: Vector containing concatenated observation times. Concatenation takes place over the observation times of all observables. # [py]
+        description: Vector containing concatenated observation times. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order # [py]
         readonly: True # [py]
 
       - name: concatenated_observations # [py]
         type: numpy.ndarray[numpy.float64[m, 1]] # [py]
-        description: Vector containing concatenated observation times. Concatenation takes place over the observations of all observables. # [py]
+        description: Vector containing concatenated observable values. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order # [py]
         readonly: True # [py]
 
+      - name: concatenated_link_definition_ids # [py]
+        type: numpy.ndarray[ int ] # [py]
+        description: Vector containing concatenated indices identifying the link ends. Each set of link ends is assigned a unique 
+          integer identifier (for a given instance of this class). The definition of a given integer identifier with the link ends is given by
+          this class' :func:`link_definition_ids` function. See `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_ for details on storage order of the present vector. # [py]
+        readonly: True # [py]	
+
+      - name: link_definition_ids # [py]
+        type: dict[ int, dict[ LinkEndType, LinkEndId ] ] # [py]
+        description: Dictionaty mapping a link end integer identifier to the specific link ends # [py]
+        readonly: True # [py]	
+
+      - name: observable_type_start_index_and_size # [py]
+        type: dict[ ObservableType, [ int, int ] ] # [py]
+        description: Dictionary defining per obervable type (dict key), the index in the full observation vector (:func:`concatenated_observations`) where the given observable
+          type starts, and the number of subsequent entries in this vector containing a value of an observable of this type   # [py]
+        readonly: True # [py]	
+
+      - name: observation_set_start_index_and_size # [py]
+        type: dict[ ObservableType, dict[ int, list[ int, int ] ] ] # [py]
+        description: The nested dictionary/list
+          returned by this property mirrors the structure of the :func:`sorted_observation_sets` property of this class. The present function provides the start index and size of
+          the observables in the full observation vector that come from the correspoding `SingleObservationSet` in the :func:`sorted_observation_sets` 
+          Consequently, the present property returns a nested dictionary defining per obervable type, link end identifier, and `SingleObservationSet` index 
+          (for the given observable type and link end identifier),
+          where the observables in the given `SingleObservationSet` starts, and the number of subsequent entries in this vector containing data from it.   # [py]
+        readonly: True # [py]	
+
+      - name: sorted_observation_sets # [py]
+        type: dict[ ObservableType, dict[ int, list[ SingleObservationSet ] ] ] # [py]
+        description: The nested dictionary/list contains the list of `SingleObservationSet` objects, in the same method as they are stored internally in the present
+          class. Specifics on the storage order are given in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/observation_simulation.html#accessing-and-analyzing-the-observations>`_  # [py]
+        readonly: True # [py]	
+
+      - name: observation_vector_size # [py]
+        type: int # [py]
+        description:  Length of the total vector of observations # [py]
+        readonly: True # [py]	
+
+
+  ##############################################################################
+
+  - name: SingleObservationSet
+    short_summary: "Class collecting a single set of observations and associated data, of a given observable type, link ends, and ancilliary data."
+
+    properties: # [py]
+
+      - name: observable_type # [py]
+        type: ObservableType # [py]
+        description: Type of observable for which the object stores observations # [py]
+        readonly: True # [py]
+
+      - name: link_definition # [py]
+        type: LinkDefinition # [py]
+        description: Definition of the link ends for which the object stores observations   # [py]
+        readonly: True # [py]
+
+      - name: reference_link_end # [py]
+        type: LinkEndType # [py]
+        description: Reference link end for all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: ancilliary_settings # [py]
+        type: ObservationAncilliarySimulationSettings # [py]
+        description: Ancilliary settings all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: concatenated_observations # [py]
+        type: numpy.ndarray[numpy.float64[m, 1]]  # [py]
+        description: Concatenated vector of all stored observations   # [py]
+        readonly: True # [py]
+
+      - name: list_of_observations # [py]
+        type: list[ numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
+        description: List of separate stored observations. Each entry of this list is a vector containing a single observation. In cases where the observation 
+          is single-valued (range, Doppler), the vector is size 1, but for multi-valued observations such as angular position, each vector in the list will have size >1  # [py]
+        readonly: True # [py]
+
+      - name: observation_times # [py]
+        type: list[ float]  # [py]
+        description: Reference time for each of the observations in ``list_of_observations``   # [py]
+        readonly: True # [py]
+
+      - name: observations_history # [py]
+        type: dict[ float, numpy.ndarray[numpy.float64[m, 1]] ]  # [py]
+        description: Dictionary of observations sorted by time. Created by making a dictionaty with ``observation_times`` as keys and  ``list_of_observations`` as values  # [py]
+        readonly: True # [py]
 
   ################# VARIATIONAL EQUATIONS ######################################
 
@@ -252,44 +358,37 @@ classes:
         short_summary: "Constructor." # [cpp]
         extended_summary: The user typically does not use the constructor, but creates instances of this class via the `createEstimationConvergenceChecker` factory function. # [cpp]
 
+
   ##############################################################################
 
-  - name: PodInput
-    short_summary: Class for consolidating all inputs to the estimation.
+  - name: CovarianceAnalysisInput
+    short_summary: Class for defining all specific inputs to a covariance analysis.
     extensive_summary: |
-      Class for consolidating all inputs required to conduct an estimation. This includes foremost the simulated observations,
-      as well as a priori information about the estimatable parameters.
+      Class for defining all specific inputs required to conduct a covariance analysis, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
+      This includes foremost the simulated observations, as well as possible a priori information about the estimatable parameters.
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
        special_members: __init__
-
 
     methods:
       - name: ctor
         short_summary: "Class constructor."
         extended_summary: |
-          Constructor through which the user can create instances of this class.
+          Constructor through which the user can create instances of this class. Note that the weight are all initiated as 1.0, and the default settings of ``define_covariance_settings`` are used.
 
         parameters:
 
         - name: observations_and_times              # [py]
           type: ObservationCollection               # [py]
-          description: "Total data structure of observations and associated times/link ends/type."             # [py]
-
-        - name: parameter_size             # [py]
-          type: int                        # [py]
-          description: "Size of vector of estimated parameters."              # [py]
+          description: "Total data structure of observations and associated times/link ends/type/etc."             # [py]
 
         - name: inverse_apriori_covariance              # [py]
           type: numpy.ndarray[numpy.float64[m, n]], default = [ ]           # [py]
-          description: "A priori covariance matrix (unnormalized) of estimated parameters."             # [py]
-
-        - name: apriori_parameter_correction              # [py]
-          type: numpy.ndarray[numpy.float64[m, 1]], default = [ ]                         # [py]
-          description: "Correction to estimated parameter vector to be applied on first iteration."        # [py]
+          description: A priori covariance matrix (unnormalized) of estimated parameters. This should be either a size 0x0 matrix (no a priori information), or a square matrix
+            with the same size as the number of parameters that are considered # [py]
 
         returns:
-          type: :class:`~tudatpy.numerical_simulation.estimation.PodInput`
-          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.PodInput` class, defining the data and other settings to be used for the estimation.
+          type: :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` class, defining the data and other settings to be used for the covariance analysis.
 
 
       - name: set_constant_weight # [py]
@@ -323,33 +422,112 @@ classes:
           type: None
           description: Function modifies the object in-place.
 
-      - name: define_estimation_settings # [py]
-        short_summary: Function to define specific settings for estimation process
+      - name: define_covariance_settings # [py]
+        short_summary: Function to define specific settings for covariance analysis process
         extended_summary: |
-          Function to define specific settings for estimation process
+          Function to define specific settings for covariance analysis process
 
         parameters:
-        - name: reintegrate_equations_on_first_iteration
+        - name: reintegrate_equations
           type: bool, default = True
           description: |
-            Boolean denoting whether the dynamics and variational equations are to be reintegrated on first iteration,
+            Boolean denoting whether the dynamics and variational equations are to be reintegrated
             or if existing values are to be used to perform first iteration.
 
         - name: reintegrate_variational_equations
           type: bool, default = True
           description: |
-            Boolean denoting whether the variational equations are to be reintegrated during estimation.
+            Boolean denoting whether the variational equations are to be reintegrated during estimation 
+            (if this is set to False, and ``reintegrate_equations`` to true, only the dynamics are re-integrated)
 
         - name: save_design_matrix
           type: bool, default = True
           description: |
-            Boolean denoting whether to save the partials matrix in the output.
+            Boolean denoting whether to save the partials matrix (also called design matrix) :math:`\mathbf{H}` in the output. Setting this to false makes the
+            :math:`\mathbf{H}` matrix unavailable to the user, with the advantage of lower RAM usage.
 
         - name: print_output_to_terminal
           type: bool, default = True
           description: |
-            Boolean denoting whether to print output to th terminal when running the estimation.
+            Boolean denoting whether to print covariance-analysis-specific output to the terminal when running the estimation.
 
+        returns:
+          type: None
+          description: Function modifies the object in-place.
+
+
+    properties: # [py]
+      - name: weight_matrix_diagonal # [py]
+        type: numpy.ndarray[numpy.float64[n, 1]] # [py]
+        description: Complete diagonal of the weights matrix that is to be used # [py]
+        readonly: True # [py]
+
+  ##############################################################################
+
+  - name: EstimationInput
+    short_summary: Class for defining all inputs to the estimation.
+    extensive_summary: |
+      Class for defining all inputs required to conduct an estimation, after the :class:`~tudatpy.numerical_simulation.Estimator` has been created.
+      This class is derived from :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisInput` class, and includes settings on the iteration
+      and convergence, in addition to those for the covariance analysis
+    autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
+       special_members: __init__
+
+
+    methods:
+      - name: ctor
+        short_summary: "Class constructor."
+        extended_summary: |
+          Constructor through which the user can create instances of this class.
+
+        parameters:
+
+        - name: observations_and_times              # [py]
+          type: ObservationCollection               # [py]
+          description: "Total data structure of observations and associated times/link ends/type/etc."             # [py]
+
+        - name: inverse_apriori_covariance              # [py]
+          type: numpy.ndarray[numpy.float64[m, n]], default = [ ]           # [py]
+          description: A priori covariance matrix (unnormalized) of estimated parameters. This should be either a size 0x0 matrix (no a priori information), or a square matrix
+            with the same size as the number of parameters that are considered # [py]
+
+        - name: convergence_checker              # [py]
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationConvergenceChecker`, default = :func:`~tudatpy.numerical_simulation.estimation.estimation_convergence_checker` # [py]
+          description: "Object defining when the estimation is converged."        # [py]
+
+        returns:
+          type: :class:`~tudatpy.numerical_simulation.estimation.EstimationInput`
+          description: Instance of the :class:`~tudatpy.numerical_simulation.estimation.EstimationInput` class, defining the data and other settings to be used for the estimation.
+
+      - name: define_estimation_settings # [py]
+        short_summary: Function to define specific settings for the estimation process
+        extended_summary: |
+          Function to define specific settings for covariance analysis process
+
+        parameters:
+        - name: reintegrate_equations_on_first_iteration
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the dynamics and variational equations are to be reintegrated
+            or if existing values are to be used to perform first iteration.
+
+        - name: reintegrate_variational_equations
+          type: bool, default = True
+          description: |
+            Boolean denoting whether the variational equations are to be reintegrated during estimation 
+            (if this is set to False, and ``reintegrate_equations_on_first_iteration`` to true, only the dynamics are re-integrated)
+
+        - name: save_design_matrix
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to save the partials matrix (also called design matrix) :math:`\mathbf{H}` in the output. Setting this to false makes the
+            :math:`\mathbf{H}` matrix unavailable to the user, with the advantage of lower RAM usage.
+
+        - name: print_output_to_terminal
+          type: bool, default = True
+          description: |
+            Boolean denoting whether to print covariance-analysis-specific output to the terminal when running the estimation.
+       
         - name: save_residuals_and_parameters_per_iteration
           type: bool, default = True
           description: |
@@ -358,7 +536,7 @@ classes:
         - name: save_state_history_per_iteration
           type: bool, default = False
           description: |
-            Boolean denoting whether the state history is to be saved on each iteration.
+            Boolean denoting whether the state history and dependent variables are to be saved on each iteration.
 
         returns:
           type: None
@@ -367,75 +545,102 @@ classes:
 
   ##############################################################################
 
-  - name: PodOutput
-    short_summary: Class collecting all outputs from the estimation process.
+  - name: CovarianceAnalysisOutput
+    short_summary: Class collecting all outputs from the covariance analysis process.
     extensive_summary: |
-      Class collecting all outputs from the estimation (Pod) process.
-      Instances of this class are typically created by calling the `perform_estimation` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      Class collecting all outputs from the covariance analysi process.
+      Instances of this class are typically created by calling the `compute_covariance` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      Many members of this class can be retrieved in normalized or unnormalized form. See  `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_estimation/runningEstimation.html#normalization>`_ for details.
 
     properties:
 
       - name: inverse_covariance
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: (Unnormalized) inverse estimation covariance matrix.
+        description: (Unnormalized) inverse estimation covariance matrix :math:`\mathbf{P}^{-1}`.
         readonly: True
 
       - name: covariance
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: (Unnormalized) estimation covariance matrix.
+        description: (Unnormalized) estimation covariance matrix :math:`\mathbf{P}`.
+        readonly: True
+
+      - name: inverse_normalized_covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: Normalized inverse estimation covariance matrix :math:`\mathbf{\tilde{P}}^{-1}`.
+        readonly: True
+
+      - name: normalized_covariance
+        type: numpy.ndarray[numpy.float64[m, m]]
+        description: Normalized estimation covariance matrix :math:`\mathbf{\tilde{P}}`.
         readonly: True
 
       - name: formal_errors
-        type: numpy.ndarray[numpy.float64[m, 1]]
-        description: Formal error vector of the estimation result. Correlation matrix of the estimation result.
+        type: numpy.ndarray[numpy.float64[m, 1]]s
+        description: Formal error vector :math:`\boldsymbol{\sigma}` of the estimation result (e.g. square root of diagonal entries of covariance)s
         readonly: True
 
       - name: correlations
         type: numpy.ndarray[numpy.float64[m, m]]
-        description: Correlation matrix of the estimation result.
-        readonly: True
-
-      - name: residual_history
-        type: numpy.ndarray[numpy.float64[m, n]]
-        description: Residual vectors, concatenated per iteration into a matrix.
-        readonly: True
-
-      - name: parameter_history
-        type: numpy.ndarray[numpy.float64[m, n]]
-        description: Parameter vectors, concatenated per iteration into a matrix. Column 0 contains pre-estimation values.
+        description: Correlation matrix of the estimation result. Entry :math:`i,j` is equal to :math:`P_{i,j}/(\sigma_{i}\sigma_{j})`
         readonly: True
 
       - name: design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of unnormalized partial derivatives.
+        description: Matrix of unnormalized partial derivatives :math:`\mathbf{H}=\frac{\partial\mathbf{h}}{\partial\mathbf{p}}`.
         readonly: True
 
       - name: normalized_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of partial derivatives.
+        description: Matrix of normalized partial derivatives :math:`\tilde{\mathbf{H}}`.
         readonly: True
 
       - name: weighted_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of weighted partial derivatives.
+        description: Matrix of weighted partial derivatives, equal to :math:`\mathbf{W}^{1/2}{\mathbf{H}}`
         readonly: True
 
       - name: weighted_normalized_design_matrix
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Matrix of weighted, normalized partial derivatives.
+        description: Matrix of weighted, normalized partial derivatives, equal to :math:`\mathbf{W}^{1/2}\tilde{\mathbf{H}}`
         readonly: True
+
+      - name: normalization_terms
+        type: numpy.ndarray[numpy.float64[m, 1]]
+        description: Vector of normalization terms used for covariance and design matrix
+        readonly: True
+
+
+  ##############################################################################
+
+  - name: EstimationOutput
+    short_summary: Class collecting all outputs from the iterative estimation process.
+    extensive_summary: |
+      Class collecting all outputs from the iterative estimation process.
+      Instances of this class are typically created by calling the `perform_estimation` member function of the :class:`~tudatpy.numerical_simulation.Estimator` class.
+      This class is derived from :class:`~tudatpy.numerical_simulation.estimation.CovarianceAnalysisOutput` class, and includes all members from that class.
+
+
+    properties:
+      - name: residual_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Residual vectors, concatenated per iteration into a matrix; the :math:`i^{th}` column has the residuals from the :math:`i^{th}` iteration.
+        readonly: True
+
+      - name: parameter_history
+        type: numpy.ndarray[numpy.float64[m, n]]
+        description: Parameter vectors, concatenated per iteration into a matrix. Column 0 contains pre-estimation values. The :math:`(i+1)^{th}` column has the residuals from the :math:`i^{th}` iteration.
+        readonly: True
+
+      - name: simulation_results_per_iteration
+        type: list[SimulationResults]
+        description: List of complete numerical propagation results, with the :math:`i^{th}` entry of thee list thee results of the :math:`i^{th}` propagation 
+        readonly: True
+
 
       - name: final_residuals
         type: numpy.ndarray[numpy.float64[m, 1]]
         description: Vector of post-fit observation residuals.
         readonly: True
-
-    methods: # [cpp]
-      - name: ctor # [cpp]
-        short_summary: "Constructor." # [cpp]
-        extended_summary: "Instances of this class are typically not generated by the user, but result from the `performEstimation` function. " # [cpp]
-
-
 
 
   ##############################################################################

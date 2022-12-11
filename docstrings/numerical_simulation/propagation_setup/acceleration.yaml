@@ -784,7 +784,7 @@ functions:
   - name: momentumWheelDesaturationAcceleration # [cpp]
   - name: quasi_impulsive_shots_acceleration # [py]
     short_summary: "Creates settings for incorporating quasi-impulsive shots into the acceleration."
-    extended_summary:
+    extended_summary: |
       The acceleration model is purpose-built to represent short bursts of thrust, such as a momentum wheel desaturation.
       A typical use case is precise orbit determination, but the functionality can be used just as well in propagation
       (for instance to model an impulsive manuever in a continuous manner when going from preliminary modelling to
