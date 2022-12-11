@@ -25,91 +25,7 @@ classes:
     autoclass: # See https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#directive-autoclass
         special_members: __init__
     properties:
-      - name: equationsOfMotionNumericalSolution_ # [cpp]
-        type: std::map<double, Eigen::Matrix> # [cpp]
-      - name: state_history # [py]
-        type: dict[float, numpy.ndarray] # [py]
-        readonly: Yes
-        description: |
-          Numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
-          numerically calculated state at this epoch. For this function, the states are always converted to so-called
-          'conventional' formulations (e.g. Cartesian states for translational dynamics), see `here <https://tudat-space.readthedocs.io/en/latest/_src_api/propagation_setup/settings/conventional_vs_propagated_coordinates.html>`_
-          for detailed. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
-
-          .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
-                    When propagating two bodies, an example of what the output state would look like is for instance:
-                    [ **T** Body 1, **T** Body 2, **R** Body 1, **R** Body 2, **M** Body 1, **M** Body 2 ]
-
-          .. note:: For propagation of translational dynamics using cowell
-                    propagator, the conventional and propagated
-                    coordinates are identical.
-
-      - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
-        type: std::map<double, Eigen::Matrix> # [cpp]
-      - name: unprocessed_state_history # [py]
-        type: dict[float, numpy.ndarray] # [py]
-        readonly: Yes
-        description: |
-          Raw numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
-          numerically calculated state at this epoch. This attribute contains the states of the propagated bodies expressed in the
-          "raw" form in which the propagation took place. For instance, when using a Gauss-Kepler propagation scheme, this
-          attribute will contain the numerically propagated Keplerian elements at each time epoch
-
-      - name: dependentVariableHistory_ # [cpp]
-        type: std::map<double, Eigen::Vector> # [cpp]
-      - name: dependent_variable_history # [py]
-        type: dict[float, numpy.ndarray] # [py]
-        readonly: Yes
-        description: |
-          Dependent variables computed during the propagation as key-value pairs.
-          They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
-          as value, with the epoch as key.
-
-      - name: cumulativeComputationTimeHistory_ # [cpp]
-        type: std::map<double, double> # [cpp]
-      - name: cumulative_computation_time_history # [py]
-        type: dict[float, float] # [py]
-        readonly: Yes
-        description: |
-          History of cumulative computation time in seconds needed during the propagation as key-value
-          pairs. At each epoch (key) the computation time (value) in seconds is the total computation time
-          used up to and including that time step.
-
-      - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
-        type: std::map<double, int> # [cpp]
-      - name: cumulative_number_of_function_evaluations # [py]
-        type: dict[float, int] # [py]
-        readonly: Yes
-        description: |
-          This function returns the history of cumulative number of function evaluations taken during the propagation as key-value
-          pairs. At each epoch (key), the number of computed function evaluations (value) are given up to and including that time step.
-
-
-      #- name: state_history_base # [py]
-        #type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-        #description: |
-          #Numerical solution of the equations of motion as a vector of key-value containers. This consists of the state history
-          #of the propagated bodies expressed in cartesian coordinates (X, Y, Z, Vx, Vy, Vz) in the base reference frame
-          #as value, with the epoch as key. This function is similar to the corresponding function without "base", with
-          #different return types.
-
-      #- name: getDependentVariableHistoryBase # [cpp]
-        #type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-        #description: |
-          #This function returns the dependent variables computed during the propagation as a vector of key-value containers.
-          #They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
-          #as value, with the epoch as key. This function is similar to the corresponding function without "base", with
-          #different return types.
-
-      #- name: getCumulativeComputationTimeHistoryBase # [cpp]
-        #type: numpy.ndarray[Dict[float, numpy.ndarray]] # [py]
-        #description: |
-          #This function returns the history of cumulative computation time needed during the propagation as a vector of key-value containers.
-          #This means that at each time step the computation time is the sum of the computation time needed for that particular
-          #time step and the computation time needed for all the previous time steps. The computation time is returned
-          #as value, with time as key. This function is similar to the corresponding function without "base", with
-          #different return types.
-
+  
       - name: integrator_settings # [py]
         type: IntegratorSettings  # [py]
         description: |
@@ -126,14 +42,6 @@ classes:
           state, and current independent variable (time) as input, and returns the derivative of the state that is then used
           by the numerical integration routine. Typically, this function is NOT used directly by users.
 
-
-      #- name: doubleStateDerivativeFunction_ # [cpp]
-        #type: std::function<Eigen::Matrix>(double, Eigen::Matrix) # [cpp]
-      #- name: double_state_derivative_function # [py]
-        #type: Callable[[float, numpy.ndarray], numpy.ndarray] # [py]
-        #description: |
-          #Function that performs a single state derivative function evaluation with double precision.
-
       - name: environmentUpdater_ # [cpp]
       - name: environment_updater # [py]
         type: EnvironmentUpdater
@@ -143,174 +51,14 @@ classes:
           to update the translational state, rotational state, flight conditions, etc. of all bodies in the simulation to be
           consistent with this time and state.  Typically, this class is NOT used directly by users.
 
-      #- name: propagationTerminationCondition_ # [cpp]
-      #- name: propagation_termination_condition # [py]
-        #type: PropagationTerminationCondition
-        #description: |
-          #Object used in the propagation to define when the propagation should stop.
-
-      #- name: integratedStateProcessors_ # [cpp]
-        #type: std::map<IntegratedStateType, std::vector<IntegratedStateProcessor>> # [cpp]
-      #- name: integrated_state_processors # [py]
-        #type: Dict[float, List[IntegratedStateProcessor]] # [py]
-        #description: |
-          #List of object (per dynamics type) that process the integrated numerical solution by updating the environment.
-
-      - name: propagationTerminationReason_ # [cpp]
-      - name: propagation_termination_details # [py]
-        type: PropagationTerminationDetails
+      - name: propagation_results  # [py]
         readonly: Yes
         description: |
-          Object describing the details of the event that triggered the termination of the last propagation.
-
-      #- name: integratedStateProcessors_ # [cpp]
-        #type: bool # [cpp]
-      #- name: integrated_state_processors # [py]
-        #type: bool # [py]
-        #description: |
-          #Whether the integration was completed successfully.
-
-      - name: dependentVariableIds_ # [cpp]
-        type: std::map< int, std::string > # [cpp]
-      - name: dependent_variable_ids # [py]
-        type: dict[int, str] # [py]
-        readonly: Yes
-        description: |
-          Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
-
-      - name: integration_completed_successfully # [py]
-        type: bool # [py]
-        readonly: Yes
-        description: |  # [py]
-          Boolean defining whether the last propagation was finished
-          successfully, as defined by the termination conditions, or if
-          it was terminated prematurely (for instance due to an
-          exception, or an Inf/NaN state entry being detected).
-
-
-      #- name: initialPropagationTime_ # [cpp]
-        #type: double # [cpp]
-      #- name: initial_propagation_time # [py]
-        #type: float # [py]
-        #description: |
-          #Initial time of the propagation.
-
-      #- name: dependentVariablesFunctions_ # [cpp]
-        #type: std::function<Eigen::Vector> # [cpp]
-      #- name: dependent_variables_functions # [py]
-        #type: list[numpy.ndarray] # [py]
-        #description: |
-          #List of functions that compute the dependent variables at each time step.
-
+          This function retrieves all the results of the numerical propagation, stored
+          in a single wrapper object
 
     methods:
-      - name: ctor
-        short_summary: "Class constructor."
-        extended_summary: |
-          Defines environment, propagation and
-          integrations models, as well as a number of settings related
-          to simulation output and processing.
-
-          .. note:: When using default settings, creating an object of
-                    this type automatically triggers the propagation
-
-        parameters:
-          - name: bodies
-            type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`
-            description: |
-              Object defining the physical environment, with all
-              properties of artificial and natural bodies.
-
-          - name: integrator_settings # [py]
-            type: :class:`~tudatpy.numerical_simulation.propagation_setup.integrator.IntegratorSettings`  # [py]
-            description: |            # [py]
-              Settings to create the numerical integrator that is to be
-              used for the integration of the equations of motion
-
-          - name: propagator_settings # [py]
-            type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings`  # [py]
-            description: |            # [py]
-              Settings to create the propagator that is to be
-              used for the propagation of dynamics
-
-          - name: are_equations_of_motion_to_be_integrated # [py]
-            type: Bool, default = True # [py]
-            description: |             # [py]
-              Boolean defining whether the propagation should be
-              performed immediately (default), or at a later time when
-              calling the :py:attr:`~integrate_equations_of_motion`
-              function.
-
-          - name: clear_numerical_solutions # [py]
-            type: Bool, default = False # [py]
-            description: |    # [py]
-              Boolean defining whether the propagation results should be
-              deleted after the propagation is terminated. If this is
-              done, the :py:attr:`~state_history`,
-              :py:attr:`~unprocessed_state_history` and
-              :py:attr:`~dependent_variable_history` will not be
-              accessible. Putting this setting to True (deleting the
-              results) is only sensible when the
-              :py:attr:`~set_integrated_result` is set to True. In that
-              case, the propagated states are *not* accessible directly
-              from this objects, but the results are used to update the
-              environment, *e.g.* update the ephemeris of the propagated
-              body with the numerical results.
-
-          - name: set_integrated_result # [py]
-            type: Bool, default = False # [py]
-            description: |  # [py]
-              Boolean defining whether the propagation results are to
-              be used to update the environment. If this variable is set
-              to False, the numerical propagation results can be
-              retrieved from this object (provided the
-              :py:attr:`~clear_numerical_solutions` is set to False),
-              but the (for instance) Ephemeris of the propagated body
-              is not updated with the propagation results. If this
-              variable is set to True, the properties of the propagated
-              :class:`~tudatpy.numerical_simulation.environment.Body`
-              object will be updated as per the numerical results.
-              Depending on the state type, this will result in:
-                 - **Translational**: The ephemeris of the propagated body
-                   will be updated.
-
-                   .. note:: This requires the propagated body to be
-                             endowed with a tabulated ephemeris.
-
-                 - **Rotational**: The rotational ephemeris of the
-                   propagated body will be updated.
-
-                   .. note:: This requires the propagated body to be
-                             endowed with a tabulated rotational
-                             ephemeris.
-
-                 - **Mass**: The mass function of the propagated body
-                   will be updated.
-
-          - name: print_number_of_function_evaluations # [py]
-            type: bool, default = False # [py]
-            description: |    # [py]
-              Boolean defining whether the number of function evaluations that
-              were performed is to be printed to the console after propagation.
-
-          - name: print_dependent_variable_data # [py]
-            type: bool, default = True # [py]
-            description: |    # [py]
-              Boolean defining whether the meaning and indices of the
-              entries of the dependent variable data are to be printed to
-              the console.
-
-              .. note:: The same information can be retrieved from the
-                        :py:attr:`~dependent_variable_ids`
-                        property.
-
-          - name: print_state_data # [py]
-            type: bool, default = True # [py]
-            description: |    # [py]
-              Boolean defining whether the meaning and indices of the
-              entries of the state vector are to be printed to
-              the console.
-
+    
       - name: integrateEquationsOfMotion                          # [cpp]
       - name: integrate_equations_of_motion                       # [py]
         short_summary: |
@@ -366,48 +114,7 @@ classes:
             #type: bool # [py]
             #description: If true, the new solution will be reprocessed immediately.
 
-      #- name: resetInitialPropagationTime # [cpp]
-      #- name: reset_initial_propagation_time # [py]
-        #short_summary: "This function resets the initial time of the propagation."
-        #extended_summary: |
-          #This function resets the initial time of the propagation.
-
-        #parameters:
-        #- name: initialPropagationTime # [cpp]
-          #type: double # [cpp]
-        #- name: new_initial_propagation_time # [py]
-          #type: float # [py]
-          #description: |
-            #New value for the initial time of the propagation.
-
-      #- name: resetPropagationTerminationConditions # [cpp]
-      #- name: reset_propagation_termination_conditions # [py]
-        #short_summary: "This function resets the termination conditions of the propagation."
-        #extended_summary: |
-          #Function to reset the object that checks whether the simulation should be stopped based on the (newly)
-          #defined propagation settings.
-
-      #- name: processNumericalEquationsOfMotionSolution # [cpp]
-      #- name: process_numerical_equations_of_motion_solution # [py]
-        #short_summary: "This function updates the environment with the numerical solution of the propagation."
-        #extended_summary: |
-          #This function updates the environment with the numerical solution of the propagation. It sets
-          #the propagated translational dynamics solution as the new input for the Ephemeris object of the body that was
-          #propagated.
-
-      #- name: suppressDependentVariableDataPrinting # [cpp]
-      #- name: suppress_dependent_variable_terminal_printing # [py]
-        #short_summary: "This function is used to deactivate the output to the terminal informing the user about the dependent variable saved."
-        #extended_summary: |
-          #This function is used to deactivate the output to the terminal informing the user about the dependent variable saved.
-
-      #- name: enableDependentVariableDataPrinting # [cpp]
-      #- name: enable_dependent_variable_terminal_printing # [py]
-        #short_summary: "This function is used to activate the output to the terminal informing the user about the dependent variable saved."
-        #extended_summary: |
-          #This function is used to activate the output to the terminal informing the user about the dependent variable saved.
-
-
+     
 
   #####  VARIATIONAL SIMULATOR #####
 
@@ -709,3 +416,45 @@ classes:
           type: simulation_setup::PodOutput # [cpp]
           type: :class:`~tudatpy.numerical_simulation.estimation.PodOutput` # [py]
           description:  Object containing all outputs from the estimation (Pod) process. # [py]
+
+##############################################################################
+  #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+  #  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+  #  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+  #  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+  #  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+  ##############################################################################
+
+functions:
+
+  - name: create_dynamics_simulator # [py]
+    short_summary: "Function to create object that propagates the dynamics."
+    extended_summary: |
+      Function to create object that propagates the dynamics, as specified by propagator settings, and the physical environment.
+      Depending on the specific input type (e.g. which factory function from the :ref:`\`\`propagator\`\`` module was used),
+      a single-, multi- or hybrid-arc simulator is created. The environment is typically created by the :func:`~tudatpy.numerical_simulation.environment_setup.create_system_of_bodies`
+      function. When using default settings, calling this function will automatically propagate the dynamics.
+    parameters:
+
+    - name: bodies # [py]
+      type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies` # [py]n
+      description: |
+        Object defining the physical environment, with all
+        properties of artificial and natural bodies.
+
+    - name: propagator_settings # [py]
+      type: :class:`~tudatpy.numerical_simulation.propagation_setup.propagator.PropagatorSettings` # [py]
+      description: |
+        Settings to be used for the numerical propagation (dynamics type, termination conditions, integrator, etc.)
+
+    - name: simulate_dynamics_on_creation # [py]
+      type: Bool, default=True # [py]
+      description: |
+        Boolean defining whether to propagate the dynamics upon creation of the Simulator. If false, the dynamics c
+        can be propagated at a later time by calling the :class:`~tudatpy.numerical_simulation.Simulator.integrate_equations_of_motion` function
+
+    returns:
+      type: :class:`~tudatpy.numerical_simulation.Simulator` # [py]
+      description: Object that propagates the dynamics, and processes the results. # [py]
+
+

@@ -19,6 +19,99 @@ enums:
 
 classes:
 
+  - name: SingleArcPropagatorResults
+    short_summary: |
+       Object that stores all the results (including logging data) of a single-arc propagation
+
+    properties: # [py]
+      - name: equationsOfMotionNumericalSolution_ # [cpp]
+        type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: state_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          Numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
+          numerically calculated state at this epoch. For this function, the states are always converted to so-called
+          'conventional' formulations (e.g. Cartesian states for translational dynamics), see `here <https://tudat-space.readthedocs.io/en/latest/_src_api/propagation_setup/settings/conventional_vs_propagated_coordinates.html>`_
+          for detailed. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
+
+          .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
+                    When propagating two bodies, an example of what the output state would look like is for instance:
+                    [ **T** Body 1, **T** Body 2, **R** Body 1, **R** Body 2, **M** Body 1, **M** Body 2 ] The specifics can be retrieved using the :attr:`state_ids` attribute of this class
+
+          .. note:: For propagation of translational dynamics using cowell
+                    propagator, the conventional and propagated
+                    coordinates are identical.
+
+      - name: equationsOfMotionNumericalSolutionRaw_ # [cpp]
+        type: std::map<double, Eigen::Matrix> # [cpp]
+      - name: unprocessed_state_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          Raw numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
+          numerically calculated state at this epoch. This attribute contains the states of the propagated bodies expressed in the
+          "raw" form in which the propagation took place. For instance, when using a Gauss-Kepler propagation scheme, this
+          attribute will contain the numerically propagated Keplerian elements at each time epoch
+
+      - name: dependentVariableHistory_ # [cpp]
+        type: std::map<double, Eigen::Vector> # [cpp]
+      - name: dependent_variable_history # [py]
+        type: dict[float, numpy.ndarray] # [py]
+        readonly: Yes
+        description: |
+          Dependent variables computed during the propagation as key-value pairs.
+          They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
+          as value, with the epoch as key.
+
+      - name: cumulativeComputationTimeHistory_ # [cpp]
+        type: std::map<double, double> # [cpp]
+      - name: cumulative_computation_time_history # [py]
+        type: dict[float, float] # [py]
+        readonly: Yes
+        description: |
+          History of cumulative computation time in seconds needed during the propagation as key-value
+          pairs. At each epoch (key) the computation time (value) in seconds is the total computation time
+          used up to and including that time step. This includes the total time up to and including the current time step,
+          since the beginning of the (single-arc) propagation.
+
+      - name: cumulativeNumberOfFunctionEvaluations_ # [cpp]
+        type: std::map<double, int> # [cpp]
+      - name: cumulative_number_of_function_evaluations # [py]
+        type: dict[float, int] # [py]
+        readonly: Yes
+        description: |
+          This function returns the history of cumulative number of function evaluations taken during the propagation as key-value
+          pairs. At each epoch (key), the total number of computed function evaluations (value) are given up to and including that time step.
+          This includes all function evaluations up to and including the current time step, since the beginning of the (single-arc) propagation.
+
+      - name: termination_details # [py]
+        type: PropagationTerminationDetails
+        readonly: Yes
+        description: |
+          Object describing the details of the event that triggered the termination of the last propagation.
+
+      - name: dependent_variable_ids # [py]
+        type: dict[[int,int], str] # [py]
+        readonly: Yes
+        description: |
+          Key-value container with the starting entry of the dependent variables saved (key), along with associated ID (value).
+
+      - name: state_ids # [py]
+        type: dict[[int,int] str] # [py]
+        readonly: Yes
+        description: |
+          Key-value container with the starting entry of the states (key), along with associated ID (value).
+
+      - name: integration_completed_successfully # [py]
+        type: bool # [py]
+        readonly: Yes
+        description: |  # [py]
+          Boolean defining whether the last propagation was finished
+          successfully, as defined by the termination conditions, or if
+          it was terminated prematurely (for instance due to an
+          exception, or an Inf/NaN state entry being detected).
+
   - name: PropagationTerminationDetails
     short_summary: |
        Object that provides information on the reason for the

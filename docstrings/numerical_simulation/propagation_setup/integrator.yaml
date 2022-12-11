@@ -15,13 +15,6 @@ enums:
     short_summary: "Enumeration of integrators available with tudat."
 
     members:
-      #- name: euler # [cpp]
-      #- name: rungeKutta4 # [cpp]
-      #- name: rungeKuttaVariableStepSize # [cpp]
-      #- name: bulirschStoer # [cpp]
-      #- name: adamsBashforthMoulton # [cpp]
-      # - name: euler_type # [py]
-      # - name: runge_kutta_4_type # [py]
       - name: runge_kutta_fixed_step_size_type # [py]
       - name: runge_kutta_variable_step_size_type # [py]
       - name: bulirsch_stoer_type # [py]
@@ -40,11 +33,6 @@ enums:
       for step size control.
 
     members:
-      #- name: undefinedCoefficientSet # [cpp]
-      #- name: rungeKuttaFehlberg45 # [cpp]
-      #- name: rungeKuttaFehlberg56 # [cpp]
-      #- name: rungeKuttaFehlberg78 # [cpp]
-      #- name: rungeKutta87DormandPrince # [cpp]
       - name: euler_forward # [py]
         description: "Coefficients for the classic forward Euler method" # [py]
       - name: rk_4 # [py]
@@ -193,83 +181,6 @@ classes:
 
 functions:
 
-  # factory functions
-
-  # # Euler
-  # - name: eulerSettings # [cpp]
-  # - name: euler # [py]
-  #   short_summary: "Creates the settings for the Euler integrator."
-  #   extended_summary: |
-  #     Factory function to create settings for the Euler integrator. For this integrator, the step size is kept
-  #     constant.
-
-  #   parameters:
-  #     - name: initialTime # [cpp]
-  #       type: double # [cpp]
-  #     - name: initial_time # [py]
-  #       type: float # [py]
-  #       description: Start time (independent variable) of numerical integration.
-
-  #     - name: initialTimeStep # [cpp]
-  #       type: double # [cpp]
-  #     - name: initial_time_step # [py]
-  #       type: float # [py]
-  #       description: Initial and constant value for the time step.
-
-  #     - name: saveFrequency # [cpp]
-  #       type: int, default=1 # [cpp]
-  #     - name: save_frequency # [py]
-  #       type: int, default=1 # [py]
-  #       description: Frequency at which to save the numerical integrated states (expressed per unit integration time step, with n = saveFrequency, so n = 2 means that the state is saved every two integration steps).
-
-  #     - name: assessTerminationOnMinorSteps # [cpp]
-  #       type: bool, default=false # [cpp]
-  #     - name: assess_termination_on_minor_steps # [py]
-  #       type: bool, default=false # [py]
-  #       description: Whether the propagation termination conditions should be evaluated during the intermediate sub-steps of the integrator (true) or only at the end of each integration step (false).
-
-  #   returns:
-  #       type: IntegratorSettings
-  #       description: Integrator settings object.
-
-
-  # # Runge Kutta 4
-  # - name: rungeKutta4Settings # [cpp]
-  # - name: runge_kutta_4 # [py]
-  #   short_summary: "Creates the settings for the Runge Kutta 4 integrator."
-  #   extended_summary: |
-  #     Factory function to create settings for the Runge Kutta 4 integrator. For this integrator, the step size is kept
-  #     constant.
-
-  #   parameters:
-  #     - name: initialTime # [cpp]
-  #       type: double # [cpp]
-  #     - name: initial_time # [py]
-  #       type: float # [py]
-  #       description: Start time (independent variable) of numerical integration.
-
-  #     - name: initialTimeStep # [cpp]
-  #       type: double # [cpp]
-  #     - name: initial_time_step # [py]
-  #       type: float # [py]
-  #       description: Initial and constant value for the time step.
-
-  #     - name: saveFrequency # [cpp]
-  #       type: int, default=1 # [cpp]
-  #     - name: save_frequency # [py]
-  #       type: int, default=1 # [py]
-  #       description: Frequency at which to save the numerical integrated states (expressed per unit integration time step, with n = saveFrequency, so n = 2 means that the state is saved every two integration steps).
-
-  #     - name: assessTerminationOnMinorSteps # [cpp]
-  #       type: bool, default=false # [cpp]
-  #     - name: assess_termination_on_minor_steps # [py]
-  #       type: bool, default=false # [py]
-  #       description: Whether the propagation termination conditions should be evaluated during the intermediate sub-steps of the integrator (true) or only at the end of each integration step (false).
-
-  #   returns:
-  #       type: IntegratorSettings
-  #       description: Integrator settings object.
-
   # Print Butcher's tableau
   - name: print_butcher_tableau # [py]
   - name: printButcherTableau # [cpp]
@@ -291,11 +202,6 @@ functions:
       Different coefficient sets (Butcher's tableau) can be used (see the `CoefficientSets` enum).
 
     parameters:
-      - name: initial_time # [py]
-        type: float # [py]
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-        description: Start time (independent variable) of numerical integration.
 
       - name: initial_time_step # [py]
         type: float # [py]
@@ -344,11 +250,6 @@ functions:
       Different coefficient sets (Butcher's tableau) can be used (see the `CoefficientSets` enum).
 
     parameters:
-      - name: initial_time # [py]
-        type: float # [py]
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-        description: Start time (independent variable) of numerical integration.
 
       - name: initial_time_step # [py]
         type: float # [py]
@@ -447,12 +348,6 @@ functions:
       Different coefficient sets (Butcher's tableau) can be used (see the `CoefficientSets` enum).
 
     parameters:
-      - name: initial_time # [py]
-        type: float # [py]
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-        description: "Start time (independent variable) of numerical integration."
-
       - name: initial_time_step # [py]
         type: float # [py]
       - name: initialTimeStep # [cpp]
@@ -549,12 +444,6 @@ functions:
       Different extrapolation sequences can be used (see the `ExtrapolationMethodStepSequences` enum).
 
     parameters:
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-      - name: initial_time # [py]
-        type: float # [py]
-        description: Start time (independent variable) of numerical integration.
-
       - name: initialTimeStep # [cpp]
         type: double # [cpp]
       - name: initial_time_step # [py]
@@ -642,12 +531,6 @@ functions:
       The tolerance is composed of an absolute and a relative part.
 
     parameters:
-      - name: initialTime # [cpp]
-        type: double # [cpp]
-      - name: initial_time # [py]
-        type: float # [py]
-        description: Start time (independent variable) of numerical integration.
-
       - name: initialTimeStep # [cpp]
         type: double # [cpp]
       - name: initial_time_step # [py]
