@@ -23,6 +23,7 @@ extended_summary: |
 
 enums:
 
+
   #    py::enum_< tom::LinkEndType >
   #        enum tudat::observation_models::LinkEndType
   - name: LinkEndType
@@ -51,26 +52,16 @@ enums:
 
     members:
       - name: one_way_range_type # [py]
-      - name: angular_position_type # [py]
-      - name: position_observable_type # [py]
-      - name: one_way_doppler_type # [py]
-      - name: one_way_differenced_range_type # [py]
       - name: n_way_range_type # [py]
-      - name: two_way_doppler_type # [py]
-      - name: euler_angle_313_observable_type # [py]
+      - name: angular_position_type # [py]
+      - name: relative_angular_position_type # [py]
+      - name: position_observable_type # [py]
       - name: velocity_observable_type # [py]
-
-      - name: one_way_range # [cpp]
-      - name: angular_position # [cpp]
-      - name: position_observable # [cpp]
-      - name: one_way_doppler # [cpp]
-      - name: one_way_differenced_range # [cpp]
-      - name: n_way_range # [cpp]
-      - name: two_way_doppler # [cpp]
-      - name: euler_angle_313_observable # [cpp]
-      - name: velocity_observable # [cpp]
-
-
+      - name: one_way_instantaneous_doppler_type # [py]
+      - name: one_way_averaged_doppler_type # [py]
+      - name: two_way_instantaneous_doppler_type # [py]
+      - name: n_way_averaged_doppler_type # [py]
+      - name: euler_angle_313_observable_type # [py]
 
   #    py::enum_< tom::ObservationViabilityType >
   #        enum tudat::observation_models::ObservationViabilityType
@@ -85,6 +76,13 @@ enums:
       - name: body_occultation
 
 
+  - name: LightTimeFailureHandling
+    short_summary: "Enumeration of behaviour when failing to converge light-time with required settings."
+
+    members:
+      - name: accept_without_warning
+      - name: print_warning_and_accept
+      - name: throw_exception
   # (%!) ObservationDependentVariables not yet exposed, since associated functionality is too immature for end user
 
 
@@ -430,6 +428,54 @@ functions:
         List of one or more `LinkDefinition` types, each defining the geometry for one one-way uplink.
         A `LinkDefinition` type for a one one-way link is composed a dict with one `receiver` and one `transmitter` :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LinkEndType` key, to each of which a `LinkEndId` type is mapped.
 
+ ############### LIGHT-TIME CONVERGENCE ################################
+  # factory functions
+
+- name: light_time_convergence_settings # [py]
+    short_summary: "Factory function for creating convergence settings for solving the light-time equation."
+    extended_summary: |
+      Factory function for creating convergence settings for solving the light-time equation. Computing the light time 
+      :math:`s=t_{R}-t_{T}` between two receiver :math:`R` and transmiter :math:`T` requires the iterative
+      solution of the following equation:
+
+      .. math::
+         {t_{R}-t_{T}}=c\left(|\mathbf{r}_{R}(t_{R})-\mathbf{r}_{T}(t_{T})| + \Delta s(t_{R},t_{T},mathbf{r}_{R}(t_{R}),mathbf{r}_{T}(t_{T}))
+      
+      where either the reception time :math:`t_{R}` or the transmission time :math:`t_{T}` is kept fixed (reference link end time). The term :math:`\Delta s` contains any 
+      deviations in the light-time from straight-line propagation at speed of light (relativistic corrections, media corrections, etc.). The algorithm starts
+      at :math:`t_{R}=t_{T}`, and uses this to evaluate the right-hand side of the above equation. This leads to a new value of :math:`t_{R}` or :math:`t_{T}` (depending on which is kept fixed)
+      and the right-hand side is re-evaluated in a new iteration. The input to this function defines the settings for when the iteration will terminate.
+
+    parameters:
+      - name: iterate_corrections # [py]
+        type: bool, default = False # [py]
+        description: |
+          Boolean denoting whether the terms :math:`\Delta s` are recomputed at each iteration or not. If false, the corrections are calculated only on the first iteration. Afterwards, the value
+          is kept fixed until convergence. Once preliminarily converged, the algorithm recomputes :math:`\Delta s`, and continues the iteration (until proper convergence) while now recomputing
+          :math:`\Delta s` each iteration. Setting this input to false is typically safe, and is computationally more efficient.
+
+      - name: maximum_number_of_iterations # [py]
+        type: int, default = 50 # [py]
+        description: |
+          Maximum number of iterations taken by the algorithm. If this number of iterations is reached without convergence (as defined by ``absolute_tolerance`` input), 
+          the behaviour of the algorithm is defined by the ``failure_handling`` input.
+
+      - name: absolute_tolerance # [py]
+        type: float, default = nan # [py]
+        description: |
+          Difference in :math:`t_{R}-t_{T}` between two consecutive iterataions below which the algorithm is considered to be converged. Default value is nan, which means the default value is taken.
+          The default value depends on the time representation used (1 ps for float; 1 fs for Time class)
+
+      - name: failure_handling # [py]
+        type: LightTimeFailureHandling, default = accept_without_warning # [py]
+        description: |
+          Input defines behaviour when failing to converge within the required number of iterations. NOTE: the default value should be overridden for high-accuracy applications
+        
+
+    returns:
+      type: :class:`ConstantObservationBiasSettings`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings` derived :class:`ConstantObservationBiasSettings` class,
+        defining the settings for a constant, absolute observation bias.
 
   ############### LIGHT-TIME CORRECTIONS ################################
   # factory functions
@@ -669,6 +715,8 @@ functions:
      
       .. math::
          t_{R}-t_{T}=c\left(|\mathbf{r}_{R}(t_{R})-\mathbf{r}(t_{R})| + \Delta s\right)
+
+       The method for the iterative solution is described in the :func:`light_time_convergence_settings` entry
       
       
     parameters:
@@ -688,6 +736,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)	
+
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -726,6 +779,11 @@ functions:
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
           Note that only one bias setting is applied to the n-way observable.
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
       type: :class:`NWayRangeObservationSettings`  # [py]
@@ -785,6 +843,11 @@ functions:
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation).
           Note that only one bias setting is applied to the n-way observable.
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
       type: :class:`NWayRangeObservationSettings`  # [py]
@@ -852,6 +915,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -887,6 +955,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -945,6 +1018,11 @@ functions:
         type: :class:`DopplerProperTimeRateSettings`, default = None # [py]
         description: |
           Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
       - name: normalized_with_speed_of_light # [py]
         type: bool, default = false # [py]
@@ -1008,6 +1086,11 @@ functions:
         type: :class:`DopplerProperTimeRateSettings`, default = None # [py]
         description: |
           Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
       - name: normalized_with_speed_of_light # [py]
         type: bool, default = false # [py]
@@ -1048,6 +1131,11 @@ functions:
         description: |
           Settings for the observation bias that is to be used for the full observation, default is none (unbiased observation). Note that,
           even if no bias is applied to the two-way observable, the constituent one-way observables may still be biased.
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`TwoWayDopplerObservationSettings`  # [py]
@@ -1088,6 +1176,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1123,6 +1216,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1182,6 +1280,11 @@ functions:
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
+     
+      - name: light_time_convergence_settings # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        description: |
+          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
 
     returns:
         type: :class:`ObservationSettings`  # [py]
