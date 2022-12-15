@@ -431,17 +431,17 @@ functions:
  ############### LIGHT-TIME CONVERGENCE ################################
   # factory functions
 
-- name: light_time_convergence_settings # [py]
+  - name: light_time_convergence_settings # [py]
     short_summary: "Factory function for creating convergence settings for solving the light-time equation."
     extended_summary: |
-      Factory function for creating convergence settings for solving the light-time equation. Computing the light time 
+      Factory function for creating convergence settings for solving the light-time equation. Computing the light time
       :math:`s=t_{R}-t_{T}` between two receiver :math:`R` and transmiter :math:`T` requires the iterative
       solution of the following equation:
 
       .. math::
          {t_{R}-t_{T}}=c\left(|\mathbf{r}_{R}(t_{R})-\mathbf{r}_{T}(t_{T})| + \Delta s(t_{R},t_{T},mathbf{r}_{R}(t_{R}),mathbf{r}_{T}(t_{T}))
-      
-      where either the reception time :math:`t_{R}` or the transmission time :math:`t_{T}` is kept fixed (reference link end time). The term :math:`\Delta s` contains any 
+
+      where either the reception time :math:`t_{R}` or the transmission time :math:`t_{T}` is kept fixed (reference link end time). The term :math:`\Delta s` contains any
       deviations in the light-time from straight-line propagation at speed of light (relativistic corrections, media corrections, etc.). The algorithm starts
       at :math:`t_{R}=t_{T}`, and uses this to evaluate the right-hand side of the above equation. This leads to a new value of :math:`t_{R}` or :math:`t_{T}` (depending on which is kept fixed)
       and the right-hand side is re-evaluated in a new iteration. The input to this function defines the settings for when the iteration will terminate.
@@ -457,7 +457,7 @@ functions:
       - name: maximum_number_of_iterations # [py]
         type: int, default = 50 # [py]
         description: |
-          Maximum number of iterations taken by the algorithm. If this number of iterations is reached without convergence (as defined by ``absolute_tolerance`` input), 
+          Maximum number of iterations taken by the algorithm. If this number of iterations is reached without convergence (as defined by ``absolute_tolerance`` input),
           the behaviour of the algorithm is defined by the ``failure_handling`` input.
 
       - name: absolute_tolerance # [py]
@@ -470,12 +470,11 @@ functions:
         type: LightTimeFailureHandling, default = accept_without_warning # [py]
         description: |
           Input defines behaviour when failing to converge within the required number of iterations. NOTE: the default value should be overridden for high-accuracy applications
-        
+
 
     returns:
-      type: :class:`ConstantObservationBiasSettings`  # [py]
-      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.ObservationBiasSettings` derived :class:`ConstantObservationBiasSettings` class,
-        defining the settings for a constant, absolute observation bias.
+      type: :class:`LightTimeConvergenceCriteria`  # [py]
+      description: Instance of the :class:`~tudatpy.numerical_simulation.estimation_setup.observation.LightTimeConvergenceCriteria` with the required settings.
 
   ############### LIGHT-TIME CORRECTIONS ################################
   # factory functions
@@ -735,7 +734,7 @@ functions:
       - name: bias_settings # [py]
         type: :class:`ObservationBiasSettings`, default = None # [py]
         description: |
-          Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)	
+          Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)
 
       - name: light_time_convergence_settings # [py]
         type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
