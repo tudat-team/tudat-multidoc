@@ -410,10 +410,26 @@ classes:
     short_summary: "Class to save settings on what is to be written to the console during the propagation of a single arc."
 
     methods:
-    - name: enable_all_printing
+    - name: enable_all_boolean_printing
       short_summary: |
         Function enabling all True/False printing (e.g. sets all boolean attributes to True)       
       parameters:
+      returns:
+      
+    - name: enable_all_printing
+      short_summary: |
+        Function enabling all True/False printing (e.g. sets all boolean attributes to True), and setting the non-boolean 
+        attributes to values defined here. 
+              
+      parameters:       
+        - name: results_print_frequency_in_seconds # [py]
+          type: float # [py]
+          description: See ``results_print_frequency_in_seconds`` class attribute
+       
+        - name: results_print_frequency_in_steps # [py]
+          type: int # [py]
+          description: See ``results_print_frequency_in_steps`` class attribute
+              
       returns:
 
     - name: disable_all_printing # [py]
@@ -431,10 +447,10 @@ classes:
         the console (before the propagation).
 
         .. note:: The same information can be retrieved from the
-                  :py:attr:`SingleArcPropagatorResults.dependent_variable_ids`
+                  :py:attr:`SingleArcSimulationResults.dependent_variable_ids`
                   attribute.
 
-    - name: print_state_data # [py]
+    - name: print_state_indices # [py]
       type: Bool # [py]
       description: |
         Boolean defining whether the meaning and indices of the
@@ -442,9 +458,23 @@ classes:
         the console (before the propagation).
 
         .. note:: The same information can be retrieved from the
-                  :py:attr:`SingleArcPropagatorResults.state_ids`
+                  :py:attr:`SingleArcSimulationResults.propagated_state_ids`
                   attribute.
 
+    - name: print_processed_state_indices # [py]
+      type: Bool # [py]
+      description: |
+        Boolean defining whether the meaning and indices of the
+        entries of the processed state vector are to be printed to
+        the console (after the propagation). The distinction between the 
+        propagated and processed (or conventuional) state representation is described in
+        detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/propagator_types.html>`_.
+        Summarizing: the processed state is the 'typical' formulation of the state (for translational dynamics: Cartesian states).
+
+        .. note:: The same information can be retrieved from the
+                  :py:attr:`SingleArcSimulationResults.processed_state_ids`
+                  attribute.
+                  
     - name: print_number_of_function_evaluations # [py]
       type: Bool # [py]
       description: |    # [py]
@@ -469,18 +499,37 @@ classes:
         Boolean defining whether the initial and final conditions (state and time)
         are to be printed to the console (beforee and after propagation, respectively).
 
-    - name: state_print_interval # [py]
+    - name: results_print_frequency_in_seconds # [py]
       type: Float # [py]
       description: |    # [py]
         Variable indicating how often (in seconds of simulation time)
         the current state and time are to be printed to the console (by default, set to NaN - they are never printed).
+        In case this setting is active (e.g. not NaN), and the ``results_print_frequency_in_steps`` setting is active,
+        the current state is printed as soon as *one* of the two conditions (number of seconds, or number of steps) is met.
 
+    - name: results_print_frequency_in_steps # [py]
+      type: int # [py]
+      description: |    # [py]
+        Variable indicating how often (in number of full integration steps)
+        the current state and time are to be printed to the console (by default, set to 0 - they are never printed).
+        In case this setting is active (e.g. not 0), and the ``results_print_frequency_in_seconds`` setting is active,
+        the current state is printed as soon as *one* of the two conditions (number of seconds, or number of steps) is met.
+
+    - name: print_dependent_variables_during_propagation # [py]
+      type: float # [py]
+      description: |    # [py]
+        Boolean defining whether the dependent variables are to be printed during the propagation along with the state,
+        at steps/epochs define by the ``results_print_frequency_in_seconds`` and/or ``results_print_frequency_in_steps`` inputs.
 
 ########################################
 
   - name: PropagatorProcessingSettings
-    short_summary: "Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)"
-    
+    short_summary: "Base class to define settings on how the numerical results are to be used"
+    extended_summary: |
+      Base class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
+      Instances of this class are typically not created by the user. Settings objects for derived class of single-, multi- and hybrid arc propagation are 
+      instantiated through the factory functions to define propagator settings (such as :func:`~translational` or :func:`~multi_arc`) in this module
+          
     methods:
 
     properties:
@@ -492,7 +541,7 @@ classes:
         done, the :py:attr:`~state_history`,
         :py:attr:`~unprocessed_state_history` and
         :py:attr:`~dependent_variable_history` will not be
-        available in the :py:class:`~tudatpy.numerical_simulation.propagator.SingleArcPropagatorResults` class. Putting this setting to True (deleting the
+        available in the :py:class:`~tudatpy.numerical_simulation.propagator.SingleArcSimulationResults` class. Putting this setting to True (deleting the
         results) is only sensible when the
         :py:attr:`~set_integrated_result` is set to True. In that
         case, the propagated states are *not* accessible directly
@@ -515,6 +564,123 @@ classes:
         object will be updated as per the numerical results
         (see `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/console_output.html#automatic-processing>`_ for details).
 
+########################################
+
+  - name: SingleArcPropagatorProcessingSettings
+    short_summary: "Class to define settings on how the numerical results are to be used for single-arc propagations "
+    extended_summary: |
+      Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment),
+      derived from :class:`PropagatorProcessingSettings`.
+      Instances of this class are typically not created by the user. A settings object is
+      instantiated through the factory functions to define single-arc propagator settings (such as :func:`~translational` or :func:`~rotational`) in this module
+      
+    methods:
+
+    properties:
+    - name: print_settings # [py]
+      type: PropagationPrintSettings # [py]
+      description: |    # [py]
+        Settings object defining which quantities should be printed to the console before, during and after the propagation. By default, this
+        object is instantiated to print nothing.
+        
+    - name: results_save_frequency_in_steps # [py]
+      type: int # [py]
+      description: |    # [py]
+        Variable indicating how often (in number of integrator steps)
+        the propagated time, state, dependent variables, etc. are to be saved to data structures containing the results 
+        (by default, set to 1 - they are saved every time step). If this setting is set to 0, the data is never saved based on number of steps.
+        In case this setting is active (e.g. not 0), and the ``results_save_frequency_in_seconds`` setting is active,
+        the data is saved as soon as *one* of the two conditions (number of seconds, or number of steps) is met.
+        
+    - name: results_save_frequency_in_seconds # [py]
+      type: float # [py]
+      description: |    # [py]
+        Variable indicating how often (in seconds of simulation time)
+        the propagated time, state, dependent variables, etc. are to be saved to data structures containing the results 
+        (by default, set to NaN - they are not saved based on propagation time; see below and ``results_save_frequency_in_steps`` attribute ).
+        In case this setting is active, and set to :math:`\Delta t`, the data are saved as soon as the current time step is :math:`\ge \Delta t` after the
+        last step at which data was saved.
+        In case this setting is active (e.g. not NaN), and the ``results_save_frequency_in_steps`` setting is active,
+        the current state is printed as soon as *one* of the two conditions (number of seconds, or number of steps) is met.
+
+
+
+########################################
+
+  - name: MultiArcPropagatorProcessingSettings
+    short_summary: "Class to define settings on how the numerical results are to be used for multi-arc propagations "
+    extended_summary: |
+      Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment),
+      derived from :class:`PropagatorProcessingSettings`.
+      Instances of this class are typically not created by the user. A settings object is
+      instantiated through the factory function :func:`~multi_arc` to define multi-arc propagator settings.
+      This object contains a list of :class:`SingleArcPropagatorProcessingSettings` objects, containing the processing settings for each constituent arc.
+      
+    methods:
+
+    - name: set_print_settings_for_all_arcs # [py]
+      short_summary: |    # [py]
+        Function that sets the same print settings for each arc in the multi-arc propagation.
+      parameters:
+        - name: single_arc_print_settings # [py]
+          type: PropagationPrintSettings # [py]
+          description: Propagation print settings that are applied to each constituent single-arc settings, overriding any existing settings.
+        
+    properties:
+    
+    - name: print_output_on_first_arc_only # [py]
+      type: Bool # [py]
+      description: |    # [py]
+        Variable defining whether the print settings for each constituent arc, exept the first one, are to be suppressed
+    
+    - name: print_output_on_first_arc_only # [py]
+      type: Bool # [py]
+      readonly: Yes
+      description: |    # [py]
+        Variable defining whether the ``set_print_settings_for_all_arcs`` function has been used to define identical print settings for each arc.
+       
+    - name: single_arc_settings # [py]
+      type: list[SingleArcPropagatorProcessingSettings] # [py]
+      readonly: Yes
+      description: |    # [py]
+        List containing the processing settings for each constituent arc
+
+########################################
+
+  - name: HybridArcPropagatorProcessingSettings
+    short_summary: "Class to define settings on how the numerical results are to be used for hybrid-arc propagations "
+    extended_summary: |
+      Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment),
+      derived from :class:`PropagatorProcessingSettings`.
+      Instances of this class are typically not created by the user. A settings object is
+      instantiated through the factory function :func:`~hybrid_arc` to define hybrid-arc propagator settings.
+      This object contains a :class:`SingleArcPropagatorProcessingSettings` object and a :class:`MultuArcPropagatorProcessingSettings` , 
+      containing the processing settings for the constituents of the hybrid-arc propagatioon.
+      
+    methods:
+
+    - name: set_print_settings_for_all_arcs # [py]
+      short_summary: |    # [py]
+        Function that sets the same print settings for each arc in the multi-arc propagation, and the single-arc propagation.
+      parameters:
+        - name: single_arc_print_settings # [py]
+          type: PropagationPrintSettings # [py]
+          description: Propagation print settings that are applied to each arc in the multi-arc propagation, and the single-arc propagation, overriding any existing settings.
+        
+    properties:
+    
+    - name: single_arc_settings # [py]
+      type: SingleArcPropagatorProcessingSettings # [py]
+      description: |    # [py]
+        Processing settings for the single-arc component of the hybrid-arc propagation.
+    
+    - name: multi_arc_settings # [py]
+      type: MultiArcPropagatorProcessingSettings # [py]
+      description: |    # [py]
+        Processing settings for the single-arc component of the multi-arc propagation.
+
+ 
+###########################################################################################################
 functions:
 
   # Translational propagator

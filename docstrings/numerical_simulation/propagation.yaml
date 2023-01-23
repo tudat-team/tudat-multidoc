@@ -19,9 +19,14 @@ enums:
 
 classes:
 
-  - name: SingleArcPropagatorResults
+  - name: SimulationResults
+    extended_summary: "Base class for objects that store all results of a numerical propagation."
+    extended_summary: |
+       Base class for objects that store all results of a numerical propagation. Derived class are implemented for single-, multi- and hybrid-arc propagation of botj dynamics and variational equations
+       
+  - name: SingleArcSimulationResults
     short_summary: |
-       Object that stores all the results (including logging data) of a single-arc propagation
+       Class that stores all the results (including logging data) of a single-arc propagation
 
     properties: # [py]
       - name: equationsOfMotionNumericalSolution_ # [cpp]
@@ -33,7 +38,7 @@ classes:
           Numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
           numerically calculated state at this epoch. For this function, the states are always converted to so-called
           'conventional' formulations (e.g. Cartesian states for translational dynamics), see `here <https://tudat-space.readthedocs.io/en/latest/_src_api/propagation_setup/settings/conventional_vs_propagated_coordinates.html>`_
-          for detailed. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
+          for details. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
 
           .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
                     When propagating two bodies, an example of what the output state would look like is for instance:
@@ -49,7 +54,7 @@ classes:
         type: dict[float, numpy.ndarray] # [py]
         readonly: Yes
         description: |
-          Raw numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
+          Numerical solution of the equations of motion as key-value pairs, without any processing applied. The key denotes the epoch. The value contains the
           numerically calculated state at this epoch. This attribute contains the states of the propagated bodies expressed in the
           "raw" form in which the propagation took place. For instance, when using a Gauss-Kepler propagation scheme, this
           attribute will contain the numerically propagated Keplerian elements at each time epoch
