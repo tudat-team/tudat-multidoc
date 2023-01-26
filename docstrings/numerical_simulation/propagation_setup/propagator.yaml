@@ -438,63 +438,27 @@ classes:
       parameters:
       returns:
 
-    attributes:
-    - name: print_dependent_variable_indices # [py]
-      type: Bool # [py]
-      description: |
-        Boolean defining whether the meaning and indices of the
-        entries of the dependent variable data are to be printed to
-        the console (before the propagation).
-
-        .. note:: The same information can be retrieved from the
-                  :py:attr:`SingleArcSimulationResults.dependent_variable_ids`
-                  attribute.
-
-    - name: print_state_indices # [py]
-      type: Bool # [py]
-      description: |
-        Boolean defining whether the meaning and indices of the
-        entries of the state vector are to be printed to
-        the console (before the propagation).
-
-        .. note:: The same information can be retrieved from the
-                  :py:attr:`SingleArcSimulationResults.propagated_state_ids`
-                  attribute.
-
-    - name: print_processed_state_indices # [py]
-      type: Bool # [py]
-      description: |
-        Boolean defining whether the meaning and indices of the
-        entries of the processed state vector are to be printed to
-        the console (after the propagation). The distinction between the 
-        propagated and processed (or conventuional) state representation is described in
-        detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/propagator_types.html>`_.
-        Summarizing: the processed state is the 'typical' formulation of the state (for translational dynamics: Cartesian states).
-
-        .. note:: The same information can be retrieved from the
-                  :py:attr:`SingleArcSimulationResults.processed_state_ids`
-                  attribute.
-                  
+    properties:                  
     - name: print_number_of_function_evaluations # [py]
-      type: Bool # [py]
+      type: bool # [py]
       description: |    # [py]
         Boolean defining whether the number of function evaluations that
         were performed is to be printed to the console (after propagation).
 
     - name: print_propagation_clock_time # [py]
-      type: Bool # [py]
+      type: bool # [py]
       description: |    # [py]
         Boolean defining whether the total clock time taken for the propagation
         is to be printed to the console (after propagation).
 
     - name: print_termination_reason # [py]
-      type: Bool # [py]
+      type: bool # [py]
       description: |    # [py]
         Boolean defining whether the reason for propagation termination
         is to be printed to the console (after propagation).
 
     - name: print_initial_and_final_conditions # [py]
-      type: Bool # [py]
+      type: bool # [py]
       description: |    # [py]
         Boolean defining whether the initial and final conditions (state and time)
         are to be printed to the console (beforee and after propagation, respectively).
@@ -521,6 +485,42 @@ classes:
         Boolean defining whether the dependent variables are to be printed during the propagation along with the state,
         at steps/epochs define by the ``results_print_frequency_in_seconds`` and/or ``results_print_frequency_in_steps`` inputs.
 
+
+    - name: print_state_indices # [py]
+      type: bool # [py]
+      description: |
+        Boolean defining whether the meaning and indices of the
+        entries of the state vector are to be printed to
+        the console (before the propagation).
+
+        .. note:: The same information can be retrieved from the
+                  :py:attr:`SingleArcSimulationResults.propagated_state_ids`
+                  attribute.
+
+    - name: print_processed_state_indices # [py]
+      type: bool # [py]
+      description: |
+        Boolean defining whether the meaning and indices of the
+        entries of the processed state vector are to be printed to
+        the console (after the propagation). The distinction between the 
+        propagated and processed (or conventuional) state representation is described in
+        detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/propagator_types.html>`_.
+        Summarizing: the processed state is the 'typical' formulation of the state (for translational dynamics: Cartesian states).
+
+        .. note:: The same information can be retrieved from the
+                  :py:attr:`SingleArcSimulationResults.processed_state_ids`
+                  attribute.
+                  
+    - name: print_dependent_variable_indices # [py]
+      type: bool # [py]
+      description: |
+        Boolean defining whether the meaning and indices of the
+        entries of the dependent variable data are to be printed to
+        the console (before the propagation).
+
+        .. note:: The same information can be retrieved from the
+                  :py:attr:`SingleArcSimulationResults.dependent_variable_ids`
+                  attribute.
 ########################################
 
   - name: PropagatorProcessingSettings
@@ -534,7 +534,7 @@ classes:
 
     properties:
     - name: clear_numerical_solution # [py]
-      type: Bool
+      type: bool
       description: |    # [py]
         Boolean defining whether the propagation results should be
         deleted after the propagation is terminated. If this is
@@ -550,7 +550,7 @@ classes:
         body with the numerical results.
 
     - name: set_integrated_result # [py]
-      type: Bool
+      type: bool
       description: |  # [py]
         Boolean defining whether the propagation results are to
         be used to update the environment. If this variable is set
@@ -629,12 +629,12 @@ classes:
     properties:
     
     - name: print_output_on_first_arc_only # [py]
-      type: Bool # [py]
+      type: bool # [py]
       description: |    # [py]
         Variable defining whether the print settings for each constituent arc, exept the first one, are to be suppressed
     
     - name: print_output_on_first_arc_only # [py]
-      type: Bool # [py]
+      type: bool # [py]
       readonly: Yes
       description: |    # [py]
         Variable defining whether the ``set_print_settings_for_all_arcs`` function has been used to define identical print settings for each arc.

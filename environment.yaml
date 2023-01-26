@@ -5,19 +5,20 @@ channels:
 dependencies:
   # All standard tudat-bundle deps are needed for sphinx-documentation for tudatpy.
   - eigen=3.3.7
-  - boost-cpp=1.72
+  - boost-cpp
   - tudat-resources
   - sofa-cmake
   - cspice-cmake
-  - python=3.8
+  - nrlmsise-00
+  - python=3.9
   - pybind11
   - pybind11-abi
   - numpy
   - pandas # for tudat.io
   - pytest
   - matplotlib # for tudat.plotting
-  - basemap # for tudat.plotting
-  - basemap-data-hires # for tudat.plotting
+  # - basemap # for tudat.plotting
+  # - basemap-data-hires # for tudat.plotting
   # Other doc related
   - jinja2
   - pyyaml
