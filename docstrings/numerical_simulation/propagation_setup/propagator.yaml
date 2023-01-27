@@ -52,7 +52,7 @@ enums:
       - name: undefined_rotational_propagator
       - name: quaternions
         description: "Entries 1-4: The quaternion defining the rotation from inertial to body-fixed frame
-          (see `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_)
+          (see `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/use_of_reference_frames.html#definition-of-rotational-state>`_)
           Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: modified_rodrigues_parameters
         description: "Entries 1-4: The modified Rodrigues parameters defining the
@@ -798,7 +798,7 @@ functions:
         description: |
           Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
           Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
-          as defined in more detail `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#definition-of-rotational-state>`_.
+          as defined in more detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/use_of_reference_frames.html#definition-of-rotational-state>`_.
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]

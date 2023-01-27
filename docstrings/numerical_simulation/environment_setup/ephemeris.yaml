@@ -607,7 +607,7 @@ functions:
       Using this option the state of the body is retrieved from Spice at regular intervals `before` the environment propagation (as opposed to during the propagation).
       These data are then used to create an interpolator, which is put into the environment, and called during the propagation.
       This option has the downside of being applicable only during a limited time interval and requiring the tabulated data to be stored in RAM,
-      but may for `some special cases <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/environment_setup/valid_time_range.html>`_
+      but may for `some special cases <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/create_bodies/default_bodies_limited_time_range.html>`_
       offer an advantage over a direct Spice ephemeris (:func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice`).
 
     parameters:
@@ -677,7 +677,7 @@ functions:
 
       # cpp code snippet unavailable # [cpp]
 
-      By default, a 6th order Lagrange interpolator is used (NOTE: the Lagrange interpolator is not reliable at the edges of the interpolation interval, as discussed `here <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/mathematics.html#lagrange-interpolator-issues>`_).
+      By default, a 6th order Lagrange interpolator is used (NOTE: the Lagrange interpolator is not reliable at the edges of the interpolation interval, as discussed here: :func:`~tudatpy.math.interpolators.lagrange_interpolation`).
       Settings for an alternative interpolator can be use by specifying the optional input argument.
       Additionally, as is the case for the :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.direct_spice` and :func:`~tudatpy.numerical_simulation.environment_setup.ephemeris.approximate_jpl_model` functions, an optional input argument ``body_name_to_use`` allows to use an ephemeris model from Spice for some body and assign it to a custom body.
 
@@ -869,7 +869,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from the given Kepler elements.
       These are taken as the elements at the ``initial_state_epoch`` and propagated to any other time using the provided ``central_body_gravitational_parameter``.
-      See `Frame/State Transformations <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/astrodynamics/transformations.html#frame-state-transformations>`_ and the :ref:`\`\`astro\`\`` module for more details on orbital elements in tudat.
+      See `Element Types <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/transformations.html#element-types>`_ and the :ref:`\`\`astro\`\`` module for more details on orbital elements in tudat.
 
     parameters:
       - name: initial_state_in_keplerian_elements # [py]
@@ -958,7 +958,7 @@ functions:
     extended_summary: |
       Factory function for settings object, defining ephemeris model which represents an ideal Kepler orbit from an initial state from Spice.
       The Kepler elements inferred from the initial state are propagated to any other time using the provided ``central_body_gravitational_parameter``.
-      See `Frame/State Transformations <https://tudat-space.readthedocs.io/en/latest/_src_user_guide/astrodynamics/transformations.html#frame-state-transformations>`_ and the :ref:`\`\`astro\`\`` module for more details on orbital elements in tudat.
+      See `Element Types <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/transformations.html#element-types>`_ and the :ref:`\`\`astro\`\`` module for more details on orbital elements in tudat.
 
     parameters:
       - name: body # [py]
