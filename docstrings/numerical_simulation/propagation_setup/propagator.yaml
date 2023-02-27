@@ -799,6 +799,17 @@ functions:
           Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
           Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
           as defined in more detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/use_of_reference_frames.html#definition-of-rotational-state>`_.
+          
+      - name: initial_time # [py]
+        type: float # [py]
+        description: Initial epoch of the numerical propagation
+
+      - name: integrator_settings # [py]
+        type: IntegratorSettings # [py]
+        description: |
+          Settings defining the numerical integrator that is to be used for the propagation
+
+          .. note:: The sign of the initial time step in the integrator settings defines whether the propagation will be forward or backward in time
 
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
@@ -818,11 +829,10 @@ functions:
         type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
-      - name: printInterval # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
-      - name: print_interval # [py]
-        type: float, default=TUDAT_NAN # [py]
-        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+      - name: processing_settings # [cpp]
+        type: SingleArcPropagatorProcessingSettings, default=SingleArcPropagatorProcessingSettings() # [cpp]	
+        description: Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
+
 
     returns:
         type: RotationalStatePropagatorSettings
@@ -860,6 +870,17 @@ functions:
         type: numpy.ndarray # [py]
         description: Initial masses of the bodies to integrate (one initial mass for each body), provided in the same order as the bodies to integrate.
 
+      - name: initial_time # [py]
+        type: float # [py]
+        description: Initial epoch of the numerical propagation
+
+      - name: integrator_settings # [py]
+        type: IntegratorSettings # [py]
+        description: |
+          Settings defining the numerical integrator that is to be used for the propagation
+
+          .. note:: The sign of the initial time step in the integrator settings defines whether the propagation will be forward or backward in time
+
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
       - name: termination_settings # [py]
@@ -872,11 +893,9 @@ functions:
         type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
-      - name: printInterval # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
-      - name: print_interval # [py]
-        type: float, default=TUDAT_NAN # [py]
-        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+      - name: processing_settings # [cpp]
+        type: SingleArcPropagatorProcessingSettings, default=SingleArcPropagatorProcessingSettings() # [cpp]	
+        description: Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
 
     returns:
         type: MassPropagatorSettings
@@ -905,6 +924,18 @@ functions:
         type: list[SingleArcPropagatorSettings] # [py]
         description: List of SingleArcPropagatorSettings objects to use.
 
+      - name: integrator_settings # [py]
+        type: IntegratorSettings # [py]
+        description: |
+          Settings defining the numerical integrator that is to be used for the propagation
+
+          .. note:: The sign of the initial time step in the integrator settings defines whether the propagation will be forward or backward in time
+
+      - name: initial_time # [py]
+        type: float # [py]
+        description: Initial epoch of the numerical propagation
+
+      
       - name: terminationSettings # [cpp]
         type: PropagationTerminationSettings # [cpp]
       - name: termination_settings # [py]
@@ -917,11 +948,10 @@ functions:
         type: list[SingleDependentVariableSaveSettings], default=[] # [py]
         description: List of dependent variables to be saved (by default, no dependent variables are saved).
 
-      - name: printInterval # [cpp]
-        type: double, default=TUDAT_NAN # [cpp]
-      - name: print_interval # [py]
-        type: float, default=TUDAT_NAN # [py]
-        description: Variable indicating how often (in seconds or in the unit of the independent variable) the current state and time are to be printed to the console (by default, they are never printed).
+      - name: processing_settings # [cpp]
+        type: SingleArcPropagatorProcessingSettings, default=SingleArcPropagatorProcessingSettings() # [cpp]	
+        description: Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
+
 
     returns:
         type: MassPropagatorSettings
@@ -949,6 +979,10 @@ functions:
         type: bool, default=False # [py]
         description: It denotes whether whether the initial state of arc N+1 is to be taken from arc N (for N>0).
 
+      - name: processing_settings # [cpp]
+        type: MultiArcPropagatorProcessingSettings, default=MultiArcPropagatorProcessingSettings() # [cpp]	
+        description: Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
+
     returns:
         type: MultiArcPropagatorSettings
         description: Multi-arc propagator settings object.
@@ -972,6 +1006,10 @@ functions:
       - name: multi_arc_settings # [py]
         type: MultiArcPropagatorSettings # [py]
         description: MultiArcPropagatorSettings object to use for the propagation.
+
+      - name: processing_settings # [cpp]
+        type: HybridArcPropagatorProcessingSettings, default=HybridArcPropagatorProcessingSettings() # [cpp]	
+        description: Class to define settings on how the numerical results are to be used, both during the propagation (printing to console) and after propagation (resetting environment)
 
     returns:
         type: HybridArcPropagatorSettings
