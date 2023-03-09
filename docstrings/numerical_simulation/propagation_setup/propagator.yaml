@@ -52,7 +52,7 @@ enums:
       - name: undefined_rotational_propagator
       - name: quaternions
         description: "Entries 1-4: The quaternion defining the rotation from inertial to body-fixed frame
-          (see `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/use_of_reference_frames.html#definition-of-rotational-state>`_)
+          (see `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/frames_in_environment.html#definition-of-rotational-state>`_)
           Entries 5-7: The body's angular velocity vector, expressed in its body-fixed frame."
       - name: modified_rodrigues_parameters
         description: "Entries 1-4: The modified Rodrigues parameters defining the
@@ -504,7 +504,7 @@ classes:
         entries of the processed state vector are to be printed to
         the console (after the propagation). The distinction between the 
         propagated and processed (or conventuional) state representation is described in
-        detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/propagator_types.html>`_.
+        detail `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/processed_propagated_elements.html>`_.
         Summarizing: the processed state is the 'typical' formulation of the state (for translational dynamics: Cartesian states).
 
         .. note:: The same information can be retrieved from the
@@ -562,7 +562,7 @@ classes:
         variable is set to True, the properties of the propagated
         :class:`~tudatpy.numerical_simulation.environment.Body`
         object will be updated as per the numerical results
-        (see `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/console_output.html#automatic-processing>`_ for details).
+        (see `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/printing_processing_results.html#automatic-processing>`_ for details).
 
 ########################################
 
@@ -693,7 +693,7 @@ functions:
       of which define the relative translational states for which a differential equation is to be solved. The propagator
       input defines the formulation in which the differential equations are set up
       The dynamical models are defined by an ``AccelerationMap``, as created by :func:`~create_acceleration_models` function.
-      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/translational.html>`_
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/translational.html>`_
 
 
     parameters:
@@ -776,7 +776,7 @@ functions:
       inertial and body-fixed frame are to be solved. The propagator input defines the
       formulation in which the differential equations are set up. The dynamical models are
       defined by an ``TorqueModelMap``, as created by ``create_torque_models`` function.
-      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/rotational.html>`_
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/rotational.html>`_
 
     parameters:
       - name: torqueModelMap # [cpp]
@@ -798,7 +798,7 @@ functions:
         description: |
           Initial rotational states of the bodies to integrate (one initial state for each body), provided in the same order as the bodies to integrate.
           Regardless of the propagator that is selected, the initial rotational state is always defined as four quaternion entries, and the angular velocity of the body,
-          as defined in more detail `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/environment_setup/architecture/use_of_reference_frames.html#definition-of-rotational-state>`_.
+          as defined in more detail `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/frames_in_environment.html#definition-of-rotational-state>`_.
           
       - name: initial_time # [py]
         type: float # [py]
@@ -849,7 +849,7 @@ functions:
       each body. In this function, the dependent variables to save are provided
       as a list of SingleDependentVariableSaveSettings objects. In this function, the termination conditions are set
       through the termination settings object provided.
-      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/mass.html>`_
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/mass.html>`_
 
     parameters:
       - name: bodiesWithMassToPropagate # [cpp]
@@ -911,7 +911,7 @@ functions:
       It works by providing a list of SingleArcPropagatorSettings objects. When using this function,
       only the termination and output settings provided here are used, any such settings in the
       constituent propagator settings are ignored
-      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/dynamics_types/multi_type.html>`_
+      Details on the usage of this function are discussed in more detail in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/multi_type.html>`_
 
       .. note:: The propagated state contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
                 When propagating two bodies, an example of what the output state would look like is for instance:

@@ -37,7 +37,7 @@ classes:
         description: |
           Numerical solution of the equations of motion as key-value pairs. The key denotes the epoch. The value contains the
           numerically calculated state at this epoch. For this function, the states are always converted to so-called
-          'processed' formulations (e.g. Cartesian states for translational dynamics), see `here <https://docs.tudat.space/en/stable/_src_user_guide/state_propagation/propagation_setup/propagator_types.html>`_
+          'processed' formulations (e.g. Cartesian states for translational dynamics), see `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/processed_propagated_elements.html>`_
           for details. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
 
           .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
