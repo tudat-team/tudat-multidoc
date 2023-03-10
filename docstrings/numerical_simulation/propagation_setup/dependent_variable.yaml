@@ -1725,3 +1725,21 @@ functions:
         type: SingleDependentVariableSaveSettings
         description: Dependent variable settings object.
 
+  - name: custom_dependent_variable # [py]
+    short_summary: "Function to compute a custom dependent variable."
+    extended_summary: "Function to compute a custom dependent variable, which can be implemented by the user as a Python
+      function. The custom dependent variable is typically dependent on the current properties of the environment (e.g. bodies
+      in the environment) or a user-defined guidance class (or similar)"
+
+    parameters:
+      - name: custom_function # [py]
+        type: Callable[[], numpy.ndarray]. # [py]
+        description: Function taking no input, and returning the custom dependent variable (as a numpy Nx1 array).
+
+      - name: variable_size # [py]
+        type: int # [py]
+        description: Size N of the array returned by the ``custom_function``
+
+    returns:
+      type: SingleDependentVariableSaveSettings
+      description: Dependent variable settings object.
