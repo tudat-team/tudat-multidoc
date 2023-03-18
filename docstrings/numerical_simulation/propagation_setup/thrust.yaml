@@ -270,7 +270,7 @@ classes:
 
 
   # Thrust magnitude: derived (3)
-  - name: FromFunctionThrustMagnitudeSettings
+  - name: CustomThrustMagnitudeSettings
     short_summary: "`ThrustMagnitudeSettings`-derived class to define settings for constant thrust magnitude."
     extended_summary: |
       Derived class to provide settings for the thrust magnitude. This class should be used to define a thrust

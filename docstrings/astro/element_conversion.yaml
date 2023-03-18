@@ -397,8 +397,8 @@ functions:
     extended_summary: |
       Convert Keplerian to Modified equinoctial elements (without intermediate step to Cartesian elements). The singularity-flipping
       element :math:`I` is to be provided manually for this function
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -420,8 +420,8 @@ functions:
     extended_summary: |
       Convert Keplerian to Modified equinoctial elements (without intermediate step to Cartesian elements). The singularity-flipping
       element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -454,8 +454,8 @@ functions:
     short_summary: "Convert Modified equinoctial to Keplerian elements."
     extended_summary: |
       Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -475,8 +475,8 @@ functions:
     short_summary: "Convert Modified equinoctial to Keplerian elements."
     extended_summary: |
       Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -498,8 +498,8 @@ functions:
     extended_summary: |
       Convery cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -520,8 +520,8 @@ functions:
     extended_summary: |
       Convery cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is to be provided manually for this function
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -546,8 +546,8 @@ functions:
     short_summary: "Convert Modified equinoctial to Cartesian elements."
     extended_summary: |
       Convert Modified equinoctial to Cartesian elements
-      .. note:: See module level documentation for the standard ordering
-                convention of Modified Equinoctial elements used.
+      
+      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
 
     parameters:
@@ -612,8 +612,7 @@ functions:
   - name: cartesian_to_spherical # [py]
     short_summary: "Convert Cartesian to spherical elements."
     extended_summary: |
-      .. note:: See module level documentation for the standard ordering
-                convention of spherical state elements used.
+      .. note:: See module level documentation for the standard ordering  convention of spherical state elements used.
 
 
     parameters:
@@ -631,8 +630,7 @@ functions:
   - name: spherical_to_cartesian # [py]
     short_summary: "Convert spherical elements to Cartesian."
     extended_summary: |
-      .. note:: See module level documentation for the standard ordering
-                convention of spherical state elements used.
+      .. note:: See module level documentation for the standard ordering convention of spherical state elements used.
 
     parameters:
       - name: spherical_elements # [py]

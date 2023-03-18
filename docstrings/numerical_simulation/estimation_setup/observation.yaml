@@ -1148,6 +1148,7 @@ functions:
     extended_summary: |
       Factory function for creating observation model settings for one-way averaged Doppler observables, for a single link definition. The associated observation model creates
       a single-valued observable :math:`h_{_{\text{1-\bar{Dopp}}}}` as follows (in the unbiased case):
+      
       .. math::
          h_{_{\text{1-\bar{Dopp}}}}&=c\int_{t-\Delta t}^{t+\Delta t}\frac{t_{T}}{dt_{R}}d\bar{t}\\
                                    &=\frac{h_{_{\text{1-range}}}(t_{R}=t+\Delta t,t_{T})-h_{_{\text{1-range}}}(t_{R}=t,t_{T})}{\Delta t}

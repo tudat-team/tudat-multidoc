@@ -66,8 +66,9 @@ classes:
         readonly: Yes
         description: |
           Dependent variables computed during the propagation as key-value pairs.
-          They are returned in the order with the same order of the DependentVariableSaveSettings object as values,
-          as value, with the epoch as key.
+          The vector of all dependent variables concatenated into a single vector as value, with the epoch as key.
+          They order of the concatenated dependent variables in a single value is provided by the ``dependent_variable_ids`` attribute of this object. 
+
 
       - name: cumulativeComputationTimeHistory_ # [cpp]
         type: std::map<double, double> # [cpp]
