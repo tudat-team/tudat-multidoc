@@ -40,7 +40,7 @@ classes:
           'processed' formulations (e.g. Cartesian states for translational dynamics), see `here <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/processed_propagated_elements.html>`_
           for details. For the history of the states that were actually propagated, use the ``unprocessed_state_history``.
 
-          .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **C** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
+          .. note:: The propagated state at each epoch contains the state types in the following order: Translational ( **T** ), Rotational ( **R** ), Mass ( **M** ), and Custom ( **C** ).
                     When propagating two bodies, an example of what the output state would look like is for instance:
                     [ **T** Body 1, **T** Body 2, **R** Body 1, **R** Body 2, **M** Body 1, **M** Body 2 ] The specifics can be retrieved using the :attr:`state_ids` attribute of this class
 
