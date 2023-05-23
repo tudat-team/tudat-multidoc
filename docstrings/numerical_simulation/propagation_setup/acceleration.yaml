@@ -544,7 +544,7 @@ functions:
         type: Eigen::Vector3d, default=Eigen::Vector3d::Zero() # [cpp]
       - name: lense_thirring_angular_momentum # [py]
         type: numpy.ndarray, default=numpy.array([0, 0, 0]) # [py]
-        description: Angular momentum vector (in global frame) that is to be used for the calculation of the Lense-Thirring acceleration
+        description: Angular momentum vector per unit mass (in global frame) that is to be used for the calculation of the Lense-Thirring acceleration
 
     returns:
         type: RelativisticAccelerationCorrectionSettings
