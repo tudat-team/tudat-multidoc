@@ -149,7 +149,7 @@ functions:
     parameters:
       - name: bodies # [py]
         type: list[str] # [py]
-        description: "List of name of bodies for which default settings are to be retrieved." # [py]
+        description: "List of name of bodies for which default settings are to be retrieved and created." # [py]
 
       - name: base_frame_origin # [py]
         type: str, default = 'SSB' # [py]
@@ -176,7 +176,7 @@ functions:
     parameters:
       - name: bodies # [py]
         type: list[str] # [py]
-        description: "List of name of bodies for which default settings are to be retrieved." # [py]
+        description: "List of name of bodies for which default settings are to be retrieved and created." # [py]
 
       - name: initial_time # [py]
         type: float # [py]
@@ -203,7 +203,129 @@ functions:
         type: BodyListSettings  # [py]
         description: Object containing the settings for the SystemOfBodies that are to be created # [py]
 
+#########################################################################
 
+
+  - name: get_default_single_body_settings # [py]
+    short_summary: "Function that retrieves the default settings for a single body."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`, but for retrieving default settings of only a single body
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be retrieved and created." # [py]
+
+      - name: base_frame_orientation # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the body settings. It can be either ECLIPJ2000 (default) or J2000." # [py]
+
+    returns: # [py]
+        type: BodySettings  # [py]
+        description: Object containing the settings for the bodt that is to be created # [py]
+
+#########################################################################
+
+
+  - name: get_default_single_body_settings_time_limited # [py]
+    short_summary: "Function that retrieves the default settings for a single body, with a limited valid time interval."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings_time_limited`, but for retrieving default settings of only a single body
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be retrieved and created." # [py]
+
+
+      - name: initial_time # [py]
+        type: float # [py]
+        description: "Start time from which the environment settings should be created." # [py]
+
+      - name: final_time # [py]
+        type: float # [py]
+        description: "End time up to which the environment settings should be created." # [py]
+
+      - name: base_frame_orientation # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the body settings. It can be either ECLIPJ2000 (default) or J2000." # [py]
+
+      - name: time_step # [py]
+        type: float, default = 300.0 # [py]
+        description: "Time step to be used for the tabulated ephemeris." # [py]
+
+    returns: # [py]
+        type: BodySettings  # [py]
+        description: Object containing the settings for the bodt that is to be created # [py]
+  
+  #########################################################################
+
+
+  - name: get_default_single_alternate_body_settings # [py]
+    short_summary: "Function that retrieves the default settings for a single body, and assigns them to another body."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings`, but for retrieving default settings of only a single body,
+      where the default settings of body with name ``source_body_name`` are retrieved and assigned to a body with name ``body_name``.
+      For instance, if ``source_body_name`` is set to "Mars", and ````body_name`` is set to "Earth" body name Earth will be created, with all the properties
+      of Mars
+      
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be created." # [py]
+
+      - name: source_body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be retrieved, and assigned to a body with name ``body_name``." # [py]
+
+      - name: base_frame_orientation # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the body settings. It can be either ECLIPJ2000 (default) or J2000." # [py]
+
+    returns: # [py]
+        type: BodySettings  # [py]
+        description: Object containing the settings for the bodt that is to be created # [py]
+
+#########################################################################
+
+
+  - name: get_default_single_body_settings_time_limited # [py]
+    short_summary: "Function that retrieves the default settings for a single body, with a limited valid time interval."
+    extended_summary: |
+      As :func:`~tudatpy.numerical_simulation.environment_setup.get_default_body_settings_time_limited`, but for retrieving default settings of only a single body,
+      where the default settings of body with name ``source_body_name`` are retrieved and assigned to a body with name ``body_name``.
+      For instance, if ``source_body_name`` is set to "Mars", and ````body_name`` is set to "Earth" body name Earth will be created, with all the properties
+      of Mars
+      
+    parameters:
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be retrieved." # [py]
+
+      - name: source_body_name # [py]
+        type: str # [py]
+        description: "Name of body for which default settings are to be retrieved, and assigned to a body with name ``body_name``." # [py]
+
+
+      - name: initial_time # [py]
+        type: float # [py]
+        description: "Start time from which the environment settings should be created." # [py]
+
+      - name: final_time # [py]
+        type: float # [py]
+        description: "End time up to which the environment settings should be created." # [py]
+
+      - name: base_frame_orientation # [py]
+        type: str, default = 'ECLIPJ2000' # [py]
+        description: "Base frame orientation of the body settings. It can be either ECLIPJ2000 (default) or J2000." # [py]
+
+      - name: time_step # [py]
+        type: float, default = 300.0 # [py]
+        description: "Time step to be used for the tabulated ephemeris." # [py]
+
+    returns: # [py]
+        type: BodySettings  # [py]
+        description: Object containing the settings for the bodt that is to be created # [py]      
+  #########################################################################
+  
   - name: add_aerodynamic_coefficient_interface # [py]
     short_summary: "Function that creates an aerodynamic coefficient interface from settings, and adds it to an existing body."
     extended_summary: |
