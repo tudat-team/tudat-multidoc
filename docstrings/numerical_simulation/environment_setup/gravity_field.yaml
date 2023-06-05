@@ -189,6 +189,13 @@ classes:
         type: bool # [py]
         description: Boolean that denotes whether the field should be created as time-dependent (even if no variations are imposed initially). # [py]
 
+      - name: scaled_mean_moment_of_inertia # [py]
+        type: float # [py]
+        description: | 
+          Value of the scaled mean moment of inertia :math:`I_{xx}+I_{yy}+I_{zz}/(MR^{2})`. This value does not influence the gravity field itself,
+          but together with the degree 2 gravity field coefficients defines the body's inertia tensor.# [py]
+
+
     methods:
       - name: ctor # [cpp]
         short_summary: "Constructor." # [cpp]
@@ -948,4 +955,3 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.PolyhedronGravityFieldSettings` class
 
 
-#######################################################################

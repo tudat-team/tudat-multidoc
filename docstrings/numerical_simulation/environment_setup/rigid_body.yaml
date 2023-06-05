@@ -1,0 +1,159 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+# Rigid body setup
+
+extended_summary: |
+  This module contains a set of factory functions for setting up the
+  models for a rigid body in Tudat. Specifically, this module defines the
+  mass, center of mass and inertia tensor of a body. These models **do not**
+  define a gravity field of a body. However, when a body is endowed with a 
+  gravity field, a compatible rigid body is automatically created. 
+  
+
+#########################################################################
+#  ███████ ███   ██ ██    ██ ███    ███  ██████
+#  ██      ████  ██ ██    ██ ████  ████ █
+#  █████   ██ ██ ██ ██    ██ ██ ████ ██  █████
+#  ██      ██  ████ ██    ██ ██  ██  ██       █
+#  ███████ ██    ██  ██████  ██      ██ ██████
+#########################################################################
+
+enums:
+
+#########################################################################
+#   ██████ ██          ██      ██████  ██████ ███████  ██████
+#  ██      ██         ████    █       █       ██      █
+#  ██      ██        ██  ██    █████   █████  █████    █████
+#  ██      ██       ████████        █       █ ██            █
+#   ██████ ███████ ██      ██ ██████  ██████  ███████ ██████
+#########################################################################
+
+classes:
+  # base class:
+  #######################################################################
+
+  - name: RigidBodyPropertiesSettings
+    short_summary: "Base class for providing settings for rigid body model creation."
+    extended_summary: |
+      This class is a functional base class for settings of gravity field models that require no information in addition to their type.
+      Gravity field model classes requiring additional information must be created using an object derived from this class.
+
+    #properties: # [py]
+    #  - name: body_mass_property_type # [py]
+    #    type: RigidBodyPropertiesType # [py]
+    #    description: Type of rigid body model that is to be created. # [py]
+    #    readonly: True # [py]
+
+
+
+  # derived classes:
+  #######################################################################
+
+
+  #######################################################################
+
+  # skip for now
+  #  - name: FromFileSphericalHarmonicsGravityFieldSettings
+  #    short_summary: "`SphericalHarmonicsGravityFieldSettings` derived class defining settings from a spherical harmonics model file."
+
+
+
+
+##############################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██ █
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██  █████
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██       █
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████ ██████
+##############################################################################
+
+functions:
+  # factory functions:
+  #######################################################################
+
+
+  - name: constant_rigid_body_properties # [py]
+    short_summary: "Factory function for creating constant rigid body properties."
+    extended_summary: |
+      Factory function for creating constant rigid body properties (mass, center of mass, inertia tensor). The center of mass and/or inertia tensor can be left empty by setting them
+      to NaN (default), in which case no center of mass or inertia tensor are defined
+
+    parameters:
+      - name: mass # [py]
+        type: float # [py]
+        description: Constant mass of the body
+
+      - name: center_of_mass # [py]
+        type: np.array, default = np.full([3, 1], np.nan)
+        description: Constant center of mass of the body (in a body-fixed frame)
+
+      - name: inertia_tensor # [py]
+        type: np.array, default = np.full([3, 3], np.nan)
+        description: Constant inertia tensor of the body (in a body-fixed frame)
+
+    returns:
+        type: RigidBodyPropertiesSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        
+        
+  #######################################################################
+
+  - name: time_dependent_rigid_body_properties # [py]
+    short_summary: "Factory function for creating custom (time-dependent) rigid body properties."
+    extended_summary: |
+      Factory function for creating custom rigid body properties, where the mass, center of mass and inertia tensor are defined by user-defined functions (as a function of time).
+      The center of mass and/or inertia tensor functions can be left empty by setting them
+      to None (default), in which case no center of mass or inertia tensor are defined
+
+    parameters:
+      - name: mass_function # [py]
+        type: Callable[[float], float] # py
+        description: Function returning the mass as a function of time (to be used during the propagation)
+        
+      - name: center_of_mass_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] = None # py
+        description: Function returning the center of mass as a function of time (to be used during the propagation)
+
+      - name: inertia_tensor_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[3, 3]]] = None # py
+        description: Function returning the inertia tensor as a function of time (to be used during the propagation)
+       
+
+
+    returns:
+        type: RigidBodyPropertiesSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        
+ 
+  #######################################################################
+
+  - name: custom_mass_dependent_rigid_body_properties # [py]
+    short_summary: "Factory function for creating custom (time-dependent) rigid body properties."
+    extended_summary: |
+      Factory function for creating custom rigid body properties, center of mass and inertia tensor are defined by user-defined functions as a function of mass.
+      This functionality is typically used for a body under thrust, where the center of mass and inertia tensor are defined as a function of expended mass.
+
+    parameters:
+      - name: mass # [py]
+        type: Callable[[float], float] # py
+        description: Mass of the body (to be overridden during propagation if mass is propagated)
+        
+      - name: center_of_mass_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] = None # py
+        description: Function returning the center of mass as a function of mass (to be used during the propagation)
+
+      - name: inertia_tensor_function # [py]
+        type: Callable[[float], numpy.ndarray[numpy.float64[3, 3]]] = None # py
+        description: Function returning the inertia tensor as a function of mass (to be used during the propagation)
+       
+
+
+    returns:
+        type: RigidBodyPropertiesSettings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        

@@ -27,6 +27,21 @@ enums:
       - name: aerodynamic_frame
       - name: body_frame
 
+  - name: AerodynamicCoefficientFrames
+    short_summary: "Enumeration of reference frames used for definition of aerodynamic coefficients."
+    extended_summary: |
+      Enumeration of reference frames used for definition of aerodynamic coefficients. There is a partial overlap between this enum
+      and the :class:`~tudatpy.numerical_simulation.environment.AerodynamicsReferenceFrames`. This enum combines a subset of those
+      frames (which are typically used for aerodynamic coefficient definition), and a swap in sign. For instance, aerodynamic
+      force coefficients are often defined positive along *negative* axes of the aerodynamic frame (drag, side force and lift coefficients)
+
+    members:
+      - name: positive_body_fixed_frame_coefficients
+      - name: negative_body_fixed_frame_coefficients
+      - name: positive_aerodynamic_frame_coefficients
+      - name: negative_aerodynamic_frame_coefficients
+
+
   - name: AerodynamicCoefficientsIndependentVariables
     short_summary: "Enumeration of the independent variables that can be used to compute aerodynamic coefficients."
     extended_summary: ""
