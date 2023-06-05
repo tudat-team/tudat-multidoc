@@ -22,6 +22,7 @@ modules:
   - gravity_field_variation
   - ground_station
   - radiation_pressure
+  - rigid_body
   - rotation_model
   - shape
   - shape_deformation

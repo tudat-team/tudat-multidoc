@@ -249,10 +249,6 @@ functions:
         type: double # [cpp]
         description: "Reference length with which aerodynamic moments are non-dimensionalized."
 
-      - name: moment_reference_point # [py]
-        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
-        description: "Reference point in the body-fixed frame w.r.t. which the moments are provided."
-
       - name: independent_variable_name # [py]
         type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
@@ -271,12 +267,16 @@ functions:
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
           frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
           
-      - name: add_force_contribution_to_moments # [py]
-        type: bool # [py]
-        description: |
-          Variable defining whether the contribution of the force coefficients is to be added to the moment coefficients. Typically, this is set 
-          to true only for variable center-of-mass simulations. See the ``add_force_contribution_to_moments`` attribute of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings`
-          for more details.
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
+      - name: momentReferencePoint # [cpp]
+        type: double # [cpp]
+        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+          force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
+          :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
+          If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
+          without computing any force coefficient contribution to the moment coefficients."
+
           
     returns:
         type: CustomAerodynamicCoefficientSettings
@@ -326,12 +326,6 @@ functions:
         type: double # [cpp]
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized."
 
-      - name: moment_reference_point # [py]
-        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
-      - name: momentReferencePoint # [cpp]
-        type: double # [cpp]
-        description: "Point w.r.t. aerodynamic moment is calculated."
-
       - name: independent_variable_name # [py]
         type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
       - name: independentVariableNames # [cpp]
@@ -350,14 +344,17 @@ functions:
         description: |
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
           frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
-          
-      - name: add_force_contribution_to_moments # [py]
-        type: bool # [py]
-        description: |
-          Variable defining whether the contribution of the force coefficients is to be added to the moment coefficients. Typically, this is set 
-          to true only for variable center-of-mass simulations. See the ``add_force_contribution_to_moments`` attribute of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings`
-          for more details.
-          
+                    
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
+      - name: momentReferencePoint # [cpp]
+        type: double # [cpp]
+        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+          force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
+          :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
+          If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
+          without computing any force coefficient contribution to the moment coefficients."
+
 
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings, default = None # [py]
@@ -399,7 +396,6 @@ functions:
             moment_coefficients=aero_coefficients_array_moment, # [py]
             reference_length=0.25, # [py]
             reference_area=1.50, # [py]
-            moment_reference_point=[0, 0.015, 0.01], # [py]
             independent_variable_name=environment.AerodynamicCoefficientsIndependentVariables.mach_number_dependent # [py]
         ) # [py]
         # Assign the aerodynamic coefficient interface to the vehicle # [py]
@@ -571,10 +567,6 @@ functions:
         type: float # [py]
         description: "Reference area with which aerodynamic forces and moments are non-dimensionalized." # [py]
 
-      - name: moment_reference_point # [py]
-        type: numpy.ndarray[numpy.float64[3, 1]] # [py]
-        description: "Point w.r.t. aerodynamic moment is calculated." # [py]
-
       - name: independent_variable_names # [py]
         type: list[environment.AerodynamicCoefficientsIndependentVariables] # [py]
         description: Vector with identifiers for the independent variable w.r.t. which the aerodynamic coefficients are defined. # [py]
@@ -589,14 +581,18 @@ functions:
         type: AerodynamicCoefficientFrames, default = positive_body_frame_coefficients # [py]
         description: |
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
-          frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
+          frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)          
           
-      - name: add_force_contribution_to_moments # [py]
-        type: bool # [py]
-        description: |
-          Variable defining whether the contribution of the force coefficients is to be added to the moment coefficients. Typically, this is set 
-          to true only for variable center-of-mass simulations. See the ``add_force_contribution_to_moments`` attribute of the :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings`
-          for more details.
+      - name: moment_reference_point # [py]
+        type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
+      - name: momentReferencePoint # [cpp]
+        type: double # [cpp]
+        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+          force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
+          :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
+          If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
+          without computing any force coefficient contribution to the moment coefficients."
+
           
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings, default = None # [py]
@@ -622,7 +618,6 @@ functions:
             moment_coefficient_files=moment_coefficients_files, # [py]
             reference_length=11.9, # [py]
             reference_area=2690.0*0.3048*0.3048, # [py]
-            moment_reference_point = [2.5, 0, 0.25], # [py]
             independent_variable_names=[environment.angle_of_attack_dependent, environment.mach_number_dependent] # [py]
         ) # [py]
         # Add the predefined aerodynamic coefficients database to the body # [py]

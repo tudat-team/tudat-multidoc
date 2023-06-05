@@ -955,25 +955,3 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.PolyhedronGravityFieldSettings` class
 
 
-  - name: constant_mass_properties # [py]
-    short_summary: "Factory function for creating constant mass properties."
-    extended_summary: |
-      Factory function for creating constant mass properties (mass, center of mass, inertia tensor). The center of mass and/or inertia tensor can be left empty (default)
-
-    parameters:
-      - name: mass # [py]
-        type: float # [py]
-        description: Constant mass of the body
-
-      - name: center_of_mass # [py]
-        type: np.array, default = numpy.empty((3, 1)) * numpy.nan # [py]
-        description: Constant center of mass of the body (in a body-fixed frame)
-
-      - name: inertia_tensor # [py]
-        type: np.array, default = numpy.empty((3, 3)) * numpy.nan # [py]
-        description: Constant inertia tensor of the body (in a body-fixed frame)
-
-
-    returns:
-        type: BodyMassPropertiesType
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.BodyMassPropertiesType` object with the given settings
