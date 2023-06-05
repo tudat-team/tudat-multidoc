@@ -1,0 +1,141 @@
+#########################################################################
+#    ███    ███  ██████  ██████  ██    ██ ██      ███████
+#    ████  ████ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██ ████ ██ ██    ██ ██   ██ ██    ██ ██      █████
+#    ██  ██  ██ ██    ██ ██   ██ ██    ██ ██      ██
+#    ██      ██  ██████  ██████   ██████  ███████ ███████
+#########################################################################
+summary: |
+  Utility functions for calculations related to (spherical harmonic) gravity fields
+
+extended_summary: |
+  This module contains a list of utility functions for calculations related to (spherical harmonic) gravity fields.
+  Note that the calculations relating to gravity fields that are relevant for a numerical propagation and estimation are
+  done in the relevant environment, acceleration, etc. models in the \`\`numerical_simulation\`\``. The functions in
+  this module are meant to support the user on relevant pre- and post-processing steps.
+
+#########################################################################
+#  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██
+#  ██      ██    ██ ████   ██ ██         ██    ██ ██    ██ ████   ██
+#  █████   ██    ██ ██ ██  ██ ██         ██    ██ ██    ██ ██ ██  ██
+#  ██      ██    ██ ██  ██ ██ ██         ██    ██ ██    ██ ██  ██ ██
+#  ██       ██████  ██   ████  ██████    ██    ██  ██████  ██   ████
+#########################################################################
+functions:
+  #######################################################################
+  - name: legendre_normalization_factor
+    short_summary: "Function to calculate the normalization factor for spherical harmonics at a given degree and order"
+    extended_summary: "Function to calculate the normalization factor for spherical harmonics at a given degree and order.
+    Specifically, this function returns the value :math:`\mathcal{N}_{lm}`, computed from:"
+    
+    .. math::
+        \mathcal{N}_{lm}=\sqrt\left(\frac{(2-\delta_{0m}(2l+1)(l-m)!)}{(l+m)!} \right)
+
+    with :math:`\delta_{0m}` is the Kronecker Delta function. The following can be used such that the conversion between unnormalized and fully
+    normalized spherical harmonic coefficients and Legendre polynomials can be computed from:
+    
+    .. math::
+        [C,S]_{lm}=\mathcal{N}_{lm}[\bar{C},\bar{S}]_{lm}=
+        \bar{P}_{lm}=\mathcal{N}_{lm}{P}_{lm}=
+
+    with :math:`[C,S]_{lm}` denoting the unnormalized cosine or sine spherical harmonic coefficients at degree :math:`l` and order :math:`m`,
+    and :math:`P_{lm}` and :math:`\bar{P}_{lm}` representing the unnormalized and normalized associated Legendre polynomials at degree :math:`l` and order :math:`m`.
+    
+    
+    parameters:
+      - name: degree
+        type: int
+        description: "Spherical harmonic degree :math:`l`"
+
+      - name: degree
+        type: int
+        description: "Spherical harmonic order :math:`m`"
+    
+    returns:
+      - type: float
+        description: "Normalization factor :math:`\mathcal{N}_{lm}`"
+
+
+  #######################################################################
+  
+  - name: normalize_spherical_harmonic_coefficients
+    short_summary: "Function to normalize spherical harmonic coefficients"
+    extended_summary: "Function to normalize spherical harmonic coefficients, using the equations provided in the 
+    :func:`~tudatpy.gravitation.astro.legendre_normalization_factor` function."
+    
+    parameters:
+      - name: unnormalized_cosine_coefficients
+        type: numpy.ndarray
+        description: "Matrix for which entry :math:`(i,j)` contains the unnormalized cosine coefficient :math:`C_{lm}`"
+
+      - name: unnormalized_sine_coefficients
+        type: numpy.ndarray
+        description: "Matrix for which entry :math:`(i,j)` contains the unnormalized sine coefficient :math:`S_{lm}`"
+    
+    returns:
+      - type: tuple[numpy.ndarray, numpy.ndarray]
+        description: Tuple of two matrices, containing the normalized coefficients :math:`\bar{C}_{lm}` (first) and :math:`\bar{S}_{lm}` (second)"
+
+
+  #######################################################################
+  
+  - name: unnormalize_spherical_harmonic_coefficients
+    short_summary: "Function to unnormalize spherical harmonic coefficients"
+    extended_summary: "Function to unnormalize spherical harmonic coefficients, using the equations provided in the 
+    :func:`~tudatpy.gravitation.astro.legendre_normalization_factor` function."
+    
+    parameters:
+      - name: normalized_cosine_coefficients
+        type: numpy.ndarray
+        description: "Matrix for which entry :math:`(i,j)` contains the normalized cosine coefficient :math:`\bar{C}_{lm}`"
+
+      - name: normalized_sine_coefficients
+        type: numpy.ndarray
+        description: "Matrix for which entry :math:`(i,j)` contains the normalized sine coefficient :math:`\bar{S}_{lm}`"
+    
+    returns:
+      - type: tuple[numpy.ndarray, numpy.ndarray]
+        description: Tuple of two matrices, containing the unnormalized coefficients :math:`{C}_{lm}` (first) and :math:`{S}_{lm}` (second)"
+
+
+  #######################################################################
+  
+    
+  - name: spherical_harmonic_coefficients_from_inertia
+    short_summary: "Function to compute degree-two spherical harmonic coefficients from an inertia tensor"
+    extended_summary: "Function to compute degree-two spherical harmonic coefficients :math:`C_{20}`, :math:`C_{21}`, :math:`C_{22}`, :math:`S_{21}`, :math:`S_{22}` and from an inertia tensor :math:`\mathbf{I}`, according to the following relation"
+    
+    .. math::
+        \mathbf{I}=M R^2\left(\left(\begin{array}{ccc} \frac{C_{20}}{3}-2 C_{22} & -2 S_{22} & -C_{21} \\ -2 S_{22} & \frac{C_{20}}{3}+2 C_{22} & -S_{21} \\ -C_{21} & -S_{21} & -\frac{2 C_{20}}{3} \end{array}\right)+\bar{I} \mathbf{1}_{3 \times 3}\right)
+
+    with :math:`M` the mass of the body, and :math:`R` the reference radius of the spherical harmonic coefficients. The term :math:`\bar{I}` is the mean moment of inertia. The spherical harmonic
+    coefficients in the above matrix are unnormalized.
+    
+    parameters:
+      - name: inertia tensor
+        type: numpy.ndarray[numpy.float64[3, 3]]
+        description: "Full inertia tensor :math:`\mathbf{I}` of the body for which spherical harmonic coefficients are to be computed."
+
+      - name: gravitational_parameter
+        type: float
+        description: "Gravitational parameter :math:`\mu` of the body for which spherical harmonic coefficients are to be computed."
+    
+      - name: reference_radius
+        type: float
+        description: "Reference radius w.r.t. which spherical harmonic coefficients are to be computed."
+    
+      - name: output_normalized_coefficients
+        type: bool, default=True
+        description: "Boolean denoting whether the coefficients computed are normalized (if true) or unnormalized (if false)"    
+    
+    
+    returns:
+      - type: tuple[numpy.ndarray, numpy.ndarray]
+        description: Tuple of two matrices, containing the spherical harmonic coefficients :math:`{C}_{lm}` (first) and :math:`{S}_{lm}` (second) up to degree and order 2.
+        The degree-two coefficients are computed from the inertia tensor, the degree-one coefficients are set to zero (and :math:`C_{00}=0`)"
+
+
+  #######################################################################
+  
+  
+  

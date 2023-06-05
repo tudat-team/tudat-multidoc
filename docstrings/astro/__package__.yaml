@@ -11,3 +11,4 @@ modules:
   - time_conversion # [py]
   - two_body_dynamics
   - polyhedron_utilities
+  - gravitation
