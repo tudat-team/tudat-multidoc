@@ -58,7 +58,7 @@ classes:
           Variable that toggles whether to add the force contribution to the moment coefficients as:
           
           .. math::
-             \Delta \mathbf{C}_{M} = (\mathbd{r}_{ref}-\mathbf{r}_{com})\times \Delta \mathbf{C}_{F}
+             \Delta \mathbf{C}_{M} = (\mathbf{r}_{ref}-\mathbf{r}_{com})\times \Delta \mathbf{C}_{F}
              
           where :math:`(\mathbd{r}_{ref}-\mathbf{r}_{com})` is the vector from the center of mass to the moment reference point, and :math:`\mathbf{C}_{F}` and :math:`\mathbf{C}_{M}` is the vector of forc and moment coefficients. Note that, if the force and moment coefficients afre defined in different frames, the relevant frame conversions are automatically performed.
           By default, this boolean is set to false, implicitly assuming that the moment coefficients are provided w.r.t. the (constant) center of mass.
@@ -271,11 +271,12 @@ functions:
         type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
       - name: momentReferencePoint # [cpp]
         type: double # [cpp]
-        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+        description: |
+          Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
           force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
           :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
           If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
-          without computing any force coefficient contribution to the moment coefficients."
+          without computing any force coefficient contribution to the moment coefficients.
 
           
     returns:
@@ -344,17 +345,15 @@ functions:
         description: |
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
           frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
-                    
+
       - name: moment_reference_point # [py]
         type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
-      - name: momentReferencePoint # [cpp]
-        type: double # [cpp]
-        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+        description: |
+          Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
           force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
           :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
           If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
-          without computing any force coefficient contribution to the moment coefficients."
-
+          without computing any force coefficient contribution to the moment coefficients.
 
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings, default = None # [py]
@@ -581,19 +580,17 @@ functions:
         type: AerodynamicCoefficientFrames, default = positive_body_frame_coefficients # [py]
         description: |
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
-          frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)          
-          
-      - name: moment_reference_point # [py]
-        type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
-      - name: momentReferencePoint # [cpp]
-        type: double # [cpp]
-        description: "Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
+          frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
+
+      - name: moment_reference_point 
+        type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) 
+        description: |
+          Point w.r.t. aerodynamic moment coefficients are defined. This variable is used to calculate the contribution of the aerodynamic
           force coefficients to the effective moment coefficients. See the ``add_force_contribution_to_moments`` attribute of the 
           :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings` for more details.
           If the present input is set to NaN (as is the default), the reference point is left undefined, and the aerodynamic moments are computed
-          without computing any force coefficient contribution to the moment coefficients."
+          without computing any force coefficient contribution to the moment coefficients.
 
-          
       - name: interpolator_settings # [py]
         type: math.interpolators.InterpolatorSettings, default = None # [py]
         description: |  # [py]
