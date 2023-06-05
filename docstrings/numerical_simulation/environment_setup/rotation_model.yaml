@@ -743,6 +743,17 @@ functions:
       As such, this model is at present applicable to Mars rotation only. If you require more fine-grained control of the parameters, please contact the Tudat support team      
 
     parameters:
+      - name: base_frame # [py]
+        type: str, default = "ECLIPJ2000" # [py]
+      - name: baseFrame # [cpp]
+        type: std::string # [cpp]
+        description: Name of the base frame of rotation model.
+
+      - name: target_frame # [py]
+        type: str, default = "Mars_Fixed" # [py]
+      - name: targetFrame # [cpp]
+        type: std::string # [cpp]
+        description: Name of the target frame of rotation model.
 
     returns:
         type: RotationModelSettings

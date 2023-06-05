@@ -380,6 +380,22 @@ functions:
          // create atmosphere settings and add to body settings of body "Earth" # [cpp]
          bodySettings[ "Earth" ]->atmosphereSettings = std::make_shared< AtmosphereSettings >( nrlmsise00 ); # [cpp]
 
+   #######################################################################
+
+  - name: us76 # [py]
+    short_summary: "Factory function for creating US76 standard atmosphere model settings."
+    extended_summary: |
+      Factory function for creating US76 standard atmosphere model settings. The model is defined using tabulated data for density, pressure and temperature,
+      from an altitude of -5 km up to 1000 km. Up to 100 km, a data point is provided every 100 m. Above 100 km, a data point is provided every 1 km. The data
+      are interpolated using a cubic spline interpolator.
+      
+    parameters:
+    
+    returns:
+        type: AtmosphereSettings # [py]
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` class
+
+         
   #######################################################################
 
   - name: custom_constant_temperature # [py]
