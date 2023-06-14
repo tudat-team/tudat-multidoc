@@ -103,7 +103,7 @@ functions:
         
   #######################################################################
 
-  - name: time_dependent_rigid_body_properties # [py]
+  - name: custom_time_dependent_rigid_body_properties # [py]
     short_summary: "Factory function for creating custom (time-dependent) rigid body properties."
     extended_summary: |
       Factory function for creating custom rigid body properties, where the mass, center of mass and inertia tensor are defined by user-defined functions (as a function of time).

@@ -8,7 +8,7 @@ extended_summary:  |
 modules:
   - frame_conversion
   - element_conversion
-  - time_conversion # [py]
+  - time_conversion
   - two_body_dynamics
   - polyhedron_utilities
   - gravitation
