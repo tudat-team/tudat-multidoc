@@ -330,7 +330,7 @@ classes:
           :py:class:`~AtmosphericFlightConditions` object, which defines
           the aerodynamic coefficients.
 
-    #methods:
+##################################################################
 
   - name: AerodynamicAngleCalculator
     short_summary: |
@@ -393,7 +393,89 @@ classes:
           type: float # [py]
           type: double # [py]
           description: Value of requested angle
+          
+##################################################################
+     
+  - name: VehicleSystems
+    short_summary: |
+       Object used to store physical (hardware) properties of a vehicle.       
+       
+    methods:
       
+      - name: set_control_surface_deflection                       # [py]
+        short_summary: |
+          Function to set the current deflection of an aerodynamic control surface.
+        extended_summary: |
+          Function to set the current deflection of an aerodynamic control surface,
+          identified by its name. To set the control surface deflection, the control 
+          surface has to exist. A control surface is created whenever control surfaces are
+          defined in a body's aerodynamic coefficient interface.
+
+        parameters:
+        - name: control_surface_id # [py]
+          type: str # [py]
+          description: |
+            The identified (name) of the given control surface
+            
+        - name: deflection_angle # [py]
+          type: float # [py]
+          description: |
+            The deflection (in radians) that the control surface is to be set to. This will 
+            typically influence the aerodynamic coefficients of the vehicle
+
+
+      - name: set_control_surface_deflection                       # [py]
+        short_summary: |
+          Function to retrieve the current deflection of an aerodynamic control surface.
+        extended_summary: |
+          Function to retrieve the current deflection of an aerodynamic control surface,
+          identified by its name. To extract the control surface deflection, the control 
+          surface has to exist. A control surface is created whenever control surfaces are
+          defined in a body's aerodynamic coefficient interface.
+
+        parameters:
+        - name: control_surface_id # [py]
+          type: str # [py]
+          description: |
+            The identified (name) of the given control surface           
+
+        returns:
+          type: float # [py]
+          description: Current deflection (in radians) that the control surface
+          
+      - name: get_engine_model                       # [py]
+        short_summary: |
+          Function to retrieve an engine model from the vehicle
+        
+      
+        parameters:
+        - name: engine_name # [py]
+          type: str # [py]
+          description: |
+            The identifier for the engine model that is to be retrieved
+
+        returns:
+          type: EngineModel # [py]
+          description: Model for the engine that is requested
+          
+##################################################################
+
+     
+  - name: EngineModel
+    short_summary: |
+       Object used to store properties of an engine, and compute the thrust magnitude and body-fixed thrust direction     
+       
+    methods:
+      
+    properties: # [py]
+      - name: thrust_magnitude_calculator # [py]
+        type: ThrustMagnitudeWrapper # [py]
+        readonly: Yes
+        description: |
+          Object used to manage and compute the magnitude of the thrust provided by the engine
+          
+##################################################################
+
   - name: Body
     short_summary: |
        Object that stores the environment properties and current state of
@@ -552,6 +634,21 @@ classes:
           Object defining the orientation of a body, used to calculate the rotation to/from a body-fixed
           frame (and its derivate). Depending on the selected type of model, the type of this attribute
           is of type RotationalEphemeris, or a derived class thereof.
+
+      - name: flight_conditions # [py]
+        type: FlightConditions # [py]
+        description: |
+          Object used to calculated and store the current flight conditions of a vehicle (altitude, latitude, longitude,
+          flight-path angle, etc.) w.r.t. a central body. In case the central body contains an atmosphere, this object
+          also stores current local density, Mach number, etc. This object is typically used for aerodynamic accelerations,
+          guidance models or other central-body-related custom models. 
+
+      - name: system_models # [py]
+        type: VehicleSystems # [py]
+        description: |
+          Object used to store physical (hardware) properties of a vehicle, such as engines, control surfaces, etc. This
+          object is typically created automatically whenever such a hardware model needs to be assigned to a vehicle.
+
 
       - name: gravitational_parameter # [py]
         type: float # [py]
