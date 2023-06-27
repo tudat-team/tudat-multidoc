@@ -9,17 +9,18 @@ summary: |
   Conversions and computation on date and time.
 
 extended_summary: |
-  This module provide a variety of functions to convert time and date from Julian Dates and calendar dates.
-  Conversion between different time scales are also possible.
-  Different helpers are also included to ease the most common operation on dates and times.
+  This module provide a variety of functions to convert times and dates from Julian Dates, calendar dates and epochs.
+  Conversion between different time scales (UTC, TDB, TT, etc.) are also possible. Conversions between time scales make extensive use of the SOFA library.
+  Different helper functions are also included to ease the most common operation on dates and times.
 
 notes: |
-  - Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, the 1st of January 2000.
-
+ * Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, noon on the 1st of January 2000 (e.g., this epoch defines :math:`t=0`)
+ * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier convesion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
+ 
 references: |
-  Chapter 2 of: Kaplan, G. United States Naval Observatory Circular No. 179, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
-  
-  This document can be accessed at the following link: https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view
+ *  Chapter 2 of: Kaplan, G. `United States Naval Observatory Circular No. 179 <https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view>`_, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
+ *  SOFA Documentation - `SOFA Time Scale and Calendar Tools <https://www.iausofa.org/sofa_ts_c.pdf>`_, disseminated by the International Astronomical Union
+ *  Secions 5.5.3 and Chapter 10 of the `IERS 2010 Conventions <https://www.iers.org/SharedDocs/Publikationen/EN/IERS/Publications/tn/TechnNote36/tn36.pdf>`_, disseminated by the International Earth Rotation Service
 
 #########################################################################
 #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██
@@ -30,6 +31,36 @@ references: |
 #########################################################################
 functions:
   #######################################################################
+  - name: datetime_to_tudat
+    short_summary: "Function to convert a Python datetime.datetime object to a Tudat :class:`DateTime` object. The Tudat-native alternative has the advantage of providing sub-femtosecond resolution, as opposed to the microsecond resolution of the Python version"
+
+    parameters:
+      - name: datetime
+        type: datetime.datetime
+        description: "Datetime object, using the Python datetime library. Both the date and the time (hour, minutes, and seconds), can be specified, up to millisecond resolution."
+
+    returns:
+        type: DateTime
+        description: "DateTime object defined in Tudat"
+
+
+  #######################################################################
+  
+  - name: datetime_to_python
+    short_summary: "Function to convert a Tudat :class:`DateTime` object to a Python datetime.datetime object. This is the inverse of the :func:`datetime_to_tudat` function"
+
+
+    parameters:
+      - name: datetime
+        type: DateTime
+        description: "Tudat-native Datetime object. Both the date and the time (hour, minutes, and seconds), can be specified, up to sub-femtosecond resolution."
+
+    returns:
+        type: datetime.datetime
+        description: "Datetime object, using the Python datetime library"
+
+
+  #######################################################################
   - name: calendar_date_to_julian_day
     short_summary: "Convert a calendar date to Julian days."
 
@@ -38,11 +69,11 @@ functions:
     parameters:
       - name: calendar_date
         type: datetime.datetime
-        description: "Datetime, using the default Python library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
+        description: "Datetime object, using the Python datetime library. Both the date and the time (hour, minutes, and seconds), can be specified, up to millisecond resolution."
 
     returns:
         type: float
-        description: "Date in Julian days since January 1st 4713 BC."
+        description: "Julian day number (days since noon January 1st 4713 BC.)"
 
     examples: |
       In this example, the calendar date of the 21st of May 2022 at 13:52 and 41 seconds is converted to Julian days.
@@ -60,12 +91,10 @@ functions:
   - name: calendar_date_to_julian_day_since_epoch
     short_summary: "Convert a calendar date to Julian days since a given epoch."
 
-    extended_summary: ""
-
     parameters:
       - name: calendar_date
         type: datetime.datetime
-        description: "Datetime, using the default Python library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
+        description: "Datetime object, using the Python datetime library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
       - name: epoch_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
         description: "Epoch since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0) corresponding to the 1st of January 2000."
@@ -99,7 +128,7 @@ functions:
 
     returns:
         type: datetime.datetime
-        description: "Calendar date using the Datetime Python library, containing the date and time corresponding to the Julian date input."
+        description: "Datetime object, using the Python datetime library, containing the date and time corresponding to the Julian date input."
 
     examples: |
       In this example, the Julian date `2459721.0783` (in days since January 1st 4713 BC), is converted to a calendar date.
@@ -119,6 +148,36 @@ functions:
     short_summary: "Convert Julian days to seconds since a given epoch."
 
     extended_summary: ""
+
+    parameters:
+      - name: julian_day
+        type: float
+        description: "Date in Julian days since January 1st 4713 BC."
+      - name: epoch_since_julian_day_zero
+        type: float, default = constants.JULIAN_DAY_ON_J2000
+        description: "Epoch since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
+
+    returns:
+        type: float
+        description: "Seconds since the Julian date and the given epoch."
+
+    examples: |
+      In this example, the Julian date `2459721.0783` (in days since January 1st 4713 BC), is converted to seconds since J2000 (January 1st 2000).
+
+      .. code-block:: python
+
+        # Define the Julian date in days since January 1st 4713 BC
+        julian_date = 2459721.0783
+        # Convert the Julian date to the number of seconds since J2000
+        seconds_since_J2000 = time_conversion.julian_day_to_seconds_since_epoch(julian_date)
+        # Print the converted output
+        print(seconds_since_J2000)  # prints 706413165.1200145
+        
+  #######################################################################
+  - name: seconds_since_epoch_to_julian_day
+    short_summary: "Convert Jseconds since a given epoch to a Julian day."
+
+    extended_summary: "Inverse function of :func:`julian_day_to_seconds_since_epoch`."
 
     parameters:
       - name: julian_day
@@ -264,7 +323,7 @@ functions:
     parameters:
       - name: calendar_date
         type: datetime.datetime
-        description: "Datetime, using the default Python library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
+        description: Datetime object, using the Python datetime library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
 
     returns:
         type: int
@@ -298,7 +357,7 @@ functions:
 
     returns:
         type: datetime.datetime
-        description: "Corresponding calendar date."
+        description: "Corresponding calendar date as a datetime object, using the Python datetime library. ."
 
     examples: |
       In this example, the calendar date corresponding to when 122 days have passed in 2020 is computed.
@@ -519,3 +578,204 @@ functions:
     returns:
         type: float
         description: "Time in seconds since J2000, in the TDB time scale."
+
+#######################################################################
+  - name: epoch_from_date_time_components
+    short_summary: "Computes the epoch as seconds since J2000 from the entries of the current date and time."
+    
+    extended_summary: "Computes the epoch as seconds since J2000. This function is added for convenience, and creates a :class:`DateTime` object, and subsequently calls its ``epoch`` function"
+
+    parameters:
+      - name: year # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar year
+       
+      - name: month # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar month (value must be 1-12)     
+       
+      - name: day # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar day in current month, value must be larger than 0, and smaller or equal to the number of days in the month       
+       
+      - name: hour # [py]
+        type: int # [py]
+        description: |  # [py]
+          Full hours into the current day (value must be 0-23)
+       
+      - name: minute # [py]
+        type: int # [py]
+        description: |  # [py]
+          Full minutes into the current hour (value must be 0-59)
+       
+      - name: seconds # [py]
+        type: float # [py]
+        description: |  # [py]
+          Number of seconds into the current minute. Note that this value is stored as ``long double`` in Tudat, which may be 64-bit or 80-bit (16 or 19 digits) depending on the compiler used.     
+
+    returns:
+        type: float
+        description: "Time in seconds since J2000."
+                
+#######################################################################
+  - name: epoch_from_date_time_iso_string
+    short_summary: "Computes the epoch as seconds since J2000 from an ISO datetime string."
+    
+    extended_summary: "Computes the epoch as seconds since J2000. This function is added for convenience, and creates a :class:`DateTime` object, and subsequently calls its ``epoch`` function"
+
+    parameters:
+      - name: iso_datetime # [py]
+        type: str # [py]
+        description: |  # [py]
+          Date and time as ISO compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..", where the T may be replaced with a space)
+          
+    returns:
+        type: float
+        description: "Time in seconds since J2000."
+#######################################################################
+  - name: epoch_from_date_time_iso_string
+    short_summary: "Computes the epoch as seconds since J2000 from an ISO datetime string."
+    
+    extended_summary: "Computes the epoch as seconds since J2000. This function is added for convenience, and creates a :class:`DateTime` object, and subsequently calls its ``epoch`` function"
+
+    parameters:
+      - name: iso_datetime # [py]
+        type: str # [py]
+        description: |  # [py]
+          Date and time as ISO compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..", where the T may be replaced with a space)
+          
+    returns:
+        type: float
+        description: "Time in seconds since J2000."
+        
+#######################################################################
+  - name: date_time_from_epoch
+    short_summary: "Creates a Tudat-native :class:`DateTime` object from the seconds since J2000."
+
+    parameters:
+      - name: epoch # [py]
+        type: float # [py]
+        description: |  # [py]
+          Seconds since J2000
+          
+    returns:
+        type: DateTime
+        description: "Tudat ``DateTime`` object."
+        
+#######################################################################
+  - name: date_time_from_iso_string
+    short_summary: "Creates a Tudat-native :class:`DateTime` object from an ISO datetime string."
+    
+
+    parameters:
+      - name: iso_datetime # [py]
+        type: str # [py]
+        description: |  # [py]
+          Date and time as ISO compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..", where the T may be replaced with a space)
+          
+    returns:
+        type: DateTime
+        description: "Tudat ``DateTime`` object."
+        
+#######################################################################
+classes:
+
+  - name: DateTime
+    short_summary: "Class to store a calendar date and time of day, with high resolution."
+    extended_summary: |
+       Class to store a calendar date and time of day, with high resolution compared to Python datetime.datetime. This class
+       stores the seconds as a ``long double`` variable in the C++ implementation, corresponding to about
+       16 or 19 digits of precision (depending on the compiler used). In either case, this will be sufficient for sub-femtosecond
+       resolution. In addition, this class allows easy conversion to typical time representations in astrodynamics (seconds since J2000,
+       Julian day, and modified Julian day).
+       
+    properties: # [py]
+      - name: year # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar year
+       
+      - name: month # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar month (value must be 1-12)     
+       
+      - name: day # [py]
+        type: int # [py]
+        description: |  # [py]
+          Calendar day in current month, value must be larger than 0, and smaller or equal to the number of days in the month       
+       
+      - name: hour # [py]
+        type: int # [py]
+        description: |  # [py]
+          Full hours into the current day (value must be 0-23)
+       
+      - name: minute # [py]
+        type: int # [py]
+        description: |  # [py]
+          Full minutes into the current hour (value must be 0-59)
+       
+      - name: seconds # [py]
+        type: float # [py]
+        description: |  # [py]
+          Number of seconds into the current minute. Note that this value is stored as ``long double`` in Tudat, which may be 64-bit or 80-bit (16 or 19 digits) depending on the compiler used.     
+
+    methods:
+      
+      - name: iso_string                       # [py]
+        short_summary: |
+          Function to get the ISO-compatible string.
+        extended_summary: |
+          Function to get the current date and time as an ISO-compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..") where the seconds may be provided with any number of digits. The 'T' entry separating the date from the time may be omitted by setting the ``add_T`` parameter to false
+
+        parameters:
+        - name: add_T # [py]
+          type: Bool # [py]
+          description: |
+            Boolean denoting whether to use a 'T' or a blank space to separate the date from the time   
+
+        returns:
+          type: str # [py]
+          description: ISO-compatible string representing the date and time
+          
+          methods:
+      
+      - name: epoch                       # [py]
+        short_summary: |
+          Function to get the epoch in seconds since J2000 for the current date and time 
+
+        returns:
+          type: float # [py]
+          description: Current epoch in seconds since J2000
+   
+      - name: julian_day                       # [py]
+        short_summary: |
+          Function to get the epoch as Julian day for the current date and time 
+
+        returns:
+          type: float # [py]
+          description: Current Julian day
+          
+      - name: modified_julian_day                       # [py]
+        short_summary: |
+          Function to get the epoch as modified Julian day for the current date and time 
+
+        returns:
+          type: float # [py]
+          description: Current modified Julian day
+          
+      - name: day_of_year                       # [py]
+        short_summary: |
+          Function to get the day number in the current year
+
+        returns:
+          type: int # [py]
+          description: Day number in the current year
+       
+       
+       
+       
+       
