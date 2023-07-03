@@ -19,8 +19,10 @@ enums:
 
 classes:
 
+  #############################################
+
   - name: SimulationResults
-    extended_summary: "Base class for objects that store all results of a numerical propagation."
+    short_summary: "Base class for objects that store all results of a numerical propagation."
     extended_summary: |
        Base class for objects that store all results of a numerical propagation. Derived class are implemented for single-, multi- and hybrid-arc propagation of botj dynamics and variational equations
        
@@ -118,6 +120,8 @@ classes:
           it was terminated prematurely (for instance due to an
           exception, or an Inf/NaN state entry being detected).
 
+  #############################################
+
   - name: PropagationTerminationDetails
     short_summary: |
        Object that provides information on the reason for the
@@ -137,45 +141,79 @@ classes:
           defined by the termination settings provided as input to the Simulator object. This variable only
           has a meaningful definition if the ``termination_reason`` has value ``termination_condition_reached``
 
+
+  #############################################
+
+  - name: RotationalProperModeDampingResults
+    short_summary: |
+      Object that stores the results of the algorithm to damp the proper mode of rotational dynamics for an initial state,
+      as computed by the :func:`~get_damped_proper_mode_initial_rotational_state` function
+
+    properties: # [py]
+      - name: damped_initial_state # [py]
+        type: np.ndarray  # [py]
+        description: | # [py]
+          Initital state produced by the damping algorithm, for which the signature of the proper mode should be
+          removed (or at least, substantially reduced). Note that this initial state corresponds to the *full* state vector
+          that is provided to the ``get_damped_proper_mode_initial_rotational_state`` function (e.g. is size 7
+          for rotational dynamics of a single body, size 13 for coupled orbital-rotational dynamics of a single body, etc.)
+
+      - name: forward_backward_states # [py]
+        type: list[tuple[dict[float,np.ndarray],dict[float,np.ndarray]]] # [py]
+        description: | # [py]
+          Data structure that contains the full state histories used by the damping algorithm. The contents are are as follows:
+          
+          * The :math:`i^{th}` entry of the list corresponds to the :math:`i^{th}` iteration of the forward-backward propagation
+          * Each tuple in the list contains two dictionaries, the first one corresponding to the forward propagation results, the seconds one to the backward propagation results
+
+      - name: forward_backward_dependent_variables # [py]
+        type: list[tuple[dict[float,np.ndarray],dict[float,np.ndarray]]] # [py]
+        description: | # [py]
+          As ``forward_backward_states``, but for the dependent variables.
+
+#############################################
 functions:
 
 
   - name: getInitialStatesOfBodies # [cpp]
   - name: get_state_of_bodies # [py]
-    short_summary: "Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time."
+    short_summary: "Function to get the translational states of a set of bodies, with respect to some set of central bodies, at the requested time."
 
     extended_summary: |
-      Function to get the states of a set of bodies, with respect to some set of central bodies, at the requested time.
+      Function to get the translational states of a set of bodies, with respect to some set of central bodies, at the requested time. This function
+      is typically used to extract an initial state for a propagation of a set of bodies, for which the initial state is extracted from the
+      existing ephemerides of the bodies.
 
     parameters:
       - name: bodiesToIntegrate # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: bodies_to_propagate # [py]
         type: list[str] # [py]
-        description: List of bodies to be propagated.
+        description: List of names of bodies for which the state is to be extracted
 
       - name: centralBodies # [cpp]
         type: std::vector<std::string> # [cpp]
       - name: central_bodies # [py]
         type: list[str] # [py]
-        description: List of central bodies, each referred to a body being propagated (in the same order).
+        description: List of central bodies, w.r.t. which the states are to be computed (in the same order as ``bodies_to_propagate``)
 
       - name: bodies # [cpp]
         type: SystemOfBodies # [cpp]
       - name: bodies_to_propagate # [py]
         type: SystemOfBodies # [py]
-        description: System of bodies used in the propagation.
+        description: System of bodies that define the environment
 
       - name: initialTime # [cpp]
         type: double # [cpp]
       - name: initial_time # [py]
         type: float # [py]
-        description: Initial time of the propagation.
+        description: Time at which the states are to be extracted from the environment
 
     returns:
-        type: Eigen::Matrix # [cpp]
         type: numpy.ndarray # [py]
-        description: Time at which the states should be retrieved.
+        description: |
+          Vector of size :math:`6\times N`, with the translational states of each entry of body from 
+          ``bodies_to_propagate`` w.r.t. the corresponding central body in ``central_bodies``. 
 
   #############################################
 
@@ -195,7 +233,9 @@ functions:
       * Repeat the above for the list of damping times provided by the user
       
       The state after the final backwards propagation to :math:`t_{0}` is provided as output by this function, to be
-      used as damped initial state.
+      used as damped initial state. The output from this function also provides the user access to the full state history
+      and dependent variable history of the forward and backward propagations, to allow a user to track and validate
+      the pgress of the algorithm.
       
       The damping torque is defined as follows:
       
@@ -228,6 +268,12 @@ functions:
       - name: dissipation_times # [py]
         type: list[ float ] # [py]
         description: List of damping times :math:`\tau_{d}` for which the algorithm is to be run. Note that this list should be organized in ascending order for the algorithm to perform properly
+
+      - name: propagate_undamped # [py]
+        type: bool, default = True # [py]
+        description: |
+          Boolean defining whether the first forward/backward propagation performed by the damping algorithm has damping turned off (damping turned off if True, damping turned on if False).
+          Propagating without any damping before starting the damping algorithm is useful for verification purposes, but not required for the algorithm itself.
 
     returns:
       type: DampedInitialRotationalStateResults # [py]
