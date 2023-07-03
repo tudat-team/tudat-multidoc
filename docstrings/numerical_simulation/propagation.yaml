@@ -163,7 +163,7 @@ functions:
       - name: bodies # [cpp]
         type: SystemOfBodies # [cpp]
       - name: bodies_to_propagate # [py]
-        type: body_system # [py]
+        type: SystemOfBodies # [py]
         description: System of bodies used in the propagation.
 
       - name: initialTime # [cpp]
@@ -177,6 +177,63 @@ functions:
         type: numpy.ndarray # [py]
         description: Time at which the states should be retrieved.
 
+  #############################################
+
+  - name: get_damped_proper_mode_initial_rotational_state # [py]
+    short_summary: "Function to compute an initial rotational state for which the proper mode of rotation is damped."
+
+    extended_summary: |
+      Function to compute an initial rotational state for which the proper mode of rotation is damped, using the algorithm 
+      used by Rambaux et al. (2010) to compute an initial rotational state for Phobos. This algorithm propagates the
+      dynamics of the system a number of times, with the settings specified by the user and a specific modification to
+      damp the proper mode. Since a number of propagations are performed by this function, it may take some time to run.
+      Specifically, the algorithm works as follows:
+      
+      * Introduce a damping torque (see below) to damp the proper mode, with damping time :math:`\tau_{d}`
+      * Propagate the dynamics forward in time for a period of 10:math:`\tau_{d}`
+      * Remove the virtual torque, and propagate the dynamics back to the initial time :math:`t_{0}`
+      * Repeat the above for the list of damping times provided by the user
+      
+      The state after the final backwards propagation to :math:`t_{0}` is provided as output by this function, to be
+      used as damped initial state.
+      
+      The damping torque is defined as follows:
+      
+      .. math::
+         \boldsymbol{\Gamma}= -\left( \frac{\mathbf{I}}{\tau_{d}}\right)\begin{pmatrix}\omega_{x}\\ \omega_{y}\\ \omega_{x}-\omega_{p} \end{pmatrix}
+      
+      where :math:\mathbf{I}` is the body's inertia tensor (in its body-fixed frame), :math:`\tau_{d}` the damping time of the
+      current propagation, and :math:`\omega_{x}, \omega_{y}, \omega_{z}` the body's current rotation about its
+      body-fixed, x-, y- and z-axes, respectively. The damping torque is implemented to damp out all rotations along 
+      the body-fixed x- and y-axes, and any deviations from constant rotation with frequency :\omega_{p}: about the body-fixed z-axis. 
+      
+      .. note:: The mean rotation rate of the body :math:`\omega_{p}` is a user-defined input, and must be tuned to the dynamics of the system.
+
+    parameters:
+      - name: bodies # [py]
+        type: SystemOfBodies # [py]
+        description: Set of body objects that defines the environment
+
+      - name: propagator_settings # [py]
+        type: SingleArcPropagatorSettings # [py]
+        description: |
+          Propagator settings for the dynamics of which the initial rotational state is to be damped. These propagator
+          settings must be for rotational dynamics only, or for multi-type rotational dynamics that contains rotational
+          dynamics for a single body (e.g. translational-rotational dynamics for a single body)
+
+      - name: body_mean_rotational_rate # [py]
+        type: float # [py]
+        description: Mean rotational rate :math:`\omega_{p}` to which the damping algorithm will force the body-fixed rotation about its z-axis.
+
+      - name: dissipation_times # [py]
+        type: list[ float ] # [py]
+        description: List of damping times :math:`\tau_{d}` for which the algorithm is to be run. Note that this list should be organized in ascending order for the algorithm to perform properly
+
+    returns:
+      type: DampedInitialRotationalStateResults # [py]
+      description: Object that contains the results of the damping algorithm (final damped rotational state, and forward/backward propagation results).
+
+#############################################
 
   # Free function
   - name: createCombinedInitialState # [cpp]
