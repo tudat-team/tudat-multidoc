@@ -228,7 +228,7 @@ functions:
       Specifically, the algorithm works as follows:
       
       * Introduce a damping torque (see below) to damp the proper mode, with damping time :math:`\tau_{d}`
-      * Propagate the dynamics forward in time for a period of 10:math:`\tau_{d}`
+      * Propagate the dynamics forward in time for a period of :math:`10\tau_{d}`
       * Remove the virtual torque, and propagate the dynamics back to the initial time :math:`t_{0}`
       * Repeat the above for the list of damping times provided by the user
       
@@ -237,10 +237,10 @@ functions:
       and dependent variable history of the forward and backward propagations, to allow a user to track and validate
       the pgress of the algorithm.
       
-      The damping torque is defined as follows:
+      The damping torque :math:`\Gamma` is defined as follows:
       
       .. math::
-         \boldsymbol{\Gamma}= -\left( \frac{\mathbf{I}}{\tau_{d}}\right)\begin{pmatrix}\omega_{x}\\ \omega_{y}\\ \omega_{x}-\omega_{p} \end{pmatrix}
+         \boldsymbol{\Gamma}= -\frac{1}{\tau_{d}}\mathbf{I}\begin{pmatrix}\omega_{x}\\ \omega_{y}\\ \omega_{x}-\omega_{p} \end{pmatrix}
       
       where :math:\mathbf{I}` is the body's inertia tensor (in its body-fixed frame), :math:`\tau_{d}` the damping time of the
       current propagation, and :math:`\omega_{x}, \omega_{y}, \omega_{z}` the body's current rotation about its
