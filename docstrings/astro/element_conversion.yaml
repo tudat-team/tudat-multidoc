@@ -12,23 +12,23 @@ notes: |
 
   Unless specified otherwise, the Keplerian elements are ordered as:
 
-  +-------+--------------------------------------------------------------------------------------+
-  | Index | Keplerian Element                                                                    |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semilatus rectum) |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``1`` | Eccentricity                                                                         |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``2`` | Inclination                                                                          |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``3`` | Argument of periapsis                                                                |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``4`` | Longitude of ascending node                                                          |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``5`` | True anomaly                                                                         |
-  +-------+--------------------------------------------------------------------------------------+
+  +-------+---------------------------------------------------------------------------------------+
+  | Index | Keplerian Element                                                                     |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semi-latus rectum) |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``1`` | Eccentricity                                                                          |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``2`` | Inclination                                                                           |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``3`` | Argument of periapsis                                                                 |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``4`` | Longitude of ascending node                                                           |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``5`` | True anomaly                                                                          |
+  +-------+---------------------------------------------------------------------------------------+
 
-  Unless specified otherwise, the sphreical elements are ordered as:
+  Unless specified otherwise, the spherical elements are ordered as:
 
   +-------+--------------------------------------------------------------------------------------+
   | Index | Spherical State Element                                                              |
@@ -174,7 +174,7 @@ functions:
     short_summary: "Convert mean to true anomaly."
     extended_summary: |
       Convert the mean anomaly of the orbit to its true anomaly. This conversion first converts mean to eccentric anomaly
-      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1), and subsequently to true anomaly.
+      (hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1), and subsequently to true anomaly.
 
     parameters:
       - name: eccentricity # [py]
@@ -206,7 +206,7 @@ functions:
     short_summary: "Convert true to mean anomaly."
     extended_summary: |
       Convert the true anomaly of the orbit to its mean anomaly. This conversion first converts true to eccentric anomaly
-      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1),
+      (hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1),
       and subsequently to mean anomaly.
 
     parameters:
@@ -237,7 +237,7 @@ functions:
 
     returns:
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
   - name: true_to_eccentric_anomaly # [py]
     short_summary: "Convert true to eccentric anomaly."
@@ -253,7 +253,7 @@ functions:
 
     returns:
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
 
   - name: eccentric_to_true_anomaly # [py]
@@ -266,7 +266,7 @@ functions:
 
       - name: eccentric_anomaly # [py]
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
     returns:
         type: float # [py]
@@ -282,7 +282,7 @@ functions:
 
       - name: eccentric_anomaly # [py]
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
     returns:
         type: float # [py]
@@ -496,7 +496,7 @@ functions:
   - name: cartesian_to_mee # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
     extended_summary: |
-      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      Convert cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
@@ -518,7 +518,7 @@ functions:
   - name: cartesian_to_mee_manual_singularity # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
     extended_summary: |
-      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      Convert cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is to be provided manually for this function
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
@@ -624,7 +624,7 @@ functions:
 
     returns:
         type: numpy.ndarray # [py]
-        description: Spherial elements, as computed from Cartesian element input. 
+        description: Spherical elements, as computed from Cartesian element input.
 
 
   - name: spherical_to_cartesian # [py]
