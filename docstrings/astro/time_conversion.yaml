@@ -61,6 +61,47 @@ functions:
 
 
   #######################################################################
+  
+  - name: add_seconds_to_datetime
+    short_summary: "Function to create a new Tudat :class:`DateTime` object by adding a number of seconds to an existing Tudat :class:`DateTime` object"
+
+
+    parameters:
+      - name: datetime
+        type: DateTime
+        description: "Tudat-native Datetime object to which a number of seconds are to be added"
+        
+      - name: seconds_to_add
+        type: float
+        description: "Number of seconds to add"
+
+
+    returns:
+        type: DateTime
+        description: "Tudat-native Datetime object created by adding the given number of seconds to the original DateTime"
+
+#######################################################################
+  
+  - name: add_days_to_datetime
+    short_summary: "Function to create a new Tudat :class:`DateTime` object by adding a number of days (86400 seconds) to an existing Tudat :class:`DateTime` object"
+
+
+    parameters:
+      - name: datetime
+        type: DateTime
+        description: "Tudat-native Datetime object to which a number of days are to be added"
+        
+      - name: days_to_add
+        type: float
+        description: "Number of days to add"
+
+
+    returns:
+        type: DateTime
+        description: "Tudat-native Datetime object created by adding the given number of days to the original DateTime"
+
+
+  #######################################################################
   - name: calendar_date_to_julian_day
     short_summary: "Convert a calendar date to Julian days."
 
