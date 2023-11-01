@@ -1169,20 +1169,17 @@ functions:
   - name: radiation_pressure # [py]
     short_summary: "Function to add the radiation pressure to the dependent variables to save."
     extended_summary: "Function to add the local radiation pressure, in N/m^2, to the dependent
-    variables to save. It requires a 'source power' to be defined for the radiating body."
+    variables to save. It requires a radiation source model to be defined for the radiating body."
 
     parameters:
-      - name: associatedBody # [cpp]
-        type: std::str # [cpp]
-      - name: body # [py]
-        type: str # [py]
-        description: Body whose dependent variable should be saved.
+      - name: target_body
+        type: str
+        description: Name of body at the location of which the radiation pressure is to be returned
 
-      - name: radiatingBody # [cpp]
-        type: std::str # [cpp]
-      - name: radiating_body # [py]
-        type: str # [py]
-        description: Radiating body.
+      - name: source_body
+        type: str
+        description: Name of body from which the radiation originates that causes the radiation pressure at the target body
+
 
     returns:
         type: SingleDependentVariableSaveSettings
@@ -1760,3 +1757,40 @@ functions:
     returns:
       type: SingleDependentVariableSaveSettings
       description: Dependent variable settings object.
+
+  - name: received_irradiance # [py]
+    short_summary: "Function to save the received irradiance from a give source."
+    extended_summary: "Function to save the received irradiance (in W/m^{2}) from a given source, as used in the computation of radiation pressure"
+
+    parameters:
+      - name: target_body
+        type: str
+        description: Name of body at the location of which the irradiance is to be returned
+
+      - name: source_body
+        type: str
+        description: Name of body from which the radiation originates that causes the irradiance at the target body
+
+    returns:
+      type: SingleDependentVariableSaveSettings
+      description: Dependent variable settings object.
+
+  - name: received_irradiance_shadow_function # [py]
+    short_summary: "Function to save the shadow function that reduces the received irradiance from a given source."
+    extended_summary: "Function to save the shadow function that reduces the received irradiance from a given source, as a
+    result of occultation of radiation between the source and the target. The shadow function is by definition between 0 (no irradiance is received, total occultation)
+    and 1 (all irradiance is received, no occultation)"
+
+    parameters:
+      - name: target_body
+        type: str
+        description: Name of body at the location of which the irradiance is to be returned
+
+      - name: source_body
+        type: str
+        description: Name of body from which the radiation originates that causes the irradiance at the target body
+
+    returns:
+      type: SingleDependentVariableSaveSettings
+      description: Dependent variable settings object.
+
