@@ -208,7 +208,7 @@ functions:
   - name: box_wing_panelled_body_settings # [py]
     short_summary: "Factory function for creating a simple box-wing spacecraft exterior shape with reflection law settings."
     extended_summary: |
-      This function creates a :math:`~full_panelled_body_settings` with ``panel_settings`` generated from simple box-wing 
+      This function creates a :func:`~full_panelled_body_settings` with ``panel_settings`` generated from simple box-wing 
       settings. The assumptions behind the box-wing model are:
       
       * The spacecraft shape is defined by a rectangular box (cuboid) and solar array
