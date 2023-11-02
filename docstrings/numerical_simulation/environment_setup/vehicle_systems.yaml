@@ -181,10 +181,10 @@ functions:
       functions creating settings for :class:`~BodyPanelGeometrySettings`. For instance, assigning a rotation model
       to frame ``LRO_SolarArray`` (dict key for ``part_rotation_model_settings``) allows panels defined in the frame
       with this same frame orientation to be defined. The associated rotation model defines rotations from body-fixed
-      frame :math:`B` to part-fixed frame :math:`\mathcal{F}_{i}` (for part :math:`i`). The rotation from part-fixed
+      frame :math:`\mathcal{B}` to part-fixed frame :math:`\mathcal{F}_{j}` (for part :math:`j`). The rotation from part-fixed
       (where the surface normal is defined) to inertial frame is then computed from 
-      :math:`\mathbf{R}^{I/\mathcal{F}_{i}}=\mathbf{R}^{I/B}\mathbf{R}^{B/\mathcal{F}_{i}}`, where :math:`\mathbf{R}^{I/B}` 
-      defines the body's orientation, and :math:`\mathbf{R}^{B/\mathcal{F}_{i}}` the part orientation (w.r.t. a body-fixed frame)
+      :math:`\mathbf{R}^{I/\mathcal{F}_{j}}=\mathbf{R}^{I/\mathcal{B}}\mathbf{R}^{\mathcal{B}/\mathcal{F}_{j}}`, where :math:`\mathbf{R}^{I/\mathcal{B}}` 
+      defines the body's orientation, and :math:`\mathbf{R}^{\mathcal{B}/\mathcal{F}_{j}}` the part orientation (w.r.t. a body-fixed frame)
 
     parameters:
       - name: panel_settings # [py]
