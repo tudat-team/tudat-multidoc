@@ -136,9 +136,9 @@ functions:
       - name: calendar_date
         type: datetime.datetime
         description: "Datetime object, using the Python datetime library. Both the date and the time (hour, minutes, and seconds), can be specified. Milliseconds are ignored."
-      - name: epoch_since_julian_day_zero
+      - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
-        description: "Epoch since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0) corresponding to the 1st of January 2000."
+        description: "Reference epoch (in days) since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0) corresponding to the 1st of January 2000."
 
     returns:
         type: float
@@ -194,9 +194,9 @@ functions:
       - name: julian_day
         type: float
         description: "Date in Julian days since January 1st 4713 BC."
-      - name: epoch_since_julian_day_zero
+      - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
-        description: "Epoch since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
+        description: "Reference epoch (in days) since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
 
     returns:
         type: float
@@ -216,7 +216,7 @@ functions:
         
   #######################################################################
   - name: seconds_since_epoch_to_julian_day
-    short_summary: "Convert Jseconds since a given epoch to a Julian day."
+    short_summary: "Convert seconds since a given reference epoch to a Julian day."
 
     extended_summary: "Inverse function of :func:`julian_day_to_seconds_since_epoch`."
 
@@ -224,9 +224,9 @@ functions:
       - name: julian_day
         type: float
         description: "Date in Julian days since January 1st 4713 BC."
-      - name: epoch_since_julian_day_zero
+      - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
-        description: "Epoch since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
+        description: "Reference epoch (in days) since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to 12:00 on the 1st of January 2000."
 
     returns:
         type: float
