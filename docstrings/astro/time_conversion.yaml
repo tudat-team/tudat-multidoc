@@ -724,7 +724,29 @@ classes:
           Number of seconds into the current minute. Note that this value is stored as ``long double`` in Tudat, which may be 64-bit or 80-bit (16 or 19 digits) depending on the compiler used.     
 
     methods:
-      
+
+      - name: ctor
+        short_summary: "Create a date time from decomposed date (Gregorian calendar) and time (UTC)."
+        parameters:
+          - name: year
+            type: int # [py]
+            description: "Calendar year."
+          - name: month
+            type: int # [py]
+            description: "Calendar month."
+          - name: day
+            type: int # [py]
+            description: "Calendar day."
+          - name: hour
+            type: int, default = 12 # [py]
+            description: "Hours into the day current day (0-23)."
+          - name: minute
+            type: int, default = 0 # [py]
+            description: "Minutes in the current hour (0-59)."
+          - name: seconds
+            type: float, default = 0.0 # [py]
+            description: "Seconds in the current minute."
+
       - name: iso_string                       # [py]
         short_summary: |
           Function to get the ISO-compatible string.
@@ -736,6 +758,10 @@ classes:
           type: Bool # [py]
           description: |
             Boolean denoting whether to use a 'T' or a blank space to separate the date from the time   
+        - name: number_of_digits_seconds # [py]
+          type: int, default = 15 # [py]
+          description: |
+            Number of digits to use after the decimal separator (trailing zeros will be truncated)
 
         returns:
           type: str # [py]
