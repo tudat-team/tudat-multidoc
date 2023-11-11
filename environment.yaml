@@ -22,7 +22,7 @@ dependencies:
   # Other doc related
   - jinja2
   - pyyaml
-  - pydantic
+  - pydantic=1.10.9
   - numpydoc
   - doxygen # for cpp api
   - pip
