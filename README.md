@@ -1,8 +1,10 @@
 # ``tudat-multidoc``
 
-This repository contains the docstring source for the ``tudat``/``tudatpy``  
-repository. This repository effectively contains a description of the Tudat 
-API. To understand the content of this file, the reader should be familiar
+This repository contains the docstring source for the ``tudatpy``  
+repository. This repository contains a description of the Tudatpy 
+API, which is rendered [here](https://py.api.tudat.space). 
+
+To understand the content of this file, the reader should be familiar
 with the structure and content of the `tudat-bundle`, which is explained in the
 `tudat-bundle/README.md` (one level higher than the directory where the current
 README is located). If you want to know how to write API documentation, please
