@@ -15,7 +15,7 @@ extended_summary: |
 
 notes: |
  * Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, noon on the 1st of January 2000 (e.g., this epoch defines :math:`t=0`)
- * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier convesion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
+ * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier conversion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
  
 references: |
  *  Chapter 2 of: Kaplan, G. `United States Naval Observatory Circular No. 179 <https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view>`_, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
