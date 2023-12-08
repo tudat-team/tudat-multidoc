@@ -41,7 +41,7 @@ In step 3, make sure that tudat-bundle and its submodules are on the following b
 - `tudat-multidoc/multidoc`: develop
 
 As with the regular tudat-bundle, building tudatpy with API documentation requires a conda environment.
-The associated ``environment.yaml`` file can be found in this repository [here](https://github.com/tudat-team/tudat-bundle/blob/main/environment.yaml).
+The associated ``environment.yaml`` file can be found in this repository [here](https://github.com/tudat-team/tudat-multidoc/blob/main/environment.yaml).
 
 1. Install the `tudat-multidoc` conda environment:
 
