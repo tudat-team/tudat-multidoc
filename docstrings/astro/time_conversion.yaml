@@ -676,21 +676,6 @@ functions:
     returns:
         type: float
         description: "Time in seconds since J2000."
-#######################################################################
-  - name: epoch_from_date_time_iso_string
-    short_summary: "Computes the epoch as seconds since J2000 from an ISO datetime string."
-    
-    extended_summary: "Computes the epoch as seconds since J2000. This function is added for convenience, and creates a :class:`DateTime` object, and subsequently calls its ``epoch`` function"
-
-    parameters:
-      - name: iso_datetime # [py]
-        type: str # [py]
-        description: |  # [py]
-          Date and time as ISO compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..", where the T may be replaced with a space)
-          
-    returns:
-        type: float
-        description: "Time in seconds since J2000."
         
 #######################################################################
   - name: date_time_from_epoch
