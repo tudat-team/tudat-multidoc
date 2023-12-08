@@ -191,7 +191,7 @@ functions:
 
       - name: non_default_initial_guess # [py]
         type: float, default = NaN # [py]
-        description: User-defined initial guess for mean-to-eccentric anomaly conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+        description: User-defined initial guess for mean-to-eccentric anomaly conversion, to be used only if ``use_default_initial_guess`` is set to ``False``.
 
       - name: root_finder # [py]
         type: RootFinder, default = None # [py]
@@ -306,7 +306,7 @@ functions:
 
       - name: non_default_initial_guess # [py]
         type: float, default = NaN # [py]
-        description: User-defined initial guess for conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+        description: User-defined initial guess for conversion, to be used only if ``use_default_initial_guess`` is set to ``False``.
 
       - name: root_finder # [py]
         type: RootFinder, default = None # [py]
