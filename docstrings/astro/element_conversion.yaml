@@ -239,22 +239,6 @@ functions:
         type: float # [py]
         description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
-  - name: true_to_eccentric_anomaly # [py]
-    short_summary: "Convert true to eccentric anomaly."
-
-    parameters:
-      - name: eccentricity # [py]
-        type: float # [py]
-        description: Value of the orbital eccentricity
-
-      - name: true_anomaly # [py]
-        type: float # [py]
-        description: Value of the true anomaly
-
-    returns:
-        type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
-
 
   - name: eccentric_to_true_anomaly # [py]
     short_summary: "Convert eccentric to true anomaly."
