@@ -27,9 +27,7 @@ functions:
   #########################################################################
   - name: surface_area # [py]
   - name: computePolyhedronSurfaceArea # [cpp]
-    short_summary: "Computes the surface area of a polyhedron."
-    extended_summary: |
-      Computes the surface area of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the surface area of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
@@ -57,9 +55,7 @@ functions:
   #########################################################################
   - name: volume # [py]
   - name: computePolyhedronVolume # [cpp]
-    short_summary: "Computes the volume of a polyhedron."
-    extended_summary: |
-      Computes the volume of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the volume of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
@@ -87,9 +83,7 @@ functions:
   #########################################################################
   - name: centroid # [py]
   - name: computePolyhedronCentroidPosition # [cpp]
-    short_summary: "Computes the position of the centroid of a polyhedron."
-    extended_summary: |
-      Computes the position of the centroid of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the position of the centroid of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
