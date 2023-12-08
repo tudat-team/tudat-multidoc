@@ -215,7 +215,7 @@ functions:
         print(seconds_since_J2000)  # prints 706413165.1200145
         
   #######################################################################
-  - name: seconds_since_epoch_to_julian_day
+  - name: seconds_to_julian_day_since_epoch
     short_summary: "Convert seconds since a given reference epoch to a Julian day."
 
     extended_summary: "Inverse function of :func:`julian_day_to_seconds_since_epoch`."
