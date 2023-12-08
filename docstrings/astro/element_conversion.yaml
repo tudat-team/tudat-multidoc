@@ -508,7 +508,6 @@ functions:
   - name: mee_to_cartesian # [py]
     short_summary: "Convert Modified equinoctial to Cartesian elements."
     extended_summary: |
-      Convert Modified equinoctial to Cartesian elements
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
