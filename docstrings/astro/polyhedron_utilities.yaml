@@ -111,7 +111,7 @@ functions:
   #########################################################################
   - name: modify_centroid # [py]
   - name: modifyPolyhedronCentroidPosition # [cpp]
-    short_summary: "Modifies the position of the centroid of the polyhedron."
+    short_summary: "Modifies vertex coordinates of the polyhedron based on the desired position of the centroid."
     extended_summary: |
       Modifies the coordinates of the polyhedron vertices, such that the centroid of the modified polyhedron coincides
       with the specified position. The centroid is computed according to Dobrovolskis [1]_.
