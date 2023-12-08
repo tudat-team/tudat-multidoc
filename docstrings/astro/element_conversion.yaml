@@ -28,7 +28,7 @@ notes: |
   | ``5`` | True anomaly                                                                         |
   +-------+--------------------------------------------------------------------------------------+
 
-  Unless specified otherwise, the sphreical elements are ordered as:
+  Unless specified otherwise, the spherical elements are ordered as:
 
   +-------+--------------------------------------------------------------------------------------+
   | Index | Spherical State Element                                                              |
