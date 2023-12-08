@@ -10,7 +10,7 @@ dependencies:
   - sofa-cmake
   - cspice-cmake
   - nrlmsise-00
-  - python=3.9
+  - python == 3.9
   - pybind11
   - pybind11-abi
   - numpy
@@ -22,7 +22,7 @@ dependencies:
   # Other doc related
   - jinja2
   - pyyaml
-  - pydantic=1.10.9
+  - pydantic == 1.10.9
   - numpydoc
   - doxygen # for cpp api
   - pip
