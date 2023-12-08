@@ -455,27 +455,6 @@ functions:
         type: numpy.ndarray # [py]
         description: Keplerian elements, as computed from Modified equinoctial element input.
 
-  - name: mee_to_keplerian # [py]
-    short_summary: "Convert Modified equinoctial to Keplerian elements."
-    extended_summary: |
-      Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
-      
-      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
-
-
-    parameters:
-      - name: modified_equinoctial_elements # [py]
-        type: numpy.ndarray # [py]
-        description: Modified equinoctial elements that are to be converted to Keplerian elements
-
-      - name: singularity_at_zero_inclination # [py]
-        type: bool # [py]
-        description: Singularity at 0 degrees inclination if false, 180 degrees if true
-
-    returns:
-        type: numpy.ndarray # [py]
-        description: Keplerian elements, as computed from Modified equinoctial element input.
-
 
   - name: cartesian_to_mee # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
