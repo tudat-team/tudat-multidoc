@@ -233,16 +233,15 @@ functions:
         description: "Seconds since the Julian date and the given epoch."
 
     examples: |
-      In this example, the Julian date `2459721.0783` (in days since January 1st 4713 BC), is converted to seconds since J2000 (January 1st 2000).
+      In this example, an amount of seconds since J2000 (January 1st 2000) is converted to the Julian date (in days since January 1st 4713 BC).
 
       .. code-block:: python
-
-        # Define the Julian date in days since January 1st 4713 BC
-        julian_date = 2459721.0783
-        # Convert the Julian date to the number of seconds since J2000
-        seconds_since_J2000 = time_conversion.julian_day_to_seconds_since_epoch(julian_date)
+        # Define the amount of seconds since January 1st 2000
+        seconds_since_J2000 = 706413165.1200145
+        # Convert the amount of seconds since J2000 to the Julian date
+        julian_date = time_conversion.seconds_since_epoch_to_julian_day(seconds_since_J2000)
         # Print the converted output
-        print(seconds_since_J2000)  # prints 706413165.1200145
+        print(julian_date)  # prints 2459721.0783
 
   #######################################################################
   - name: seconds_since_epoch_to_julian_years_since_epoch
