@@ -369,7 +369,7 @@ classes:
 
         returns:
           type: np.ndarray # [py]
-          type: Eigen::Matrix3d # [coo]
+          type: Eigen::Matrix3d # [cpp]
           description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
 
       - name: getAngle                           # [cpp]
@@ -393,7 +393,35 @@ classes:
           type: float # [py]
           type: double # [py]
           description: Value of requested angle
-          
+##################################################################
+  - name: RotationalEphemeris
+    short_summary: |
+      Object that stores the rotational state of the bodies.
+    extended_summary: |
+      Object that stores the rotational state of the bodies. This object can be used to calculate rotation matrices,
+      which are used to transform coordinates between reference frames.
+
+    methods:
+      - name: getRotationMatrixToBaseFrame                          # [cpp]
+      - name: body_fixed_to_inertial_rotation                       # [py]
+        short_summary: |
+          Function to get rotation matrix from target frame to base frame over time.
+        extended_summary: |
+          Function to get rotation matrix from target frame to base frame at a certain epoch. It is used to
+          transform a Cartesian state vector including position and velocity from a body fixed to inertial frame.
+
+        parameters:
+          - name: secondsSinceEpoch # [cpp]
+            type: float # [cpp]
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time at which the rotation matrix is evaluated
+
+        returns:
+          type: np.ndarray # [py]
+          type: Eigen::Matrix3d # [cpp]
+          description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
 ##################################################################
      
   - name: VehicleSystems
