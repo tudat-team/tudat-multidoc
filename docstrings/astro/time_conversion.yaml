@@ -196,7 +196,7 @@ functions:
         description: "Date in Julian days since January 1st 4713 BC."
       - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
-        description: "Reference epoch (in days) since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
+        description: "Reference epoch (in days since January 1st 4713 BC) since when the number of seconds have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
 
     returns:
         type: float
@@ -215,22 +215,22 @@ functions:
         print(seconds_since_J2000)  # prints 706413165.1200145
         
   #######################################################################
-  - name: seconds_to_julian_day_since_epoch
+  - name: seconds_since_epoch_to_julian_day
     short_summary: "Convert seconds since a given reference epoch to a Julian day."
 
     extended_summary: "Inverse function of :func:`julian_day_to_seconds_since_epoch`."
 
     parameters:
-      - name: julian_day
+      - name: seconds_since_epoch
         type: float
-        description: "Date in Julian days since January 1st 4713 BC."
+        description: "Seconds since ``days_since_julian_day_zero`` whicha are to be converted to date in Juliean days."
       - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
-        description: "Reference epoch (in days) since when the Julian days have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to 12:00 on the 1st of January 2000."
+        description: "Reference epoch (in days since January 1st 4713 BC) since when the number of seconds have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
 
     returns:
         type: float
-        description: "Seconds since the Julian date and the given epoch."
+        description: "Date in Julian days since January 1st 4713 BC, as computed from the input parameters"
 
     examples: |
       In this example, an amount of seconds since J2000 (January 1st 2000) is converted to the Julian date (in days since January 1st 4713 BC).
