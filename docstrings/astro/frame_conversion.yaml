@@ -18,7 +18,7 @@ notes: |
   - All reference frames used should be assumed as right handed:
     :math:`\mathbf{X}\times\mathbf{Y}=\mathbf{Z}`.
 
-  - We distinguish between two different uses of the term 'inertial:
+  - We distinguish between two different uses of the term 'inertial':
 
     * An *inertial origin*: the frame has a non-accelerating origin. On solar
       system scales, the solar system barycenter (SSB) is considered to be 

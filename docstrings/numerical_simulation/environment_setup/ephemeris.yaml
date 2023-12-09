@@ -710,7 +710,7 @@ functions:
     short_summary: "Factory function for creating approximate ephemeris model settings for major planets."
     extended_summary: |
       Factory function for settings object, defining approximate ephemeris model for major planets.
-      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_).
+      In this highly simplified ephemeris model, Keplerian elements of the major solar system bodies are modelled as linear functions of time and several sinusoidal variations (described in `this document <https://ssd.jpl.nasa.gov/planets/approx_pos.html>`_).
       Note that this option is only available for solar system planets. For the case of the Earth the approximate ephemeris of the Earth-Moon barycenter is returned.
 
     parameters:
@@ -744,7 +744,11 @@ functions:
          # create ephemeris settings (normally used for Jupiter) and add to body settings of body "CustomBody" # [py]
          body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.approximate_jpl_model( "Jupiter" ) # [py]
 
- 
+      .. code-block:: cpp # [cpp]
+         # [cpp]
+         // create ephemeris settings and add to body settings of body "Jupiter" # [cpp]
+         bodySettings[ "CustomBody" ]->ephemerisSettings = std::make_shared< ApproximatePlanetPositionSettings >(   # [cpp]
+         							ephemerides::ApproximatePlanetPositionsBase::jupiter, false );   
 
   #######################################################################
 
@@ -784,7 +788,7 @@ functions:
       .. code-block:: python # [py]
          # [py]
          # Define the constant cartesian state # [py]
-         constant_cartesian_state = [747.13e9, 0, 0, 13.5e3, 0, 0] # [py]
+         constant_cartesian_state = [100.0e9, 100.0e9, 100.0e9, 10.0e3, 10.0e3, 10.0e3] # [py]
          # Define the ephemeris frame # [py]
          frame_origin = "SSB" # [py]
          frame_orientation = "J2000" # [py]
@@ -802,7 +806,7 @@ functions:
     short_summary: "Factory function for creating custom ephemeris model settings."
     extended_summary: |
       Factory function for settings object, defining ephemeris model with a custom state.
-      This allows the user to provide an custom state function as ephemeris model.
+      This allows the user to provide a custom state function as ephemeris model.
 
     parameters:
       - name: custom_state_function # [py]
@@ -930,7 +934,7 @@ functions:
       .. code-block:: python # [py]
         # [py]
         # Define the computation of the Kepler orbit ephemeris # [py]
-        initial_state_in_keplerian_elements = [747.13e9, 0, 0, 13.5e3, 0, 0] # [py]
+        initial_state_in_keplerian_elements = [100e9, 0.7, 1.0, 2.0, 2.0, 2.0] # [py]
         initial_state_epoch = 12345 # [py]
         central_body_gravitational_parameter = 1.3284e20 # (sum of Sun and Jupiter) # [py]
         # Define the ephemeris frame # [py]
@@ -1119,7 +1123,7 @@ functions:
        
         
     examples: |
-      In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettingsObject` with a the constant elements of a vector:
+      In this example, we create ephemeris settings for Jupiter, by scaling an existing :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettingsObject` with the constant elements of a vector:
 
       .. code-block:: python # [py]
         # [py]

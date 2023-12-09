@@ -4,13 +4,13 @@ channels:
   - tudat-team
 dependencies:
   # All standard tudat-bundle deps are needed for sphinx-documentation for tudatpy.
-  - eigen=3.3.7
+  - eigen
   - boost-cpp
   - tudat-resources
   - sofa-cmake
   - cspice-cmake
   - nrlmsise-00
-  - python=3.9
+  - python == 3.9
   - pybind11
   - pybind11-abi
   - numpy
@@ -22,12 +22,15 @@ dependencies:
   # Other doc related
   - jinja2
   - pyyaml
-  - pydantic
+  - pydantic == 1.10.9
   - numpydoc
   - doxygen # for cpp api
   - pip
   - pip:
-      - sphinxcontrib-napoleon
-      - furo
-      - sphinx_rtd_theme
-      - sphinx_copybutton
+     - nbsphinx
+     - sphinxcontrib-napoleon
+     - sphinx_rtd_theme
+     - sphinxcontrib-fulltoc
+     - sphinxcontrib-bibtex
+     - furo
+     - sphinx_copybutton 

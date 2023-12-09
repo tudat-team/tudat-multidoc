@@ -15,7 +15,7 @@ extended_summary: |
 
 notes: |
  * Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, noon on the 1st of January 2000 (e.g., this epoch defines :math:`t=0`)
- * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier convesion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
+ * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier conversion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
  
 references: |
  *  Chapter 2 of: Kaplan, G. `United States Naval Observatory Circular No. 179 <https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view>`_, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
@@ -215,7 +215,7 @@ functions:
         print(seconds_since_J2000)  # prints 706413165.1200145
         
   #######################################################################
-  - name: seconds_since_epoch_to_julian_day
+  - name: seconds_to_julian_day_since_epoch
     short_summary: "Convert seconds since a given reference epoch to a Julian day."
 
     extended_summary: "Inverse function of :func:`julian_day_to_seconds_since_epoch`."
@@ -233,16 +233,15 @@ functions:
         description: "Seconds since the Julian date and the given epoch."
 
     examples: |
-      In this example, the Julian date `2459721.0783` (in days since January 1st 4713 BC), is converted to seconds since J2000 (January 1st 2000).
+      In this example, an amount of seconds since J2000 (January 1st 2000) is converted to the Julian date (in days since January 1st 4713 BC).
 
       .. code-block:: python
-
-        # Define the Julian date in days since January 1st 4713 BC
-        julian_date = 2459721.0783
-        # Convert the Julian date to the number of seconds since J2000
-        seconds_since_J2000 = time_conversion.julian_day_to_seconds_since_epoch(julian_date)
+        # Define the amount of seconds since January 1st 2000
+        seconds_since_J2000 = 706413165.1200145
+        # Convert the amount of seconds since J2000 to the Julian date
+        julian_date = time_conversion.seconds_since_epoch_to_julian_day(seconds_since_J2000)
         # Print the converted output
-        print(seconds_since_J2000)  # prints 706413165.1200145
+        print(julian_date)  # prints 2459721.0783
 
   #######################################################################
   - name: seconds_since_epoch_to_julian_years_since_epoch
@@ -661,21 +660,6 @@ functions:
         type: float
         description: "Time in seconds since J2000."
                 
-#######################################################################
-  - name: epoch_from_date_time_iso_string
-    short_summary: "Computes the epoch as seconds since J2000 from an ISO datetime string."
-    
-    extended_summary: "Computes the epoch as seconds since J2000. This function is added for convenience, and creates a :class:`DateTime` object, and subsequently calls its ``epoch`` function"
-
-    parameters:
-      - name: iso_datetime # [py]
-        type: str # [py]
-        description: |  # [py]
-          Date and time as ISO compatible string ("YYYY-MM-DDTHH:MM:SS.SSSSS..", where the T may be replaced with a space)
-          
-    returns:
-        type: float
-        description: "Time in seconds since J2000."
 #######################################################################
   - name: epoch_from_date_time_iso_string
     short_summary: "Computes the epoch as seconds since J2000 from an ISO datetime string."

@@ -1,13 +1,9 @@
 # ``tudat-multidoc``
 
-This repository contains the docstring source for the ``tudat``/``tudatpy``  
-repository. This repository effectively contains a description of the Tudat 
-API. To understand the content of this file, the reader should be familiar
-with the structure and content of the `tudat-bundle`, which is explained in the
-`tudat-bundle/README.md` (one level higher than the directory where the current
-README is located). If you want to know how to write API documentation, please
-make sure to read the README file located in the lower-level `tudat-multidoc/docstring` 
-directory.
+This repository contains the docstring source for the ``tudatpy``  
+repository. This repository contains a description of the Tudatpy 
+API, which is rendered [here](https://py.api.tudat.space). 
+
 
 ## Structure of `tudat-multidoc`
 
@@ -30,12 +26,22 @@ The branches used to write the documentation are the following (listed for each 
 
 If you are writing the API for a specific module/project, you are recommended to create a new branch and then open a pull request.
 
-## How to generate documented versions of `tudat`/`tudatpy` 
+## How to generate documented versions of `tudatpy` 
 
-This procedure exists as an additional procedure to the [tudat-bundle](https://github.com/tudat-team/tudat-bundle)
-setup procedure, for those who are working with modifying the Tudat API 
-documentation. **The following is only valid when this repository is a 
-submodule of the `tudat-bundle` for developers**.
+Building the API documentation requires a compilation of tudatpy. A normal local compilation
+of tudatpy is done using the [tudat-bundle](https://github.com/tudat-team/tudat-bundle) repository. 
+To build the documentation, start by following steps 1, 2 and 3 of the [tudat-bundle setup](https://github.com/tudat-team/tudat-bundle#setup)
+
+In step 3, make sure that tudat-bundle and its submodules are on the following branches:
+
+- `tudat-bundle`: main
+- `tudat`: develop
+- `tudatpy`: develop
+- `tudat-multidoc`: main
+- `tudat-multidoc/multidoc`: develop
+
+As with the regular tudat-bundle, building tudatpy with API documentation requires a conda environment.
+The associated ``environment.yaml`` file can be found in this repository [here](https://github.com/tudat-team/tudat-multidoc/blob/main/environment.yaml).
 
 1. Install the `tudat-multidoc` conda environment:
 
@@ -49,12 +55,34 @@ conda env create -f environment.yaml
 conda activate tudat-multidoc
 ```
 
-3. Generate the documented versions of `tudat` and `tudatpy` through the
-   Command Line Interface (CLI) for Python. This is explained in more detail below.
+The default procedure for building tudatpy with API documentation uses the terminal. The build procedure is
+defined (on Mac/Linux/Windows WSL), using the ``build.sh`` file of ``tudat-bundle`` (see [here](https://github.com/tudat-team/tudat-bundle/blob/main/build.sh)).
+This file can be left unchanged for the procedure here. However, for improved compilation speed, the files final line can be changed from:
+
+```bash
+cmake --build . 
+```
+
+to:
+
+```
+cmake --build . -jX
+```
+
+replacing X with a number defining the number of parallel threads to use during the compilation (for instance -j8 for 8-thread compilation). 
+
+Running the following command:
+
+```
+python cli a
+```
+
+will then commence the compilation of tudatpy as along with the generation of the API documentation. In the sections that follow, the details of the underlying
+procedure are discussed
 
 ### Bundle CLI
 
-A set of command-line interface tools have been made to abstract the tedious tasks surrounding the `tudat-bundle`.
+A set of command-line interface tools have been made to automate the building of tudat(py) and its API documentation.
 
 The `cli` command must be executed
 1. with your `tudat-multidoc` environment activated and
@@ -81,34 +109,26 @@ The subcommands, their scopes and **their required order of execution** are summ
 3. **`[sphinx/s]`** Building the `sphinx` API documentation for the **builds** of the `tudat-bundle` subprojects.
 4. **`[all/a]`** Executes 1,2 and 3 in that order.
 
-TODO: the following is currently not working.
-
-It is possible to build only one project (either `tudat` or `tudatpy`) by appending `-p project_name` to the `python cli X`
-command, where `project_name` is `tudat` or `tudatpy` and `X` is one of the four letters listed above.
-
 #### 1. Documenting
 
 After running `python cli d`, the following directories will appear in your `tudat-bundle`
 directory:
 
-- `tudat-bundle/.tudat-documented`
 - `tudat-bundle/.tudatpy-documented`
 
-They are listed under `tudat-bundle/.gitignore`, so they will
-not be tracked. These repositories are essential copies of the original tudat and tudatpy repositories,
-with the addition of the docstrings (see below). These two repos will constitute the source from which the 
-build of both tudat and tudatpy will be done.
+It is listed under `tudat-bundle/.gitignore`, so it will
+not be tracked. This repository is essentially a copy of the original tudatpy repository,
+with the addition of the docstrings (see below). It constitutes the source from which the 
+subsequent build of tudatpy will be done.
 
-> **PLEASE NOTE**: These two repos will be overwritten every time the `python cli d` command 
-> is executed. Therefore, if you want to make long-lasting changes to the project source code, do NOT
-> do it in these folders, but in the original directories, then re-run the documenting command.
-
+> **PLEASE NOTE**: The ``.tudatpy-documented`` directory will be overwritten every time the `python cli d` command 
+> is executed. Therefore, if you want to make changes to the project source code, do NOT
+> do it in this folder, but in the original directories, then re-run the documenting command.
 
 This is what happens in this step: the docstrings located in the 
 `tudat-multidoc/docstrings` directory are parsed, validated, formatted (currently, in NumPy style) and
 placed in a C++ function. This is located in:
 
-- `.tudat-documented/include/tudat/docstrings.h` for tudat
 - `.tudatpy-documented/include/tudatpy/docstrings.h` for tudatpy
 
 This function will be used during the next step (the build step) to link each docstring to the related
@@ -116,8 +136,8 @@ C++/Python object.
 
 #### 2. Building
 
-After running the `python cli b`, the projects are built from the two "documented" directories listed above.
-The output of the build will be located in the `cmake-build-release` folder. 
+After running the `python cli b`, the projects are built from the "documented" directory listed above.
+The output of the build will be located in the `cmake-build-release` folder (or similar, depending on your system). 
 
 For Python, every binary object generated in this phase will have its own `__doc__` attribute generated
 from the raw docstrings. It is possible to check this by importing the kernel (located at
@@ -126,19 +146,16 @@ a certain function or class object to check the content of its `__doc__` attribu
 
 In this step, the Sphinx source code is also generated and it is located in:
 
-- `cmake-build-release/.tudat-documented/docs` for tudat
 - `cmake-build-release/.tudatpy-documented/docs` for tudatpy
 
 These are `.rst` files that will be used by Sphinx in the next step as source files. 
 These source files exploit the Sphinx `autoclass` and `autofunction` commands to extract the docstring
 from each Python object by accessing their `__doc__` attribute, similarly as it was explained above.
 
-
 #### 3. Sphinx
 
 After running the `python cli s`, the sphinx html files are generated. These will be located in two directories:
 
-- `tudat-bundle/.docs-output/tudat` for tudat
 - `tudat-bundle/.docs-output/tudatpy` for tudatpy
 
 To check the output of the html files, it is recommended to open the `index.html` file with your preferred browser
@@ -146,18 +163,12 @@ To check the output of the html files, it is recommended to open the `index.html
 
 ## How to trigger a build of the online API docs
 
-- They reside at https://tudatpy.readthedocs.io/en/latest/
-- They are re-built when changes are pushed to tudatpy/develop
-- They use the tudat-multidoc/docstrings specified by this [git hash](https://github.com/tudat-team/tudatpy/blob/354c6492246c84822eb8d96c8c89b1a026cf674f/docs/source/conf.py#L32)
+The API docs reside at [https://py.api.tudat.space](https://py.api.tudat.space), where the ``stable`` version (see menu at lower left of this page) 
+contains the docs of the tudatpy master branch, and the ``latest`` version of the tudatpy develop branch. The docs are rebuilt everytime a new tudatpy conda
+package is succesfully built (see [here](https://dev.azure.com/tudat-team/feedstock-builds/_build?definitionId=3)). The progress and log of the online docs
+build can be found [here](https://readthedocs.org/projects/tudatpy/). After merging a pull request into ``main`` of ``tudat-multidoc``, this will 
+automatically be processed into the new version of the online API docs when a new build is triggered.
 
-Currently there’s no version kept track of, we can sort that out later down the line. The workflow is:
-1. Push your changes to tudat-multidoc
-2. Change the tudat-multidoc git hash in tudatpy/develop [here](https://github.com/tudat-team/tudatpy/blob/354c6492246c84822eb8d96c8c89b1a026cf674f/docs/source/conf.py#L32)
-3. Push the changes, build can be monitored [here](https://readthedocs.org/projects/tudatpy/builds/)
-
-Note: Builds take 21.5 minutes to complete, as the tudatpy source needs to be compiled.
-
-## Common Issues
 
 ### Missing Dependencies?
 
