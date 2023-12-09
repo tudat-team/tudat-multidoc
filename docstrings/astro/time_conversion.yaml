@@ -223,7 +223,7 @@ functions:
     parameters:
       - name: seconds_since_epoch
         type: float
-        description: "Seconds since ``days_since_julian_day_zero`` whicha are to be converted to date in Juliean days."
+        description: "Seconds since ``days_since_julian_day_zero`` which are to be converted to date in Julian days."
       - name: days_since_julian_day_zero
         type: float, default = constants.JULIAN_DAY_ON_J2000
         description: "Reference epoch (in days since January 1st 4713 BC) since when the number of seconds have to be counted. By default, set to `constants.JULIAN_DAY_ON_J2000` (2451545.0), corresponding to the 1st of January 2000."
