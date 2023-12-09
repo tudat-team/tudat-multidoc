@@ -53,7 +53,7 @@ functions:
         description: Spherical harmonic order :math:`m`
     
     returns:
-      - type: float
+        type: float
         description: Normalization factor :math:`\mathcal{N}_{lm}`
 
 
@@ -74,7 +74,7 @@ functions:
         description: Matrix for which entry :math:`(i,j)` contains the unnormalized sine coefficient :math:`S_{lm}`
     
     returns:
-      - type: tuple[numpy.ndarray, numpy.ndarray]
+        type: tuple[numpy.ndarray, numpy.ndarray]
         description: Tuple of two matrices, containing the normalized coefficients :math:`\bar{C}_{lm}` (first) and :math:`\bar{S}_{lm}` (second)
 
 
@@ -95,7 +95,7 @@ functions:
         description: Matrix for which entry :math:`(i,j)` contains the normalized sine coefficient :math:`\bar{S}_{lm}`
     
     returns:
-      - type: tuple[numpy.ndarray, numpy.ndarray]
+        type: tuple[numpy.ndarray, numpy.ndarray]
         description: Tuple of two matrices, containing the unnormalized coefficients :math:`{C}_{lm}` (first) and :math:`{S}_{lm}` (second)
 
 
@@ -132,7 +132,7 @@ functions:
     
     
     returns:
-      - type: tuple[numpy.ndarray, numpy.ndarray]
+        type: tuple[numpy.ndarray, numpy.ndarray]
         description: |
           Tuple of two matrices, containing the spherical harmonic coefficients :math:`{C}_{lm}` (first) and :math:`{S}_{lm}` (second) up to degree and order 2.
           The degree-two coefficients are computed from the inertia tensor, the degree-one coefficients are set to zero (and :math:`C_{00}=0`)
