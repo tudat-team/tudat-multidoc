@@ -30,7 +30,7 @@ functions:
       Specifically, this function returns the value :math:`\mathcal{N}_{lm}`, computed from:
       
       .. math::
-          \mathcal{N}_{lm}=\sqrt{\frac{(2-\delta_{0m}(2l+1)(l-m)!)}{(l+m)!}}
+          \mathcal{N}_{lm}=\sqrt{\frac{(2-\delta_{0m})(2l+1)(l-m)!)}{(l+m)!}}
 
       with :math:`\delta_{0m}` is the Kronecker Delta function. The following can be used such that the conversion between unnormalized and fully
       normalized spherical harmonic coefficients and Legendre polynomials can be computed from:
@@ -48,7 +48,7 @@ functions:
         type: int
         description: Spherical harmonic degree :math:`l`
 
-      - name: degree
+      - name: order
         type: int
         description: Spherical harmonic order :math:`m`
     

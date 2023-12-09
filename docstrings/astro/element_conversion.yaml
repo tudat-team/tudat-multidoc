@@ -28,7 +28,7 @@ notes: |
   | ``5`` | True anomaly                                                                         |
   +-------+--------------------------------------------------------------------------------------+
 
-  Unless specified otherwise, the sphreical elements are ordered as:
+  Unless specified otherwise, the spherical elements are ordered as:
 
   +-------+--------------------------------------------------------------------------------------+
   | Index | Spherical State Element                                                              |
@@ -174,7 +174,7 @@ functions:
     short_summary: "Convert mean to true anomaly."
     extended_summary: |
       Convert the mean anomaly of the orbit to its true anomaly. This conversion first converts mean to eccentric anomaly
-      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1), and subsequently to true anomaly.
+      (hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1), and subsequently to true anomaly.
 
     parameters:
       - name: eccentricity # [py]
@@ -191,7 +191,7 @@ functions:
 
       - name: non_default_initial_guess # [py]
         type: float, default = NaN # [py]
-        description: User-defined initial guess for mean-to-eccentric anomaly conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+        description: User-defined initial guess for mean-to-eccentric anomaly conversion, to be used only if ``use_default_initial_guess`` is set to ``False``.
 
       - name: root_finder # [py]
         type: RootFinder, default = None # [py]
@@ -206,7 +206,7 @@ functions:
     short_summary: "Convert true to mean anomaly."
     extended_summary: |
       Convert the true anomaly of the orbit to its mean anomaly. This conversion first converts true to eccentric anomaly
-      (hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1),
+      (hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1),
       and subsequently to mean anomaly.
 
     parameters:
@@ -237,36 +237,20 @@ functions:
 
     returns:
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
-
-  - name: true_to_eccentric_anomaly # [py]
-    short_summary: "Convert true to eccentric anomaly."
-
-    parameters:
-      - name: eccentricity # [py]
-        type: float # [py]
-        description: Value of the orbital eccentricity
-
-      - name: true_anomaly # [py]
-        type: float # [py]
-        description: Value of the true anomaly
-
-    returns:
-        type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
 
   - name: eccentric_to_true_anomaly # [py]
     short_summary: "Convert eccentric to true anomaly."
 
     parameters:
+      - name: eccentric_anomaly # [py]
+        type: float # [py]
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+
       - name: eccentricity # [py]
         type: float # [py]
         description: Value of the orbital eccentricity
-
-      - name: eccentric_anomaly # [py]
-        type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
     returns:
         type: float # [py]
@@ -282,7 +266,7 @@ functions:
 
       - name: eccentric_anomaly # [py]
         type: float # [py]
-        description: Hyperbolic eccentric anomaly, if eccentriciy is larger than 1, elliptical eccentric anomaly if it is smaller than 1
+        description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
     returns:
         type: float # [py]
@@ -306,7 +290,7 @@ functions:
 
       - name: non_default_initial_guess # [py]
         type: float, default = NaN # [py]
-        description: User-defined initial guess for conversion, to be used only if ``use_default_initial_guess`` is set to ``True``.
+        description: User-defined initial guess for conversion, to be used only if ``use_default_initial_guess`` is set to ``False``.
 
       - name: root_finder # [py]
         type: RootFinder, default = None # [py]
@@ -471,27 +455,6 @@ functions:
         type: numpy.ndarray # [py]
         description: Keplerian elements, as computed from Modified equinoctial element input.
 
-  - name: mee_to_keplerian # [py]
-    short_summary: "Convert Modified equinoctial to Keplerian elements."
-    extended_summary: |
-      Modified equinoctial elements to Keplerian (without intermediate step to Cartesian elements).
-      
-      .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
-
-
-    parameters:
-      - name: modified_equinoctial_elements # [py]
-        type: numpy.ndarray # [py]
-        description: Modified equinoctial elements that are to be converted to Keplerian elements
-
-      - name: singularity_at_zero_inclination # [py]
-        type: bool # [py]
-        description: Singularity at 0 degrees inclination if false, 180 degrees if true
-
-    returns:
-        type: numpy.ndarray # [py]
-        description: Keplerian elements, as computed from Modified equinoctial element input.
-
 
   - name: cartesian_to_mee # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
@@ -545,7 +508,6 @@ functions:
   - name: mee_to_cartesian # [py]
     short_summary: "Convert Modified equinoctial to Cartesian elements."
     extended_summary: |
-      Convert Modified equinoctial to Cartesian elements
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
 
@@ -575,7 +537,7 @@ functions:
     extended_summary: |
       Function to convert an array of four quaternion elements to the equivalent rotation matrix. These quaternion elements
       are for instance used when propagating rotational dynamics in Tudat, and this function can be used to convert the
-      numerical results to a usable rotation matrix. See `our user guide <https://tudat-space.readthedocs.io/en/stable/_src_user_guide/state_propagation/environment_setup/use_of_reference_frames.html#rotational-states>`_ for more details.
+      numerical results to a usable rotation matrix. See `our user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/frames_in_environment.html?highlight=rotational%20states#rotational-states>`_ for more details.
 
     parameters:
       - name: quaternion_entries # [py]

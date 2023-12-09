@@ -27,9 +27,7 @@ functions:
   #########################################################################
   - name: surface_area # [py]
   - name: computePolyhedronSurfaceArea # [cpp]
-    short_summary: "Computes the surface area of a polyhedron."
-    extended_summary: |
-      Computes the surface area of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the surface area of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
@@ -57,9 +55,7 @@ functions:
   #########################################################################
   - name: volume # [py]
   - name: computePolyhedronVolume # [cpp]
-    short_summary: "Computes the volume of a polyhedron."
-    extended_summary: |
-      Computes the volume of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the volume of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
@@ -87,9 +83,7 @@ functions:
   #########################################################################
   - name: centroid # [py]
   - name: computePolyhedronCentroidPosition # [cpp]
-    short_summary: "Computes the position of the centroid of a polyhedron."
-    extended_summary: |
-      Computes the position of the centroid of a polyhedron, according to Dobrovolskis [1]_.
+    short_summary: "Computes the position of the centroid of a polyhedron [1]_."
 
     parameters:
       - name: vertices_coordinates # [py]
@@ -117,7 +111,7 @@ functions:
   #########################################################################
   - name: modify_centroid # [py]
   - name: modifyPolyhedronCentroidPosition # [cpp]
-    short_summary: "Modifies the position of the centroid of the polyhedron."
+    short_summary: "Modifies vertex coordinates of the polyhedron based on the desired position of the centroid."
     extended_summary: |
       Modifies the coordinates of the polyhedron vertices, such that the centroid of the modified polyhedron coincides
       with the specified position. The centroid is computed according to Dobrovolskis [1]_.
