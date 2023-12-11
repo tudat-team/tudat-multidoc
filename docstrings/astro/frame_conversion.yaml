@@ -12,7 +12,10 @@ extended_summary: |
   This module provide a variety of functions and classes to convert
   between different reference frames. Functionality to convert between
   different state representations is provided in the
-  :ref:`\`\`element_conversion\`\`` module.
+  :ref:`\`\`element_conversion\`\`` module. Note that the functionality
+  here may be used independent of the Tudat models in :ref:`\`\`numerical_simulation\`\``. 
+  For more details on the use of frames in the context of these models, see 
+  `this page <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/frames_in_environment.html>`_
 
 notes: |
   - All reference frames used should be assumed as right handed:
@@ -21,13 +24,12 @@ notes: |
   - We distinguish between two different uses of the term 'inertial':
 
     * An *inertial origin*: the frame has a non-accelerating origin. On solar
-      system scales, the solar system barycenter (SSB) is considered to be 
-      the only inertial origin.
+      system scales, the solar system barycenter (SSB) is the most 'typical' inertial origin. 
     * An *inertial orientation*: the unit axes of the frame are non-rotating
       with respect to the celestial background. This module is concerned 
       primarily with conversions between different orientations.
 
-  - Examples of and inertial origin include J2000 (a.k.a EME2000), as
+  - Examples of an inertial orientation include J2000 (a.k.a EME2000), as
     well as the SPICE-defined ECLIPJ2000 frame (see `this description <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/available_state_definitions_conversions.html#predefined-inertial-frames>`_
     on our user guide). The use of the ICRF frame (difference from J2000
     is <0.1 arcseconds) in Tudat is presently limited to the

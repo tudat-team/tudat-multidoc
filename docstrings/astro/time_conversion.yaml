@@ -16,7 +16,9 @@ extended_summary: |
 notes: |
  * Unless specified otherwise, the time used in Tudatpy is in seconds since J2000, noon on the 1st of January 2000 (e.g., this epoch defines :math:`t=0`)
  * Tudat uses two different classes for date and time. One is the regular ``datetime`` from the Python ``datetime`` library. The other is a Tudat-native :class:`Datetime` class, which allows finer resolution for time definitions, and allows for easier conversion to time representations (seconds since epoch, Julian day, modified Julian day). You can convert between the two using the :func:`datetime_to_tudat` and :func:`datetime_to_python` functions.
- 
+ * A number of conversion functions take the current Julian day or modified Julian day (as a ``float``) as input or output. This represents the number of days (86400 seconds) since noon January 1st 4713 BC, or midnight November 17th 1858 AD, respectively.
+ * A number of conversion functions take the seconds/days/... "since epoch" as input or output.
+
 references: |
  *  Chapter 2 of: Kaplan, G. `United States Naval Observatory Circular No. 179 <https://www.usno.navy.mil/USNO/astronomical-applications/publications/Circular_179.pdf/view>`_, The IAU Resolutions on Astronomical Reference Systems, Time Scales, and Earth Rotation Models.
  *  SOFA Documentation - `SOFA Time Scale and Calendar Tools <https://www.iausofa.org/sofa_ts_c.pdf>`_, disseminated by the International Astronomical Union
@@ -129,7 +131,7 @@ functions:
         print(julian_date)  # prints 2459721.0782523146
 
   #######################################################################
-  - name: calendar_date_to_julian_day_since_epoch
+  - name: calendar_date_to_days_since_epoch
     short_summary: "Convert a calendar date to Julian days since a given epoch."
 
     parameters:
@@ -152,7 +154,7 @@ functions:
         # Define the calendar date using datetime
         calendar_date = datetime.datetime(2022, 5, 21, 13, 52, 41)
         # Convert the calendar date to Julian days since J2000
-        julian_date = time_conversion.calendar_date_to_julian_day_since_epoch(calendar_date)
+        julian_date = time_conversion.calendar_date_to_days_since_epoch(calendar_date)
         # Print the converted output
         print(julian_date)  # prints 8176.07825231459
 
@@ -247,7 +249,7 @@ functions:
   - name: seconds_since_epoch_to_julian_years_since_epoch
     short_summary: "Convert the number of seconds since a given (unspecified) epoch to Julian years since the same epoch."
     
-    extended_summary: ""
+    extended_summary: "Convert the number of seconds since a given (unspecified) epoch to Julian years since the same epoch. This is equivalent to converting a time interval in seconds to Julian years"
 
     parameters:
       - name: seconds_since_epoch
@@ -277,7 +279,7 @@ functions:
   - name: seconds_since_epoch_to_julian_centuries_since_epoch
     short_summary: "Convert the number of seconds since a given (unspecified) epoch to Julian centuries since the same epoch."
     
-    extended_summary: ""
+    extended_summary: "Convert the number of seconds since a given (unspecified) epoch to Julian years since the same epoch. This is equivalent to converting a time interval in seconds to Julian centuries"
 
     parameters:
       - name: seconds_since_epoch
