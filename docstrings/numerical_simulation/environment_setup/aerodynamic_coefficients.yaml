@@ -238,7 +238,7 @@ functions:
   - name: customAerodynamicCoefficientSettings # [cpp]
     short_summary: "Factory function for creating aerodynamic interface model settings from custom coefficients."
     extended_summary: |
-      Factory function for settings object, defining aerodynamic interface model via a custom force coefficient function
+      Factory function for settings object, defining aerodynamic interface model via a custom force and moment coefficient function
       (function of independent variable).
 
     parameters:
