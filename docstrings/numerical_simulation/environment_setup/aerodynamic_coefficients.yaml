@@ -72,7 +72,7 @@ classes:
           .. math::
              \Delta \mathbf{C}_{M} = (\mathbf{r}_{ref}-\mathbf{r}_{com})\times \Delta \mathbf{C}_{F}
              
-          where :math:`(\mathbd{r}_{ref}-\mathbf{r}_{com})` is the vector from the center of mass to the moment reference point, and :math:`\mathbf{C}_{F}` and :math:`\mathbf{C}_{M}` is the vector of forc and moment coefficients. Note that, if the force and moment coefficients afre defined in different frames, the relevant frame conversions are automatically performed.
+          where :math:`(\mathbf{r}_{ref}-\mathbf{r}_{com})` is the vector from the center of mass to the moment reference point, and :math:`\mathbf{C}_{F}` and :math:`\mathbf{C}_{M}` is the vector of forc and moment coefficients. Note that, if the force and moment coefficients afre defined in different frames, the relevant frame conversions are automatically performed.
           By default, this boolean is set to false, implicitly assuming that the moment coefficients are provided w.r.t. the (constant) center of mass.
         readonly: True # [py]
         
