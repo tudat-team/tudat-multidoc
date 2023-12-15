@@ -665,8 +665,8 @@ functions:
         type: double # [cpp]
         description: "Constant scaling factor to be applied to all aerodynamic moment coefficients."
 
-      - name: is_scaling_absolute, default = False # [py]
-        type: bool # [py]
+      - name: is_scaling_absolute # [py]
+        type: bool, default = False # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
         description: |
@@ -736,8 +736,8 @@ functions:
         type: Eigen::Vector3d # [cpp]
         description: "Constant scaling factors to be applied to each aerodynamic moment coefficient."
 
-      - name: is_scaling_absolute, default = False # [py]
-        type: bool # [py]
+      - name: is_scaling_absolute # [py]
+        type: bool, default = False # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
         description: |
@@ -806,8 +806,8 @@ functions:
         type: std::function< Eigen::Vector3d( const double ) > # [cpp]
         description: "Custom scaling factors to be applied to each aerodynamic moment coefficient."
 
-      - name: is_scaling_absolute, default = False # [py]
-        type: bool # [py]
+      - name: is_scaling_absolute # [py]
+        type: bool, default = False # [py]
       - name: isScalingAbsolute # [cpp]
         type: bool # [cpp]
         description: |
