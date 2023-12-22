@@ -524,7 +524,7 @@ functions:
       .. math::
          U(\mathbf{r})=\sum_{l=0}^{l_{max}}\sum_{m=0}^{l}\mu\left(\frac{{R}^{l}}{r^{l+1}}\right)\bar{P}_{lm}(\sin\phi)\left(\bar{C}_{lm}\cos m\theta+\bar{S}_{lm}\sin m\theta\right)
 
-      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, and :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math`l/m`).
+      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math:`l/m`) and :math:`\bar{C}_{lm}` and :math:`\bar{S}_{lm}` are the associated normalized spherical harmonic coefficients.
 
       Note: Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
       To normalize un-normalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
