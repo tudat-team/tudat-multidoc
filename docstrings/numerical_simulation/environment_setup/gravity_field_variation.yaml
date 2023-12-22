@@ -133,7 +133,7 @@ functions:
          love_numbers[ 2 ] = 0.301 # [py]
          love_numbers[ 3 ] = 0.09 # [py]
          gravity_field_variation_list = list() # [py]
-         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide( # [py]
+         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide_degree_variable_k( # [py]
          	tide_raising_body, love_numbers ) # [py]
          body_settings.get( "Earth" ).gravity_field_variation_settings = gravity_field_variation_list # [py]
 
@@ -194,7 +194,7 @@ functions:
          love_numbers[ 2 ].append( 0	.023915 ) # [py]
          love_numbers[ 2 ].append( 0.024852 ) # [py]
          gravity_field_variation_list = list() # [py]
-         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide( # [py]
+         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide_degree_order_variable_k( # [py]
          	tide_raising_body, love_numbers ) # [py]
          body_settings.get( "Earth" ).gravity_field_variation_settings = gravity_field_variation_list # [py]
 
