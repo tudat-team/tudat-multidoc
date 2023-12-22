@@ -384,7 +384,7 @@ functions:
     parameters:
       - name: albedo_distribution_settings # [py]
         type: SurfacePropertyDistributionSettings # py
-        description: Model for the surface distribution of the albedo :math:`a  `.
+        description: Model for the surface distribution of the albedo :math:`a`.
 
       - name: original_source_name # [py]
         type: str # py
