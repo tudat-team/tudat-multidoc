@@ -584,7 +584,7 @@ functions:
       which has any number of (equispaced) panels on it. The width of each ring is such that all panels have the same projected, attenuated area. 
       The panelling settings are defined by the user to this function. The
       The irradiance :math:`\Phi` at a relative position :math:`\mathbf{r}` from the source's center is then computed from all 
-      :math:`N` panels, each of which evaluated :math`M` panel radiosity models
+      :math:`N` panels, each of which evaluated :math:`M` panel radiosity models
 
       .. math::
          \Phi=\sum_{i=1}^{N}\sum_{j=1}\Phi_{i,j}
