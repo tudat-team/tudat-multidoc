@@ -37,7 +37,7 @@ enums:
       - name: emissivity_knocke
         description: "Coefficients for Earth surface emissivity model from Knocke (1989)"
 
-  - name: KnockeTypeSurfacePropertyDistributionModel
+  - name: SphericalHarmonicSurfacePropertyDistribution
     short_summary: "Enumeration of available spherical harmonic surface distribution models coefficient sets (see :func:`~spherical_harmonic_surface_property_distribution`)"
       #extended_summary: |
     #Enumeration of radiation pressure types supported by tudat.
