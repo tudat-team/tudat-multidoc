@@ -801,13 +801,13 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
 
     examples: |
-      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using EGM96 spherical harmonics gravity model, up to degree and order 32:
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for the Moon using GGGRX spherical harmonics gravity model, up to degree and order 300:
 
       .. code-block:: python # [py]
         # [py]
-        # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
-        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.predefined_spherical_harmonic( # [py]
-            environment_setup.gravity_field.egm96, 32 ) # [py]
+        # Create the gravity field settings for Moon with Spherical Harmonics loaded in from a Spherical Harmonics file # [py]
+        body_settings.get("Moon").gravity_field_settings = environment_setup.gravity_field.from_file_spherical_harmonic( # [py]
+            r"...\.tudat\resource\gravity_models\Moon\gggrx_1200l_sha.tab", 300, 300) # [py]
 
 
   - name: predefined_spherical_harmonic # [py]
