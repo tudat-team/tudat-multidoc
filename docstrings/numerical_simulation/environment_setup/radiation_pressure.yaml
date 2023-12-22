@@ -123,7 +123,7 @@ functions:
     parameters:
       - name: constant_irradiance # [py]
         type: float # [py]
-        description: "Irradiance at reference distance from center of source (in W/m^{2})"
+        description: "Irradiance at reference distance from center of source (in :math:`W/m^{2}`)"
 
       - name: reference_distance # [py]
         type: float # [py]
@@ -163,7 +163,7 @@ functions:
     parameters:
       - name: irradiance_function # [py]
         type: Callable[[float], float] # py
-        description: "Function returning irradiance at reference distance from center of source (in W/m^{2}) as a function fo time"
+        description: "Function returning irradiance at reference distance from center of source (in :math:`W/m^{2}`) as a function fo time"
 
       - name: reference_distance # [py]
         type: float # [py]
@@ -325,9 +325,9 @@ functions:
   - name: constant_radiosity # [py]
     short_summary: "Factory function for creating settings for surface constant surface radiosity of an extended source"
     extended_summary: |
-      Factory function for creating settings for surface surface radiosity of an extended source, using constant Lambertian radiosity :math:`J` (in W/m^{2}).
+      Factory function for creating settings for surface radiosity of an extended source, using constant Lambertian radiosity :math:`J` (in :math:`W/m^{2}`).
       For a surface panel normal of :math:`\hat{\mathbf{n}}` and a vector :math:`\mathbf{r}` from the surface element to the target, the resulting
-      irradiance :math:`\Phi` (in W/m^{2}) at the target is (if :math:`theta>0`, or in other words if the panel is visible from the target):
+      irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if :math:`theta>0`, or in other words if the panel is visible from the target):
       
       .. math::
          \Phi=J\frac{A\cos\theta}{\pi ||\mathbf{r}||^{2}}
@@ -337,7 +337,7 @@ functions:
     parameters:
       - name: radiosity # [py]
         type: float # py
-        description: "Constant Lambertian radiosity from surface in W/m^{2}."
+        description: "Constant Lambertian radiosity from surface in :math:`W/m^{2}`."
 
     returns:
       type: PanelRadiosityModelSettings
@@ -348,11 +348,11 @@ functions:
   - name: constant_albedo_surface_radiosity # [py]
     short_summary: "Factory function for creating settings for surface constant albedo surface radiosity of an extended source"
     extended_summary: |
-      Factory function for creating settings for surface surface radiosity of an extended source, with surface radiation the result
+      Factory function for creating settings for surface radiosity of an extended source, with surface radiation the result
       of albedo using a Lambertian scattering law, and a constant albedo value over the surface.
       For a surface panel normal of :math:`\hat{\mathbf{n}}`, a vector :math:`\mathbf{r}` from the surface element to the target, and a
       vector :math:`\mathbf{r}_{s}` from the surface element to the original source (typically the Sun),
-      the resulting irradiance :math:`\Phi` (in W/m^{2}) at the target is (if the panel is visible from the target and the original source):
+      the resulting irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if the panel is visible from the target and the original source):
 
       .. math::
          \Phi=\cos\theta_{s}\Phi_{s}\frac{a}{\pi}\frac{A\cos\theta}{\pi ||\mathbf{r}||^{2}}
@@ -407,7 +407,7 @@ functions:
       heat to a constant temperature, which then results in the body emitting infrared radiation from its surface.
 
       For a surface panel normal of :math:`\hat{\mathbf{n}}`, a vector :math:`\mathbf{r}` from the surface element to the target,
-      the resulting irradiance :math:`\Phi` (in W/m^{2}) at the target is (if the panel is visible from the target and the original source):
+      the resulting irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if the panel is visible from the target and the original source):
 
       .. math::
          \Phi=\frac{\epsilon\Phi_{s}}{4}\frac{A\cos\theta}{\pi ||\mathbf{r}||^{2}}
@@ -464,7 +464,7 @@ functions:
       maximum temperatures are user parameters.
 
       For a surface panel normal of :math:`\hat{\mathbf{n}}`, a vector :math:`\mathbf{r}` from the surface element to the target,
-      the resulting irradiance :math:`\Phi` (in W/m^{2}) at the target is (if the panel is visible from the target and the original source):
+      the resulting irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if the panel is visible from the target and the original source):
 
       .. math::
          \Phi=\epsilon kT^{4}\frac{A\cos\theta}{\pi ||\mathbf{r}||^{2}}
