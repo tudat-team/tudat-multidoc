@@ -227,7 +227,7 @@ classes:
           body-centered, velocity differs from the norm of the inertial
           body-centered velocity. # [py]
 
-    #methods:
+##################################################################
       
 
   - name: AtmosphericFlightConditions
@@ -369,7 +369,7 @@ classes:
 
         returns:
           type: np.ndarray # [py]
-          type: Eigen::Matrix3d # [coo]
+          type: Eigen::Matrix3d # [cpp]
           description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
 
       - name: getAngle                           # [cpp]
@@ -393,7 +393,35 @@ classes:
           type: float # [py]
           type: double # [py]
           description: Value of requested angle
-          
+##################################################################
+  - name: RotationalEphemeris
+    short_summary: |
+      Object that stores the rotational state of the bodies.
+    extended_summary: |
+      Object that stores the rotational state of the bodies. This object can be used to calculate rotation matrices,
+      which are used to transform coordinates between reference frames.
+
+    methods:
+      - name: getRotationMatrixToBaseFrame                          # [cpp]
+      - name: body_fixed_to_inertial_rotation                       # [py]
+        short_summary: |
+          Function to get rotation matrix from target frame to base frame over time.
+        extended_summary: |
+          Function to get rotation matrix from target frame to base frame at a certain epoch. It is used to
+          transform a Cartesian state vector including position and velocity from a body fixed to inertial frame.
+
+        parameters:
+          - name: secondsSinceEpoch # [cpp]
+            type: float # [cpp]
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time at which the rotation matrix is evaluated
+
+        returns:
+          type: np.ndarray # [py]
+          type: Eigen::Matrix3d # [cpp]
+          description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
 ##################################################################
      
   - name: VehicleSystems
@@ -457,7 +485,72 @@ classes:
         returns:
           type: EngineModel # [py]
           description: Model for the engine that is requested
-          
+    
+##################################################################
+
+     
+  - name: Ephemeris
+    short_summary: |
+       Object that computes the state of a body as a function of time
+    extended_summary: |
+       Object (typically stored inside a :class:`~Body` object) that computes the state of a body as a function of time,
+       both outside of a propagation, and during a propagation if the given body's translational state is not propagated.
+       Note that this object computes the state w.r.t. its own origin (defined by ``frame_origin``), which need not be the same as the global frame origin
+       of the environment.
+       
+    methods:
+      - name: cartesian_state # [py]
+        short_summary: "This function returns the Cartesian state (position and velocity) at the given time, w.r.t. the ``frame_origin``."
+
+        parameters:
+        - name: current_time # [py]
+          type: float # [py]
+          description: |
+            Time (in seconds since J2000) at which the state is to be computed.
+
+        returns:
+          type: np.ndarray
+          description: Requested Cartesian state
+        
+      - name: cartesian_position # [py]
+        short_summary: "As ``cartesian_state``, but only the three position components"
+
+        parameters:
+        - name: current_time # [py]
+          type: float # [py]
+          description: |
+            Time (in seconds since J2000) at which the state is to be computed.
+
+        returns:
+          type: np.ndarray
+          description: Requested Cartesian position  
+         
+      - name: cartesian_velocity # [py]
+        short_summary: "As ``cartesian_state``, but only the three velocity components"
+
+        parameters:
+        - name: current_time # [py]
+          type: float # [py]
+          description: |
+            Time (in seconds since J2000) at which the state is to be computed.
+
+        returns:
+          type: np.ndarray
+          description: Requested Cartesian velocity
+           
+    properties: # [py]
+      - name: frame_origin # [py]
+        type: str # [py]
+        readonly: Yes
+        description: |
+          Name of the reference body/point w.r.t. which this object provides its states
+  
+      - name: frame_orientation # [py]
+        type: str # [py]
+        readonly: Yes
+        description: |
+          Name of the frame orientation w.r.t which this object provides its states
+                
 ##################################################################
 
      

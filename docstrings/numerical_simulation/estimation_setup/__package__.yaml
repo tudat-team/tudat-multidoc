@@ -49,6 +49,20 @@ modules:
 functions:
 
   ###########################################################################
+
+  - name: print_parameter_names # [py]
+    short_summary: "Function for printing a list of estimatable parameter names."
+    extended_summary: |
+      Function that allows you to print a verbose list of all parameters that shall be estimated. Consider parameters are listed separately.
+
+    parameters:
+      - name: parameter_set # [py]
+        type: :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet`
+          Instance of :class:`~tudatpy.numerical_simulation.estimation.EstimatableParameterSet` class, consolidating all estimatable parameters and simulation models.
+    returns:
+    type: None  # [py]
+
+  ###########################################################################
   ###  EstimatableParameterSettings --> EstimatableParameterSet #
 
   - name: create_parameter_set # [py]

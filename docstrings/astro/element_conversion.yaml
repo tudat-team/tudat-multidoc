@@ -12,21 +12,21 @@ notes: |
 
   Unless specified otherwise, the Keplerian elements are ordered as:
 
-  +-------+--------------------------------------------------------------------------------------+
-  | Index | Keplerian Element                                                                    |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semilatus rectum) |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``1`` | Eccentricity                                                                         |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``2`` | Inclination                                                                          |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``3`` | Argument of periapsis                                                                |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``4`` | Longitude of ascending node                                                          |
-  +-------+--------------------------------------------------------------------------------------+
-  | ``5`` | True anomaly                                                                         |
-  +-------+--------------------------------------------------------------------------------------+
+  +-------+---------------------------------------------------------------------------------------+
+  | Index | Keplerian Element                                                                     |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``0`` | Semi-major axis (except if eccentricity = ``1.0``, then represents semi-latus rectum) |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``1`` | Eccentricity                                                                          |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``2`` | Inclination                                                                           |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``3`` | Argument of periapsis                                                                 |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``4`` | Longitude of ascending node                                                           |
+  +-------+---------------------------------------------------------------------------------------+
+  | ``5`` | True anomaly                                                                          |
+  +-------+---------------------------------------------------------------------------------------+
 
   Unless specified otherwise, the spherical elements are ordered as:
 
@@ -260,17 +260,17 @@ functions:
     short_summary: "Convert eccentric to mean anomaly."
 
     parameters:
-      - name: eccentricity # [py]
-        type: float # [py]
-        description: Value of the orbital eccentricity
-
       - name: eccentric_anomaly # [py]
         type: float # [py]
         description: Hyperbolic eccentric anomaly, if eccentricity is larger than 1, elliptical eccentric anomaly if it is smaller than 1
 
+      - name: eccentricity # [py]
+        type: float # [py]
+        description: Value of the orbital eccentricity
+
     returns:
         type: float # [py]
-        description: Mean of the true anomaly
+        description: Value of the mean anomaly
 
   - name: mean_to_eccentric_anomaly # [py]
     short_summary: "Convert mean to eccentric anomaly."
@@ -392,7 +392,7 @@ functions:
 
       - name: singularity_at_zero_inclination # [py]
         type: bool # [py]
-        description: Singularity at 0 degrees inclination if false, 180 degrees if true
+        description: Singularity at 0 degrees inclination if ``True``, 180 degrees if ``False``
 
     returns:
         type: numpy.ndarray # [py]
@@ -459,7 +459,7 @@ functions:
   - name: cartesian_to_mee # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
     extended_summary: |
-      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      Convert cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is computed automatically by this function (using :func:`flip_mee_singularity`)
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
@@ -481,7 +481,7 @@ functions:
   - name: cartesian_to_mee_manual_singularity # [py]
     short_summary: "Convert Cartesian to Modified equinoctial elements."
     extended_summary: |
-      Convery cartesian to Modified equinoctial elements. The singularity-flipping
+      Convert cartesian to Modified equinoctial elements. The singularity-flipping
       element :math:`I` is to be provided manually for this function
       
       .. note:: See module level documentation for the standard ordering convention of Modified Equinoctial elements used.
@@ -586,7 +586,7 @@ functions:
 
     returns:
         type: numpy.ndarray # [py]
-        description: Spherial elements, as computed from Cartesian element input. 
+        description: Spherical elements, as computed from Cartesian element input.
 
 
   - name: spherical_to_cartesian # [py]
