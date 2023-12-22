@@ -87,6 +87,10 @@ functions:
         type: string # [py]
         description: "Name (unique identifier) by which the station is to be known."
 
+      - name: station_position_element_type # [py]
+        type: PositionElementTypes, default = cartesian_position # [py]
+        description: Type of elements for ``station_nominal_position``. Choose between cartesian_position, spherical_position and geodetic_position
+
       - name: station_nominal_position # [py]
         type: np.ndarray([3,1]) # [py]
         description: Nominal position of the station in a body-fixed frame. Depending on the choice of ``station_position_element_type`` input, this vector must contain
@@ -94,10 +98,6 @@ functions:
           * Cartesian - :math:`[x,y,z]`, denoting :math:`x-`, :math:`y-` and :math:`z-` components of body-fixed position (w.r.t body-fixed frame origin, typically center of mass)
           * Spherical - :math:`[r,\phi',\theta]`, denoting distance from body-fixed frame origin (typically center of mass), latitude and longitude
           * Geodetic - :math:`[h,\phi,\theta]`, denoting the altitude w.r.t. the body shape model, geodetic latitude and longitude
-
-      - name: station_position_element_type # [py]
-        type: PositionElementTypes, default = cartesian_position # [py]
-        description: Type of elements for ``station_nominal_position``
 
       - name: station_motion_settings # [py]
         type: list[ GroundStationMotionSettings ], default = None # [py]
