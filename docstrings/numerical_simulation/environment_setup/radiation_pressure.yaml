@@ -113,6 +113,28 @@ functions:
 
   #######################################################################
 
+  - name: cannonball_radiation_target # [py]
+    short_summary: "Factory function for cannonball radtiation target"
+
+    parameters:
+      - name: reference_area # [py]
+        type: float # [py]
+        description: "Cross-sectional area of cannonball [:math:`m^{2}`]"
+
+      - name: radiation_pressure_coefficient # [py]
+        type: float # [py]
+        description: "Radiation pressure coefficient [-]"
+
+      - name: per_source_occulting_bodies # [py]
+        type: Dict[str, List[str]] # [py]
+        description: "Names of bodies to occult the source as seen from this target"
+
+    returns:
+        type: CannonballRadiationPressureTargetModelSettings
+        description: Object defining settings for a cannonball radiation pressure target model
+
+  #######################################################################
+
   - name: irradiance_based_constant_luminosity # [py]
     short_summary: "Factory function for creating source luminosity settings based on the irradiance at a reference distance."
     extended_summary: |
@@ -570,6 +592,23 @@ functions:
     returns:
       type: RadiationSourceModelSettings
       description: Object defining settings for source model irradiance
+
+  #######################################################################
+
+  - name: panelled_radiation_target # [py]
+    short_summary: "Factory function for creating settings for a paneled radiation pressure target model"
+    extended_summary: |
+      Factory function for creating settings for a paneled radiation pressure target model. Each source can have
+      its own set of occulting bodies.
+
+    parameters:
+      - name: source_to_target_occulting_bodies # [py]
+        type: Dict[str, List[str]] # py
+        description: "Map (source name -> list of occulting body names) of bodies to occult sources as seen from this target."
+
+    returns:
+      type: RadiationPressureTargetModelSettings
+      description: Object defining settings for a radiation pressure target model
 
   #######################################################################
 
