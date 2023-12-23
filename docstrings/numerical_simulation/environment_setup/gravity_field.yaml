@@ -524,7 +524,7 @@ functions:
       .. math::
          U(\mathbf{r})=\sum_{l=0}^{l_{max}}\sum_{m=0}^{l}\mu\left(\frac{{R}^{l}}{r^{l+1}}\right)\bar{P}_{lm}(\sin\phi)\left(\bar{C}_{lm}\cos m\theta+\bar{S}_{lm}\sin m\theta\right)
 
-      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, and :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math`l/m`).
+      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math:`l/m`) and :math:`\bar{C}_{lm}` and :math:`\bar{S}_{lm}` are the associated normalized spherical harmonic coefficients.
 
       Note: Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
       To normalize un-normalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
@@ -801,13 +801,13 @@ functions:
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class
 
     examples: |
-      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using EGM96 spherical harmonics gravity model, up to degree and order 32:
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for the Moon using GGGRX spherical harmonics gravity model, up to degree and order 300:
 
       .. code-block:: python # [py]
         # [py]
-        # Create the gravity field settings for Earth with Spherical Harmonics from a triaxial ellipsoid # [py]
-        body_settings.get( "Earth" ).gravity_field_settings = environment_setup.gravity_field.predefined_spherical_harmonic( # [py]
-            environment_setup.gravity_field.egm96, 32 ) # [py]
+        # Create the gravity field settings for Moon with Spherical Harmonics loaded in from a Spherical Harmonics file # [py]
+        body_settings.get("Moon").gravity_field_settings = environment_setup.gravity_field.from_file_spherical_harmonic( # [py]
+            r"...\.tudat\resource\gravity_models\Moon\gggrx_1200l_sha.tab", 300, 300) # [py]
 
 
   - name: predefined_spherical_harmonic # [py]

@@ -70,8 +70,9 @@ functions:
 
       .. code-block:: python # [py]
          # [py]
-         tide_raising_body = "Moon"
+         tide_raising_body = "Moon" # [py]
          degree = 2 # [py]
+         love_number = 0.301 # [py]
          gravity_field_variation_list = list() # [py]
          gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide( # [py]
          	tide_raising_body, love_number, degree ) # [py]
@@ -132,7 +133,7 @@ functions:
          love_numbers[ 2 ] = 0.301 # [py]
          love_numbers[ 3 ] = 0.09 # [py]
          gravity_field_variation_list = list() # [py]
-         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide( # [py]
+         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide_degree_variable_k( # [py]
          	tide_raising_body, love_numbers ) # [py]
          body_settings.get( "Earth" ).gravity_field_variation_settings = gravity_field_variation_list # [py]
 
@@ -174,7 +175,7 @@ functions:
 
       - name: love_number_per_degree_and_order # [py]
         type: dict( int, list( float ) ) # [py]
-        description: "Dictionary of Love numbers for each degree that is to be taken into account, with the key representing the degree :math:`l` of the Love number, and value containing the list of Love numbers :math:`k_{lm}` at this degree. Note that, for Love numbers at degree :math:`l`, the associated list should contain :math:`l+1` entries, representing the Love numbers (in order) :math:`k_{l0}`, :math:`k_{l1}`...:math:`k_{ll}`."
+        description: "Dictionary of Love numbers for each degree that is to be taken into account, with the key representing the degree :math:`l` of the Love number, and value containing the list of Love numbers :math:`k_{lm}` at this degree. Note that, for Love numbers at degree :math:`l`, the associated list should contain :math:`l+1` entries, representing the Love numbers (in order) :math:`k_{l0}`, :math:`k_{l1}`... :math:`k_{ll}`."
 
 
     returns:
@@ -193,7 +194,7 @@ functions:
          love_numbers[ 2 ].append( 0	.023915 ) # [py]
          love_numbers[ 2 ].append( 0.024852 ) # [py]
          gravity_field_variation_list = list() # [py]
-         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide( # [py]
+         gravity_field_variation_list.append( environment_setup.gravity_field_variation.solid_body_tide_degree_order_variable_k( # [py]
          	tide_raising_body, love_numbers ) # [py]
          body_settings.get( "Earth" ).gravity_field_variation_settings = gravity_field_variation_list # [py]
 

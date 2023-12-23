@@ -387,7 +387,7 @@ functions:
     extended_summary: |
       Factory function for creating US76 standard atmosphere model settings. The model is defined using tabulated data for density, pressure and temperature,
       from an altitude of -5 km up to 1000 km. Up to 100 km, a data point is provided every 100 m. Above 100 km, a data point is provided every 1 km. The data
-      are interpolated using a cubic spline interpolator.
+      are interpolated using a cubic spline interpolator. Note that this model is specific to Earth's atmosphere.
       
     parameters:
     

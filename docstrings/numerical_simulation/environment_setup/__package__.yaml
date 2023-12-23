@@ -553,10 +553,6 @@ functions:
         type: SystemOfBodies # [py]
         description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
 
-      - name: body_name # [py]
-        type: str # [py]
-        description: "Name of the body to which the rotation model is to be assigned" # [py]
-
       - name: body_fixed_thrust_direction # [py]
         type: numpy.ndarray[numpy.float64[3, 1]], default = [1,0,0] # [py]
         description: "Unit vector along which the thrust from the engine will point in a body-fixed frame" # [py]
@@ -583,10 +579,6 @@ functions:
       - name: bodies # [py]
         type: SystemOfBodies # [py]
         description: "Object defining the physical environment, with all properties of artificial and natural bodies." # [py]
-
-      - name: body_name # [py]
-        type: str # [py]
-        description: "Name of the body to which the rotation model is to be assigned" # [py]
 
       - name: body_fixed_thrust_direction_function # [py]
         type: Callable[[float], numpy.ndarray[numpy.float64[3, 1]]] # [py]
