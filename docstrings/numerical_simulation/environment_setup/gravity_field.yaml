@@ -9,7 +9,19 @@
 
 extended_summary: |
   This module contains a set of factory functions for setting up the
-  gravitational potential models of celestial bodies in an environment.
+  gravitational potential models of celestial bodies in an environment. Below a short
+  overview of aspects of some of the gravity field models in order to aid in
+  properly selecting an choosing a model.
+  Unlike most other environment model options in Tudat, there are multiple options for creating either a spherical harmonic gravity field, and a point mass gravity field:
+
+  * Point-mass gravity field: defining the gravitational parameter manually (:func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.central`) or requiring the gravitational parameter to be extracted from Spice (:func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.central_spice`).
+  * Spherical harmonic gravity field: defining all the settings manually (:func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`), loading a pre-defined model for a solar system body (:func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.from_file_spherical_harmonic`) or calculating the spherical harmonic coefficients (up to a given degree) based on an ellipsoidal homogeneous mass distribution (:func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic_triaxial_body`)
+
+  Rigid body properties will always be created automatically when a body is endowed with a gravity field, as described below:
+
+  * Point-mass gravity field: mass computed from gravitational parameter; zero inertia tensor, and center of mass at origin of body-fixed frame
+  * Spherical harmonic gravity field: mass computed from gravitational parameter, center of mass computed from degree 1 gravity field coefficients, inertia tensor as described in :func:`~tudatpy.numerical_simulation.environment_setup.gravity_field.spherical_harmonic`
+  * Polyhedron gravity field: mass computed from gravitational parameter, center of mass and inertia tensor computed from homogeneous mas distribution inside body
 
 references: |
   .. [1] Balmino, G. (1994). Gravitational potential harmonics from the shape of an homogeneous body. Celestial
@@ -524,7 +536,19 @@ functions:
       .. math::
          U(\mathbf{r})=\sum_{l=0}^{l_{max}}\sum_{m=0}^{l}\mu\left(\frac{{R}^{l}}{r^{l+1}}\right)\bar{P}_{lm}(\sin\phi)\left(\bar{C}_{lm}\cos m\theta+\bar{S}_{lm}\sin m\theta\right)
 
-      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math:`l/m`) and :math:`\bar{C}_{lm}` and :math:`\bar{S}_{lm}` are the associated normalized spherical harmonic coefficients.
+      with :math:`\mathbf{r}` the position vector of the evaluation point, measured from the body's center of mass. The angles :math:`\phi` and :math:`\theta` are the body-fixed latitude and longitude of the evaluation point, and :math:`\bar{P}_{lm}` is the associated Legendre polynomial (at degree/order :math:`l/m`).
+
+      For the spherical harmonic gravity field (including other spherical harmonic functions), the normalized mean moment of inertia must be set by the user, to allow an inertia tensor to be computed. This is done using the :attr:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings.scaled_mean_moment_of_inertia` attribute of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.SphericalHarmonicsGravityFieldSettings` class, as in the example below
+
+      .. code-block:: python # [py]
+
+        # Add gravity field model settings to body of spherical harmonic type # [py]
+        body_settings.get( "Mars" ).gravity_field = ... # [py]
+
+        # Add setting for moment of inertia # [py]
+        body_settings.get( "Mars" ).gravity_field.scaled_mean_moment_of_inertia = 0.365 # [py]
+             
+      This code snippet will automatically create a rigid body properties for Mars, with the inertia tensor computed from this value of 0.365 and the degree 2 gravity field coefficients. Note that, if gravity field variations are used for the body, time-variability of the degree 1- and 2- coefficients will be reflected in time-variability of the body's center of mass and inertia tensor.
 
       Note: Spherical harmonic coefficients used for this environment model must *always* be fully normalized.
       To normalize un-normalized spherical harmonic coefficients, see :func:`~tudatpy.astro.gravitation.normalize_spherical_harmonic_coefficients`.
@@ -853,7 +877,10 @@ functions:
       to Werner and Scheeres [2]_.
 
       This function uses the gravitational parameter to define the gravity field. To instead use the density 
-      constant see :func:`~tudatpy.astro.gravitation.polyhedron_from_density`.
+      constant see :func:`~tudatpy.astro.gravitation.polyhedron_from_density`. Since both models tend to be computationally intensive, 
+      it is recommended to use polyhedra with the lowest number of facets that allows meeting the desired accuracy. The number of facets of a polyhedron
+      model can be reduced using any mesh processing software, for example `PyMeshLab <https://pymeshlab.readthedocs.io/en/latest/>`_.
+      Additionally, different functions to process a polyhedron are available in `Polyhedron utilities <https://py.api.tudat.space/en/latest/polyhedron_utilities.html>`_.
 
     parameters:
       - name: gravitational_parameter # [py]
