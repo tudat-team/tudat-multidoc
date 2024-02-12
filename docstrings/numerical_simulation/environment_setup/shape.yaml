@@ -162,9 +162,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: Eigen::MatrixXd # [cpp]
-          description: |
-            Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
-            row per vertex, 3 columns). # [cpp]
+          description: Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one row per vertex, 3 columns). # [cpp]
 
       - name: resetVerticesCoordinates # [cpp]
         short_summary: "Reset vertices coordinates." # [cpp]
@@ -172,9 +170,7 @@ classes:
         parameters: # [cpp]
           - name: verticesCoordinates # [cpp]
             type: Eigen::MatrixXd # [cpp]
-            description: |
-              Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one
-              row per vertex, 3 columns). # [cpp]
+            description: Cartesian coordinates of each polyhedron vertex. Entry (i,j) denotes vertex i, coordinate j (one row per vertex, 3 columns). # [cpp]
 
       - name: getVerticesDefiningEachFacet # [cpp]
         short_summary: "Retrieve vertices defining each facet." # [cpp]
@@ -183,10 +179,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: Eigen::MatrixXi # [cpp]
-          description: |
-            Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
-            the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
-            when seen from the outside of the polyhedron. # [cpp]
+          description: Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise when seen from the outside of the polyhedron. # [cpp]
 
       - name: resetVerticesDefiningEachFacet # [cpp]
         short_summary: "Reset vertices defining each facet." # [cpp]
@@ -194,10 +187,7 @@ classes:
         parameters: # [cpp]
           - name: verticesDefiningEachFacet # [cpp]
             type: Eigen::MatrixXi # [cpp]
-            description: |
-              Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of
-              the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise
-              when seen from the outside of the polyhedron. # [cpp]
+            description: Index (0 based) of the vertices constituting each facet. Entry (i,j) denotes facet i, and the jth vertex of the facet (one row per facet, 3 columns). In each row, the vertices' indices should be ordered counterclockwise when seen from the outside of the polyhedron. # [cpp]
 
       - name: getComputeAltitudeWithSign # [cpp]
         short_summary: "Retrieve flag indicating whether to compute signed altitude." # [cpp]
@@ -206,9 +196,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: bool # [cpp]
-          description: |
-            Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
-            having always a positive value. # [cpp]
+          description: Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or having always a positive value. # [cpp]
 
       - name: resetComputeAltitudeWithSign # [cpp]
         short_summary: "Reset flag indicating whether to compute signed altitude." # [cpp]
@@ -216,10 +204,7 @@ classes:
         parameters: # [cpp]
           - name: computeAltitudeWithSign # [cpp]
             type: bool # [cpp]
-            description: |
-              Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or
-              having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is
-              recommended, as it reduces the CPU time for computing the altitude. # [cpp]
+            description: Flag indicating whether the altitude should be computed with sign (i.e. >0 if above surface, <0 otherwise) or having always a positive value. If the the sign of the altitude is not relevant, then setting it to *false* is recommended, as it reduces the CPU time for computing the altitude. # [cpp]
 
       - name: getJustComputeDistanceToVertices # [cpp]
         short_summary: "Retrieve flag indicating whether to compute altitude just with respect to vertices." # [cpp]
@@ -228,10 +213,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: bool # [cpp]
-          description: |
-            Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
-            is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
-            *false*). # [cpp]
+          description: Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to *false*). # [cpp]
 
       - name: resetJustComputeDistanceToVertices # [cpp]
         short_summary: "Reset flag indicating whether to compute altitude just with respect to vertices." # [cpp]
@@ -239,12 +221,7 @@ classes:
         parameters: # [cpp]
           - name: justComputeDistanceToVertices # [cpp]
             type: bool # [cpp]
-            description: |
-              Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag
-              is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to
-              *false*). Depending on the application, it might be useful to set the flag to *true* for medium to high
-              altitudes, as it allows significantly reducing the CPU time (the resulting altitude errors depend on the
-              resolution of the used polyhedron and altitude itself). # [cpp]
+            description: Flag indicating whether the altitude should be computed just with respect to the polyhedron vertices (if flag is set to *true*) or to all polyhedron features (vertices, facets and edges; happens if flag is set to *false*). Depending on the application, it might be useful to set the flag to *true* for medium to high altitudes, as it allows significantly reducing the CPU time (the resulting altitude errors depend on the resolution of the used polyhedron and altitude itself). # [cpp]
 
   #######################################################################
 
