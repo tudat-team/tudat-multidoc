@@ -71,7 +71,7 @@ functions:
   - name: basic_solid_body_tidal # [py]
     short_summary: "Factory function for creating basic tidal solid-body shape deformation"
     extended_summary: |
-      Factory function for creating basic tidal solid-body shape deformation, computing the tidal shape variation due to any number of bodies causing the deformation, and a tidal response define by the deformation Love and Shida numbers :math:`h_{m}` and :math:`l_{m}` (with only :math:`m=2,3` currently supported). This function implements equations (7.5) and (7.6) of the IERS 2010 Conventions.
+      Factory function for creating basic tidal solid-body shape deformation, computing the tidal shape variation due to any number of bodies causing the deformation, and a tidal response define by the deformation Love and Shida numbers :math:`h_{m}` and :math:`l_{m}` (with only :math:`m=2,3` currently supported). This function implements equations (7.5) and (7.6) of the `IERS 2010 Conventions <https://iers-conventions.obspm.fr/conventions_material.php>`_.
 
     parameters:
       - name: tide_raising_bodies # [py]
@@ -101,7 +101,7 @@ functions:
         love_numbers = dict()
         love_numbers[2] = (0.6, 0.08)
 
-        # Create Love numbers  
+        # Create tide raising bodies 
         tide_raising_bodies = ["Sun", "Moon"]
 
         # Append shape variation settings to existing (default is empty) list
@@ -148,7 +148,7 @@ functions:
         h2_love_number = 0.6
         l2_shida_number = 0.08
 
-        # Create Love numbers  
+        # Create tide raising bodies  
         tide_raising_bodies = ["Sun", "Moon"]
 
         # Append shape variation settings to existing (default is empty) list
@@ -162,7 +162,7 @@ functions:
   - name: iers_2010_solid_body_tidal # [py]
     short_summary: "Factory function for creating full IERS 2010 shape deformation model"
     extended_summary: |
-      Factory function for creating full IERS 2010 shape deformation model, computing the tidal shape variation due to the full model defined in Section 7.1.1 of the 2010 IERS conventions, implementing Eqs. (7.5)-(7.13), including all terms from Tables 7.3a and 7.3b. At present, none of the input parameters of the model can be varid.
+      Factory function for creating full IERS 2010 shape deformation model, computing the tidal shape variation due to the full model defined in Section 7.1.1 of the 2010 IERS conventions, implementing Eqs. (7.5)-(7.13), including all terms from Tables 7.3a and 7.3b. At present, none of the input parameters of the model can be varied.
 
     parameters:
 
