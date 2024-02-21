@@ -93,10 +93,12 @@ functions:
       that the orientation of the panel is fully defined by the rotation model(s) defined in the vehicle.
       The constant surface normal :math:`\hat{\mathbf{n}}^{\mathcal{F}}` in frame :math:`\mathcal{F}` is provided by the user.      
       If the ``frame_orientation`` of this function is left empty, the panel is fixed to the body-frame, and 
-      :math:`\mathcal{F}` is the  body-fixed frame :math:`\mathcal{B}`. 
+      :math:`\mathcal{F}` is the  body-fixed frame :math:`\mathcal{B}`.
+
       Alternatively, the ``frame_orientation`` may be defined as the identifier of the frame fixed to one of the
       vehicle parts (solar array, antenna, etc.). See :func:`~full_panelled_body_settings` for the definition
-      of rotation models of vehicle parts
+      of rotation models of vehicle parts.
+
       Note that this panel model does not contain information on panel location or shape, only its area and surface normal,
       and is therefore not suitable for computation of panel shadowing of torque computations.
 
@@ -125,7 +127,7 @@ functions:
       As :func:`~frame_fixed_panel_geometry`, but with a time-variable outward surface normal :math:`\hat{\mathbf{n}}^{\mathcal{F}}(t)`
 
     parameters:
-      - name: surface_normal # [py]
+      - name: surface_normal_function # [py]
         type: np.array
         description: "Panel outward surface normal vector (in specified frame)"
 
@@ -143,9 +145,9 @@ functions:
   #######################################################################
 
   - name: body_tracking_panel_geometry # [py]
-    short_summary: "Factory function for creating settings for a vehicle exterior panel that has where the surface normal tracks a given body"
+    short_summary: "Factory function for creating settings for a vehicle exterior panel where the surface normal tracks a given body."
     extended_summary: |
-      Factory function for creating settings for a vehicle exterior panel that has where the surface normal tracks a given body, for instance
+      Factory function for creating settings for a vehicle exterior panel where the surface normal tracks a given body, for instance
       to define the surface normal of a solar array to always point towards the Sun, or an antenna to always point towards the Earth.
       When using this option, the panel surface normal :math:`\hat{\mathbf{n}}` is computed in an inertial frame based on the tracked
       body, and then (if necessary) rotated to the body-fixed frame. 
@@ -224,10 +226,6 @@ functions:
       - name: part_rotation_model_settings # [py]
         type: dict[str,RotationModelSettings], default = dict()
         description: "Rotation model settings per vehicle part (default empty, indicating no part-fixed frames are defined)"
-
-      - name: panel_type_id # [py]
-        type: str, default = ""
-        description: "Optional identifier for panel type"
 
     returns:
       type: FullPanelledBodySettings
