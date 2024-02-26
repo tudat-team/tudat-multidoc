@@ -201,7 +201,7 @@ functions:
         type: AerodynamicCoefficientFrames, default = negative_aerodynamic_frame_coefficients # [py]
         description: |
           Variable defining the frame in which the force coefficients are defined. By default, this is the negative aerodynamic
-          frame, so that the coefficients are for drag, side force and lift
+          frame, so that the coefficients are for drag, side force and lift (:math:`C_{D}, C_{S}, C_{L}`)
 
     returns:
         type: CustomAerodynamicCoefficientSettings
@@ -278,7 +278,7 @@ functions:
         type: AerodynamicCoefficientFrames, default = positive_body_frame_coefficients # [py]
         description: |
           Variable defining the frame in which the moment coefficients are defined. By default, this is the positive body
-          frame, so that the coefficients are roll, pitch yaw (:math:`C_{l}, C_{m}, C_{n}`)
+          frame, so that the coefficients are roll, pitch and yaw (:math:`C_{l}, C_{m}, C_{n}`)
           
       - name: moment_reference_point # [py]
         type: numpy.ndarray[numpy.float64[3, 1]] = np.full([3, 1], np.nan) # [py]
@@ -855,8 +855,8 @@ functions:
     short_summary: "Factory function for creating control surface aerodynamic model settings from custom coefficients."
     extended_summary: |
       Factory function for settings object, defining control surface aerodynamic interface model via a custom force and moment coefficient function
-      (function of independent variable). This function is essentically the controlp-surface equivalent of the
-      :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.custom_aerodynamic_force_and_moment_coefficients` function for body coefficient settings
+      (function of independent variable). This function is essentically the control-surface equivalent of the
+      :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.custom_aerodynamic_force_and_moment_coefficients` function for body coefficient settings.
 
     parameters:
       - name: force_and_moment_coefficient_function # [py]
@@ -869,7 +869,32 @@ functions:
         type: std::vector< aerodynamics::AerodynamicCoefficientsIndependentVariables > # [cpp]
         description: "Vector with identifiers for the independent variable w.r.t. which the control surface aerodynamic coefficients are defined. Typically, one entry from this list will be ``control_surface_deflection_dependent``"
 
-   
+    examples: | # [py]
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.ControlSurfaceIncrementAerodynamicCoefficientSettings` for the artificial body "Vehicle", using a function based on the mach number: # [py]
+
+      .. code-block:: python # [py]
+        # [py]
+        def force_and_moment_coefficients(variables_list): # [py]
+          # Extract the mach number # [py]
+          mach_number = variables_list[0] # [py]
+          # If the mach number is below 3, use fixed coefficients # [py]
+          if mach_number <= 3: # [py]
+              return [0.99, 0, 1.08, 0.94, 0.35, 0, 0] # [py]
+          # Same if the mach number is above 10 # [py]
+          elif mach_number >= 10: # [py]
+              return [0.82, 0, 0.88, 0.55, 0, 0] # [py]
+          # Otherwise, vary linearly between the ones at M=3 and M=10 # [py]
+          CD = 1.0667-0.02457*mach_number # [py]
+          CL = 1.1636-0.02786*mach_number # [py]
+          Cl = 0.35 + 0.02857*mach_number # [py]
+          return [CD, 0, CL, Cl, 0, 0] # [py]
+        # Create the aerodynamic interface settings # [py]
+        aero_coefficient_settings = environment_setup.aerodynamic_coefficients.custom_control_surface( # [py]
+            force_and_moment_coefficients, # [py]
+            independent_variable_names=[environment.AerodynamicCoefficientsIndependentVariables.mach_number_dependent] # [py]
+        ) # [py]
+        # Assign the aerodynamic coefficient interface to the vehicle # [py]
+        environment_setup.add_aerodynamic_coefficient_interface(bodies, "Vehicle", aero_coefficient_settings) # [py]
           
     returns:
         type: ControlSurfaceIncrementAerodynamicCoefficientSettings
@@ -881,8 +906,8 @@ functions:
     short_summary: "Factory function for creating control surface aerodynamic model settings from tabulated coefficients from files."
     extended_summary: |
       Factory function for settings object, defining control surface aerodynamic interface model via user-defined, tabulated aerodynamic force and moment coefficients
-      (tabulated w.r.t. independent variable), obtained from data files.. This function is essentically the controlp-surface equivalent of the
-      :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.tabulated_from_files` function for body coefficient settings
+      (tabulated w.r.t. independent variable), obtained from data files.. This function is essentically the control-surface equivalent of the
+      :func:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.tabulated_from_files` function for body coefficient settings.
 
     parameters:
 

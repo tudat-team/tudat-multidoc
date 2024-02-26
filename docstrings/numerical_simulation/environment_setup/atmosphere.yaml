@@ -395,6 +395,15 @@ functions:
         type: AtmosphereSettings # [py]
         description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` class
 
+    examples: |
+      In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.atmosphere.AtmosphereSettings` for Earth,
+      using the US76 standard atmosphere model:
+
+      .. code-block:: python # [py]
+         # [py]
+         # create atmosphere settings and add to body settings of body "Earth"
+         body_settings.get( "Earth" ).atmosphere_settings = environment_setup.atmosphere.us76() # [py]
+
          
   #######################################################################
 

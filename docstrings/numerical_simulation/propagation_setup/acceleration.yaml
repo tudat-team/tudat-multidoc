@@ -720,13 +720,13 @@ functions:
              phase = np.pi * ( current_time - reference_time ) / period # [py]
              return np.array([1.0E-8, 0.0, 0.0]) * np.sin(phase) # [py]
          # [py]
-         acceleration_settings_on_vehicle["Vehicle"] = [propagation_setup.acceleration.custom( # [py]
+         acceleration_settings_on_vehicle["Vehicle"] = [propagation_setup.acceleration.custom_acceleration( # [py]
              custom_function)] # [py]
 
   # Direct tidal dissipation
   - name: directTidalDissipationAcceleration # [cpp]
   - name: direct_tidal_dissipation_acceleration # [py]
-    short_summary: "Creates settings for custom acceleration."
+    short_summary: "Creates settings for tidal acceleration."
     extended_summary: |
       Creates settings for tidal accelerations. The direct of tidal effects in a satellite system is applied directly as
       an acceleration (as opposed to a modification of spherical harmonic coefficients).
@@ -827,7 +827,7 @@ functions:
     examples: |
       In this example, we define an acceleration model to represent two quasi-impulsive shots, with a total duration of
       30 seconds, and a rise time of 5 seconds. The maneuvers are to be done at :math:`t=86400` and :math:`t=2*86400`.
-      The first maneuver is exclusively in :math:`x-`direction, and the second one exclusively in :math:`y-`direction,
+      The first maneuver is exclusively in :math:`x`-direction, and the second one exclusively in :math:`y`-direction,
       with both maneuvers having a magnitude of 1 mm/s
 
       .. code-block:: python # [py]
@@ -883,7 +883,7 @@ functions:
   - name: thrust_from_all_engines # [py]
     short_summary: "Creates settings for thrust acceleration using a single engine models."
     extended_summary: |
-      Creates settings for thrust acceleration by combining thryst from all engines defined in the body.. See the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/translational/thrust_models.html>`_
+      Creates settings for thrust acceleration by combining thrust from all engines defined in the body. See the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/translational/thrust_models.html>`_
       for more details on the definition of a thrust model in Tudat.
 
     returns:
