@@ -21,6 +21,8 @@ enums:
       - name: cannon_ball_radiation_pressure # [cpp]
       - name: spherical_harmonic_gravity # [cpp]
       - name: mutual_spherical_harmonic_gravity # [cpp]
+      - name: polyhedron_gravity # [cpp]
+      - name: ring_gravity # [cpp]
       - name: third_body_point_mass_gravity # [cpp]
       - name: third_body_central_gravity # [cpp]
       - name: third_body_spherical_harmonic_gravity # [cpp]
@@ -34,6 +36,7 @@ enums:
       - name: momentum_wheel_desaturation_acceleration # [cpp]
       - name: solar_sail_acceleration # [cpp]
       - name: custom_acceleration # [cpp]
+      - name: radiation_pressure # [cpp]
 
       - name: undefined_acceleration_type # [py]
       - name: point_mass_gravity_type # [py]
@@ -41,6 +44,8 @@ enums:
       - name: cannon_ball_radiation_pressure_type # [py]
       - name: spherical_harmonic_gravity_type # [py]
       - name: mutual_spherical_harmonic_gravity_type # [py]
+      - name: polyhedron_gravity_type # [py]
+      - name: ring_gravity_type # [py]
       - name: thrust_acceleration_type # [py]
       - name: relativistic_correction_acceleration_type # [py]
       - name: empirical_acceleration_type # [py]
@@ -50,6 +55,7 @@ enums:
       - name: quasi_impulsive_shots_acceleration_type # [py]
       - name: solar_sail_acceleration_type # [py]
       - name: custom_acceleration_type # [py]
+      - name: radiation_pressure_type # [py]
 
 
 
