@@ -263,6 +263,21 @@ functions:
 #         // Add the acceleration to the map # [cpp]
 #         accelerationSettings["Vehicle"]["Earth"].push_back(std::make_shared< AccelerationSettings >( aerodynamic ) ); # [cpp]
 
+  # Radiation pressure
+  - name: radiationPressureAcceleration # [cpp]
+  - name: radiation_pressure # [py]
+    short_summary: "Creates settings for the radiation pressure acceleration."
+    extended_summary: |
+      Creates settings for the radiation pressure acceleration. This function takes the source model of the body exerting the acceleration, and the target model of the 
+      body undergoing the acceleration, and links these models to set up the specific acceleration model, regardless of how the source and target models are defined. 
+      For more extensive details on how this is done, check out the 
+      `radiation pressure acceleration page <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/propagation_setup/translational/radiation_pressure_acceleration.html>`_.
+
+
+    returns:
+        type: AccelerationSettings
+        description: Acceleration settings object.
+
     
   # Cannonball radiation pressure
   - name: cannonBallRadiationPressureAcceleration # [cpp]
@@ -293,7 +308,7 @@ functions:
          # [py]
          # Create acceleration dict # [py]
          accelerations_acting_on_vehicle = dict() # [py]
-         # Add aerodynamic acceleration exerted by Earth # [py]
+         # Add cannonball radiation pressure acceleration exerted by Sun # [py]
          accelerations_acting_on_vehicle["Sun"] = [propagation_setup.acceleration.cannonball_radiation_pressure()] # [py]
 
 #      .. code-block:: cpp # [cpp]
@@ -502,6 +517,29 @@ functions:
 #          maximumOrderOfGanymede,  # [cpp]
 #          maximumDegreeOfIo,  # [cpp]
 #          maximumOrderOfIo ) ); # [cpp]
+
+  # Polyhedron gravity
+  - name: polyhedronAcceleration # [cpp]
+  - name: polyhedron_gravity # [py]
+    short_summary: "Creates settings for the polyhedron gravity acceleration."
+    extended_summary: |
+      Creates settings for the polyhedron gravity acceleration, which follows from defining a body to have polyhedral gravity.
+
+    returns:
+        type: AccelerationSettings
+        description: Acceleration settings object.
+
+
+  # Ring gravity
+  - name: ringAcceleration # [cpp]
+  - name: ring_gravity # [py]
+    short_summary: "Creates settings for the ring gravity acceleration."
+    extended_summary: |
+      Creates settings for the ring gravity acceleration, which follows from defining a body to have ring gravity.
+
+    returns:
+        type: AccelerationSettings
+        description: Acceleration settings object.
 
 
   # Relativistic correction
@@ -890,3 +928,26 @@ functions:
         type: ThrustAccelerationSettings
         description: Thrust acceleration settings object.
 
+
+  # Yarkovsky acceleration
+  - name: yarkovskyAcceleration # [cpp]
+  - name: yarkovsky # [py]
+    short_summary: "Creates settings for the Yarkovsky acceleration."
+    extended_summary: |
+      Creates settings for the Yarkovsky acceleration, which is calculated based on Pérez-Hernández & Benet (2022). The acceleration is only
+      considered in the tangential direction and is proportional to:
+
+      .. math::
+
+         \mathbf{a}=A_{2} \cdot (\frac{r_{0}}{r_{S}})^{2}
+
+      where :math:`A_{2}` is the Yarkovsky parameter, :math:`r_{0} = 1` AU and :math:`r_{S}` is the heliocentric distance in AU.
+
+    parameters:
+      - name: yarkovsky_parameter # [py]
+        type: float # [py]
+        description: Value of the Yarkovsky parameter.
+
+    returns:
+        type: AccelerationSettings
+        description: Acceleration settings object.
