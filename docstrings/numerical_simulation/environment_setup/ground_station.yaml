@@ -139,7 +139,7 @@ functions:
 
     returns:
         type: GroundStationSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.GroundStationSettings` defining settings of the to be created ground station
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ground_station.GroundStationSettings` defining settings of the to be created ground station
 
     examples: |
       In this example, we create a station using geodetic coordinates at the approximate location of the city of Delft, and no motion settings:
@@ -174,9 +174,9 @@ functions:
     parameters:
 
     returns:
-        type: list[ GroundStationMotionSettings ]
+        type: list[ GroundStationSettings ]
         description: 
-          List of settings to create DSN stationss
+          List of settings to create DSN stations
 
  
   #######################################################################

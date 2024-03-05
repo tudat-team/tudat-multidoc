@@ -43,11 +43,11 @@ classes:
       This class is a functional base class for settings of gravity field models that require no information in addition to their type.
       Gravity field model classes requiring additional information must be created using an object derived from this class.
 
-    #properties: # [py]
-    #  - name: body_mass_property_type # [py]
-    #    type: RigidBodyPropertiesType # [py]
-    #    description: Type of rigid body model that is to be created. # [py]
-    #    readonly: True # [py]
+    properties: # [py]
+     - name: body_mass_property_type # [py]
+       type: RigidBodyPropertiesType # [py]
+       description: Type of rigid body model that is to be created. # [py]
+       readonly: True # [py]
 
 
 
@@ -89,16 +89,16 @@ functions:
         description: Constant mass of the body
 
       - name: center_of_mass # [py]
-        type: np.array, default = np.full([3, 1], np.nan)
+        type: np.array, default = np.full([3, 1], np.nan) # py
         description: Constant center of mass of the body (in a body-fixed frame)
 
       - name: inertia_tensor # [py]
-        type: np.array, default = np.full([3, 3], np.nan)
+        type: np.array, default = np.full([3, 3], np.nan) # py
         description: Constant inertia tensor of the body (in a body-fixed frame)
 
     returns:
         type: RigidBodyPropertiesSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rigid_body.RigidBodyPropertiesSettings` object with the given settings
         
         
   #######################################################################
@@ -127,7 +127,7 @@ functions:
 
     returns:
         type: RigidBodyPropertiesSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rigid_body.RigidBodyPropertiesSettings` object with the given settings
         
  
   #######################################################################
@@ -155,5 +155,5 @@ functions:
 
     returns:
         type: RigidBodyPropertiesSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.RigidBodyPropertiesSettings` object with the given settings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.rigid_body.RigidBodyPropertiesSettings` object with the given settings
         

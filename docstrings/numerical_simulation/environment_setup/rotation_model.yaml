@@ -438,7 +438,7 @@ functions:
         description: Name of the spice reference frame name that will be used to compute the rotation to the target frame. For instance,
           if target_frame is set to "IAU_Earth", and ``spice_frame_name`` is set to "IAU_Mars", Tudat will extract the rotation to the IAU_Mars
           frame from Spice, and assign this rotation to the "IAU_Earth" frame in Tudat. By default, this input is left empty, which
-          corresponds to it being equal to teh ``target_frame``.
+          corresponds to it being equal to the ``target_frame``.
 
 
     returns:

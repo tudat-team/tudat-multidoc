@@ -89,7 +89,7 @@ functions:
 
     returns:
         type: BasicSolidBodyDeformationSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyDeformationSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape.BasicSolidBodyDeformationSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape_deformation.BodyDeformationSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape_deformation.BasicSolidBodyDeformationSettings` class
 
 
     examples: |
@@ -101,7 +101,7 @@ functions:
         love_numbers = dict()
         love_numbers[2] = (0.6, 0.08)
 
-        # Create tide raising bodies 
+        # Create tide raising bodies
         tide_raising_bodies = ["Sun", "Moon"]
 
         # Append shape variation settings to existing (default is empty) list
@@ -136,7 +136,7 @@ functions:
 
     returns:
         type: BasicSolidBodyDeformationSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyDeformationSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape.BasicSolidBodyDeformationSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape_deformation.BodyDeformationSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.shape_deformation.BasicSolidBodyDeformationSettings` class
 
 
     examples: |
@@ -148,7 +148,7 @@ functions:
         h2_love_number = 0.6
         l2_shida_number = 0.08
 
-        # Create tide raising bodies  
+        # Create tide raising bodies 
         tide_raising_bodies = ["Sun", "Moon"]
 
         # Append shape variation settings to existing (default is empty) list
@@ -169,7 +169,7 @@ functions:
 
     returns:
         type: BodyDeformationSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyDeformationSettings` defining the IERS 2010 settings
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape_deformation.BodyDeformationSettings` defining the IERS 2010 settings
 
 
   #######################################################################

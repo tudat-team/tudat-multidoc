@@ -234,19 +234,19 @@ classes:
         type: BodyShapeSettings # [py]
         description: |
           Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
-          altitude).
+          altitude). # [py]
 
       - name: high_resolution_body_shape_settings # [py]
         type: BodyShapeSettings # [py]
         description: |
           Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
-          altitude).
+          altitude). # [py]
 
       - name: switchover_altitude # [py]
         type: float # [py]
         description: |
           Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
-          altitudes below the switchover altitude, the low-resolution model for altitudes above it.
+          altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [py]
 
     methods:       # [cpp]
       - name: ctor # [cpp]
@@ -260,9 +260,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: std::shared_ptr< BodyShapeSettings > # [cpp]
-          description: |
-            Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
-            altitude). # [cpp]
+          description: Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover altitude). # [cpp]
 
       - name: resetLowResolutionBodyShapeSettings # [cpp]
         short_summary: "Reset the low-resolution body shape settings." # [cpp]
@@ -270,9 +268,7 @@ classes:
         parameters: # [cpp]
           - name: lowResolutionBodyShapeSettings # [cpp]
             type: std::shared_ptr< BodyShapeSettings > # [cpp]
-            description: |
-              Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover
-              altitude). # [cpp]
+            description: Settings of the shape model that is to be used to compute the altitude at high altitudes (above the switchover altitude). # [cpp]
 
       - name: getHighResolutionBodyShapeSettings # [cpp]
         short_summary: "Retrieve the high-resolution body shape settings." # [cpp]
@@ -281,9 +277,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: std::shared_ptr< BodyShapeSettings > # [cpp]
-          description: |
-            Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
-            altitude). # [cpp]
+          description: Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover altitude). # [cpp]
 
       - name: resetHighResolutionBodyShapeSettings # [cpp]
         short_summary: "Reset the high-resolution body shape settings." # [cpp]
@@ -291,9 +285,7 @@ classes:
         parameters: # [cpp]
           - name: highResolutionBodyShapeSettings # [cpp]
             type: std::shared_ptr< BodyShapeSettings > # [cpp]
-            description: |
-              Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover
-              altitude). # [cpp]
+            description: Settings of the shape model that is to be used to compute the altitude at low altitudes (below the switchover altitude). # [cpp]
 
       - name: getSwitchoverAltitude # [cpp]
         short_summary: "Retrieve switchover altitude." # [cpp]
@@ -302,9 +294,7 @@ classes:
           - name: None # [cpp]
         returns: # [cpp]
           type: double # [cpp]
-          description: |
-            Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
-            altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
+          description: Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
 
       - name: resetSwitchoverAltitude # [cpp]
         short_summary: "Reset switchover altitude." # [cpp]
@@ -312,9 +302,7 @@ classes:
         parameters: # [cpp]
           - name: switchoverAltitude # [cpp]
             type: double # [cpp]
-            description: |
-              Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for
-              altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
+            description: Altitude at which the model used to compute the altitude is changed. The high-resolution model is used for altitudes below the switchover altitude, the low-resolution model for altitudes above it. # [cpp]
 
 ##############################################################################
 #  ███████ ██    ██ ███    ██  ██████ ████████ ██  ██████  ███    ██  ██████
@@ -448,7 +436,7 @@ functions:
 
       Note 2: If the goal of using the shape model is only to detect collisions with the surface and not to explicitly
       obtain the altitude, it is instead recommended to use the Laplacian of the gravitational potential (see
-      :func:`~tudatpy.numerical_simulation.environment_setup.dependent_variable.yaml.gravity_field_laplacian_of_potential`).
+      :func:`~tudatpy.numerical_simulation.propagation_setup.dependent_variable.gravity_field_laplacian_of_potential`).
       This allows reducing the computational time, but is only valid if the same polyhedron model that is used to define
       the gravitational acceleration should also be used to detect the impacts.
 
@@ -538,7 +526,7 @@ functions:
           altitudes below the switchover altitude, the low-resolution model for altitudes above it.
 
     returns:
-        type: hybridBodyShapeSettings
+        type: HybridBodyShapeSettings
         description: |
           Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.shape.BodyShapeModel` derived
           :class:`~tudatpy.numerical_simulation.environment_setup.shape.HybridBodyShapeSettings` class

@@ -754,7 +754,7 @@ functions:
 
     returns:
         type: ApproximateJplEphemerisSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ApproximateJPLEphemerisSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ApproximateJplEphemerisSettings` class
 
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` for Jupiter using JPL's approximate planet position model:
@@ -811,7 +811,7 @@ functions:
 
     returns:
         type: ConstantEphemerisSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.constantEphemerisSettings` class
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.EphemerisSettings` derived :class:`~tudatpy.numerical_simulation.environment_setup.ephemeris.ConstantEphemerisSettings` class
 
 
     examples: |

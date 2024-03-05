@@ -100,7 +100,7 @@ functions:
     extended_summary: |
       Factory function for creating constant radiation source luminosity settings, defining the total
       radiated power (in Watts) of a given source. With this function, the source luminosity is constant, 
-      and is assumed to emit radiation isotropically
+      and is assumed to emit radiation isotropically.
 
     parameters:
       - name: luminosity # [py]
@@ -140,7 +140,7 @@ functions:
     extended_summary: |
       Factory function for creating source luminosity based on the irradiance at a reference distance. For instance,
       one can provide the solar irradiance at 1 AU, and this will be translated to the Sun's luminosity. With this function,
-      the source luminosity is constant, and is assumed to emit radiation isotropically
+      the source luminosity is constant, and is assumed to emit radiation isotropically.
 
     parameters:
       - name: constant_irradiance # [py]
@@ -162,7 +162,7 @@ functions:
     extended_summary: |
       Factory function for creating time-variable radiation source luminosity settings, defining the total
       radiated power (in Watts) of a given source as a function of time. With this function, the source 
-      is assumed to emit radiation isotropically
+      is assumed to emit radiation isotropically.
 
     parameters:
       - name: luminosity_function # [py]
@@ -180,7 +180,7 @@ functions:
     extended_summary: |
       Factory function for creating source time-variable luminosity based on the irradiance at a reference distance. For instance,
       one can provide the solar irradiance at 1 AU as a function of time, and this will be translated to the Sun's luminosity.
-      With this function, the source is assumed to emit radiation isotropically
+      With this function, the source is assumed to emit radiation isotropically.
 
     parameters:
       - name: irradiance_function # [py]
@@ -228,7 +228,7 @@ functions:
       .. math::
          k(\phi,\theta)=\sum_{l=0}^{l_{max}}\sum_{m=0}^{l}{P}_{lm}(\sin\phi)\left({C}_{lm}\cos m\theta+{S}_{lm}\sin m\theta\right)
 
-      with the angles :math:`\phi` and :math:`\theta` the body-fixed latitude and longitude of the evaluation point
+      with the angles :math:`\phi` and :math:`\theta` the body-fixed latitude and longitude of the evaluation point.
 
     parameters:
       - name: cosine_coefficients # [py]
@@ -331,7 +331,7 @@ functions:
     short_summary: "Factory function for creating radiative surface property distribution settings according to a custom user-defined model."
     extended_summary: |
       Factory function for creating radiative surface property (e.g. albedo, emmisivitiy, etc.) distribution settings
-      according to a custom user-defined model, as a function of latitude, longitude and time
+      according to a custom user-defined model, as a function of latitude, longitude and time.
 
     parameters:
       - name: custom_function # [py]
@@ -349,7 +349,7 @@ functions:
     extended_summary: |
       Factory function for creating settings for surface radiosity of an extended source, using constant Lambertian radiosity :math:`J` (in :math:`W/m^{2}`).
       For a surface panel normal of :math:`\hat{\mathbf{n}}` and a vector :math:`\mathbf{r}` from the surface element to the target, the resulting
-      irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if :math:`theta>0`, or in other words if the panel is visible from the target):
+      irradiance :math:`\Phi` (in :math:`W/m^{2}`) at the target is (if :math:`\theta>0`, or in other words if the panel is visible from the target):
       
       .. math::
          \Phi=J\frac{A\cos\theta}{\pi ||\mathbf{r}||^{2}}
@@ -401,7 +401,7 @@ functions:
   - name: variable_albedo_surface_radiosity # [py]
     short_summary: "Factory function for creating settings for surface variable albedo surface radiosity of an extended source"
     extended_summary: |
-      As :func:`constant_albedo_surface_radiosity`, but with the surface albedo :math:`a` defined by a surface distribution model
+      As :func:`constant_albedo_surface_radiosity`, but with the surface albedo :math:`a` defined by a surface distribution model.
 
     parameters:
       - name: albedo_distribution_settings # [py]
@@ -455,7 +455,7 @@ functions:
   - name: thermal_emission_blackbody_variable_emissivity # [py]
     short_summary: "Factory function for creating settings for surface radiosity of an extended source from an isotropically heated body with variable emmisivity"
     extended_summary: |
-      As :func:`thermal_emission_blackbody_constant_emissivity`, but with the surface emmisivity :math:`\epsilon` defined by a surface distribution model
+      As :func:`thermal_emission_blackbody_constant_emissivity`, but with the surface emmisivity :math:`\epsilon` defined by a surface distribution model.
 
     parameters:
       - name: emissivity_distribution_model # [py]
@@ -561,7 +561,7 @@ functions:
       Factory function for creating settings for target panel reflection law used for a radiation pressure target, with a
       purely Lambertian model. The implementation is as :func:`specular_diffuse_body_panel_reflection`, with
       :math:`\rho=0` and no instantaneous reradiation. The only free parameter is the reflectivity :math:`\delta`, such that 
-      :math:`\alpha=1-\delta`
+      :math:`\alpha=1-\delta`.
 
     parameters:
       - name: reflectivity # [py]
@@ -628,7 +628,7 @@ functions:
       .. math::
          \Phi=\sum_{i=1}^{N}\sum_{j=1}\Phi_{i,j}
       
-      where :math:`\Phi_{i,j}` denotes the contribution to the total irradiance of panel radiosity model :math:`j` on panel :math:`i`
+      where :math:`\Phi_{i,j}` denotes the contribution to the total irradiance of panel radiosity model :math:`j` on panel :math:`i`.
 
     parameters:
       - name: luminosity_model # [py]

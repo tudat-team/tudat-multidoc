@@ -506,7 +506,7 @@ functions:
     parameters:
     returns:
         type: GravityFieldSettings
-        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` class of gravity field type ``central_spice``"
+        description: Instance of the :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` class of gravity field type ``central_spice``
 
     examples: |
       In this example, we create :class:`~tudatpy.numerical_simulation.environment_setup.gravity_field.GravityFieldSettings` for Earth using a simple central gravity field model and data from Spice:
