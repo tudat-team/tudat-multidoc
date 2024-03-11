@@ -1256,6 +1256,34 @@ functions:
         termination_settings = propagation_setup.propagator.hybrid_termination( termination_settings_list, fulfill_single_condition = True )
 
 
+
+  - name: non_sequential_termination # [py]
+    short_summary: "Factory function to create non-sequential termination settings for the propagation."
+    extended_summary: |
+      Factory function to create non-sequential termination settings for the propagation. By using this setting,
+      the propagation of the dynamics along an arc is propagated starting from some point (initial time and state) along the arc, and then
+      propagating both forwards and backwards in time. This termination condition allows the user to specify 
+      termination conditions for the propagations forwards and backwards in time. These two propagations are then
+      internally performed separately, but the resulting propagation results provide the concatenated results
+      from the two and effectively constitute
+      By using this function, the propagation controlled by the ``forward_termination_settings`` automatically has a positive
+      time step, while the ``backward_termination_settings`` automatically has a negative time step. By definition,
+      both will start from the same initial time and state, which are provided in the propagation settings
+      
+    parameters:
+    
+      - name: forward_termination_settings # [py]
+        type: PropagationTerminationSettings # [py]
+        description: Propagation termination setting for the forward-in-time propagation
+
+      - name: backward_termination_settings # [py]
+        type: PropagationTerminationSettings # [py]
+        description: Propagation termination setting for the backwards-in-time propagation
+        
+    returns:
+        type: PropagationTerminationSettings
+        description: Termination settings object for forward- and backwards-in-time propagation.
+
   - name: add_dependent_variable_settings # [py]
     short_summary: "Function to add dependent variables to existing propagator settings."
 
