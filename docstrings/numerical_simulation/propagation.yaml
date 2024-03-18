@@ -124,7 +124,7 @@ classes:
 
   - name: PropagationTerminationDetails
     short_summary: |
-       Object that provides information on the reason for the
+       Class that provides information on the reason for the
        termination of the propagation.
 
     properties: # [py]
@@ -140,6 +140,24 @@ classes:
           or once the propagation went *past* the determined final condition. The choice of behaviour is
           defined by the termination settings provided as input to the Simulator object. This variable only
           has a meaningful definition if the ``termination_reason`` has value ``termination_condition_reached``
+
+  #############################################
+
+  - name: PropagationTerminationDetailsFromHybridCondition
+    short_summary: |
+       Class that provides information on the reason for the termination of the propagation, for hybrid termination conditions
+    extended_summary: |
+       Derived class from :class:`PropagationTerminationDetails` that provides information on the reason for the termination of the propagation,
+       for the case of hybrid termination conditions (defined using the :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.hybrid_termination`)
+       function
+
+    properties: # [py]
+      - name: was_condition_met_when_stopping # [py]
+        type: list[bool] # [py]
+        description: | # [py]
+          List of booleans defining, per entry in ``termination_settings`` when calling :func:`~tudatpy.numerical_simulation.propagation_setup.propagator.hybrid_termination`,
+          whether the corresponding entry of the hybrid termination settings was met or not
+
 
 
   #############################################
