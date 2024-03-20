@@ -429,6 +429,25 @@ functions:
         type: :class:`~tudatpy.numerical_simulation.environment.SystemOfBodies`  # [py]
         description: Object containing the objects for bodies and environment models constituting the physical environment # [py]
 
+  - name: create_body_ephemeris # [py]
+    short_summary: "Function that creates an Ephemeris object." # [py]
+    extended_summary: | # [py]
+      Function that creates an :class:`~tudatpy.numerical_simulation.environment.Ephemeris` object, but does *not*
+      associate it with any specific body (e.g., it does not go into the environment, but can be used independently of it)
+
+    parameters: # [py]
+      - name: ephemeris_settings # [py]
+        type: EphemerisSettings # [py]
+        description: "Object defining the ephemeris settings." # [py]
+
+      - name: body_name # [py]
+        type: str # [py]
+        description: "Name of body for which the ephemeris is created. Note that this input is only relevant for some ephemeris settings (for instance, a spice ephemeris setting), and it does *not* imply that the ephemeris object is associated with a Body object of this name." # [py]
+
+    returns: # [py]
+      type: :class:`~tudatpy.numerical_simulation.environment.Ephemeris`  # [py]
+      description: Ephemeris object, created according to the provided settings # [py]
+
 
   - name: add_radiation_pressure_interface # [py]
     short_summary: "Function that creates an radiation pressure interface from settings, and adds it to an existing body."
