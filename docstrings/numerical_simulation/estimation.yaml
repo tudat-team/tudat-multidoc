@@ -639,7 +639,7 @@ classes:
 
       - name: final_residuals
         type: numpy.ndarray[numpy.float64[m, 1]]
-        description: Vector of post-fit observation residuals.
+        description: Vector of post-fit observation residuals, for the iteration with the lowest rms residuals.
         readonly: True
 
 
