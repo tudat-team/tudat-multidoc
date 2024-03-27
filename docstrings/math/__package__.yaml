@@ -7,3 +7,4 @@ extended_summary:  |
 
 modules:
   - interpolators
+  - root_finders
