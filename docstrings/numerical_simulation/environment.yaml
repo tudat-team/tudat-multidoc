@@ -402,27 +402,129 @@ classes:
       which are used to transform coordinates between reference frames.
 
     methods:
-      - name: getRotationMatrixToBaseFrame                          # [cpp]
       - name: body_fixed_to_inertial_rotation                       # [py]
         short_summary: |
-          Function to get rotation matrix from target frame to base frame over time.
+          Function to get rotation matrix from body-fixed frame to inertial frame over time.
         extended_summary: |
-          Function to get rotation matrix from target frame to base frame at a certain epoch. It is used to
-          transform a Cartesian state vector including position and velocity from a body fixed to inertial frame.
+          Function to get rotation matrix from body-fixed (target) frame to inertial (base) frame over time. 
+          The calculation of this rotation matrix depends on the specific rotation model that has been defined,
+          either from an a priori definition (see :ref:`\`\`rotation_model\`\`` submodule) or from processing
+          the results of propagation of the rotational equations of motion.
 
         parameters:
-          - name: secondsSinceEpoch # [cpp]
-            type: float # [cpp]
           - name: current_time # [py]
             type: float # [py]
             description: |
-              The time at which the rotation matrix is evaluated
+              The time (in seconds since epoch J2000, TDB time scale) at which the rotation matrix is evaluated
 
         returns:
           type: np.ndarray # [py]
-          type: Eigen::Matrix3d # [cpp]
-          description: Rotation matrix :math:`\mathbf{R}^{B/A}` from frame :math:`A` to frame `B`
-##################################################################
+          description: Rotation matrix :math:`\mathbf{R}^{I/B}` from body-fixed frame :math:`B` to inertial frame `I`
+
+      - name: inertial_to_body_fixed_rotation                       # [py]
+        short_summary: |
+          Function to get rotation matrix from inertial frame to body-fixed frame over time.
+        extended_summary: |
+          Function computes the inverse (equal to transpose) rotation of the ``body_fixed_to_inertial_rotation`` function.
+
+        parameters:
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time (in seconds since epoch J2000, TDB time scale) at which the rotation matrix is evaluated
+
+      - name: time_derivative_body_fixed_to_inertial_rotation                       # [py]
+        short_summary: |
+          Function to get time derivative of rotation matrix from body-fixed frame to inertial frame over time.
+        extended_summary: |
+          Function to get time derivative of rotation matrix from body-fixed frame to inertial frame over time (see ``body_fixed_to_inertial_rotation``), 
+          denoted :math:`\dot{\mathbf{R}}^{(I/B)}`,
+      
+
+        parameters:
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time (in seconds since epoch J2000, TDB time scale) at which the rotation matrix derivative is evaluated
+
+
+        returns:
+          type: np.ndarray # [py]
+          description: Rotation matrix :math:`\dot{\mathbf{R}}^{I/B}` from body-fixed frame :math:`B` to inertial frame `I`
+
+      - name: time_derivative_inertial_to_body_fixed_rotation                       # [py]
+        short_summary: |
+          Function to get time derivative of rotation matrix from inertial frame to body-fixed frame over time.
+        extended_summary: |
+          Function to get time derivative of rotation matrix from inertial frame to body-fixed frame over time (see ``inertial_to_body_fixed_rotation``), 
+          denoted :math:`\dot{\mathbf{R}}^{(B/I)}`,
+
+
+        parameters:
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time (in seconds since epoch J2000, TDB time scale) at which the rotation matrix derivative is evaluated
+
+
+        returns:
+          type: np.ndarray # [py]
+          description: Rotation matrix :math:`\dot{\mathbf{R}}^{B/I}` from inertial frame `I` to body-fixed frame :math:`B`
+
+
+      - name: angular_velocity_in_body_fixed_frame                       # [py]
+        short_summary: |
+          Function to get the body's angular velocity vector, expressed in the body-fixed frame.
+        extended_summary: |
+          Function to get the body's angular velocity vector :math:`\boldsymbol{\omega}^{(B)}`, expressed in the body-fixed frame :math:`B`.
+          The calculation of the angular velocity depends on the specific rotation model that has been defined,
+          either from an a priori definition (see :ref:`\`\`rotation_model\`\`` submodule) or from processing
+          the results of propagation of the rotational equations of motion. 
+          Note that when numerically propagating rotational dynamics, this angular velocity vector is typically directly defined
+          in the last three entries of the state vector.
+
+        parameters:
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time (in seconds since epoch J2000, TDB time scale) at which the angular velocity vector is evaluated
+
+        returns:
+          type: np.ndarray # [py]
+          description: Angular velocity vector of the body  :math:`\boldsymbol{\omega}^{(B)}` expressed in the body-fixed frame :math:`B`
+
+      - name: angular_velocity_in_inertial_frame                       # [py]
+        short_summary: |
+          Function to get the body's angular velocity vector, expressed in the inertial frame.
+        extended_summary: |
+          Function to get the body's angular velocity vector :math:`\boldsymbol{\omega}^{(I)}`, expressed in the body-fixed frame :math:`I`.
+          This quantity is computed from :math:`\mathbf{R}^{I/B}\boldsymbol{\omega}^{(B)}`, see the ``angular_velocity_in_body_fixed_frame`` and
+          ``body_fixed_to_inertial_rotation`` functions.
+
+        parameters:
+          - name: current_time # [py]
+            type: float # [py]
+            description: |
+              The time (in seconds since epoch J2000, TDB time scale) at which the angular velocity vector is evaluated
+
+        returns:
+          type: np.ndarray # [py]
+          description: Angular velocity vector of the body  :math:`\boldsymbol{\omega}^{(B)}` expressed in the body-fixed frame :math:`B`
+
+    properties: # [py]
+      - name: body_fixed_frame_name # [py]
+        type: str # [py]
+        readonly: Yes
+        description: |
+          The identifier of the body-fixed frame, used in other parts of the simulation to identify it.
+
+      - name: inertial_frame_name # [py]
+        type: str # [py]
+        readonly: Yes
+        description: |
+          The identifier of the inertial frame, used in other parts of the simulation to identify it.
+
+      ##################################################################
      
   - name: VehicleSystems
     short_summary: |
@@ -506,7 +608,7 @@ classes:
         - name: current_time # [py]
           type: float # [py]
           description: |
-            Time (in seconds since J2000) at which the state is to be computed.
+            Time (in seconds since J2000 in TDB time scale) at which the state is to be computed.
 
         returns:
           type: np.ndarray
@@ -519,7 +621,7 @@ classes:
         - name: current_time # [py]
           type: float # [py]
           description: |
-            Time (in seconds since J2000) at which the state is to be computed.
+            Time (in seconds since J2000 in TDB time scale) at which the state is to be computed.
 
         returns:
           type: np.ndarray
@@ -532,7 +634,7 @@ classes:
         - name: current_time # [py]
           type: float # [py]
           description: |
-            Time (in seconds since J2000) at which the state is to be computed.
+            Time (in seconds since J2000 in TDB time scale) at which the state is to be computed.
 
         returns:
           type: np.ndarray
