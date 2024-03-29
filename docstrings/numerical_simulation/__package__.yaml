@@ -47,11 +47,12 @@ classes:
         type: EnvironmentUpdater
         readonly: Yes
         description: |
-          # Object used in the propagation to update the environment, it uses the current time and numerically calculated state
+          Object used in the propagation to update the environment, it uses the current time and numerically calculated state
           to update the translational state, rotational state, flight conditions, etc. of all bodies in the simulation to be
-          consistent with this time and state.  Typically, this class is NOT used directly by users.
+          consistent with this time and state.  Typically, this class is NOT used directly by users, but can be useful in specific situations.
 
       - name: propagation_results  # [py]
+        type: SingleArcSimulationResults
         readonly: Yes
         description: |
           This function retrieves all the results of the numerical propagation, stored

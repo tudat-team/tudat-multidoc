@@ -21,11 +21,17 @@ enums:
 
     members:
       - name: inertial_frame
+        description: "The global orientation (which is by definition inertial)."
       - name: corotating_frame
+        description: "The body-fixed frame of the central body."
       - name: vertical_frame
+        description: "Frame with z-axis pointing towards origin of central body, the x-axis lies in the meridian plane and points towards the central-body-fixed z-axis (the y-axis completes the frame)."
       - name: trajectory_frame
+        description: "The (airspeed-based) trajectory frame has the x-axis in the direction of the velocity vector relative to the atmosphere (airspeed-based velocity vector), z-axis lies in the vertical plane and points downwards (the y-axis completes the frame)."
       - name: aerodynamic_frame
+        description: "The (airspeed-based) aerodynamic frame has the x-axis in the direction of the velocity vector relative to the atmosphere (airspeed-based velocity vector), z-axis co-linear with the aerodynamic lift vector, pointing in the opposite direction (the y-axis completes the frame).."
       - name: body_frame
+        description: "The body-fixed frame of the body itself."
 
   - name: AerodynamicCoefficientFrames
     short_summary: "Enumeration of reference frames used for definition of aerodynamic coefficients."
@@ -37,9 +43,13 @@ enums:
 
     members:
       - name: positive_body_fixed_frame_coefficients
+        description: "The coefficients are defined in the body-fixed frame, with the directions the same as the body-fixed axes. For aerodynamic forces and moments, this results in the typical :math:`C_{x}, C_{y}, C_{y}` (force) and :math:`C_{l}, C_{m}, C_{n}` (moment) coefficients"
       - name: negative_body_fixed_frame_coefficients
+        description: "Same as ``positive_body_fixed_frame_coefficients``, but opposite in direction (so axes along negative body-fixed frame axes)"
       - name: positive_aerodynamic_frame_coefficients
+        description: "Same as ``negative_aerodynamic_frame_coefficients``, but opposite in direction (so axes along positive aerodynamic frame axes)"
       - name: negative_aerodynamic_frame_coefficients
+        description: "The coefficients are defined in aerodynamic frame, with the directions the same as the negative axes. For aerodynamic forces, this results in the typical :math:`C_{D}, C_{S}, C_{D}` force coefficients"
 
 
   - name: AerodynamicCoefficientsIndependentVariables
@@ -65,6 +75,174 @@ enums:
 
 
 classes:
+
+  - name: AerodynamicCoefficientInterface
+    short_summary: |
+      Base class for computing the current aerodynamic coefficients of the body
+    extended_summary: |
+      Base class for computing the current aerodynamic coefficients of the body. The implementation of the computation
+      depends on the choice of aerodynamic coefficient model (see :ref:`\`\`aerodynamic_coefficients\`\`` for available options).
+      During the propagation, this object is automatically updated to the current state by the :class:`~AtmosphericFlightConditions` object.
+      The user may override the current aerodynamic coefficients when using, for instance, a custom aerodynamic guidance model
+      (see `here <https://docs.tudat.space/en/latest/_src_getting_started/_src_examples/notebooks/propagation/reentry_trajectory.html>`_ for an example).
+      using the member functions of this class.
+
+    properties: # [py]
+      - name: reference_area # [py]
+        type: float # [py]
+        readonly: Yes
+        description: |  # [py]
+          The aerodynamic reference area :math:`A` of the coefficients
+
+      - name: current_force_coefficients # [py]
+        type: np.ndarray # [py]
+        readonly: Yes
+        description: |  # [py]
+          The current aerodynamic force coefficients, in the frame defined by the :attr:`~force_coefficient_frame` attribute,
+          as computed by the last call to the :meth:`~update_coefficients` function.
+
+      - name: current_moment_coefficients # [py]
+        type: np.ndarray # [py]
+        readonly: Yes
+        description: |  # [py]
+          The current aerodynamic moment coefficients, in the frame defined by the :attr:`~moment_coefficient_frame` attribute,
+          as computed by the last call to the :meth:`~update_coefficients` function.   
+
+      - name: current_coefficients # [py]
+        type: np.ndarray # [py]
+        readonly: Yes
+        description: |  # [py]
+          Concatenation of attr:`~current_force_coefficients` and attr:`~current_moment_coefficients`
+
+      - name: force_coefficient_frame # [py]
+        type: AerodynamicCoefficientFrames # [py]
+        readonly: Yes
+        description: |  # [py]
+          Reference frame in which the  attr:`~current_force_coefficients` are defined
+
+      - name: moment_coefficient_frame # [py]
+        type: AerodynamicCoefficientFrames # [py]
+        readonly: Yes
+        description: |  # [py]
+          Reference frame in which the  attr:`~current_moment_coefficients` are defined
+
+      - name: independent_variable_names # [py]
+        type: list[AerodynamicCoefficientsIndependentVariables] # [py]
+        readonly: Yes
+        description: |  # [py]
+          List of independent variables from which the aerodynamic coefficients are computed (e.g. required input to :meth:`~update_coefficients` function).
+
+      - name: current_control_surface_free_force_coefficients # [py]
+        type: np.ndarray # [py]
+        readonly: Yes
+        description: |  # [py]
+          Same as :attr:`current_force_coefficients`, but without contribution (if any) from control surfaces
+
+      - name: current_control_surface_free_moment_coefficients # [py]
+        type: np.ndarray # [py]
+        readonly: Yes
+        description: |  # [py]
+          Same as :attr:`current_moment_coefficients`, but without contribution (if any) from control surfaces
+
+      - name: control_surface_independent_variable_names # [py]
+        type: dict[str,list[AerodynamicCoefficientsIndependentVariables]] # [py]
+        readonly: Yes
+        description: |  # [py]
+          List of independent variables from which the aerodynamic coefficients of each control surface are computed, with dictionary key being the control surface name (e.g. required input to :meth:`~update_full_coefficients` function).
+          
+    methods:
+
+      - name: current_control_surface_force_coefficient_increment                       # [py]
+        short_summary: |
+          Function to get the contribution from a single control surface to the aerodynamic force coefficient, as compute by last call to :meth:`~update_full_coefficients`
+
+        parameters:
+          - name: control_surface_name # [py]
+            type: str # [py]
+            description: |
+              The name of the control surface for which the contribution is to be retrieved
+
+        returns:
+          type: np.ndarray # [py]
+          description: Contribution from the requested control surface to the aerodynamic force coefficient
+
+      - name: current_control_surface_moment_coefficient_increment                       # [py]
+        short_summary: |
+          Function to get the contribution from a single control surface to the aerodynamic moment coefficients, as compute by last call to :meth:`~update_full_coefficients`
+
+        parameters:
+          - name: control_surface_name # [py]
+            type: str # [py]
+            description: |
+              The name of the control surface for which the contribution is to be retrieved
+
+        returns:
+          type: np.ndarray # [py]
+          description: Contribution from the requested control surface to the aerodynamic moment coefficients
+
+      - name: update_coefficients                       # [py]
+        short_summary: |
+          Function to update the aerodynamic coefficients of the body only
+        extended_summary: |
+          Function to update the aerodynamic coefficients of the body only (without the control surface contribution),
+          based on the current state. This function may be called by the user, but will set *only* the
+          :attr:`~current_force_coefficients` and :attr:`~current_moment_coefficients` (while leaving the
+          :attr:`~current_control_surface_free_force_coefficients` and :attr:`~current_control_surface_free_moment_coefficients` unchanged)
+
+        parameters:
+          - name: independent_variables # [py]
+            type: list[float] # [py]
+            description: |
+              List of inputs from which the aerodynamic coefficients are to be computed, with each entry corresponding to the
+              value of the physical variable defined by the :attr:`independent_variable_names` attribute.
+
+          - name: time # [py]
+            type: float # [py]
+            description: |
+              Current time (in seconds since J2000)
+
+        returns:
+          type: np.ndarray # [py]
+          description: Contribution from the requested control surface to the aerodynamic moment coefficients
+
+      - name: update_full_coefficients                       # [py]
+        short_summary: |
+          Function to update the aerodynamic coefficients, from both the body and its control surfaces
+        extended_summary: |
+          Function to update the aerodynamic coefficients of both the body and its control surfaces,
+          based on the current state. This function will call the :meth:`~update_coefficients` function to update the body coefficients.
+          This function may be called by the user, and will set the
+          :attr:`~current_force_coefficients`, :attr:`~current_moment_coefficients` , 
+          :attr:`~current_control_surface_free_force_coefficients` and :attr:`~current_control_surface_free_moment_coefficients`,
+          and while modify the coefficients returned by the :meth:`~current_control_surface_force_coefficient_increment` and
+          :meth:`~current_control_surface_moment_coefficient_increment` functions
+
+        parameters:
+          - name: independent_variables # [py]
+            type: list[float] # [py]
+            description: |
+              List of inputs from which the aerodynamic coefficients of the body are to be computed, with each entry corresponding to the
+              value of the physical variable defined by the :attr:`independent_variable_names` attribute.
+
+          - name: control_surface_independent_variables # [py]
+            type: dict[str,list[float]] # [py]
+            description: |
+              List of inputs from which the control surface aerodynamic coefficients are to be computed (with dictionary key the control surface name), 
+              with each entry corresponding to the
+              value of the physical variable defined by the :attr:`control_surface_independent_variable_names ` attribute.
+
+          - name: time # [py]
+            type: float # [py]
+            description: |
+              Current time (in seconds since J2000)
+
+          - name: check_force_contribution # [py]
+            type: bool, default = True # [py]
+            description: |
+              Boolean that determines if the force contribution to the aerodynamic moments should be added. Note that this input is
+              only used if the :attr:`~tudatpy.numerical_simulation.environment_setup.aerodynamic_coefficients.AerodynamicCoefficientSettings.add_force_contribution_to_moments` attribute is set to True.
+
+  ##################################################################
 
   - name: HypersonicLocalInclinationAnalysis
     short_summary: "Class to calculate the hypersonic aerodynamic coefficients using local inclination methods."
@@ -684,6 +862,23 @@ classes:
        properties, in as much as they are time-dependent, can be
        extracted from this object
 
+    methods:
+      - name: get_ground_station # [py]
+        short_summary: "This function extracts a ground station object from the body."
+        extended_summary: |
+          This function extracts a ground station object, for a station of a given name, from the body.
+          If no station of this name exists, an exception is thrown
+
+        parameters:
+          - name: station_name # [py]
+            type: str # [py]
+            description: |
+              Name of the ground station that is to be retrieved.
+
+        returns:
+          type: GroundStation
+          description: Ground station object of the station of requested name
+
     properties: # [py]
       - name: state # [py]
         type: numpy.ndarray # [py]
@@ -774,14 +969,30 @@ classes:
       - name: mass # [py]
         type: float # [py]
         description: |
-          Denotes the current mass of the vehicle, as used in the calculation of
-          non-conservative acceleration. Note that defining a mass for a vehicle
-          does *not* define a gravity field (this is done through a gravity field model).
-          However, defining a gravity field model in a body automatically assigns it
-          a mass here.
+          The current mass :math:`m` of the vehicle, as used in the calculation of
+          non-conservative acceleration. This attribute is a shorthand for accessing the
+          mass as computed/stored in the ``rigid_body_properties`` attribute. For certain
+          types of rigid-body properties, this attribute cannot be used to (re)set the current
+          mass. If the body has no ``rigid_body_properties``, and this function is used to
+          set a mass, a new object is automatically created, with settings analogous to the
+          the :func:`~tudatpy.numerical_simulation.environment_setup.rigid_body.constant_rigid_body_properties` setting.
+          
           Unlike the attributes containing the state, orientation, angular velocity
           of the Body, this attribute may be used to retrieve the state during the
-          propagation *and* to define the mass of a vehicle
+          propagation *and* to define the mass of a vehicle.
+
+      - name: inertia_tensor # [py]
+        type: np.ndarray # [py]
+        description: |
+          The current inertia tensor :math:`\mathbf{I}` of the vehicle, as used in the calculation of
+          (for instance) the reponse to torques. This attribute is a shorthand for accessing the
+          inertia tensor as computed/stored in the ``rigid_body_properties`` attribute. For certain
+          types of rigid-body properties, this attribute cannot be used to (re)set the current
+          mass. 
+          
+          Unlike the attributes containing the state, orientation, angular velocity
+          of the Body, this attribute may be used to retrieve the state during the
+          propagation *and* to define the mass of a vehicle.
 
       - name: ephemeris # [py]
         type: Ephemeris # [py]
@@ -844,12 +1055,19 @@ classes:
           Object used to store physical (hardware) properties of a vehicle, such as engines, control surfaces, etc. This
           object is typically created automatically whenever such a hardware model needs to be assigned to a vehicle.
 
+      - name: ground_station_list # [py]
+        type: dict[str,GroundStation] # [py]
+        description: |
+          Dictionary of all ground stations that exist in the body, with dictionary key being the name of the station,
+          and the ground station object the key of the dictionary.
 
       - name: gravitational_parameter # [py]
         type: float # [py]
         readonly: Yes
         description: |
           Attribute of convenience, equivalent to ``.gravity_field_model.gravitational_parameter``
+          
+          
 
   - name: SystemOfBodies
     short_summary: |
@@ -874,7 +1092,7 @@ classes:
         - name: bodyName # [cpp]
           type: std::string # [cpp]
         - name: body_name # [py]
-          type: numpy.ndarray # [py]
+          type: str # [py]
           description: |
             Name of the Body that is to be retrieved.
 

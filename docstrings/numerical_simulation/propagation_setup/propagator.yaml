@@ -1206,6 +1206,11 @@ functions:
       to define that all conditions or a single condition of the conditions provided must be met to
       stop the propagation. Each termination condition should be created according to each individual factory function
       and then added to a list of termination conditions.
+      
+      Note that, when using this option, the :attr:`~tudatpy.numerical_simulation.propagation.SingleArcSimulationResults.termination_details` of
+      the simulation results object (obtained from here after a propagation: `:attr:`~tudatpy.numerical_simulation.SingleArcSimulator.propagation_results`)
+      is of derived type :class:`~tudatpy.numerical_simulation.propagation.PropagationTerminationDetailsFromHybridCondition`, which
+      contains additional details on the hybrid termination (such as the specific conditions that were met).
 
     parameters:
       - name: terminationSettings # [cpp]
