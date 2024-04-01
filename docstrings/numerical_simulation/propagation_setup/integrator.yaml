@@ -274,11 +274,12 @@ functions:
       :math:`\Delta t_{rec.}` the new, recommended step size, and :math:`\Delta t` the current step size. The factor :math:`K` is a safety factor
       used make the time step slightly smaller than strictly required.
       
-      A minimum and maximum change in time step may be provided by the such that if :math:`\Delta t_{rec.}/\Delta t` is too large or too small,
-      the proposed increase/decrease to the step size is constrained to this limite value.
+      A minimum and maximum change in time step may be provided by the user, such that if :math:`\Delta t_{rec.}/\Delta t` is too large or too small,
+      the proposed increase/decrease to the step size is constrained to this limit value. That is, if :math:`\Delta t_{rec.}/\Delta t` proposed by the algorithm is
+      1000, and the ``maximum_factor_increase`` input is equal to 20, the algorithm will use :math:`\Delta t_{rec.}/\Delta t=20` in what follows. 
       
-      For cases where :math:`\bar{\Delta t_{rec.}}<1`, the step is recommended to be recomputed with the new proposed step size (e.g. the current step 
-      is not accepted, and will be re-attempted with a smaller step size). For cases where :math:`\bar{\Delta t_{rec.}}>1`, the step is accepted, and 
+      For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t`<1`, the step is recommended to be recomputed with the new proposed step size (e.g. the current step 
+      is not accepted, and will be re-attempted with a smaller step size). For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t`>1`, the step is accepted, and 
       the next step will be performed with the new, higher, step size.
       
     parameters:

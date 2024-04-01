@@ -112,19 +112,19 @@ classes:
         type: np.ndarray # [py]
         readonly: Yes
         description: |  # [py]
-          Concatenation of attr:`~current_force_coefficients` and attr:`~current_moment_coefficients`
+          Concatenation of :attr:`~current_force_coefficients` and :attr:`~current_moment_coefficients`
 
       - name: force_coefficient_frame # [py]
         type: AerodynamicCoefficientFrames # [py]
         readonly: Yes
         description: |  # [py]
-          Reference frame in which the  attr:`~current_force_coefficients` are defined
+          Reference frame in which the  :attr:`~current_force_coefficients` are defined
 
       - name: moment_coefficient_frame # [py]
         type: AerodynamicCoefficientFrames # [py]
         readonly: Yes
         description: |  # [py]
-          Reference frame in which the  attr:`~current_moment_coefficients` are defined
+          Reference frame in which the  :attr:`~current_moment_coefficients` are defined
 
       - name: independent_variable_names # [py]
         type: list[AerodynamicCoefficientsIndependentVariables] # [py]
@@ -211,10 +211,10 @@ classes:
         extended_summary: |
           Function to update the aerodynamic coefficients of both the body and its control surfaces,
           based on the current state. This function will call the :meth:`~update_coefficients` function to update the body coefficients.
-          This function may be called by the user, and will set the
+          This function may be called by the user, and will set the following attributes:
           :attr:`~current_force_coefficients`, :attr:`~current_moment_coefficients` , 
-          :attr:`~current_control_surface_free_force_coefficients` and :attr:`~current_control_surface_free_moment_coefficients`,
-          and while modify the coefficients returned by the :meth:`~current_control_surface_force_coefficient_increment` and
+          :attr:`~current_control_surface_free_force_coefficients` and :attr:`~current_control_surface_free_moment_coefficients`.
+          In addition, it will modify the coefficients returned by the :meth:`~current_control_surface_force_coefficient_increment` and
           :meth:`~current_control_surface_moment_coefficient_increment` functions
 
         parameters:
@@ -229,7 +229,7 @@ classes:
             description: |
               List of inputs from which the control surface aerodynamic coefficients are to be computed (with dictionary key the control surface name), 
               with each entry corresponding to the
-              value of the physical variable defined by the :attr:`control_surface_independent_variable_names ` attribute.
+              value of the physical variable defined by the :attr:`control_surface_independent_variable_names` attribute.
 
           - name: time # [py]
             type: float # [py]

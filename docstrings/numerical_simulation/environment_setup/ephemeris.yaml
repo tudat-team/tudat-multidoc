@@ -773,6 +773,7 @@ functions:
       Alternatively, we can assign the ApproximateJplEphemerisSettings of Jupiter (or any other body for which an approximate JPL ephemeris is available) to any custom body:
 
       .. code-block:: python # [py]
+         # [py]
          # create ephemeris settings (normally used for Jupiter) and add to body settings of body "CustomBody" # [py]
          body_settings.get( "CustomBody" ).ephemeris_settings = environment_setup.ephemeris.approximate_jpl_model( "Jupiter" ) # [py]
 
