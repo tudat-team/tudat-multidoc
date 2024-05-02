@@ -1,5 +1,5 @@
 extended_summary: |
-  Functions for performing numerical interpolation using various algorithms. More details on the usage of these functions is given in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/https://docs.tudat.space/en/latest/_src_user_guide/mathematics/interpolators.html>`_
+  Functions for performing numerical interpolation using various algorithms. More details on the usage of these functions is given in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/https://docs.tudat.space/en/latest/_src_user_guide/mathematics/interpolators.html>`.
 
 classes:
 
@@ -78,8 +78,8 @@ enums:
     short_summary: "Enumeration of types of behaviour to be used beyond the edges of the interpolation domain."
     extended_summary: |
      Enumeration of types of behaviour to be used beyond the edges of the interpolation domain. For independent variable
-     data in the range :math:`[t_{0}..t_{N}]`, this enum is used to define the behaviour of the interpolator at
-     :math:`t<t_{0}` and :math:`t>t_{N}
+     data in the range :math:`[t_{0}...t_{N}]`, this enum is used to define the behaviour of the interpolator at
+     :math:`t<t_{0}` and :math:`t>t_{N}`
 
     members:
       - name: throw_exception_at_boundary
@@ -91,8 +91,8 @@ enums:
       - name: use_boundary_value_with_warning
         description: Same as ``use_boundary_value``, but a warning is printed
       - name: extrapolate_at_boundary
-        description: The interpolation scheme is extended beyond the range `t_{0}...t_{N}` without any warning.
-          That is, the mathematical equation used to compute the value of :math:`x` in the range :math:`[t_{0}..t_{1}]`
+        description: The interpolation scheme is extended beyond the range :math:`t_{0}...t_{N}` without any warning.
+          That is, the mathematical equation used to compute the value of :math:`x` in the range :math:`[t_{0}...t_{1}]`
           is used without any checks for :math:`t<t_{0}`  (and equivalently for :math:`t>t_{N}`).
           Warning, using this setting can result in divergent/unrealistic behaviour
 
@@ -103,7 +103,7 @@ enums:
     short_summary: "Enumeration of types of behaviour to be used beyond the edges of the interpolation domain."
     extended_summary: |
       When the interpolation is performed, the interpolator scheme will typically start by finding the nearest neighbor of
-      the requested value of the independent variable :math:`t` in the data set :math:`[t_{0}..t_{N}]`.
+      the requested value of the independent variable :math:`t` in the data set :math:`[t_{0}...t_{N}]`.
       The choice of lookup scheme can have a significant influence on computational efficiency for large data sets and/or simple
       interpolation algorithms
 
@@ -114,7 +114,7 @@ enums:
           :math:`[t_{i}]` to find the nearest neighbor.
       - name: binary_search
         description: With this option, the algorithm uses a binary search algorithm to find the nearest neighbor, initially
-          starting with the full data range :math:`[t_{0}..t_{N}]`.
+          starting with the full data range :math:`[t_{0}...t_{N}]`.
 
   - name: LagrangeInterpolatorBoundaryHandling
     short_summary: "Enumeration of types of behaviour to be used close to the edges of the interpolation domain, for the Lagrange interpolator."
@@ -129,7 +129,7 @@ enums:
           full data set, and these cubic spline interpolators are used when an interpolation at :math:`t<t_{(m/2-1)}` or :math:`t<t_{N-(m/2)}` is called
 
       - name: lagrange_no_boundary_interpolation
-        description: he program will terminate with an error message when the Lagrange interpolator is interrogated beyond its valid range
+        description: The program will terminate with an error message when the Lagrange interpolator is interrogated beyond its valid range
 
 functions:
 
@@ -171,7 +171,7 @@ functions:
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
-        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
+        type: BoundaryInterpolationType, default = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -196,7 +196,7 @@ functions:
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
-        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
+        type: BoundaryInterpolationType, default = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -222,7 +222,7 @@ functions:
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
-        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
+        type: BoundaryInterpolationType, default = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
@@ -242,13 +242,13 @@ functions:
 
       * The nearest lower neighbor of the data point :math:`t` at which the state :math:`\mathbf{x}` is to be interpolated is determined, and denoted :math:`t_{i}`.
       * An interpolating Lagrange polynomial is constructed from the consecutive data points :math:`[t_{i-(m/2-1)}...t_{i+m}]`
-      * This resulting interpolating polynomial is *only* used in the interval :math:`[t_{i}..t_{i+1}]`, to prevent `Runge's phenomenon <https://en.wikipedia.org/wiki/Runge%27s_phenomenon>`_.
+      * This resulting interpolating polynomial is *only* used in the interval :math:`[t_{i}...t_{i+1}]`, to prevent `Runge's phenomenon <https://en.wikipedia.org/wiki/Runge%27s_phenomenon>`_.
 
       For instance, if :math:`m=8` we use a :math:`7^{th}` order polynomial that interpolates a contiguous set of
       8 data points out of the full data set. Normally, the interpolating polynomial is only used between the
       :math:`4^{th}` and :math:`5^{th}` data point, where it will typically be of good accuracy. Consequently,
       a separate interpolating polynomial (using data over a span of :math:`m` consecutive points) is used for
-      each single interval :math:`[t_{i}..t_{i+1}]` (with the exception of the boundaries, see below).
+      each single interval :math:`[t_{i}...t_{i+1}]` (with the exception of the boundaries, see below).
 
       .. warning:: Issues can occur if the data point :math:`t` at which the interpolation is to be
                    performed is close to :math:`t_{0}` or :math:`t_{N}`. In those case, there is not sufficient
@@ -270,12 +270,12 @@ functions:
           variable input data when the interpolation scheme is called
 
       - name: boundary_interpolation # [py]
-        type: BoundaryInterpolationType = extrapolate_at_boundary_with_warning # [py]
+        type: BoundaryInterpolationType, default = extrapolate_at_boundary_with_warning # [py]
         description: Interpolator behaviour that is to be used beyond the upper and lower boundaries
           of the independent variable input data
 
       - name: lagrange_boundary_handling # [py]
-        type: LagrangeInterpolatorBoundaryHandling = lagrange_cubic_spline_boundary_interpolation # [py]
+        type: LagrangeInterpolatorBoundaryHandling, default = lagrange_cubic_spline_boundary_interpolation # [py]
         description: Interpolator behaviour that is to be used at the boundaries of the domain, where the
           regular algorithm cannot be executed.
 
