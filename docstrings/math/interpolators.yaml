@@ -1,5 +1,5 @@
 extended_summary: |
-  Functions for performing numerical interpolation using various algorithms. More details on the usage of these functions is given in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/https://docs.tudat.space/en/latest/_src_user_guide/mathematics/interpolators.html>`.
+  Functions for performing numerical interpolation using various algorithms. More details on the usage of these functions is given in the `user guide <https://docs.tudat.space/en/latest/_src_user_guide/state_propagation/environment_setup/https://docs.tudat.space/en/latest/_src_user_guide/mathematics/interpolators.html>`_.
 
 classes:
 
@@ -161,7 +161,7 @@ functions:
     short_summary: "Function to create settings for piecewise constant interpolation."
     extended_summary: |
       Function to create settings for piecewise constant interpolation. If interpolator
-      is to return the value at :math:`t`, and :math:`t_{i}\le t \< t_{i+1}`, the interpolator
+      is to return the value at :math:`t`, and :math:`t_{i}\le t < t_{i+1}`, the interpolator
       returns :math:`\mathbf{x}_{i}`
 
     parameters:
