@@ -844,9 +844,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is None (unbiased observation)
 
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -887,9 +887,9 @@ functions:
           Note that only one bias setting is applied to the n-way observable.
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
       type: :class:`NWayRangeObservationSettings`  # [py]
@@ -951,9 +951,9 @@ functions:
           Note that only one bias setting is applied to the n-way observable.
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
       type: :class:`NWayRangeObservationSettings`  # [py]
@@ -1023,9 +1023,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1039,7 +1039,7 @@ functions:
     extended_summary: |
       Factory function for creating observation model settings of relative angular position type observables (as relative right ascension :math:`\Delta\alpha` and relative declination :math:`\Delta\delta`), 
       for a single link definition. The associated observation model creates an observable that is the difference of two :func:`~tudatpy.numerical_simulation.estimation_setup.observation.angular_position`
-      observables :math:`\left(\mathbf{h}_{_{\text{ang.pos.}}}\right)_{2}` and :math:`\mathbf{h}_{_{\text{ang.pos.}}}\right)_{1}`. 
+      observables :math:`\left(\mathbf{h}_{_{\text{ang.pos.}}}\right)_{2}` and :math:`\left(\mathbf{h}_{_{\text{ang.pos.}}}\right)_{1}`. 
       The resulting observable becomes :math:`\left(\mathbf{h}_{_{\text{ang.pos.}}}\right)_{2}-\left(\mathbf{h}_{_{\text{ang.pos.}}}\right)_{2}`
      
     parameters:
@@ -1063,9 +1063,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1126,9 +1126,9 @@ functions:
           Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
       - name: normalized_with_speed_of_light # [py]
         type: bool, default = false # [py]
@@ -1194,9 +1194,9 @@ functions:
           Settings for computing the receiver proper time rate :math:`\frac{d\tau}{dt}`, default is none (:math:`\frac{d\tau}{dt}=1`)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
       - name: normalized_with_speed_of_light # [py]
         type: bool, default = false # [py]
@@ -1239,9 +1239,9 @@ functions:
           even if no bias is applied to the two-way observable, the constituent one-way observables may still be biased.
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`TwoWayDopplerObservationSettings`  # [py]
@@ -1285,9 +1285,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1325,9 +1325,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
@@ -1389,9 +1389,9 @@ functions:
           Settings for the observation bias that is to be used for the observation, default is none (unbiased observation)
      
       - name: light_time_convergence_settings # [py]
-        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings`() # [py]
+        type: :class:`LightTimeConvergenceCriteria`, default = :func:`light_time_convergence_settings` # [py]
         description: |
-          Settings for convergence of the light-time (default settings defined in :func:`light_time_convergence_settings`)
+          Settings for convergence of the light-time 
 
     returns:
         type: :class:`ObservationSettings`  # [py]
