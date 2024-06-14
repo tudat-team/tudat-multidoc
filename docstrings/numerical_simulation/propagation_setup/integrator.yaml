@@ -79,9 +79,9 @@ enums:
 
     members:
       - name: lower # [py]
-        description: For a method of order :math:`p`, with embedded method of order :math:`q`, the step is taken using the method with order :math:`min(p,q)`
+        description: For a method of order :math:`p`, with embedded method of order :math:`q`, the step is taken using the method with order :math:`\min(p,q)`
       - name: higher # [py]
-        description: For a method of order :math:`p`, with embedded method of order :math:`q`, the step is taken using the method with order :math:`max(p,q)`
+        description: For a method of order :math:`p`, with embedded method of order :math:`q`, the step is taken using the method with order :math:`\max(p,q)`
   
   #######################################################################
         
@@ -103,12 +103,12 @@ enums:
       - name: throw_exception_below_minimum
         description: Exception is throw, and propagation is terminated
       - name: set_to_minimum_step_silently
-        description: The final time step is set to :math:`\Delta t=\Delta t_{min}`, violating requirements of step-size control algorithm, without any message to user"
+        description: The final time step is set to :math:`\Delta t=\Delta t_{\min}`, violating requirements of step-size control algorithm, without any message to user"
 
       - name: set_to_minimum_step_single_warning
-        description: The final time step is set to :math:`\Delta t=\Delta t_{min}`, violating requirements of step-size control algorithm, a warning is printed to the terminal the first time this happens during a propagation"
+        description: The final time step is set to :math:`\Delta t=\Delta t_{\min}`, violating requirements of step-size control algorithm, a warning is printed to the terminal the first time this happens during a propagation"
       - name: set_to_minimum_step_every_time_warning
-        description: The final time step is set to :math:`\Delta t=\Delta t_{min}`, violating requirements of step-size control algorithm, a warning is printed to the terminal every time this happens during a propagation"
+        description: The final time step is set to :math:`\Delta t=\Delta t_{\min}`, violating requirements of step-size control algorithm, a warning is printed to the terminal every time this happens during a propagation"
 
   #######################################################################
   #######################################################################
@@ -225,20 +225,20 @@ functions:
     extended_summary: |
       Factory function to create settings step size validation in a variable step-size integrator. The validation
       model takes the proposed new step size  :math:`\Delta t_{rec}` as input, and checks if it meets predefined conditions, specifically
-      whether the proposed time step falls in a given predefined range :math:`[\Delta t_{min}, \Delta t_{max}]`.
-      This function also provides the option of handling recommended step sizes below :math:`\Delta t_{min}` in various ways,
+      whether the proposed time step falls in a given predefined range :math:`[\Delta t_{\min}, \Delta t_{max}]`.
+      This function also provides the option of handling recommended step sizes below :math:`\Delta t_{\min}` in various ways,
       and control on how to deal with recommend Inf/NaN step sizes.
     
     parameters:
       - name: minimum_step
         type: float
-        description: Value of minimum permitted time step :math:`\Delta t_{min}`.  
+        description: Value of minimum permitted time step :math:`\Delta t_{\min}`.  
       - name: maximum_step
         type: float
-        description: Value of maximum permitted time step :math:`\Delta t_{max}`.  
+        description: Value of maximum permitted time step :math:`\Delta t_{\max}`.  
       - name: minimum_step_size_handling
         type: MinimumIntegrationTimeStepHandling, default = throw_exception_below_minimum
-        description: Entry defining the behaviour when :math:`\Delta t_{rec}<\Delta t_{min}`.  
+        description: Entry defining the behaviour when :math:`\Delta t_{rec}<\Delta t_{\min}`.  
       - name: accept_infinity_step
         type: bool, default = False
         description: "Entry defining whether to accept a step size of infinity (if False, exception is throw in such cases)"  
@@ -290,7 +290,7 @@ functions:
         type: float
         description: Value of relative error tolerance :math:`\epsilon_{a}`.  
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1
@@ -324,7 +324,7 @@ functions:
         type: numpy.ndarray[numpy.float64[m, n]]
         description: Values of relative error tolerance :math:`\boldsymbol{\epsilon_{a}`. 
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1
@@ -366,7 +366,7 @@ functions:
         type: float
         description: Value of absolute error tolerance :math:`\epsilon_{a}`.  
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1
@@ -403,7 +403,7 @@ functions:
         type: numpy.ndarray[numpy.float64[m, 1]]
         description: Values of absolute error tolerance :math:`\boldsymbol{\epsilon}_{a}`.  
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1
@@ -441,7 +441,7 @@ functions:
         type: float
         description: Value of absolute error tolerance :math:`\epsilon_{a}`.  
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1
@@ -475,7 +475,7 @@ functions:
         type: numpy.ndarray[numpy.float64[m, 1]]
         description: Values of absolute error tolerance :math:`\boldsymbol{\epsilon}_{a}`.  
       - name: safety_factor
-        type: float. default = 0.8
+        type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
       - name: minimum_factor_increase
         type: float, default = 0.1

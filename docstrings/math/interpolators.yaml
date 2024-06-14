@@ -143,7 +143,7 @@ functions:
 
     parameters:
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default=huntingAlgorithm # [py]
+        type: AvailableLookupScheme, default = hunting_algorithm # [py]
         description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
@@ -166,7 +166,7 @@ functions:
 
     parameters:
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default = huntingalgorithm# [py]
+        type: AvailableLookupScheme, default = hunting_algorithm # [py]
         description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
@@ -191,7 +191,7 @@ functions:
 
     parameters:
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default = huntingalgorithm# [py]
+        type: AvailableLookupScheme, default = hunting_algorithm # [py]
         description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
@@ -217,7 +217,7 @@ functions:
 
     parameters:
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default = huntingalgorithm# [py]
+        type: AvailableLookupScheme, default = hunting_algorithm # [py]
         description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
@@ -265,7 +265,7 @@ functions:
         description: Number of consecutive data points that are used to construct a single interpolating polynomial.
 
       - name: lookup_scheme # [py]
-        type: AvailableLookupScheme, default = huntingalgorithm # [py]
+        type: AvailableLookupScheme, default = hunting_algorithm # [py]
         description: Algorithm used to find the nearest neighbor in the independent
           variable input data when the interpolation scheme is called
 
