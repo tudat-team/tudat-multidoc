@@ -288,7 +288,7 @@ functions:
         description: Value of relative error tolerance :math:`\epsilon_{r}`.  
       - name: absolute_error_tolerance
         type: float
-        description: Value of relative error tolerance :math:`\epsilon_{a}`.  
+        description: Value of absolute error tolerance :math:`\epsilon_{a}`.  
       - name: safety_factor
         type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
@@ -317,12 +317,12 @@ functions:
       If the size of the tolerances used as input differ from one another, or differ from the size of the state vector, an exception is thrown
       
     parameters:
-      - name: absolute_error_tolerance
+      - name: relative_error_tolerance
         type: numpy.ndarray[numpy.float64[m, n]]
         description: Values of relative error tolerance :math:`\boldsymbol{\epsilon}_{r}`.  
       - name: absolute_error_tolerance
         type: numpy.ndarray[numpy.float64[m, n]]
-        description: Values of relative error tolerance :math:`\boldsymbol{\epsilon_{a}`. 
+        description: Values of absolute error tolerance :math:`\boldsymbol{\epsilon}_{a}`. 
       - name: safety_factor
         type: float, default = 0.8
         description: Safety factor :math:`K` for step size control 
