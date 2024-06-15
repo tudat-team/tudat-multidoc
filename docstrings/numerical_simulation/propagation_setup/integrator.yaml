@@ -97,7 +97,7 @@ enums:
 #######################################################################
 
   - name: MinimumIntegrationTimeStepHandling
-    short_summary: Enumeration defining possible behaviours when :math:`\Delta t_{rec}<\Delta t_{min}`. in step-size control (e.g. recommended time step is smaller than minimum time step)
+    short_summary: Enumeration defining possible behaviours when :math:`\Delta t_{rec}<\Delta t_{\min}`. in step-size control (e.g. recommended time step is smaller than minimum time step)
 
     members:
       - name: throw_exception_below_minimum
@@ -225,7 +225,7 @@ functions:
     extended_summary: |
       Factory function to create settings step size validation in a variable step-size integrator. The validation
       model takes the proposed new step size  :math:`\Delta t_{rec}` as input, and checks if it meets predefined conditions, specifically
-      whether the proposed time step falls in a given predefined range :math:`[\Delta t_{\min}, \Delta t_{max}]`.
+      whether the proposed time step falls in a given predefined range :math:`[\Delta t_{\min}, \Delta t_{\max}]`.
       This function also provides the option of handling recommended step sizes below :math:`\Delta t_{\min}` in various ways,
       and control on how to deal with recommend Inf/NaN step sizes.
     
@@ -256,7 +256,7 @@ functions:
     short_summary: "Creates settings for integrator step-size control, using element-wise analysis for the propagated states."
     extended_summary: |
       Function to create settings for integrator step-size control, using element-wise analysis for the propagated states. For a propagated
-      state with :math:`\mathbf{x}` with entries :math:`x_{i}`, and an estimate :math:`\boldsymbol{\epsilon}` for the current local error, the following
+      state :math:`\mathbf{x}` with entries :math:`x_{i}`, and an estimate :math:`\boldsymbol{\epsilon}` for the current local error, the following
       algorithm is performed per element :math:`i` to calculate the required error :math:`\epsilon_{i,req}` on this element:
       
       .. math::
@@ -278,8 +278,8 @@ functions:
       the proposed increase/decrease to the step size is constrained to this limit value. That is, if :math:`\Delta t_{rec.}/\Delta t` proposed by the algorithm is
       1000, and the ``maximum_factor_increase`` input is equal to 20, the algorithm will use :math:`\Delta t_{rec.}/\Delta t=20` in what follows. 
       
-      For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t`<1`, the step is recommended to be recomputed with the new proposed step size (e.g. the current step 
-      is not accepted, and will be re-attempted with a smaller step size). For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t`>1`, the step is accepted, and 
+      For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t < 1`, the step is recommended to be recomputed with the new proposed step size (e.g. the current step 
+      is not accepted, and will be re-attempted with a smaller step size). For cases where :math:`\bar{\Delta t_{rec.}}/\Delta t > 1`, the step is accepted, and 
       the next step will be performed with the new, higher, step size.
       
     parameters:
